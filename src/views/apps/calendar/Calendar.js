@@ -8,6 +8,8 @@ import listPlugin from '@fullcalendar/list'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import locale from '@fullcalendar/core/locales/es'
+
 
 // ** Third Party Components
 import toast from 'react-hot-toast'
@@ -44,6 +46,9 @@ const Calendar = props => {
   const calendarOptions = {
     events: store.events.length ? store.events : [],
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
+    timeZone: 'UTC',
+    locales: locale,
+    locale: 'es',
     initialView: 'dayGridMonth',
     headerToolbar: {
       start: 'sidebarToggle, prev,next, title',
@@ -142,11 +147,12 @@ const Calendar = props => {
     // Get direction from app state (store)
     direction: isRtl ? 'rtl' : 'ltr'
   }
-
+ 
   return (
     <Card className='shadow-none border-0 mb-0 rounded-0'>
       <CardBody className='pb-0'>
         <FullCalendar {...calendarOptions} />{' '}
+        
       </CardBody>
     </Card>
   )

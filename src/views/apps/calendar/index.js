@@ -24,8 +24,8 @@ import '@styles/react/apps/app-calendar.scss'
 const calendarsColor = {
   Business: 'primary',
   Holiday: 'success',
-  Personal: 'danger',
-  Family: 'warning',
+  Peluquería: 'danger',
+  Estética: 'warning',
   ETC: 'info'
 }
 
