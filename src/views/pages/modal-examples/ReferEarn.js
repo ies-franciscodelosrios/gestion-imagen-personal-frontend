@@ -109,7 +109,7 @@ const ReferEarnModal = () => {
                   You can also copy and send it or share it on your social media. 🥳
                 </Label>
                 <InputGroup className='input-group-merge'>
-                  <Input type='url' id='referral-url' defaultValue='https://1.envato.market/vuexy_admin' />
+                  <Input type='url' id='referral-url' defaultValue='https://iesfranciscodelosrios.es' />
                   <InputGroupText tag='a' href='/' onClick={e => e.preventDefault()}>
                     Copy Link
                   </InputGroupText>
