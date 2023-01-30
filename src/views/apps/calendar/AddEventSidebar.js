@@ -72,8 +72,8 @@ const AddEventSidebar = props => {
   // ** Select Options
   const options = [
     { value: 'Business', label: 'Business', color: 'primary' },
-    { value: 'Personal', label: 'Personal', color: 'danger' },
-    { value: 'Family', label: 'Family', color: 'warning' },
+    { value: 'Peluquería', label: 'Peluquería', color: 'danger' },
+    { value: 'Estética', label: 'Estética', color: 'warning' },
     { value: 'Holiday', label: 'Holiday', color: 'success' },
     { value: 'ETC', label: 'ETC', color: 'info' }
   ]
@@ -127,7 +127,7 @@ const AddEventSidebar = props => {
     dispatch(addEvent(obj))
     refetchEvents()
     handleAddEventSidebar()
-    toast.success('Event Added')
+    toast.success('Cita Añadida')
   }
 
   // ** Reset Input Values on Close
@@ -238,7 +238,7 @@ const AddEventSidebar = props => {
     dispatch(removeEvent(selectedEvent.id))
     removeEventInCalendar(selectedEvent.id)
     handleAddEventSidebar()
-    toast.error('Event Removed')
+    toast.error('Cita Eliminada')
   }
 
   // ** Event Action buttons

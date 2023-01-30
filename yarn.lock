@@ -433,28 +433,28 @@
   dependencies:
     "@floating-ui/core" "^1.0.2"
 
-"@fullcalendar/common@~5.11.3":
-  "integrity" "sha512-welVwyfQOXQQGfDwBMSfYEPbiO1cPfUD+C7jd3ZoweJR+dSO11ddFugxIQ7dGfABAGZ63oq/+LW9FsmAJezVNg=="
-  "resolved" "https://registry.npmjs.org/@fullcalendar/common/-/common-5.11.3.tgz"
-  "version" "5.11.3"
+"@fullcalendar/common@~5.11.3", "@fullcalendar/common@~5.11.4":
+  "integrity" "sha512-wjy+EZgZIPWq1Z5qeB/pV2dmsXwzTJ2teNh5bjlVeHsvDYwERXSZEG2CdoF/NCTJaYeQY93xu1cj9Jw/0KXywA=="
+  "resolved" "https://registry.npmjs.org/@fullcalendar/common/-/common-5.11.4.tgz"
+  "version" "5.11.4"
   dependencies:
     "tslib" "^2.1.0"
 
-"@fullcalendar/core@^5.11.0":
-  "integrity" "sha512-YUFxCvVJytUwFeXCx4J17kFMM7Ixwn9zBjVRw5NM2bMwgR6VAhSnlZc6yNQSOIy7Hj2TF0vDkO/4JNlTvxyAXw=="
-  "resolved" "https://registry.npmjs.org/@fullcalendar/core/-/core-5.11.3.tgz"
-  "version" "5.11.3"
+"@fullcalendar/core@^5.11.4":
+  "integrity" "sha512-p1/GRIageomlyJpsMVi+Ig5TNo9t2sEYsLHe6zvtCLtpXK/l03veZukYyM/jou8VzT0VJp1f7yN8irc5VBgqxw=="
+  "resolved" "https://registry.npmjs.org/@fullcalendar/core/-/core-5.11.4.tgz"
+  "version" "5.11.4"
   dependencies:
-    "@fullcalendar/common" "~5.11.3"
+    "@fullcalendar/common" "~5.11.4"
     "preact" "^10.0.5"
     "tslib" "^2.1.0"
 
-"@fullcalendar/daygrid@^5.11.0", "@fullcalendar/daygrid@~5.11.3":
-  "integrity" "sha512-PCK0y80DRNCzWuC5lGpIWqCgKDvql1ah7rXql5lu+Gn2EeFj15ZQ8diMFjtNIQucEmFaNOXnR05Pgcry1n6Shg=="
-  "resolved" "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-5.11.3.tgz"
-  "version" "5.11.3"
+"@fullcalendar/daygrid@^5.11.4", "@fullcalendar/daygrid@~5.11.3":
+  "integrity" "sha512-M/pSrxgrtG5vDkOxqTgv6WrptrsXjp5QgQLyXantSy+9EuZOagPKJDh+HEU94DKUAc0mlXS6iDdf0WzjkTHe6A=="
+  "resolved" "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-5.11.4.tgz"
+  "version" "5.11.4"
   dependencies:
-    "@fullcalendar/common" "~5.11.3"
+    "@fullcalendar/common" "~5.11.4"
     "tslib" "^2.1.0"
 
 "@fullcalendar/interaction@^5.11.0":
@@ -2658,7 +2658,14 @@
   dependencies:
     "minimist" "^1.2.6"
 
-"moment@^2.29.3":
+"moment-timezone@^0.5.40":
+  "integrity" "sha512-tWfmNkRYmBkPJz5mr9GVDn9vRlVZOTe6yqY92rFxiOdWXbjaR0+9LwQnZGGuNR63X456NqmEkbskte8tWL5ePg=="
+  "resolved" "https://registry.npmjs.org/moment-timezone/-/moment-timezone-0.5.40.tgz"
+  "version" "0.5.40"
+  dependencies:
+    "moment" ">= 2.9.0"
+
+"moment@^2.29.3", "moment@>= 2.9.0":
   "integrity" "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
   "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
   "version" "2.29.4"
