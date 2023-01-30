@@ -1,5 +1,5 @@
 // ** Icons Import
-import { FileText, Circle, Square, UserCheck } from 'react-feather'
+import { FileText, Circle, Square, HelpCircle } from 'react-feather'
 
 export default [
   {
@@ -8,7 +8,7 @@ export default [
   {
     id: 'faq',
     title: 'FAQ',
-    icon: <Circle size={12} />,
+    icon: <HelpCircle size={12} />,
     permissions: ['admin', 'editor'],
     navLink: '/apps/faq'
 

@@ -1,11 +1,11 @@
 // ** Icons Import
-import { Home, Circle } from 'react-feather'
+import { Home, HelpCircle } from 'react-feather'
 
 export default [
   {
     id: 'faq',
     title: 'FAQ',
-    icon: <Circle size={12} />,
+    icon: <HelpCircle size={12} />,
     permissions: ['admin', 'editor'],
     navLink: '/apps/faq'
   }
