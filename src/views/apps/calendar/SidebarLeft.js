@@ -12,9 +12,9 @@ import illustration from '@src/assets/images/pages/calendar-illustration.png'
 
 // ** Filters Checkbox Array
 const filters = [
-  { label: 'Personal', color: 'danger', className: 'form-check-danger mb-1' },
+  { label: 'Peluquería', color: 'danger', className: 'form-check-danger mb-1' },
   { label: 'Business', color: 'primary', className: 'form-check-primary mb-1' },
-  { label: 'Family', color: 'warning', className: 'form-check-warning mb-1' },
+  { label: 'Estética', color: 'warning', className: 'form-check-warning mb-1' },
   { label: 'Holiday', color: 'success', className: 'form-check-success mb-1' },
   { label: 'ETC', color: 'info', className: 'form-check-info' }
 ]
@@ -34,12 +34,12 @@ const SidebarLeft = props => {
       <Card className='sidebar-wrapper shadow-none'>
         <CardBody className='card-body d-flex justify-content-center my-sm-0 mb-3'>
           <Button color='primary' block onClick={handleAddEventClick}>
-            <span className='align-middle'>Add Event</span>
+            <span className='align-middle'>Añadir Cita</span>
           </Button>
         </CardBody>
         <CardBody>
           <h5 className='section-label mb-1'>
-            <span className='align-middle'>Filter</span>
+            <span className='align-middle'>Filtro</span>
           </h5>
           <div className='form-check mb-1'>
             <Input
@@ -51,7 +51,7 @@ const SidebarLeft = props => {
               onChange={e => dispatch(updateAllFilters(e.target.checked))}
             />
             <Label className='form-check-label' for='view-all'>
-              View All
+              Ver Todo
             </Label>
           </div>
           <div className='calendar-events-filter'>

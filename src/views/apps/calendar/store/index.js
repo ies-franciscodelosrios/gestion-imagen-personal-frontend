@@ -32,7 +32,7 @@ export const updateFilter = createAsyncThunk('appCalendar/updateFilter', async (
 
 export const updateAllFilters = createAsyncThunk('appCalendar/updateAllFilters', async (value, { dispatch }) => {
   if (value === true) {
-    await dispatch(fetchEvents(['Personal', 'Business', 'Family', 'Holiday', 'ETC']))
+    await dispatch(fetchEvents(['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC']))
   } else {
     await dispatch(fetchEvents([]))
   }
@@ -49,7 +49,7 @@ export const appCalendarSlice = createSlice({
   initialState: {
     events: [],
     selectedEvent: {},
-    selectedCalendars: ['Personal', 'Business', 'Family', 'Holiday', 'ETC']
+    selectedCalendars: ['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC']
   },
   reducers: {
     selectEvent: (state, action) => {
@@ -72,7 +72,7 @@ export const appCalendarSlice = createSlice({
         const value = action.payload
         let selected = []
         if (value === true) {
-          selected = ['Personal', 'Business', 'Family', 'Holiday', 'ETC']
+          selected = ['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC']
         } else {
           selected = []
         }
