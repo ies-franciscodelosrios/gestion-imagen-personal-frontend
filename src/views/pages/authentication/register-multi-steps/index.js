@@ -105,7 +105,7 @@ const RegisterMultiSteps = () => {
               </g>
             </g>
           </svg>
-          <h2 className='brand-text text-primary ms-1'>Vuexy</h2>
+          <h2 className='brand-text text-primary ms-1'>Pericles</h2>
         </Link>
         <Col lg='3' className='d-none d-lg-flex align-items-center p-0'>
           <div className='w-100 d-lg-flex align-items-center justify-content-center'>
