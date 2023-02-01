@@ -79,7 +79,7 @@ const ForgotPassword = () => {
                 </g>
               </g>
             </svg>
-            <h2 className='brand-text text-primary ms-1'>Vuexy</h2>
+            <h2 className='brand-text text-primary ms-1'>Pericles</h2>
           </Link>
           <Col className='d-none d-lg-flex align-items-center p-5' lg='8' sm='12'>
             <div className='w-100 d-lg-flex align-items-center justify-content-center px-5'>

@@ -18,7 +18,7 @@ const WithoutMenu = () => {
           <span>
             Please check the{' '}
             <a
-              href='https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/docs/development/page-layouts'
+              href='https://Pericles-react-admin-dashboard-template/documentation/docs/development/page-layouts'
               target='_blank'
             >
               Layout without menu documentation
