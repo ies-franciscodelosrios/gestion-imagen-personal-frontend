@@ -8,15 +8,12 @@ import classnames from 'classnames'
 import { Card, CardBody, Button, Input, Label } from 'reactstrap'
 
 // ** illustration import
-import illustration from '@src/assets/images/pages/calendar-illustration.png'
+import illustration from '@src/assets/images/pages/ilustracion-calendario.png'
 
 // ** Filters Checkbox Array
 const filters = [
   { label: 'Peluquería', color: 'danger', className: 'form-check-danger mb-1' },
-  { label: 'Business', color: 'primary', className: 'form-check-primary mb-1' },
   { label: 'Estética', color: 'warning', className: 'form-check-warning mb-1' },
-  { label: 'Holiday', color: 'success', className: 'form-check-success mb-1' },
-  { label: 'ETC', color: 'info', className: 'form-check-info' }
 ]
 
 const SidebarLeft = props => {
