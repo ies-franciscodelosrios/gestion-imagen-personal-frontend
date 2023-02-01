@@ -67,15 +67,12 @@ const AddEventSidebar = props => {
   const [location, setLocation] = useState('')
   const [endPicker, setEndPicker] = useState(new Date())
   const [startPicker, setStartPicker] = useState(new Date())
-  const [calendarLabel, setCalendarLabel] = useState([{ value: 'Business', label: 'Business', color: 'primary' }])
+  const [calendarLabel, setCalendarLabel] = useState([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
 
   // ** Select Options
   const options = [
-    { value: 'Business', label: 'Business', color: 'primary' },
     { value: 'Peluquería', label: 'Peluquería', color: 'danger' },
     { value: 'Estética', label: 'Estética', color: 'warning' },
-    { value: 'Holiday', label: 'Holiday', color: 'success' },
-    { value: 'ETC', label: 'ETC', color: 'info' }
   ]
 
   const guestsOptions = [
@@ -139,7 +136,7 @@ const AddEventSidebar = props => {
     setLocation('')
     setDesc('')
     setGuests({})
-    setCalendarLabel([{ value: 'Business', label: 'Business', color: 'primary' }])
+    setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
     setStartPicker(new Date())
     setEndPicker(new Date())
   }
@@ -153,7 +150,7 @@ const AddEventSidebar = props => {
         if (calendar.length) {
           return { label: calendar, value: calendar, color: calendarsColor[calendar] }
         } else {
-          return { value: 'Business', label: 'Business', color: 'primary' }
+          return { value: 'Peluquería', label: 'Peluquería', color: 'danger' }
         }
       }
       setValue('title', selectedEvent.title || getValues('title'))
@@ -344,6 +341,7 @@ const AddEventSidebar = props => {
               </Label>
               <Flatpickr
                 required
+                locale='es'
                 id='startDate'
                 name='startDate'
                 className='form-control'
@@ -351,7 +349,8 @@ const AddEventSidebar = props => {
                 value={startPicker}
                 options={{
                   enableTime: allDay === false,
-                  dateFormat: 'Y-m-d H:i'
+                  dateFormat: 'd-m-Y H:i',
+                  locale:"es"
                 }}
               />
             </div>
@@ -362,6 +361,7 @@ const AddEventSidebar = props => {
               </Label>
               <Flatpickr
                 required
+                locale='es'
                 id='endDate'
                 // tag={Flatpickr}
                 name='endDate'
@@ -370,7 +370,7 @@ const AddEventSidebar = props => {
                 value={endPicker}
                 options={{
                   enableTime: allDay === false,
-                  dateFormat: 'Y-m-d H:i'
+                  dateFormat: 'd-m-Y H:i'
                 }}
               />
             </div>
