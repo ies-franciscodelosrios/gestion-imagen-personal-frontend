@@ -49,8 +49,8 @@ import {
 } from 'reactstrap';
 
 // ** Illustrations Imports
-import illustrationsLight from '@src/assets/images/pages/login-v2.svg';
-import illustrationsDark from '@src/assets/images/pages/login-v2-dark.svg';
+import illustrationsLight from '@src/assets/images/pages/login-v3.svg';
+import illustrationsDark from '@src/assets/images/pages/login-v3-dark.svg';
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss';
@@ -145,7 +145,7 @@ const Login = () => {
       <Row className="auth-inner m-0">
         <Link className="brand-logo d-flex align-items-center" to="/" onClick={(e) => e.preventDefault()}>
           <img src={logo} alt="insertar SVG con la etiqueta image" width="64" height="72"></img>
-          <h2 className="brand-text text-primary ms-1 my-0">I.E.S. TABLERO</h2>
+          <h1 className="brand-text text-primary ms-1 my-0">I.E.S. TABLERO</h1>
         </Link>
         <Col className="d-none d-lg-flex align-items-center p-5" lg="8" sm="12">
           <div className="w-100 d-lg-flex align-items-center justify-content-center px-5">
