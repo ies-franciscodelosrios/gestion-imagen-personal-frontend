@@ -18,7 +18,7 @@ const BoxedLayout = () => {
           <span>
             Please check the{' '}
             <a
-              href='https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/documentation/development/page-layouts'
+              href='https://Pericles-react-admin-dashboard-template/documentation/development/page-layouts'
               target='_blank'
             >
               Layout boxed documentation

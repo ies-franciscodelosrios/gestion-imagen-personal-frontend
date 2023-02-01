@@ -11,7 +11,7 @@ const DetailsStep = ({ stepper }) => {
   return (
     <Fragment>
       <h5>Application Name</h5>
-      <Input placeholder='Vuexy Admin' />
+      <Input placeholder='Pericles Admin' />
       <h5 className='mt-2 pt-1'>Category</h5>
       <ListGroup flush>
         <ListGroupItem className='border-0 px-0'>

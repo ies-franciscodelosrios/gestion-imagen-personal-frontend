@@ -11,7 +11,7 @@ const BlockquoteStyling = () => {
       <CardBody>
         <CardText>
           Add a <code className='highlighter-rouge'>.border-[start / end]-[color] .border-[start / end]-3</code> helper
-          classes, where color can be any color from Vuexy Admin color palette.
+          classes, where color can be any color from Pericles Admin color palette.
         </CardText>
         <blockquote className='blockquote ps-1 border-start-primary border-start-3'>
           <CardText className='mb-0'>

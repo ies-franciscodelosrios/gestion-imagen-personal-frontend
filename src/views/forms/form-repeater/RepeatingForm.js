@@ -38,7 +38,7 @@ const RepeatingForm = () => {
                   <Label className='form-label' for={`item-name-${i}`}>
                     Item Name
                   </Label>
-                  <Input type='text' id={`item-name-${i}`} placeholder='Vuexy Admin Template' />
+                  <Input type='text' id={`item-name-${i}`} placeholder='Pericles Admin Template' />
                 </Col>
                 <Col md={2} className='mb-md-0 mb-1'>
                   <Label className='form-label' for={`cost-${i}`}>
