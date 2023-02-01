@@ -67,7 +67,7 @@ const Print = () => {
                 </g>
               </g>
             </svg>
-            <h3 className='text-primary fw-bold ms-1'>Vuexy</h3>
+            <h3 className='text-primary fw-bold ms-1'>Pericles</h3>
           </div>
           <p className='mb-25'>Office 149, 450 South Brand Brooklyn</p>
           <p className='mb-25'>San Diego County, CA 91905, USA</p>

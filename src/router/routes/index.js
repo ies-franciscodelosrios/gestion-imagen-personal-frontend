@@ -33,7 +33,7 @@ const getLayout = {
 }
 
 // ** Document title
-const TemplateTitle = '%s - Vuexy React Admin Template'
+const TemplateTitle = '%s - Pericles React Admin Template'
 
 // ** Default Route
 const DefaultRoute = '/dashboard/ecommerce'

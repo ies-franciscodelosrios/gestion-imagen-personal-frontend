@@ -18,7 +18,7 @@ const ToastTranslucent = () => {
       <Col md='6' sm='12'>
         <div className='p-3 bg-primary my-2 rounded'>
           <Toast>
-            <ToastHeader close={close}>Vuexy</ToastHeader>
+            <ToastHeader close={close}>Pericles</ToastHeader>
             <ToastBody>
               This is a toast on a primary background — check it out!
             </ToastBody>
@@ -28,7 +28,7 @@ const ToastTranslucent = () => {
       <Col md='6' sm='12'>
         <div className='p-3 bg-secondary my-2 rounded'>
           <Toast>
-            <ToastHeader close={close}>Vuexy</ToastHeader>
+            <ToastHeader close={close}>Pericles</ToastHeader>
             <ToastBody>
               This is a toast on a secondary background — check it out!
             </ToastBody>
@@ -38,7 +38,7 @@ const ToastTranslucent = () => {
       <Col md='6' sm='12'>
         <div className='p-3 bg-success my-2 rounded'>
           <Toast>
-            <ToastHeader close={close}>Vuexy</ToastHeader>
+            <ToastHeader close={close}>Pericles</ToastHeader>
             <ToastBody>
               This is a toast on a success background — check it out!
             </ToastBody>
@@ -48,7 +48,7 @@ const ToastTranslucent = () => {
       <Col md='6' sm='12'>
         <div className='p-3 bg-danger my-2 rounded'>
           <Toast>
-            <ToastHeader close={close}>Vuexy</ToastHeader>
+            <ToastHeader close={close}>Pericles</ToastHeader>
             <ToastBody>
               This is a toast on a danger background — check it out!
             </ToastBody>
@@ -58,7 +58,7 @@ const ToastTranslucent = () => {
       <Col md='6' sm='12'>
         <div className='p-3 bg-warning my-2 rounded'>
           <Toast>
-            <ToastHeader close={close}>Vuexy</ToastHeader>
+            <ToastHeader close={close}>Pericles</ToastHeader>
             <ToastBody>
               This is a toast on a warning background — check it out!
             </ToastBody>
@@ -68,7 +68,7 @@ const ToastTranslucent = () => {
       <Col md='6' sm='12'>
         <div className='p-3 bg-info my-2 rounded'>
           <Toast>
-            <ToastHeader close={close}>Vuexy</ToastHeader>
+            <ToastHeader close={close}>Pericles</ToastHeader>
             <ToastBody>
               This is a toast on an info background — check it out!
             </ToastBody>
@@ -79,7 +79,7 @@ const ToastTranslucent = () => {
       <Col md='6' sm='12'>
         <div className='p-3 bg-dark my-2 rounded'>
           <Toast>
-            <ToastHeader close={close}>Vuexy</ToastHeader>
+            <ToastHeader close={close}>Pericles</ToastHeader>
             <ToastBody>
               This is a toast on an dark background — check it out!
             </ToastBody>
@@ -95,7 +95,7 @@ const ToastTranslucent = () => {
           }}
         >
           <Toast>
-            <ToastHeader close={close}>Vuexy</ToastHeader>
+            <ToastHeader close={close}>Pericles</ToastHeader>
             <ToastBody>
               This is a toast on a transparent background — check it out!
             </ToastBody>
@@ -131,7 +131,7 @@ const ToastHeaderIcons = () => {
     <Row>
       <Col md='6' sm='12'>
         <Toast>
-          <ToastHeader close={close} icon='primary'>Vuexy</ToastHeader>
+          <ToastHeader close={close} icon='primary'>Pericles</ToastHeader>
           <ToastBody>
             This is a toast with a primary icon — check it out!
           </ToastBody>
@@ -139,7 +139,7 @@ const ToastHeaderIcons = () => {
       </Col>
       <Col md='6' sm='12'>
         <Toast>
-          <ToastHeader close={close} icon='success'>Vuexy</ToastHeader>
+          <ToastHeader close={close} icon='success'>Pericles</ToastHeader>
           <ToastBody>
             This is a toast with a success icon — check it out!
           </ToastBody>
@@ -147,7 +147,7 @@ const ToastHeaderIcons = () => {
       </Col>
       <Col md='6' sm='12'>
         <Toast>
-          <ToastHeader close={close} icon='info'>Vuexy</ToastHeader>
+          <ToastHeader close={close} icon='info'>Pericles</ToastHeader>
           <ToastBody>
             This is a toast with a info icon — check it out!
           </ToastBody>
@@ -155,7 +155,7 @@ const ToastHeaderIcons = () => {
       </Col>
       <Col md='6' sm='12'>
         <Toast>
-          <ToastHeader close={close} icon='danger'>Vuexy</ToastHeader>
+          <ToastHeader close={close} icon='danger'>Pericles</ToastHeader>
           <ToastBody>
             This is a toast with a danger icon — check it out!
           </ToastBody>
@@ -163,7 +163,7 @@ const ToastHeaderIcons = () => {
       </Col>
       <Col md='6' sm='12'>
         <Toast>
-          <ToastHeader close={close} icon='warning'>Vuexy</ToastHeader>
+          <ToastHeader close={close} icon='warning'>Pericles</ToastHeader>
           <ToastBody>
             This is a toast with a warning icon — check it out!
           </ToastBody>
@@ -171,7 +171,7 @@ const ToastHeaderIcons = () => {
       </Col>
       <Col md='6' sm='12'>
         <Toast>
-          <ToastHeader close={close} icon='dark'>Vuexy</ToastHeader>
+          <ToastHeader close={close} icon='dark'>Pericles</ToastHeader>
           <ToastBody>
             This is a toast with a dark icon — check it out!
           </ToastBody>
@@ -181,7 +181,7 @@ const ToastHeaderIcons = () => {
       <Col md='6' sm='12'>
         <Toast>
           <ToastHeader close={close} icon={<Spinner size='sm' color='primary' />}>
-            Vuexy
+            Pericles
           </ToastHeader>
           <ToastBody>This is a toast with a spinner — check it out!</ToastBody>
         </Toast>
@@ -189,7 +189,7 @@ const ToastHeaderIcons = () => {
 
       <Col md='6' sm='12'>
         <Toast>
-        <ToastHeader close={close} icon={logo}>Vuexy</ToastHeader>
+        <ToastHeader close={close} icon={logo}>Pericles</ToastHeader>
           <ToastBody>This is a toast with a logo — check it out!</ToastBody>
         </Toast>
       </Col>

@@ -172,7 +172,7 @@ const AddCard = () => {
                     </g>
                   </g>
                 </svg>
-                <h3 className='text-primary invoice-logo'>Vuexy</h3>
+                <h3 className='text-primary invoice-logo'>Pericles</h3>
               </div>
               <p className='card-text mb-25'>Office 149, 450 South Brand Brooklyn</p>
               <p className='card-text mb-25'>San Diego County, CA 91905, USA</p>
