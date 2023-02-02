@@ -244,10 +244,10 @@ const AddEventSidebar = props => {
       return (
         <Fragment>
           <Button className='me-1' type='submit' color='primary'>
-            Add
+            Añadir
           </Button>
           <Button color='secondary' type='reset' onClick={handleAddEventSidebar} outline>
-            Cancel
+            Cancelar
           </Button>
         </Fragment>
       )
@@ -255,10 +255,10 @@ const AddEventSidebar = props => {
       return (
         <Fragment>
           <Button className='me-1' color='primary' onClick={handleUpdateEvent}>
-            Update
+            Actualizar
           </Button>
           <Button color='danger' onClick={handleDeleteEvent} outline>
-            Delete
+            Eliminar
           </Button>
         </Fragment>
       )
@@ -305,20 +305,20 @@ const AddEventSidebar = props => {
           >
             <div className='mb-1'>
               <Label className='form-label' for='title'>
-                Title <span className='text-danger'>*</span>
+                Nombre del Tratamiento <span className='text-danger'>*</span>
               </Label>
               <Controller
                 name='title'
                 control={control}
                 render={({ field }) => (
-                  <Input id='title' placeholder='Title' invalid={errors.title && true} {...field} />
+                  <Input id='title' placeholder='Tratamiento' invalid={errors.title && true} {...field} />
                 )}
               />
             </div>
 
             <div className='mb-1'>
               <Label className='form-label' for='label'>
-                Label
+                Tipo de Tratamiento
               </Label>
               <Select
                 id='label'
@@ -337,7 +337,7 @@ const AddEventSidebar = props => {
 
             <div className='mb-1'>
               <Label className='form-label' for='startDate'>
-                Start Date
+               Fecha de Inicio
               </Label>
               <Flatpickr
                 required
@@ -357,7 +357,7 @@ const AddEventSidebar = props => {
 
             <div className='mb-1'>
               <Label className='form-label' for='endDate'>
-                End Date
+                Fecha de Terminar
               </Label>
               <Flatpickr
                 required
@@ -374,7 +374,7 @@ const AddEventSidebar = props => {
                 }}
               />
             </div>
-
+{/* 
             <div className='form-switch mb-1'>
               <Input
                 id='allDay'
@@ -388,7 +388,8 @@ const AddEventSidebar = props => {
                 All Day
               </Label>
             </div>
-
+              */}
+              {/*
             <div className='mb-1'>
               <Label className='form-label' for='eventURL'>
                 Event URL
@@ -401,16 +402,39 @@ const AddEventSidebar = props => {
                 placeholder='https://www.google.com'
               />
             </div>
-
+ */}
             <div className='mb-1'>
               <Label className='form-label' for='guests'>
-                Guests
+                Asignar Cliente
               </Label>
               <Select
                 isMulti
                 id='guests'
                 className='react-select'
                 classNamePrefix='select'
+                isClearable={false}
+                options={guestsOptions}
+                placeholder='Seleccionar'
+                theme={selectThemeColors}
+                value={guests.length ? [...guests] : null}
+                onChange={data => setGuests([...data])}
+                components={{
+                  Option: GuestsComponent
+                  
+                }}
+              />
+            </div>
+
+            <div className='mb-1'>
+              <Label className='form-label' for='guests'>
+                Elegir Alumno
+              </Label>
+              <Select
+                isMulti
+                id='guests'
+                className='react-select'
+                classNamePrefix='select'
+                placeholder='Seleccionar'
                 isClearable={false}
                 options={guestsOptions}
                 theme={selectThemeColors}
@@ -422,16 +446,17 @@ const AddEventSidebar = props => {
               />
             </div>
 
+            {/*
             <div className='mb-1'>
               <Label className='form-label' for='location'>
                 Location
               </Label>
               <Input id='location' value={location} onChange={e => setLocation(e.target.value)} placeholder='Office' />
             </div>
-
+ */}
             <div className='mb-1'>
               <Label className='form-label' for='description'>
-                Description
+                Descripción
               </Label>
               <Input
                 type='textarea'
@@ -440,7 +465,7 @@ const AddEventSidebar = props => {
                 rows='3'
                 value={desc}
                 onChange={e => setDesc(e.target.value)}
-                placeholder='Description'
+                placeholder='Descripción'
               />
             </div>
             <div className='d-flex mb-1'>
