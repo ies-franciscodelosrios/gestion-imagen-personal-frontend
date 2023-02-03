@@ -1,6 +1,6 @@
 // ** Third Party Components
 import classnames from 'classnames'
-import { TrendingUp, User, Box, DollarSign } from 'react-feather'
+import { Scissors, Users, PenTool, Calendar } from 'react-feather'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
@@ -11,28 +11,28 @@ import { Card, CardHeader, CardTitle, CardBody, CardText, Row, Col } from 'react
 const StatsCard = ({ cols }) => {
   const data = [
     {
-      title: '230k',
-      subtitle: 'Sales',
+      title: '2138',
+      subtitle: 'Alumnos',
       color: 'light-primary',
-      icon: <TrendingUp size={24} />
+      icon: <Users size={24} />
     },
     {
-      title: '8.549k',
-      subtitle: 'Customers',
-      color: 'light-info',
-      icon: <User size={24} />
+      title: '56.4%',
+      subtitle: 'Peluqueria',
+      color: 'light-secondary',
+      icon: <Scissors size={24} />
     },
     {
-      title: '1.423k',
-      subtitle: 'Products',
+      title: '44.6%',
+      subtitle: 'Estética',
       color: 'light-danger',
-      icon: <Box size={24} />
+      icon: <PenTool size={24} />
     },
     {
-      title: '$9745',
-      subtitle: 'Revenue',
+      title: '210',
+      subtitle: 'Citas',
       color: 'light-success',
-      icon: <DollarSign size={24} />
+      icon: <Calendar size={24} />
     }
   ]
 
@@ -63,8 +63,8 @@ const StatsCard = ({ cols }) => {
   return (
     <Card className='card-statistics'>
       <CardHeader>
-        <CardTitle tag='h4'>Statistics</CardTitle>
-        <CardText className='card-text font-small-2 me-25 mb-0'>Updated 1 month ago</CardText>
+        <CardTitle tag='h4'>Estadisticas</CardTitle>
+        <CardText className='card-text font-small-2 me-25 mb-0'>Actualizado hace 1 semana</CardText>
       </CardHeader>
       <CardBody className='statistics-body'>
         <Row>{renderData()}</Row>
