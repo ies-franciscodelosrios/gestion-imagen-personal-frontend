@@ -58,6 +58,7 @@ const CalendarComponent = () => {
     extendedProps: {
       calendar: '',
       guests: [],
+      pupils: [],
       location: '',
       description: ''
     }
