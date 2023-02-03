@@ -63,6 +63,7 @@ const AddEventSidebar = props => {
   const [url, setUrl] = useState('')
   const [desc, setDesc] = useState('')
   const [guests, setGuests] = useState({})
+  const [pupils, setPupils] = useState({})
   const [allDay, setAllDay] = useState(false)
   const [location, setLocation] = useState('')
   const [endPicker, setEndPicker] = useState(new Date())
@@ -76,12 +77,15 @@ const AddEventSidebar = props => {
   ]
 
   const guestsOptions = [
-    { value: 'Donna Frank', label: 'Donna Frank', avatar: img1 },
-    { value: 'Jane Foster', label: 'Jane Foster', avatar: img2 },
-    { value: 'Gabrielle Robertson', label: 'Gabrielle Robertson', avatar: img3 },
-    { value: 'Lori Spears', label: 'Lori Spears', avatar: img4 },
-    { value: 'Sandy Vega', label: 'Sandy Vega', avatar: img5 },
-    { value: 'Cheryl May', label: 'Cheryl May', avatar: img6 }
+    { value: 'Nerea Fernández', label: 'Nerea Fernández', avatar: img1 },
+    { value: 'Lorena Santos', label: 'Lorena Santos', avatar: img2 },
+    { value: 'Silvia García', label: 'Silvia García', avatar: img3 },
+
+  ]
+
+  const alumnos = [
+    { value: 'Fran Sánchez', label: 'Fran Sánchez', avatar: img1 },
+    { value: 'Noelia Hurtado', label: 'Noelia Hurtado', avatar: img2 },
   ]
 
   // ** Custom select components
@@ -136,6 +140,7 @@ const AddEventSidebar = props => {
     setLocation('')
     setDesc('')
     setGuests({})
+    setPupils({})
     setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
     setStartPicker(new Date())
     setEndPicker(new Date())
@@ -159,6 +164,7 @@ const AddEventSidebar = props => {
       setLocation(selectedEvent.extendedProps.location || location)
       setDesc(selectedEvent.extendedProps.description || desc)
       setGuests(selectedEvent.extendedProps.guests || guests)
+      setPupils(selectedEvent.extendedProps.pupils || pupils)
       setStartPicker(new Date(selectedEvent.start))
       setEndPicker(selectedEvent.allDay ? new Date(selectedEvent.start) : new Date(selectedEvent.end))
       setCalendarLabel([resolveLabel()])
@@ -208,12 +214,13 @@ const AddEventSidebar = props => {
           location,
           description: desc,
           guests,
+          pupils,
           calendar: calendarLabel[0].label
         }
       }
 
       const propsToUpdate = ['id', 'title', 'url']
-      const extendedPropsToUpdate = ['calendar', 'guests', 'location', 'description']
+      const extendedPropsToUpdate = ['calendar', 'guests','pupils', 'location', 'description']
       dispatch(updateEvent(eventToUpdate))
       updateEventInCalendar(eventToUpdate, propsToUpdate, extendedPropsToUpdate)
 
@@ -408,6 +415,8 @@ const AddEventSidebar = props => {
                 Asignar Cliente
               </Label>
               <Select
+menuPortalTarget={document.body} 
+              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                 isMulti
                 id='guests'
                 className='react-select'
@@ -426,20 +435,22 @@ const AddEventSidebar = props => {
             </div>
 
             <div className='mb-1'>
-              <Label className='form-label' for='guests'>
+              <Label className='form-label' for='pupils'>
                 Elegir Alumno
               </Label>
               <Select
+              menuPortalTarget={document.body} 
+              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}          
                 isMulti
-                id='guests'
+                id='pupils'
                 className='react-select'
                 classNamePrefix='select'
                 placeholder='Seleccionar'
                 isClearable={false}
-                options={guestsOptions}
+                options={alumnos}
                 theme={selectThemeColors}
-                value={guests.length ? [...guests] : null}
-                onChange={data => setGuests([...data])}
+                value={pupils.length ? [...pupils] : null}
+                onChange={data => setPupils([...data])}
                 components={{
                   Option: GuestsComponent
                 }}
