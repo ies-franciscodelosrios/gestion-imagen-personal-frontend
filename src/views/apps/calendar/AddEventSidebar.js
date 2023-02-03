@@ -63,28 +63,29 @@ const AddEventSidebar = props => {
   const [url, setUrl] = useState('')
   const [desc, setDesc] = useState('')
   const [guests, setGuests] = useState({})
+  const [pupils, setPupils] = useState({})
   const [allDay, setAllDay] = useState(false)
   const [location, setLocation] = useState('')
   const [endPicker, setEndPicker] = useState(new Date())
   const [startPicker, setStartPicker] = useState(new Date())
-  const [calendarLabel, setCalendarLabel] = useState([{ value: 'Business', label: 'Business', color: 'primary' }])
+  const [calendarLabel, setCalendarLabel] = useState([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
 
   // ** Select Options
   const options = [
-    { value: 'Business', label: 'Business', color: 'primary' },
     { value: 'Peluquería', label: 'Peluquería', color: 'danger' },
     { value: 'Estética', label: 'Estética', color: 'warning' },
-    { value: 'Holiday', label: 'Holiday', color: 'success' },
-    { value: 'ETC', label: 'ETC', color: 'info' }
   ]
 
   const guestsOptions = [
-    { value: 'Donna Frank', label: 'Donna Frank', avatar: img1 },
-    { value: 'Jane Foster', label: 'Jane Foster', avatar: img2 },
-    { value: 'Gabrielle Robertson', label: 'Gabrielle Robertson', avatar: img3 },
-    { value: 'Lori Spears', label: 'Lori Spears', avatar: img4 },
-    { value: 'Sandy Vega', label: 'Sandy Vega', avatar: img5 },
-    { value: 'Cheryl May', label: 'Cheryl May', avatar: img6 }
+    { value: 'Nerea Fernández', label: 'Nerea Fernández', avatar: img1 },
+    { value: 'Lorena Santos', label: 'Lorena Santos', avatar: img2 },
+    { value: 'Silvia García', label: 'Silvia García', avatar: img3 },
+
+  ]
+
+  const alumnos = [
+    { value: 'Fran Sánchez', label: 'Fran Sánchez', avatar: img5 },
+    { value: 'Noelia Hurtado', label: 'Noelia Hurtado', avatar: img6 },
   ]
 
   // ** Custom select components
@@ -120,6 +121,7 @@ const AddEventSidebar = props => {
         calendar: calendarLabel[0].label,
         url: url.length ? url : undefined,
         guests: guests.length ? guests : undefined,
+        pupils: pupils.length ? pupils : undefined,
         location: location.length ? location : undefined,
         desc: desc.length ? desc : undefined
       }
@@ -139,7 +141,8 @@ const AddEventSidebar = props => {
     setLocation('')
     setDesc('')
     setGuests({})
-    setCalendarLabel([{ value: 'Business', label: 'Business', color: 'primary' }])
+    setPupils({})
+    setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
     setStartPicker(new Date())
     setEndPicker(new Date())
   }
@@ -153,7 +156,7 @@ const AddEventSidebar = props => {
         if (calendar.length) {
           return { label: calendar, value: calendar, color: calendarsColor[calendar] }
         } else {
-          return { value: 'Business', label: 'Business', color: 'primary' }
+          return { value: 'Peluquería', label: 'Peluquería', color: 'danger' }
         }
       }
       setValue('title', selectedEvent.title || getValues('title'))
@@ -162,6 +165,7 @@ const AddEventSidebar = props => {
       setLocation(selectedEvent.extendedProps.location || location)
       setDesc(selectedEvent.extendedProps.description || desc)
       setGuests(selectedEvent.extendedProps.guests || guests)
+      setPupils(selectedEvent.extendedProps.pupils || pupils)
       setStartPicker(new Date(selectedEvent.start))
       setEndPicker(selectedEvent.allDay ? new Date(selectedEvent.start) : new Date(selectedEvent.end))
       setCalendarLabel([resolveLabel()])
@@ -211,17 +215,18 @@ const AddEventSidebar = props => {
           location,
           description: desc,
           guests,
+          pupils,
           calendar: calendarLabel[0].label
         }
       }
 
       const propsToUpdate = ['id', 'title', 'url']
-      const extendedPropsToUpdate = ['calendar', 'guests', 'location', 'description']
+      const extendedPropsToUpdate = ['calendar', 'guests','pupils', 'location', 'description']
       dispatch(updateEvent(eventToUpdate))
       updateEventInCalendar(eventToUpdate, propsToUpdate, extendedPropsToUpdate)
 
       handleAddEventSidebar()
-      toast.success('Event Updated')
+      toast.success('Cita Actualizada')
     } else {
       setError('title', {
         type: 'manual'
@@ -247,10 +252,10 @@ const AddEventSidebar = props => {
       return (
         <Fragment>
           <Button className='me-1' type='submit' color='primary'>
-            Add
+            Añadir
           </Button>
           <Button color='secondary' type='reset' onClick={handleAddEventSidebar} outline>
-            Cancel
+            Cancelar
           </Button>
         </Fragment>
       )
@@ -258,10 +263,10 @@ const AddEventSidebar = props => {
       return (
         <Fragment>
           <Button className='me-1' color='primary' onClick={handleUpdateEvent}>
-            Update
+            Actualizar
           </Button>
           <Button color='danger' onClick={handleDeleteEvent} outline>
-            Delete
+            Eliminar
           </Button>
         </Fragment>
       )
@@ -283,7 +288,7 @@ const AddEventSidebar = props => {
     >
       <ModalHeader className='mb-1' toggle={handleAddEventSidebar} close={CloseBtn} tag='div'>
         <h5 className='modal-title'>
-          {selectedEvent && selectedEvent.title && selectedEvent.title.length ? 'Update' : 'Add'} Event
+          {selectedEvent && selectedEvent.title && selectedEvent.title.length ? 'Actualizar' : 'Añadir'} Cita
         </h5>
       </ModalHeader>
       <PerfectScrollbar options={{ wheelPropagation: false }}>
@@ -308,20 +313,20 @@ const AddEventSidebar = props => {
           >
             <div className='mb-1'>
               <Label className='form-label' for='title'>
-                Title <span className='text-danger'>*</span>
+                Nombre del Tratamiento <span className='text-danger'>*</span>
               </Label>
               <Controller
                 name='title'
                 control={control}
                 render={({ field }) => (
-                  <Input id='title' placeholder='Title' invalid={errors.title && true} {...field} />
+                  <Input id='title' placeholder='Tratamiento' invalid={errors.title && true} {...field} />
                 )}
               />
             </div>
 
             <div className='mb-1'>
               <Label className='form-label' for='label'>
-                Label
+                Tipo de Tratamiento
               </Label>
               <Select
                 id='label'
@@ -340,10 +345,11 @@ const AddEventSidebar = props => {
 
             <div className='mb-1'>
               <Label className='form-label' for='startDate'>
-                Start Date
+               Fecha de Inicio
               </Label>
               <Flatpickr
                 required
+                locale='es'
                 id='startDate'
                 name='startDate'
                 className='form-control'
@@ -351,17 +357,19 @@ const AddEventSidebar = props => {
                 value={startPicker}
                 options={{
                   enableTime: allDay === false,
-                  dateFormat: 'Y-m-d H:i'
+                  dateFormat: 'd-m-Y H:i',
+                  locale:"es"
                 }}
               />
             </div>
 
             <div className='mb-1'>
               <Label className='form-label' for='endDate'>
-                End Date
+                Fecha de Terminar
               </Label>
               <Flatpickr
                 required
+                locale='es'
                 id='endDate'
                 // tag={Flatpickr}
                 name='endDate'
@@ -370,11 +378,11 @@ const AddEventSidebar = props => {
                 value={endPicker}
                 options={{
                   enableTime: allDay === false,
-                  dateFormat: 'Y-m-d H:i'
+                  dateFormat: 'd-m-Y H:i'
                 }}
               />
             </div>
-
+{/* 
             <div className='form-switch mb-1'>
               <Input
                 id='allDay'
@@ -388,7 +396,8 @@ const AddEventSidebar = props => {
                 All Day
               </Label>
             </div>
-
+              */}
+              {/*
             <div className='mb-1'>
               <Label className='form-label' for='eventURL'>
                 Event URL
@@ -401,37 +410,65 @@ const AddEventSidebar = props => {
                 placeholder='https://www.google.com'
               />
             </div>
-
+ */}
             <div className='mb-1'>
               <Label className='form-label' for='guests'>
-                Guests
+                Asignar Cliente
               </Label>
               <Select
+menuPortalTarget={document.body} 
+              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                 isMulti
                 id='guests'
                 className='react-select'
                 classNamePrefix='select'
                 isClearable={false}
                 options={guestsOptions}
+                placeholder='Seleccionar'
                 theme={selectThemeColors}
                 value={guests.length ? [...guests] : null}
                 onChange={data => setGuests([...data])}
+                components={{
+                  Option: GuestsComponent
+                  
+                }}
+              />
+            </div>
+
+            <div className='mb-1'>
+              <Label className='form-label' for='pupils'>
+                Elegir Alumno
+              </Label>
+              <Select
+              menuPortalTarget={document.body} 
+              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}          
+                isMulti
+                id='pupils'
+                className='react-select'
+                classNamePrefix='select'
+                placeholder='Seleccionar'
+                isClearable={false}
+                options={alumnos}
+                theme={selectThemeColors}
+                value={pupils.length ? [...pupils] : null}
+                onChange={data => setPupils([...data])}
                 components={{
                   Option: GuestsComponent
                 }}
               />
             </div>
 
+            {/*
             <div className='mb-1'>
               <Label className='form-label' for='location'>
                 Location
               </Label>
               <Input id='location' value={location} onChange={e => setLocation(e.target.value)} placeholder='Office' />
             </div>
-
+ */}
             <div className='mb-1'>
               <Label className='form-label' for='description'>
-                Description
+                Descripción
               </Label>
               <Input
                 type='textarea'
@@ -440,7 +477,7 @@ const AddEventSidebar = props => {
                 rows='3'
                 value={desc}
                 onChange={e => setDesc(e.target.value)}
-                placeholder='Description'
+                placeholder='Descripción'
               />
             </div>
             <div className='d-flex mb-1'>
