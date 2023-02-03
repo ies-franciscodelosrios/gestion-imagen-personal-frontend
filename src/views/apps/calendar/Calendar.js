@@ -130,7 +130,7 @@ const Calendar = props => {
     */
     eventDrop({ event: droppedEvent }) {
       dispatch(updateEvent(droppedEvent))
-      toast.success('Event Updated')
+      toast.success('Cita Actualizada')
     },
 
     /*
@@ -139,7 +139,7 @@ const Calendar = props => {
     */
     eventResize({ event: resizedEvent }) {
       dispatch(updateEvent(resizedEvent))
-      toast.success('Event Updated')
+      toast.success('Cita Actualizada')
     },
 
     ref: calendarRef,

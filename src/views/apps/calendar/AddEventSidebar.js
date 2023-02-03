@@ -84,8 +84,8 @@ const AddEventSidebar = props => {
   ]
 
   const alumnos = [
-    { value: 'Fran Sánchez', label: 'Fran Sánchez', avatar: img1 },
-    { value: 'Noelia Hurtado', label: 'Noelia Hurtado', avatar: img2 },
+    { value: 'Fran Sánchez', label: 'Fran Sánchez', avatar: img5 },
+    { value: 'Noelia Hurtado', label: 'Noelia Hurtado', avatar: img6 },
   ]
 
   // ** Custom select components
@@ -121,6 +121,7 @@ const AddEventSidebar = props => {
         calendar: calendarLabel[0].label,
         url: url.length ? url : undefined,
         guests: guests.length ? guests : undefined,
+        pupils: pupils.length ? pupils : undefined,
         location: location.length ? location : undefined,
         desc: desc.length ? desc : undefined
       }
@@ -225,7 +226,7 @@ const AddEventSidebar = props => {
       updateEventInCalendar(eventToUpdate, propsToUpdate, extendedPropsToUpdate)
 
       handleAddEventSidebar()
-      toast.success('Event Updated')
+      toast.success('Cita Actualizada')
     } else {
       setError('title', {
         type: 'manual'
@@ -287,7 +288,7 @@ const AddEventSidebar = props => {
     >
       <ModalHeader className='mb-1' toggle={handleAddEventSidebar} close={CloseBtn} tag='div'>
         <h5 className='modal-title'>
-          {selectedEvent && selectedEvent.title && selectedEvent.title.length ? 'Update' : 'Add'} Event
+          {selectedEvent && selectedEvent.title && selectedEvent.title.length ? 'Actualizar' : 'Añadir'} Cita
         </h5>
       </ModalHeader>
       <PerfectScrollbar options={{ wheelPropagation: false }}>
