@@ -21,27 +21,6 @@ import avatar20 from '@src/assets/images/portrait/small/avatar-s-20.jpg'
 
 const avatarGroupArr = [
   {
-    title: 'Billy Hopkins',
-    img: avatar9,
-    placement: 'bottom',
-    imgHeight: 33,
-    imgWidth: 33
-  },
-  {
-    title: 'Amy Carson',
-    img: avatar6,
-    placement: 'bottom',
-    imgHeight: 33,
-    imgWidth: 33
-  },
-  {
-    title: 'Brandon Miles',
-    img: avatar8,
-    placement: 'bottom',
-    imgHeight: 33,
-    imgWidth: 33
-  },
-  {
     title: 'Daisy Weber',
     img: avatar7,
     placement: 'bottom',
@@ -59,9 +38,9 @@ const avatarGroupArr = [
 
 const data = [
   {
-    title: '12 Invoices have been paid',
-    content: 'Invoices have been paid to the company.',
-    meta: '12 min ago',
+    title: 'Corte de Pelo',
+    content: 'Degradado mid-fadde y barba.',
+    meta: '3 Febrero 2023',
     metaClassName: 'me-1',
     customContent: (
       <div className='d-flex align-items-center'>
@@ -71,34 +50,41 @@ const data = [
     )
   },
   {
-    title: 'Client Meeting',
-    content: 'Project meeting with john @10:15am.',
-    meta: '45 min ago',
+    title: 'Asesoramiento Estético',
+    content: 'Indicaciones para el cuidado estético.',
+    color: 'danger',
+    meta: '2 Febrero 2023',
+    metaClassName: 'me-1'
+  },
+  {
+    title: 'Masaje anticontracturas',
+    content: 'Masaje para la recuperación de contracturas.',
+    meta: '2 Febrero 2023',
     metaClassName: 'me-1',
     color: 'warning',
     customContent: (
       <div className='d-flex align-items-center'>
         <Avatar img={avatar9} />
         <div className='ms-50'>
-          <h6 className='mb-0'>John Doe (Client)</h6>
-          <span>CEO of Infibeam</span>
+          <h6 className='mb-0'>Palbo Laguna (Client)</h6>
+          <span>Jardinero</span>
         </div>
       </div>
     )
   },
   {
-    title: 'Create a new project for client',
-    content: 'Add files to new design folder',
+    title: 'Corte de Pelo',
+    content: 'Realización de mechas californianas.',
     color: 'info',
-    meta: '2 days ago',
+    meta: '1 Febrero 2023',
     metaClassName: 'me-1',
     customContent: <AvatarGroup data={avatarGroupArr} />
   },
   {
-    title: 'Create a new project for client',
-    content: 'Add files to new design folder',
+    title: 'Tratamiento Estético',
+    content: 'Masaje exfoliante de poros.',
     color: 'danger',
-    meta: '5 days ago',
+    meta: '30 Enero 2023',
     metaClassName: 'me-1'
   }
 ]
@@ -109,7 +95,7 @@ const UserTimeline = () => {
       <CardHeader>
         <div className='d-flex align-items-center'>
           <List className='user-timeline-title-icon' />
-          <CardTitle tag='h4'>User Timeline</CardTitle>
+          <CardTitle tag='h4'>Ultimas Citas</CardTitle>
         </div>
         <MoreVertical size={18} className='cursor-pointer' />
       </CardHeader>
