@@ -8,14 +8,14 @@ const CardMedal = () => {
   return (
     <Card className='card-congratulations-medal'>
       <CardBody>
-        <h5>Congratulations 🎉 John!</h5>
-        <CardText className='font-small-3'>You have won gold medal</CardText>
+        <h5>Bienvenida 🎉 Sonia!</h5>
+        <CardText className='font-small-3'>A nuestra plataforma en React</CardText>
         <h3 className='mb-75 mt-2 pt-50'>
           <a href='/' onClick={e => e.preventDefault()}>
-            $48.9k
+            2023 !!!
           </a>
         </h3>
-        <Button color='primary'>View Sales</Button>
+        <Button color='primary'>Ver Perfil</Button>
         <img className='congratulation-medal' src={medal} alt='Medal Pic' />
       </CardBody>
     </Card>

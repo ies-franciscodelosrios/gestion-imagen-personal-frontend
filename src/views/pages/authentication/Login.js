@@ -11,10 +11,6 @@ import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import {
-  Facebook,
-  Twitter,
-  Mail,
-  GitHub,
   HelpCircle,
   Coffee,
   X,
@@ -51,12 +47,10 @@ import {
 // ** Illustrations Imports
 import illustrationsLight from '@src/assets/images/pages/login-v3.svg';
 import illustrationsDark from '@src/assets/images/pages/login-v3-dark.svg';
+import logo from '@src/assets/images/logo/pericles.svg';
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss';
-
-// ** Logo
-import logo from '@src/assets/images/logo/pericles.svg';
 
 const ToastContent = ({ t, name, role }) => {
   return (
@@ -74,8 +68,8 @@ const ToastContent = ({ t, name, role }) => {
           />
         </div>
         <span>
-          You have successfully logged in as an {role} user to Pericles. Now you
-          can start to explore. Enjoy!
+          As accedido correctament con el rol {role} al Dashboard. Ahora puede 
+          comenzar con el trabajo. Disfruta!
         </span>
       </div>
     </div>
@@ -119,7 +113,7 @@ const Login = () => {
             <ToastContent
               t={t}
               role={data.role || 'admin'}
-              name={data.fullName || data.username || 'John Doe'}
+              name={data.fullName || data.username || 'Sonia Torres'}
             />
           ));
         })
