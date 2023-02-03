@@ -13,11 +13,8 @@ import Earnings from '@src/views/ui-elements/cards/analytics/Earnings';
 import CardMedal from '@src/views/ui-elements/cards/advance/CardMedal';
 import Cardfp from '@src/views/ui-elements/cards/basic/Card-fp';
 import CardProfile from '@src/views/ui-elements/cards/advance/CardProfile';
-import CardMeetup from '@src/views/ui-elements/cards/advance/CardMeetup';
+import CardUserTimeline from '@src/views/ui-elements/cards/advance/CardUserTimeline';
 import StatsCard from '@src/views/ui-elements/cards/statistics/StatsCard';
-import GoalOverview from '@src/views/ui-elements/cards/analytics/GoalOverview';
-import CardTransactions from '@src/views/ui-elements/cards/advance/CardTransactions';
-import CardBrowserStates from '@src/views/ui-elements/cards/advance/CardBrowserState';
 
 // ** Styles
 import '@styles/react/libs/charts/apex-charts.scss';
@@ -45,7 +42,7 @@ const EcommerceDashboard = () => {
 
       <Row className="match-height">
         <Col lg="4" md="12">
-          <CardProfile/>
+          <CardUserTimeline/>
           
         </Col>
         <Col lg="8" md="12">
@@ -53,23 +50,7 @@ const EcommerceDashboard = () => {
         </Col>
       </Row>
 
-      <Row className="match-height">
-        <Col lg="8" xs="12">
-          <CompanyTable />
-        </Col>
-        <Col lg="4" md="6" xs="12">
-          <CardMeetup />
-        </Col>
-        <Col lg="4" md="6" xs="12">
-          <CardBrowserStates colors={colors} trackBgColor={trackBgColor} />
-        </Col>
-        <Col lg="4" md="6" xs="12">
-          <GoalOverview success={colors.success.main} />
-        </Col>
-        <Col lg="4" md="6" xs="12">
-          <CardTransactions />
-        </Col>
-      </Row>
+      
     </div>
   );
 };
