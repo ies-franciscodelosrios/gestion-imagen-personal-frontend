@@ -68,7 +68,7 @@ export default [
         icon: <LifeBuoy />,
         externalLink: true,
         newTab: true,
-        navLink: 'https://pixinvent.ticksy.com/'
+        navLink: 'https://Pericles.ticksy.com/'
       }
     ]
   }

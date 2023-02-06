@@ -11,6 +11,12 @@
         }
     }
 }
+.dark-layout {
+    .dark-fp{
+        filter: brightness(65%) ;
+        
+    }
+}
 
 .sh-card-tx {
     visibility: hidden;

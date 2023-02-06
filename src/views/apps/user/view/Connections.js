@@ -61,13 +61,13 @@ const socialAccounts = [
   {
     linked: true,
     title: 'Twitter',
-    url: 'https://twitter.com/pixinvent',
+    url: 'https://twitter.com/Pericles',
     logo: twitterIcon
   },
   {
     linked: true,
     title: 'Linkedin',
-    url: 'https://www.linkedin.com/company/pixinvent/',
+    url: 'https://www.linkedin.com/company/Pericles/',
     logo: linkedinIcon
   },
   {
@@ -134,7 +134,7 @@ const connections = () => {
                     <p className='fw-bolder mb-0'>{item.title}</p>
                     {item.linked ? (
                       <a href={item.url} target='_blank'>
-                        @pixinvent
+                        @Pericles
                       </a>
                     ) : (
                       <span>Not Connected</span>

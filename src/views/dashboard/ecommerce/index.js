@@ -7,12 +7,9 @@ import { Row, Col } from 'reactstrap';
 // ** Context
 import { ThemeColors } from '@src/utility/context/ThemeColors';
 
-// ** Demo Components
-import CompanyTable from './CompanyTable';
-import Earnings from '@src/views/ui-elements/cards/analytics/Earnings';
+// ** Components
 import CardMedal from '@src/views/ui-elements/cards/advance/CardMedal';
 import Cardfp from '@src/views/ui-elements/cards/basic/Card-fp';
-import CardProfile from '@src/views/ui-elements/cards/advance/CardProfile';
 import CardUserTimeline from '@src/views/ui-elements/cards/advance/CardUserTimeline';
 import StatsCard from '@src/views/ui-elements/cards/statistics/StatsCard';
 
