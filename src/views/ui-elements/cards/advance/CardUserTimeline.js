@@ -41,13 +41,7 @@ const data = [
     title: 'Corte de Pelo',
     content: 'Degradado mid-fadde y barba.',
     meta: '3 Febrero 2023',
-    metaClassName: 'me-1',
-    customContent: (
-      <div className='d-flex align-items-center'>
-        <img className='me-1' src={jsonImg} alt='data.json' height='23' />
-        <div className='mb-0'>data.json</div>
-      </div>
-    )
+    metaClassName: 'me-1'
   },
   {
     title: 'Asesoramiento Estético',

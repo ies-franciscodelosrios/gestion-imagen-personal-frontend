@@ -31,12 +31,6 @@ export default [
         navLink: '/apps/chat'
       },
       {
-        id: 'todo',
-        title: 'Todo',
-        icon: <CheckSquare />,
-        navLink: '/apps/todo'
-      },
-      {
         id: 'calendar',
         title: 'Calendar',
         icon: <Calendar />,

@@ -68,7 +68,7 @@ const BreadCrumbs = props => {
               </DropdownItem>
               <DropdownItem tag={Link} to='/apps/chat'>
                 <MessageSquare className='me-1' size={14} />
-                <span className='align-middle'>Chat</span>
+                <span className='align-middle'>Chaterino</span>
               </DropdownItem>
               <DropdownItem tag={Link} to='/apps/email'>
                 <Mail className='me-1' size={14} />
