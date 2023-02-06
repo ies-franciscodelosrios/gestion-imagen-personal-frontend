@@ -460,7 +460,7 @@ const ButtonTags = () => {
       <a
         className='me-1 mb-1 btn btn-primary'
         color='primary'
-        href='https://pixinvent.com/'
+        href='https://Pericles.com/'
         target='_blank'
         rel='noopener noreferrer'
       >

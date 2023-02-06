@@ -26,7 +26,7 @@ const data = [
         <Avatar img={ceo} imgHeight={38} imgWidth={38} />
         <div className='ms-50'>
           <h6 className='mb-0'>Leona Watkins (Client)</h6>
-          <span>CEO of Pixinvent</span>
+          <span>CEO of Pericles</span>
         </div>
       </div>
     )

@@ -93,7 +93,7 @@ const BillingAddress = () => {
                   Company Name:
                 </Col>
                 <Col tag='dd' sm='8' className='mb-1'>
-                  PIXINVENT
+                  Pericles
                 </Col>
 
                 <Col tag='dt' sm='4' className='fw-bolder mb-1'>

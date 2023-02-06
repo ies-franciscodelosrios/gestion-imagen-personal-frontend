@@ -59,7 +59,7 @@ const License = () => {
         </CardHeader>
         <CardBody>
           <CardText className='mb-2 pb-1'>
-            Use of any product you buy from PIXINVENT is bound by the license you purchase. It will allow you the
+            Use of any product you buy from Pericles is bound by the license you purchase. It will allow you the
             non-exclusive access to use it in your personal as well as client projects.
           </CardText>
           <Table className='text-center text-nowrap' responsive bordered>
@@ -92,7 +92,7 @@ const License = () => {
           <CardText className='mb-2 pb-75'>
             With Single License you will be able to use our product for yourself or your client project for 1 time. If
             you want to use it for multiple times, you need to buy another regular license every time. Ownership and
-            Copyright of our template will stay with ThemeSelection after purchasing single license. That means you are
+            Copyleft of our template will stay with ThemeSelection after purchasing single license. That means you are
             allowed to use our template in your project and use for one client or yourself,
           </CardText>
           <h5>Multiple License</h5>
@@ -102,7 +102,7 @@ const License = () => {
           </ul>
           <CardText className='mb-2 pb-75'>
             With Multiple Use License you will be able to use our product for yourself as well as your client projects.
-            You can use product for unlimited projects. Ownership and Copyright of our template will stay with
+            You can use product for unlimited projects. Ownership and Copyleft of our template will stay with
             ThemeSelection after purchasing multiple use license. That means you are allowed to use our template in your
             project and use for multiple clients and yourself, but you are not allowed to create SaaS application and
             sell that,
@@ -114,7 +114,7 @@ const License = () => {
           </ul>
           <CardText className='mb-2 pb-1'>
             With Extended License you will be able to use our product for yourself or your client project for one time.
-            You can use it for building one project. Ownership and Copyright of our template will remain with
+            You can use it for building one project. Ownership and Copyleft of our template will remain with
             ThemeSelection and that means, you are not allowed to sell, distribute or lease our template as it is to
             anyone
           </CardText>

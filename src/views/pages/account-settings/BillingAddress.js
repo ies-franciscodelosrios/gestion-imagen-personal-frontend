@@ -66,7 +66,7 @@ const BillingAddress = () => {
                 control={control}
                 name='companyName'
                 render={({ field }) => (
-                  <Input placeholder='PIXINVENT' invalid={errors.companyName && true} {...field} />
+                  <Input placeholder='Pericles' invalid={errors.companyName && true} {...field} />
                 )}
               />
               {errors.companyName && <FormFeedback>Please enter a valid Company Name</FormFeedback>}

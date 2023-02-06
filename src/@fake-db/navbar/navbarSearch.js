@@ -32,7 +32,7 @@ export const searchArr = [
         icon: 'Home',
         link: '/'
       },
-      {
+      /**{
         id: 3,
         target: 'email',
         isBookmarked: true,
@@ -55,7 +55,7 @@ export const searchArr = [
         title: 'Todo',
         icon: 'CheckSquare',
         link: '/apps/todo'
-      },
+      }, */
       {
         id: 6,
         target: 'calendar',
