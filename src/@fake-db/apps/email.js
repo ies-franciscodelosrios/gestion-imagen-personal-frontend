@@ -100,8 +100,8 @@ const data = {
           email: 'johndoe@mail.com'
         },
         {
-          name: 'Pixinvent',
-          email: 'hello@pixinvent.net'
+          name: 'Pericles',
+          email: 'hello@Pericles.net'
         }
       ],
       subject: 'Order Delivered',

@@ -49,7 +49,7 @@ const InputBasic = () => {
               Readonly Static Text
             </Label>
             <p className='form-control-static' id='StaticInput'>
-              email@pixinvent.com
+              email@Pericles.com
             </p>
           </Col>
         </Row>

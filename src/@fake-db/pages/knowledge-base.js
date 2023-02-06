@@ -157,7 +157,7 @@ const data = {
     },
     {
       id: 3,
-      title: 'Copyright & Legal',
+      title: 'Copyleft & Legal',
       icon: 'Lock',
       iconColor: 'text-warning',
       questions: [
@@ -173,8 +173,8 @@ const data = {
         },
         {
           id: 2,
-          question: 'Who Owns The Copyright On Text?',
-          slug: 'who-owns-the-copyright-on-text'
+          question: 'Who Owns The Copyleft On Text?',
+          slug: 'who-owns-the-Copyleft-on-text'
         },
         {
           id: 3,

@@ -205,7 +205,7 @@ const data = {
           senderId: 1
         },
         {
-          message: 'Thanks, from ThemeForest.',
+          message: 'Thanks, from .',
           time: 'Mon Dec 10 2018 07:46:53 GMT+0000 (GMT)',
           senderId: 11
         },

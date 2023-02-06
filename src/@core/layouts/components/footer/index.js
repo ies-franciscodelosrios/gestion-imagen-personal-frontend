@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <p className='clearfix mb-0'>
       <span className='float-md-start d-block d-md-inline-block mt-25'>
-        COPYRIGHT © {new Date().getFullYear()}{' '}
+        Copyleft © {new Date().getFullYear()}{' '}
         <a href='https://iesfranciscodelosrios.es' target='_blank' rel='noopener noreferrer'>
           Proyecto Pericles
         </a>
