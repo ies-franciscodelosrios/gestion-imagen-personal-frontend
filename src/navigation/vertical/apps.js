@@ -13,19 +13,19 @@ export default [
     navLink: '/apps/calendar'
   },
   {
-    id: 'invoiceList',
+    id: 'clientList',
     title: 'Clientes',
     icon: <Users size={12} />,
-    navLink: '/apps/invoice/list'
+    navLink: '/apps/cliente/list'
   },
   {
-    id: 'list',
+    id: 'ProfessorList',
     title: 'Profesores',
     icon: <Users size={12} />,
     navLink: '/apps/profesor/list'
   },
   {
-    id: 'list',
+    id: 'PupilList',
     title: 'Alumnos',
     icon: <Users size={12} />,
     navLink: '/apps/user/list'

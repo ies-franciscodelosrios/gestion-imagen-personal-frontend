@@ -22,6 +22,7 @@ const EcommerceCheckout = lazy(() => import('../../views/apps/ecommerce/checkout
 
 const UserList = lazy(() => import('../../views/apps/user/list'))
 const ListaProfesor = lazy(() => import('../../views/apps/profesor/list'))
+const ClientList = lazy(() => import('../../views/apps/cliente/list'))
 
 const UserView = lazy(() => import('../../views/apps/user/view'))
 
@@ -178,6 +179,10 @@ const AppRoutes = [
   {
     element: <ListaProfesor />,
     path: '/apps/profesor/list'
+  },
+  {
+    element: <ClientList />,
+    path: '/apps/cliente/list'
   },
   {
     path: '/apps/user/view',
