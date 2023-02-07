@@ -13,6 +13,9 @@ import { Row, Col, Alert } from 'reactstrap'
 import UserTabs from './Tabs'
 import PlanCard from './PlanCard'
 import UserInfoCard from './UserInfoCard'
+import SheetTabs from './SheetTabs'
+import illustration from '@src/assets/images/pages/ilustracion-perfil.png'
+
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
@@ -42,13 +45,20 @@ const UserView = () => {
     <div className='app-user-view'>
       <Row>
         <Col xl='4' lg='5' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+
           <UserInfoCard selectedUser={store.selectedUser} />
-          <PlanCard />
+          <div className='mt-auto'>
+        <img className='img-fluid' src={illustration} alt='illustration' />
+      </div>
         </Col>
         <Col xl='8' lg='7' xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
           <UserTabs active={active} toggleTab={toggleTab} />
         </Col>
+
       </Row>
+      <Row>        <Col sm='12'>
+          <SheetTabs></SheetTabs>
+          </Col></Row>
     </div>
   ) : (
     <Alert color='danger'>
