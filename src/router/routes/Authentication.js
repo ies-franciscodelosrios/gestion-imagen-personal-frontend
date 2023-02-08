@@ -2,13 +2,6 @@
 import { lazy } from 'react'
 
 const Login = lazy(() => import('../../views/pages/authentication/Login'))
-const LoginBasic = lazy(() => import('../../views/pages/authentication/LoginBasic'))
-const LoginCover = lazy(() => import('../../views/pages/authentication/LoginCover'))
-
-const Register = lazy(() => import('../../views/pages/authentication/Register'))
-const RegisterBasic = lazy(() => import('../../views/pages/authentication/RegisterBasic'))
-const RegisterCover = lazy(() => import('../../views/pages/authentication/RegisterCover'))
-const RegisterMultiSteps = lazy(() => import('../../views/pages/authentication/register-multi-steps'))
 
 const ForgotPassword = lazy(() => import('../../views/pages/authentication/ForgotPassword'))
 const ForgotPasswordBasic = lazy(() => import('../../views/pages/authentication/ForgotPasswordBasic'))
@@ -31,50 +24,6 @@ const AuthenticationRoutes = [
       layout: 'blank',
       publicRoute: true,
       restricted: true
-    }
-  },
-  {
-    path: '/pages/login-basic',
-    element: <LoginBasic />,
-    meta: {
-      layout: 'blank'
-    }
-  },
-  {
-    path: '/pages/login-cover',
-    element: <LoginCover />,
-    meta: {
-      layout: 'blank'
-    }
-  },
-  {
-    path: '/register',
-    element: <Register />,
-    meta: {
-      layout: 'blank',
-      publicRoute: true,
-      restricted: true
-    }
-  },
-  {
-    path: '/pages/register-basic',
-    element: <RegisterBasic />,
-    meta: {
-      layout: 'blank'
-    }
-  },
-  {
-    path: '/pages/register-cover',
-    element: <RegisterCover />,
-    meta: {
-      layout: 'blank'
-    }
-  },
-  {
-    path: '/pages/register-multi-steps',
-    element: <RegisterMultiSteps />,
-    meta: {
-      layout: 'blank'
     }
   },
 
