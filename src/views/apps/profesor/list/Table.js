@@ -49,7 +49,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
 
     const columnDelimiter = ','
     const lineDelimiter = '\n'
-    const keys = Object.keys(array[0])
+    const keys = Object.keys(store.data[0])
 
     result = ''
     result += keys.join(columnDelimiter)
@@ -91,7 +91,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
       <Row>
         <Col xl='6' className='d-flex align-items-center p-0'>
           <div className='d-flex align-items-center w-100'>
-            <label htmlFor='rows-per-page'>Show</label>
+            <label htmlFor='rows-per-page'>Mostrar</label>
             <Input
               className='mx-50'
               type='select'
@@ -104,7 +104,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
               <option value='25'>25</option>
               <option value='50'>50</option>
             </Input>
-            <label htmlFor='rows-per-page'>Entries</label>
+            <label htmlFor='rows-per-page'>resultados</label>
           </div>
         </Col>
         <Col
@@ -113,7 +113,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
         >
           <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
             <label className='mb-0' htmlFor='search-invoice'>
-              Search:
+              Buscar:
             </label>
             <Input
               id='search-invoice'
@@ -126,7 +126,6 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
 
           <div className='d-flex align-items-center table-header-actions'>
             <UncontrolledDropdown className='me-1'>
-
               <DropdownToggle color='secondary' caret outline>
                 <Share className='font-small-4 me-50' />
                 <span className='align-middle'>Export</span>
@@ -136,7 +135,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
                   <Printer className='font-small-4 me-50' />
                   <span className='align-middle'>Print</span>
                 </DropdownItem>
-                <DropdownItem className='w-100' onClick={() => downloadCSV(array)}>
+                <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
                   <FileText className='font-small-4 me-50' />
                   <span className='align-middle'>CSV</span>
                 </DropdownItem>
@@ -155,17 +154,10 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
               </DropdownMenu>
             </UncontrolledDropdown>
 
-          </div>
-          
-          <div className='mr-2'>
-            <Button className='mr-1' color='secondary' >
-              Importar CSV
+            <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
+              Añadir profesor
             </Button>
           </div>
-
-          <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-            Añadir profesor
-          </Button>
         </Col>
       </Row>
     </div>
@@ -177,97 +169,16 @@ const UsersList = () => {
   const dispatch = useDispatch()
   const store = useSelector(state => state.users)
 
-  const array = [
-    {
-      id: 1,
-      name: "Eladio Cañizares-Zabala",
-      email: "Eladio@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 2,
-      name: "Cleto Cabañas-Vall",
-      email: "Cleto@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 3,
-      name: "Olegario Llobet",
-      email: "Olegario@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 4,
-      name: "Matías Tirado Adadia",
-      email: "Matías@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 5,
-      name: "Calista Colomer Echeverrí",
-      email: "Calista@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 6,
-      name: "Gustavo Pareja",
-      email: "Gustavo@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 7,
-      name: "Albino Figuerola Granados",
-      email: "Albino@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 8,
-      name: "Adriana Guzmán Yáñez",
-      email: "Adriana@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 9,
-      name: "Cristóbal Neira Gomis",
-      email: "Cristobal@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 10,
-      name: "Edu Higueras Jáuregui",
-      email: "Edu@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    }, {
-      id: 11,
-      name: "Ester Graciela Ripoll Garriga",
-      email: "Ester@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    },
-    {
-      id: 12,
-      name: "Ester Graciela Ripoll Garriga",
-      email: "Ester@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    },
-    {
-      id: 13,
-      name: "Ester Graciela Ripoll Garriga",
-      email: "Ester@gmail.com",
-      curso: "2",
-      ciclo: "DAW"
-    },
-  ]
-
   // ** States
-  const [sort, setSort] = useState('name')
+  const [sort, setSort] = useState('desc')
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [sortColumn, setSortColumn] = useState('name')
+  const [sortColumn, setSortColumn] = useState('id')
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
+  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
+  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
@@ -281,10 +192,38 @@ const UsersList = () => {
         sortColumn,
         q: searchTerm,
         page: currentPage,
-        perPage: rowsPerPage
+        perPage: rowsPerPage,
+        role: currentRole.value,
+        status: currentStatus.value,
+        currentPlan: currentPlan.value
       })
     )
-  }, [dispatch, array.length, sort, sortColumn, currentPage])
+  }, [dispatch, store.data.length, sort, sortColumn, currentPage])
+
+  // ** User filter options
+  const roleOptions = [
+    { value: '', label: 'Select Role' },
+    { value: 'admin', label: 'Admin' },
+    { value: 'author', label: 'Author' },
+    { value: 'editor', label: 'Editor' },
+    { value: 'maintainer', label: 'Maintainer' },
+    { value: 'subscriber', label: 'Subscriber' }
+  ]
+
+  const planOptions = [
+    { value: '', label: 'Select Plan' },
+    { value: 'basic', label: 'Basic' },
+    { value: 'company', label: 'Company' },
+    { value: 'enterprise', label: 'Enterprise' },
+    { value: 'team', label: 'Team' }
+  ]
+
+  const statusOptions = [
+    { value: '', label: 'Select Status', number: 0 },
+    { value: 'pending', label: 'Pending', number: 1 },
+    { value: 'active', label: 'Active', number: 2 },
+    { value: 'inactive', label: 'Inactive', number: 3 }
+  ]
 
   // ** Function in get data on page change
   const handlePagination = page => {
@@ -294,7 +233,10 @@ const UsersList = () => {
         sortColumn,
         q: searchTerm,
         perPage: rowsPerPage,
-        page: page.selected + 1
+        page: page.selected + 1,
+        role: currentRole.value,
+        status: currentStatus.value,
+        currentPlan: currentPlan.value
       })
     )
     setCurrentPage(page.selected + 1)
@@ -310,6 +252,9 @@ const UsersList = () => {
         q: searchTerm,
         perPage: value,
         page: currentPage,
+        role: currentRole.value,
+        currentPlan: currentPlan.value,
+        status: currentStatus.value
       })
     )
     setRowsPerPage(value)
@@ -324,14 +269,17 @@ const UsersList = () => {
         q: val,
         sortColumn,
         page: currentPage,
-        perPage: rowsPerPage
+        perPage: rowsPerPage,
+        role: currentRole.value,
+        status: currentStatus.value,
+        currentPlan: currentPlan.value
       })
     )
   }
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(array.length / rowsPerPage))
+    const count = Number(Math.ceil(store.total / rowsPerPage))
 
     return (
       <ReactPaginate
@@ -355,6 +303,9 @@ const UsersList = () => {
   // ** Table data to render
   const dataToRender = () => {
     const filters = {
+      role: currentRole.value,
+      currentPlan: currentPlan.value,
+      status: currentStatus.value,
       q: searchTerm
     }
 
@@ -362,12 +313,12 @@ const UsersList = () => {
       return filters[k].length > 0
     })
 
-    if (array.length > 0) {
-      return array
-    } else if (array.length === 0 && isFiltered) {
+    if (store.data.length > 0) {
+      return store.data
+    } else if (store.data.length === 0 && isFiltered) {
       return []
     } else {
-      return array.slice(0, rowsPerPage)
+      return store.allData.slice(0, rowsPerPage)
     }
   }
 
@@ -380,14 +331,16 @@ const UsersList = () => {
         sortColumn,
         q: searchTerm,
         page: currentPage,
-        perPage: rowsPerPage
+        perPage: rowsPerPage,
+        role: currentRole.value,
+        status: currentStatus.value,
+        currentPlan: currentPlan.value
       })
     )
   }
 
   return (
     <Fragment>
-
       <Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <DataTable
@@ -405,7 +358,7 @@ const UsersList = () => {
             data={dataToRender()}
             subHeaderComponent={
               <CustomHeader
-                store={array}
+                store={store}
                 searchTerm={searchTerm}
                 rowsPerPage={rowsPerPage}
                 handleFilter={handleFilter}
