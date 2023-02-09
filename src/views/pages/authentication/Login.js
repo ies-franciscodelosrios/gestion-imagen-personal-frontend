@@ -5,16 +5,14 @@ import { Link, useNavigate } from 'react-router-dom';
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin';
 import useJwt from '@src/auth/jwt/useJwt';
+import { ApiLogin } from '../../../services/api';
+import { setToken, getToken } from '../../../services/UseToken';
 
 // ** Third Party Components
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
-import {
-  HelpCircle,
-  Coffee,
-  X,
-} from 'react-feather';
+import { HelpCircle, Coffee, X } from 'react-feather';
 
 // ** Actions
 import { handleLogin } from '@store/authentication';
@@ -68,7 +66,7 @@ const ToastContent = ({ t, name, role }) => {
           />
         </div>
         <span>
-          As accedido correctament con el rol {role} al Dashboard. Ahora puede 
+          As accedido correctament con el rol {role} al Dashboard. Ahora puede
           comenzar con el trabajo. Disfruta!
         </span>
       </div>
@@ -77,8 +75,8 @@ const ToastContent = ({ t, name, role }) => {
 };
 
 const defaultValues = {
-  password: 'admin',
-  loginEmail: 'admin@demo.com',
+  password: 'root',
+  loginEmail: 'admin@iestablero',
 };
 
 const Login = () => {
@@ -98,6 +96,17 @@ const Login = () => {
 
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
+      ApiLogin(data.loginEmail, data.password)
+        .then((response) => {
+          console.log('Saving local token... ');
+          console.log(response.data.token);
+          setToken(response.data.token);
+        })
+        .catch((err) => {
+          console.log('Not found API token...');
+          console.log(err);
+        });
+      /*
       useJwt
         .login({ email: data.loginEmail, password: data.password })
         .then((res) => {
@@ -122,7 +131,7 @@ const Login = () => {
             type: 'manual',
             message: err.response.data.error,
           })
-        );
+        );*/
     } else {
       for (const key in data) {
         if (data[key].length === 0) {
@@ -137,8 +146,17 @@ const Login = () => {
   return (
     <div className="auth-wrapper auth-cover">
       <Row className="auth-inner m-0">
-        <Link className="brand-logo d-flex align-items-center" to="/" onClick={(e) => e.preventDefault()}>
-          <img src={logo} alt="insertar SVG con la etiqueta image" width="64" height="72"></img>
+        <Link
+          className="brand-logo d-flex align-items-center"
+          to="/"
+          onClick={(e) => e.preventDefault()}
+        >
+          <img
+            src={logo}
+            alt="insertar SVG con la etiqueta image"
+            width="64"
+            height="72"
+          ></img>
           <h1 className="brand-text text-primary ms-1 my-0">I.E.S. TABLERO</h1>
         </Link>
         <Col className="d-none d-lg-flex align-items-center p-5" lg="8" sm="12">
