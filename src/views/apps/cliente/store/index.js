@@ -1,8 +1,10 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-// ** Axios Imports
-import axios from 'axios'
+import axios from 'axios';
+
+
+
 
 export const getAllData = createAsyncThunk('appUsers/getAllData', async () => {
   const response = await axios.get('/api/users/list/all-data')
