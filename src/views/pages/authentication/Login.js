@@ -7,7 +7,7 @@ import { useSkin } from '@hooks/useSkin';
 import useJwt from '@src/auth/jwt/useJwt';
 import { ApiLogin } from '../../../services/api';
 import { setToken, getToken } from '../../../services/UseToken';
-
+import {getAllUserData} from '../../../services/api';
 // ** Third Party Components
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -66,7 +66,7 @@ const ToastContent = ({ t, name, role }) => {
           />
         </div>
         <span>
-          As accedido correctament con el rol {role} al Dashboard. Ahora puede
+          Has accedido correctamente con el rol {role} al Dashboard. Ahora puede
           comenzar con el trabajo. Disfruta!
         </span>
       </div>
@@ -100,12 +100,27 @@ const Login = () => {
         .then((response) => {
           console.log('Saving local token... ');
           console.log(response.data.token);
+          console.log(data.loginEmail);
+          console.log(data.role);
+          getAllUserData(data.loginEmail);
+          console.log(getAllUserData(data.loginEmail));
           setToken(response.data.token);
+          dispatch(handleLogin(data));
+          navigate(getHomeRouteForLoggedInUser(data.role));
+          toast((t) => (
+            <ToastContent
+              t={t}
+              role={data.role || 'admin'}
+              name={data.fullName || data.username || 'Sonia Torres'}
+            />));
+          
         })
         .catch((err) => {
           console.log('Not found API token...');
           console.log(err);
         });
+        
+
       /*
       useJwt
         .login({ email: data.loginEmail, password: data.password })
