@@ -17,6 +17,17 @@ export async function ApiLogin(email, password) {
   })
 }
 
+
+export const getAllUserData = async (loginEmail) => {
+  return await ApiConnect.get(`userByCorreo/${loginEmail}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`
+    }
+  })
+}
+
 export async function ApiLogout() {
   return await ApiConnect.get('logout', {
     headers: {
