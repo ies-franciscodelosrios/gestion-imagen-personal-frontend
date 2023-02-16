@@ -4,9 +4,6 @@ export const setToken = (token) => {
 }
 
 
-
-
-
 export const getToken = () => {
   const token = localStorage.getItem('token')
   if (token === null) return ''
