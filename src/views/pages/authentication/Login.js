@@ -7,7 +7,7 @@ import { useSkin } from '@hooks/useSkin';
 import useJwt from '@src/auth/jwt/useJwt';
 import { ApiLogin } from '../../../services/api';
 import { setToken, getToken } from '../../../services/UseToken';
-import {getAllUserData} from '../../../services/api';
+import { getAllUserData } from '../../../services/api';
 // ** Third Party Components
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -96,30 +96,50 @@ const Login = () => {
 
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
-      ApiLogin(data.loginEmail, data.password)
-        .then((response) => {
-          console.log('Saving local token... ');
-          console.log(response.data.token);
-          console.log(data.loginEmail);
-          console.log(data.role);
-          getAllUserData(data.loginEmail);
-          console.log(getAllUserData(data.loginEmail));
-          setToken(response.data.token);
+      if (getToken() != '') {
+        console.log('1');
+
+        getAllUserData(data.loginEmail).then((promis) => {
+          console.log(promis.data.users.Rol);
+          console.log(data.role=promis.data.users.Rol.toString());
+          console.log(data);
           dispatch(handleLogin(data));
-          navigate(getHomeRouteForLoggedInUser(data.role));
+          ability.update();
+          navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
           toast((t) => (
             <ToastContent
               t={t}
               role={data.role || 'admin'}
               name={data.fullName || data.username || 'Sonia Torres'}
-            />));
-          
-        })
-        .catch((err) => {
-          console.log('Not found API token...');
-          console.log(err);
+            />
+          ));
         });
-        
+
+      } else {
+        console.log('2');
+
+        ApiLogin(data.loginEmail, data.password)
+          .then((response) => {
+            setToken(response.data.token);
+            getAllUserData(data.loginEmail).then((promis) => {
+              console.log(promis.data.users.Rol);
+              console.log(data.role=promis.data.users.Rol);
+              dispatch(handleLogin(data));
+              navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
+              toast((t) => (
+                <ToastContent
+                  t={t}
+                  role={data.role || 'admin'}
+                  name={data.fullName || data.username || 'Sonia Torres'}
+                />
+              ));
+            });
+          })
+          .catch((err) => {
+            console.log('Not found API token...');
+            console.log(err);
+          });
+      }
 
       /*
       useJwt
