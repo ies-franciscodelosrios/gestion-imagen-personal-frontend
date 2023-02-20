@@ -20,12 +20,10 @@ export const authSlice = createSlice({
     handleLogin: (state, action) => {
       state.userData = action.payload
       state['accessToken'] = action.payload[getToken()]
-      console.log(state['accessToken']);
       state['refreshToken'] = action.payload['refreshToken']
       localStorage.setItem('userData', JSON.stringify(action.payload))
       localStorage.setItem('accessToken', JSON.stringify(getToken()))
       localStorage.setItem('refreshToken', JSON.stringify(getToken()))
-      console.log(state);
     },
     handleLogout: state => {
       state.userData = {}
