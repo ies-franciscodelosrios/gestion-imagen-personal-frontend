@@ -8,11 +8,11 @@ const CardMedal = () => {
   return (
     <Card className='card-congratulations-medal'>
       <CardBody>
-        <h5>Bienvenida 🎉 Sonia!</h5>
-        <CardText className='font-small-3'>A nuestra plataforma en React</CardText>
+        <h5>Bienvenid@ 🎉 !</h5>
+        <CardText className='font-small-3'>A nuestra plataforma del IES TABLERO</CardText>
         <h3 className='mb-75 mt-2 pt-50'>
           <a href='/' onClick={e => e.preventDefault()}>
-            2023 !!!
+            Disfruta !!!
           </a>
         </h3>
         <Button color='primary'>Ver Perfil</Button>

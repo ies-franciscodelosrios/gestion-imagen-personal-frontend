@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin';
-import useJwt from '@src/auth/jwt/useJwt';
 import { ApiLogin } from '../../../services/api';
 import { setToken, getToken } from '../../../services/UseToken';
 import { getAllUserData } from '../../../services/api';
@@ -49,7 +48,6 @@ import logo from '@src/assets/images/logo/pericles.svg';
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss';
-import { Ability } from '@casl/ability';
 
 const ToastContent = ({ t, name, role }) => {
   return (
@@ -85,7 +83,7 @@ const Login = () => {
   const { skin } = useSkin();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //const ability = useContext(AbilityContext);
+  const ability = useContext(AbilityContext);
   const {
     control,
     setError,
@@ -95,37 +93,35 @@ const Login = () => {
 
   const source = skin === 'dark' ? illustrationsDark : illustrationsLight;
 
+  function getrol(params) {
+    return params >= 2 ? 'Alumno' : 'Profesor';
+  }
+
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
-      /*if (getToken() != '') {
 
-        getAllUserData(data.loginEmail).then((promis) => {
-          dispatch(handleLogin(data));
-          ability.update([{"action": "manage","subject": "all"}]);
-          navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
-          toast((t) => (
-            <ToastContent
-              t={t}
-              role={data.role || 'admin'}
-              name={data.fullName || data.username || 'Sonia Torres'}
-            />
-          ));
-        });
-
-      } else {*/
         ApiLogin(data.loginEmail, data.password)
           .then((response) => {
             setToken(response.data.token);
-            Ability.update([{"action": "manage","subject": "all"}]);
+            ability.update([{"action": "manage","subject": "all"}]);
+
+            /**
+             * UserData Request to login
+             */
             getAllUserData(data.loginEmail).then((promis) => {
-              data.token = getToken();
-              data.role = promis.data.users.Rol.toString();
+              const data = {
+                ...promis.data.users,
+                token: getToken(),
+                ability : [{"action": "manage","subject": "all"}],
+                rol : getrol(promis.data.users.Rol),
+                fullName : ''.concat(promis.data.users.Name,' ', promis.data.users.Surname)
+              };
               dispatch(handleLogin(data));
-              navigate(getHomeRouteForLoggedInUser(promis.data.Rol.toString()));
+              navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol));
               toast((t) => (
                 <ToastContent
                   t={t}
-                  role={data.role || 'admin'}
+                  role={data.rol || 'admin'}
                   name={data.fullName || data.username || 'Sonia Torres'}
                 />
               ));
@@ -136,34 +132,6 @@ const Login = () => {
             console.log(err);
           });
 
-      //}
-
-      /*
-      useJwt
-        .login({ email: data.loginEmail, password: data.password })
-        .then((res) => {
-          const data = {
-            ...res.data.userData,
-            accessToken: res.data.accessToken,
-            refreshToken: res.data.refreshToken,
-          };
-          dispatch(handleLogin(data));
-          ability.update(res.data.userData.ability);
-          navigate(getHomeRouteForLoggedInUser(data.role));
-          toast((t) => (
-            <ToastContent
-              t={t}
-              role={data.role || 'admin'}
-              name={data.fullName || data.username || 'Sonia Torres'}
-            />
-          ));
-        })
-        .catch((err) =>
-          setError('loginEmail', {
-            type: 'manual',
-            message: err.response.data.error,
-          })
-        );*/
     } else {
       for (const key in data) {
         if (data[key].length === 0) {
