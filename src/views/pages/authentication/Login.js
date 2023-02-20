@@ -96,7 +96,7 @@ const Login = () => {
 
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
-      if (getToken() != '') {
+      /*if (getToken() != '') {
         getAllUserData(data.loginEmail).then((promis) => {
           dispatch(handleLogin(data));
           ability.update([{"action": "manage","subject": "all"}]);
@@ -110,14 +110,14 @@ const Login = () => {
           ));
         });
 
-      } else {
+      } else {*/
         ApiLogin(data.loginEmail, data.password)
           .then((response) => {
             setToken(response.data.token);
             getAllUserData(data.loginEmail).then((promis) => {
               dispatch(handleLogin(data));
               ability.update([{"action": "manage","subject": "all"}]);
-              navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
+              navigate(getHomeRouteForLoggedInUser(promis.data.Rol.toString()));
               toast((t) => (
                 <ToastContent
                   t={t}
@@ -131,7 +131,7 @@ const Login = () => {
             console.log('Not found API token...');
             console.log(err);
           });
-      }
+      
 
       /*
       useJwt
