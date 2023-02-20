@@ -77,14 +77,13 @@ const NotAuthorized = () => {
             </g>
           </g>
         </svg>
-        <h2 className='brand-text text-primary ms-1'>Pericles</h2>
+        <h2 className='brand-text text-primary ms-1'>IES TABLERO</h2>
       </Link>
       <div className='misc-inner p-2 p-sm-3'>
         <div className='w-100 text-center'>
-          <h2 className='mb-1'>You are not authorized! 🔐</h2>
+          <h2 className='mb-1'>No estas autorizado! 🔐</h2>
           <p className='mb-2'>
-            The Webtrends Marketing Lab website in IIS uses the default IUSR account credentials to access the web pages
-            it serves.
+            No tiene los permisos necesarios para acceder a la anterior sección. Verifique su perfil y permisos que tiene concedidos.
           </p>
           <Button
             tag={Link}
@@ -92,7 +91,7 @@ const NotAuthorized = () => {
             className='btn-sm-block mb-1'
             to={user ? getHomeRouteForLoggedInUser(user.role) : '/'}
           >
-            Back to Home
+            Volver al Inicio
           </Button>
           <img className='img-fluid' src={source} alt='Not authorized page' />
         </div>

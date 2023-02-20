@@ -49,6 +49,7 @@ import logo from '@src/assets/images/logo/pericles.svg';
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss';
+import { Ability } from '@casl/ability';
 
 const ToastContent = ({ t, name, role }) => {
   return (
@@ -115,12 +116,12 @@ const Login = () => {
         ApiLogin(data.loginEmail, data.password)
           .then((response) => {
             setToken(response.data.token);
-            data.token= getToken();
+            Ability.update([{"action": "manage","subject": "all"}]);
             getAllUserData(data.loginEmail).then((promis) => {
+              data.token = getToken();
+              data.role = promis.data.users.Rol.toString();
               dispatch(handleLogin(data));
-              console.log(promis.data);
-              //ability.update([{"action": "manage","subject": "all"}]);
-              navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
+              navigate(getHomeRouteForLoggedInUser(promis.data.Rol.toString()));
               toast((t) => (
                 <ToastContent
                   t={t}

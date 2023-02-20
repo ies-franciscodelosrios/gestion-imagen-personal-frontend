@@ -7,13 +7,9 @@ const Footer = () => {
       <span className='float-md-start d-block d-md-inline-block mt-25'>
         Copyleft © {new Date().getFullYear()}{' '}
         <a href='https://iesfranciscodelosrios.es' target='_blank' rel='noopener noreferrer'>
-          Proyecto Pericles
+          Proyecto IES TABLERO
         </a>
         <span className='d-none d-sm-inline-block'>, todos los derechos reservados</span>
-      </span>
-      <span className='float-md-end d-none d-md-block'>
-        Diseñado Artesanalmente y con 
-        <Heart size={14} />
       </span>
     </p>
   )
