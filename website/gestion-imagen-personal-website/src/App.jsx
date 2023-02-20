@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
+import Footer from './components/footer'
 import {
   MDBCarousel,
   MDBCarouselItem,
@@ -43,6 +44,9 @@ function App() {
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
       </MDBCarouselItem>
     </MDBCarousel>
+    <footer>
+      <Footer/>
+    </footer>
     </div>
   )
 }
