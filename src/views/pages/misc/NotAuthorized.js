@@ -81,7 +81,7 @@ const NotAuthorized = () => {
       </Link>
       <div className='misc-inner p-2 p-sm-3'>
         <div className='w-100 text-center'>
-          <h2 className='mb-1'>No estas autorizado! 🔐</h2>
+          <h2 className='mb-1'>Acceso no autorizado! 🔐</h2>
           <p className='mb-2'>
             No tiene los permisos necesarios para acceder a la anterior sección. Verifique su perfil y permisos que tiene concedidos.
           </p>
