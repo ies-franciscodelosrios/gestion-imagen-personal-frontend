@@ -13,7 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
+body {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
 a {
   font-weight: 500;
   color: #646cff;
