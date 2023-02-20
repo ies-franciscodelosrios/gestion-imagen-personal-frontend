@@ -97,7 +97,7 @@ const Login = () => {
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
       /*if (getToken() != '') {
-        console.log('1');
+
         getAllUserData(data.loginEmail).then((promis) => {
           dispatch(handleLogin(data));
           ability.update([{"action": "manage","subject": "all"}]);
@@ -119,6 +119,7 @@ const Login = () => {
             getAllUserData(data.loginEmail).then((promis) => {
               console.log(data);
               dispatch(handleLogin(data));
+
               //ability.update([{"action": "manage","subject": "all"}]);
               navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
               toast((t) => (
@@ -134,6 +135,7 @@ const Login = () => {
             console.log('Not found API token...');
             console.log(err);
           });
+
       //}
 
       /*

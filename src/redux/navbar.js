@@ -5,7 +5,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 export const getBookmarks = createAsyncThunk('layout/getBookmarks', async () => {
-  const response = await axios.get('/api/bookmarks/data')
+  
   return {
     data: response.data.suggestions,
     bookmarks: response.data.bookmarks
@@ -13,7 +13,7 @@ export const getBookmarks = createAsyncThunk('layout/getBookmarks', async () => 
 })
 
 export const updateBookmarked = createAsyncThunk('layout/updateBookmarked', async id => {
-  await axios.post('/api/bookmarks/update', { id })
+  
   return id
 })
 
