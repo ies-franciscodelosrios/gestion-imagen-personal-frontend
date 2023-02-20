@@ -117,9 +117,8 @@ const Login = () => {
             setToken(response.data.token);
             data.token= getToken();
             getAllUserData(data.loginEmail).then((promis) => {
-              console.log(data);
               dispatch(handleLogin(data));
-
+              console.log(promis.data);
               //ability.update([{"action": "manage","subject": "all"}]);
               navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
               toast((t) => (
