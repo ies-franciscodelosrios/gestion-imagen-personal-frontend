@@ -88,7 +88,7 @@ const checkForVisibleChild = (arr, ability) => {
     if (i.children) {
       return checkForVisibleChild(i.children, ability)
     } else {
-      return ability.can(i.action, i.resource)
+      return getToken() 
     }
   })
 }
@@ -103,10 +103,9 @@ export const canViewMenuGroup = item => {
   if (!(item.action && item.resource)) {
     return hasAnyVisibleChild
   }
-  return ability.can(item.action, item.resource) && hasAnyVisibleChild
+  return getToken() && hasAnyVisibleChild
 }
 
 export const canViewMenuItem = item => {
-  const ability = useContext(AbilityContext)
   return getToken()
 }
