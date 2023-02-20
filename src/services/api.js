@@ -2,7 +2,7 @@ import Axios from 'axios'
 import { getToken } from './UseToken'
 
 const ApiConnect = Axios.create({
-  baseURL: 'http://localhost:80/api/',
+  baseURL: 'http://localhost:8000/api/',
   headers: {
     'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*'
@@ -20,6 +20,16 @@ export async function ApiLogin(email, password) {
 
 export const getAllUserData = async (loginEmail) => {
   return await ApiConnect.get(`userByCorreo/${loginEmail}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`
+    }
+  })
+}
+
+export const getAllClientsData = async () => {
+  return await ApiConnect.get('clients', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
