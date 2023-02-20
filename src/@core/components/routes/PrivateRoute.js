@@ -7,6 +7,7 @@ import { AbilityContext } from '@src/utility/context/Can'
 
 // ** Spinner Import
 import Spinner from '../spinner/Loading-spinner'
+import { getToken } from '../../../services/UseToken'
 
 const PrivateRoute = ({ children, route }) => {
   // ** Hooks & Vars
@@ -32,7 +33,7 @@ const PrivateRoute = ({ children, route }) => {
     if (user && restrictedRoute && user.role === 'client') {
       return <Navigate to='/access-control' />
     }
-    if (user && !ability.can(action || 'read', resource)) {
+    if (user && !localStorage.getItem('token') ) {
       return <Navigate to='/misc/not-authorized' replace />
     }
   }
