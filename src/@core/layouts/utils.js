@@ -2,6 +2,7 @@
 // ** React Imports
 import { useContext } from 'react'
 import { AbilityContext } from '@src/utility/context/Can'
+import { getToken } from '../../services/UseToken'
 
 /**
  * Return which component to render based on it's data/context
@@ -107,5 +108,5 @@ export const canViewMenuGroup = item => {
 
 export const canViewMenuItem = item => {
   const ability = useContext(AbilityContext)
-  return ability.can(item.action, item.resource)
+  return getToken()
 }
