@@ -2,9 +2,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 // ** UseJWT import to get config
-import useJwt from '@src/auth/jwt/useJwt'
+import { getToken } from '../services/UseToken'
 
-const config = useJwt.jwtConfig
 
 const initialUser = () => {
   const item = window.localStorage.getItem('userData')
@@ -20,20 +19,22 @@ export const authSlice = createSlice({
   reducers: {
     handleLogin: (state, action) => {
       state.userData = action.payload
-      state[config.storageTokenKeyName] = action.payload[config.storageTokenKeyName]
-      state[config.storageRefreshTokenKeyName] = action.payload[config.storageRefreshTokenKeyName]
+      state['accessToken'] = action.payload[getToken()]
+      console.log(state['accessToken']);
+      state['refreshToken'] = action.payload['refreshToken']
       localStorage.setItem('userData', JSON.stringify(action.payload))
-      localStorage.setItem(config.storageTokenKeyName, JSON.stringify(action.payload.accessToken))
-      localStorage.setItem(config.storageRefreshTokenKeyName, JSON.stringify(action.payload.refreshToken))
+      localStorage.setItem('accessToken', JSON.stringify(getToken()))
+      localStorage.setItem('refreshToken', JSON.stringify(getToken()))
+      console.log(state);
     },
     handleLogout: state => {
       state.userData = {}
-      state[config.storageTokenKeyName] = null
-      state[config.storageRefreshTokenKeyName] = null
+      state['accessToken'] = null
+      state['refreshToken'] = null
       // ** Remove user, accessToken & refreshToken from localStorage
       localStorage.removeItem('userData')
-      localStorage.removeItem(config.storageTokenKeyName)
-      localStorage.removeItem(config.storageRefreshTokenKeyName)
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
     }
   }
 })
