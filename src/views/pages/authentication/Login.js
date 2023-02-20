@@ -97,14 +97,9 @@ const Login = () => {
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
       if (getToken() != '') {
-        console.log('1');
-
         getAllUserData(data.loginEmail).then((promis) => {
-          console.log(promis.data.users.Rol);
-          console.log(data.role=promis.data.users.Rol.toString());
-          console.log(data);
           dispatch(handleLogin(data));
-          ability.update();
+          ability.update([{"action": "manage","subject": "all"}]);
           navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
           toast((t) => (
             <ToastContent
@@ -116,15 +111,12 @@ const Login = () => {
         });
 
       } else {
-        console.log('2');
-
         ApiLogin(data.loginEmail, data.password)
           .then((response) => {
             setToken(response.data.token);
             getAllUserData(data.loginEmail).then((promis) => {
-              console.log(promis.data.users.Rol);
-              console.log(data.role=promis.data.users.Rol);
               dispatch(handleLogin(data));
+              ability.update([{"action": "manage","subject": "all"}]);
               navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
               toast((t) => (
                 <ToastContent
