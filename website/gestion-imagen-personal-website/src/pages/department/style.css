@@ -1,0 +1,13 @@
+.title{
+    margin: auto;
+    text-decoration: underline;
+}
+.body{
+    background-image: url(img/background.png);
+}
+.Departament{
+    background-color: #A6E4D9;
+}
+h5{
+    text-decoration: underline;
+}
