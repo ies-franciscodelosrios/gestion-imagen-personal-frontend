@@ -120,7 +120,7 @@ const Login = () => {
               dispatch(handleLogin(data));
               console.log(promis.data);
               //ability.update([{"action": "manage","subject": "all"}]);
-              navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol.toString()));
+              navigate(getHomeRouteForLoggedInUser(promis.data.Rol.toString()));
               toast((t) => (
                 <ToastContent
                   t={t}
