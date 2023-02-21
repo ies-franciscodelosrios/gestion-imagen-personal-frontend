@@ -44,9 +44,6 @@ function App() {
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
       </MDBCarouselItem>
     </MDBCarousel>
-    <footer>
-      <Footer/>
-    </footer>
     </div>
   )
 }
