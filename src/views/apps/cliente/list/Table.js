@@ -40,6 +40,7 @@ import {
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { getAllClientsData } from '../../../../services/api'
 
 // ** Table Header
 const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
@@ -170,6 +171,7 @@ const UsersList = () => {
   const store = useSelector(state => state.users)
 
   // ** States
+  const [date, setDate] = useState()
   const [sort, setSort] = useState('desc')
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -182,10 +184,15 @@ const UsersList = () => {
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-
+  const QUOTE_REQUESTED = "QUOTE_REQUESTED";
   // ** Get data on mount
   useEffect(() => {
-    dispatch(getAllData())
+    
+    getAllClientsData().then(response =>{
+      console.log(response.data);
+      setDate(response.data);
+    })
+   
     dispatch(
       getData({
         sort,
@@ -421,7 +428,7 @@ const UsersList = () => {
             sortIcon={<ChevronDown />}
             className='react-dataTable'
             paginationComponent={CustomPagination}
-            data={dataToRender()}
+            data={date}
             subHeaderComponent={
               <CustomHeader
                 store={store}
