@@ -1,8 +1,4 @@
-.footer {
-    margin-top: 20px;
-    background-color: #A6E4D9;
 
-}
 
 .top {
     padding-left: 15px;
@@ -16,7 +12,7 @@
 }
 
 
-.site-footer {
+.footer {
     background-color: #A6E4D9;
     padding: 45px 0 20px;
     font-size: 15px;
@@ -24,16 +20,16 @@
     color: #737373;
 }
 
-.site-footer hr {
+.footer hr {
     border-top-color: #bbb;
     opacity: 0.5
 }
 
-.site-footer hr.small {
+.footer hr.small {
     margin: 20px 0
 }
 
-.site-footer h6 {
+.footer h6 {
     color: #fff;
     font-size: 16px;
     text-transform: uppercase;
@@ -41,17 +37,6 @@
     letter-spacing: 2px
 }
 
-.site-footer a {
-    background-color: none;
-    color: #737373;
-    transition: background-color .5s;
-}
-
-.site-footer a:hover {
-    color: white;
-    background-color: #61C0BF;
-    text-decoration: none;
-}
 
 .content {
     padding-left: 0;
