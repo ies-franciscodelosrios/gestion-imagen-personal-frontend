@@ -15,6 +15,7 @@ import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2,
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 // ** Renders Client Columns
+/*
 const renderClient = row => {
   if (row.avatar.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
@@ -29,7 +30,7 @@ const renderClient = row => {
     )
   }
 }
-
+*/
 // ** Renders Role Columns
 const renderRole = row => {
   const roleObj = {
@@ -78,17 +79,17 @@ export const columns = [
     sortable: true,
     minWidth: '300px',
     sortField: 'fullName',
-    selector: row => row.fullName,
+    selector: row => row.Name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {renderClient(row)}
+        {/*{renderClient(row)}*/}
         <div className='d-flex flex-column'>
           <Link
             to={`/apps/user/view/${row.id}`}
             className='user_name text-truncate text-body'
             onClick={() => store.dispatch(getUser(row.id))}
           >
-            <span className='fw-bolder'>{row.fullName}</span>
+            <span className='fw-bolder'>{row.Name} {row.Surname}</span>
           </Link>
           <small className='text-truncate text-muted mb-0'>{row.email}</small>
         </div>
@@ -100,32 +101,32 @@ export const columns = [
     sortable: true,
     minWidth: '80px',
     sortField: 'id',
-    selector: row => row.id,
-    cell: row => <span className='text-capitalize'>{row.id}</span>
+    selector: row => row.DNI,
+    cell: row => <span className='text-capitalize'>{row.DNI}</span>
   },
   {
     name: 'Email',
     sortable: true,
     minWidth: '140px',
-    sortField: 'email',
-    selector: row => row.email,
-    cell: row => renderRole(row)
+    sortField: 'Email',
+    selector: row => row.Email,
+    cell: row => <span className=''>{row.Email}</span>
   },
   {
     name: 'Fecha de Nacimiento',
     minWidth: '200px',
     sortable: true,
-    sortField: 'currentPlan',
-    selector: row => row.currentPlan,
-    cell: row => <span className='text-capitalize'>{row.currentPlan}</span>
+    sortField: 'Birth_Date',
+    selector: row => row.Birth_Date,
+    cell: row => <span className='text-capitalize'>{row.Birth_Date}</span>
   },
   {
     name: 'Teléfono',
     minWidth: '230px',
     sortable: true,
-    sortField: 'billing',
-    selector: row => row.billing,
-    cell: row => <span className='text-capitalize'>{row.billing}</span>
+    sortField: 'Phone',
+    selector: row => row.Phone,
+    cell: row => <span className='text-capitalize'>{row.Phone}</span>
   },
  
   {
