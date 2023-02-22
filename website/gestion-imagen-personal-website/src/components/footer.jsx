@@ -9,117 +9,51 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function footer() {
 
   return (
-    <div>
-      <footer class="footer">
-        {/*  <div class="container">
-          <div class="row">
-            <div class="col-2">
-              <h6>Contactanos</h6>
-              <ul class="content">
-                <li><strong>Telefono</strong>: 957 37 99 45</li>
-                <li><strong>Correo</strong>:  Example@mail  </li>
-              </ul>
-            </div>
-            <div class="col-3">
-              <h6>Dudas frecuentes</h6>
-              <ul class="content">
-                <li><a href="">FAQS</a></li>
-              </ul>
-            </div>
+    <footer className="padding_2x">
+      <div className="flex">
+        <section className="flex-content padding_1x">
+          <h3>Horario</h3>
+          <table>
+            <tr>
+              <th>
+                Mañana
+              </th> 
+              <th>
+                Tarde
+              </th>
+            </tr>
+            <tr>
+              <th>
+                8:15-14:30
+              </th>
+               <th>
+                15:30-21:30
+              </th>
+            </tr>
+           
+          </table>
+         
+        </section>
+       
+        <section className="flex-content padding_1x">
+          <h3>Direccion</h3>
+          <p> Av. de la Arruzafilla, s/n</p>
+          <p>14011 Córdoba</p>
+          <p>957 37 99 45</p>
 
-            <div class="col-7">
-              <section class="">
-                <form action="">
-                  <div class="row d-flex justify-content-center">
-                    <h6>¿Tienes alguna pregunta?</h6>
-                    <div class="col-md-5 col-12">
-
-                      <div class="form-outline form-white mb-2 bg-white">
-                        <input type="email" class="form-control text-dark" />
-                        <label class="form-label text-dark" for="form5Example21">Tu Correo </label>
-                      </div>
-                      <div class="form-outline form-white mb-2 bg-white">
-                        <input type="Text" class="form-control text-dark" />
-                        <label class="form-label text-dark" for="form5Example21">Tu pregunta</label>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <button type="submit" id="Send" class="btn btn-outline-light">
-                        Enviar
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </section>
-            </div>
-          </div>
-        </div> */}
-
-        <div class="container">
-          <div class="row">
-            <div class="col-3">
-              <img src="src/components/footerImgs/icon.png" alt="titleicon.png" width="300px" />
-            </div>
-            <div class="col-6">
-              <div class="row">
-                &nbsp;
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <a href=""> <img src="src/components/footerImgs/Facebook.png" alt="facebook.png" /> </a>
-                  <a href=""><img src="src/components/footerImgs/Instagram.png" alt="instagram.png" /> </a>
-                  <a href=""> <img src="src/components/footerImgs/Youtube.png" alt="youtube.png" /> </a>
-                  <a href=""> <img src="src/components/footerImgs/Twitter.png" alt="twitter.png" /> </a>
-                </div>
-                <div class="row">
-                  &nbsp;
-                </div>
-              </div>
-            </div>
-
-            <div class="col-2">
-              <div class="row">
-                &nbsp;
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  Av. de la Arruzafilla, s/n,
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  14011 Córdoba
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  957 37 99 45
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-      </footer>
-      <div className='bottom'>
-        <div class="row">
-
-          <div class="col-9">
-            &nbsp;
-          </div>
-          <div class="col-3">
-
-          </div>
-        </div>
+        </section>
+        <section className="flex-content padding_1x">
+          <h3>Redes sociales</h3>
+          <fieldset className="fixed_flex">
+          <a href="#"><img src="src/components/footerImgs/facebook.png" alt="facebook" width="50px" /></a>
+          <a href="https://mobile.twitter.com/iestablero"><img src="src/components/footerImgs/twitter.png" alt="twitter" width="50px" /></a>
+          <a href="#"><img src="src/components/footerImgs/gmail.png" alt="gmail" width="50px" /></a>
+          <a href="https://es.linkedin.com/in/isabel-rodriguez-morales-6372b344"><img src="src/components/footerImgs/linkedin.png" alt="linkedin" width="50px" /></a>
+   </fieldset>
+        </section>
       </div>
-    </div>
-
+      <div className="flex"></div>{/* no borrar, se modifica lo de arriba */}
+    </footer>
   )
 }
 

@@ -44,7 +44,10 @@ function App() {
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
       </MDBCarouselItem>
     </MDBCarousel>
+    <Footer/> 
+
     </div>
+    
   )
 }
 
