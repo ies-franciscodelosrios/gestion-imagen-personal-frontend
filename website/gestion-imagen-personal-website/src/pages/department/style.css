@@ -1,0 +1,47 @@
+@import url(https://fonts.google.com/specimen/Montserrat);
+
+.department{
+    font-family: 'Courier New', Courier, monospace;
+
+}
+.title {
+   
+    background-color: #A6E4D9;
+    border: 0px solid none;
+    border-radius: 20px;
+}
+
+.body {
+    margin-top: 10px;
+    background-image: url(img/background.png);
+}
+
+.underTitle {
+    border: 0px solid none;
+    border-radius: 10px;
+    background-color: #61C0BF;
+}
+
+
+h5 {
+    text-decoration: 0;
+    font-size: 90%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+.card {
+    background-color: azure;
+    border: 3px solid #61C0BF;
+    border-radius: 5%;
+
+}
+
+.card>p {
+    border-top: 3px solid #61C0BF;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.body2{
+    background-color: #A6E4D9;
+}
