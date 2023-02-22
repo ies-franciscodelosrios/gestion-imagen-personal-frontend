@@ -80,7 +80,7 @@ const Faqs = ({ data }) => {
           ) : (
             <div className='text-center p-5'>
               <h5 className='p-1'>
-                <Icon.Info size='19' className='me-25' /> No Results Found
+                <Icon.Info size='19' className='me-25' />Resultados no encontrados
               </h5>
             </div>
           )}

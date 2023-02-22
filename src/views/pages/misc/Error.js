@@ -71,14 +71,14 @@ const Error = () => {
             </g>
           </g>
         </svg>
-        <h2 className='brand-text text-primary ms-1'>Pericles</h2>
+        <h2 className='brand-text text-primary ms-1'>IES TABLERO</h2>
       </a>
       <div className='misc-inner p-2 p-sm-3'>
         <div className='w-100 text-center'>
-          <h2 className='mb-1'>Page Not Found 🕵🏻‍♀️</h2>
-          <p className='mb-2'>Oops! 😖 The requested URL was not found on this server.</p>
+          <h2 className='mb-1'>PAGINA NO ENCONTRADA 🕵🏻‍♀️</h2>
+          <p className='mb-2'>Oops! 😖 La URL que busca no se ha encontrado en nuestros registros.</p>
           <Button tag={Link} to='/' color='primary' className='btn-sm-block mb-2'>
-            Back to home
+            Volver la inicio
           </Button>
           <img className='img-fluid' src={source} alt='Not authorized page' />
         </div>
