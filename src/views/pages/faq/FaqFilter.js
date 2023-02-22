@@ -19,14 +19,14 @@ const FaqFilter = ({ searchTerm, setSearchTerm, getFAQData }) => {
         }}
       >
         <CardBody className='text-center'>
-          <h2 className='text-primary'>Let's answer some questions</h2>
-          <CardText className='mb-2'>or choose a category to quickly find the help you need</CardText>
+          <h2 className='text-primary'>¿Tienes Alguna pregunta?</h2>
+          <CardText className='mb-2'>o elige que categoria cosultar rápidamente</CardText>
           <Form className='faq-search-input' onSubmit={e => e.preventDefault()}>
             <InputGroup className='input-group-merge'>
               <InputGroupText>
                 <Search size={14} />
               </InputGroupText>
-              <Input value={searchTerm} onChange={e => handleFaqFilter(e)} placeholder='search faq...' />
+              <Input value={searchTerm} onChange={e => handleFaqFilter(e)} placeholder='buscar duda...' />
             </InputGroup>
           </Form>
         </CardBody>

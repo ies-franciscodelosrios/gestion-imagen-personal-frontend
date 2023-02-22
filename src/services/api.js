@@ -112,8 +112,8 @@ export async function ApiUpdateBook(book) {
   )
 }
 
-export async function ApiDelBook(id) {
-  return await ApiConnect.delete('v1/books/' + id, {
+export async function ApiGetFaq() {
+  return await ApiConnect.get('questions', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
