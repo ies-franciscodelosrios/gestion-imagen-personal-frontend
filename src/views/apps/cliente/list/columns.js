@@ -16,7 +16,7 @@ import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem
 
 // ** Renders Client Columns
 const renderClient = row => {
-  if (row.avatar.length) {
+  if (false && row.avatar.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
   } else {
     return (
@@ -88,9 +88,9 @@ export const columns = [
             className='user_name text-truncate text-body'
             onClick={() => store.dispatch(getUser(row.id))}
           >
-            <span className='fw-bolder'>{row.fullName}</span>
+            <span className='fw-bolder'>{row.Name.concat(' ',row.Surname)}</span>
           </Link>
-          <small className='text-truncate text-muted mb-0'>{row.email}</small>
+          <small className='text-truncate text-muted mb-0'>{row.Email}</small>
         </div>
       </div>
     )
@@ -108,24 +108,24 @@ export const columns = [
     sortable: true,
     minWidth: '140px',
     sortField: 'email',
-    selector: row => row.email,
-    cell: row => renderRole(row)
+    selector: row => row.Email,
+    cell: row => <span className='text-capitalize'>{row.Email}</span>
   },
   {
     name: 'Fecha de Nacimiento',
     minWidth: '200px',
     sortable: true,
     sortField: 'currentPlan',
-    selector: row => row.currentPlan,
-    cell: row => <span className='text-capitalize'>{row.currentPlan}</span>
+    selector: row => row.Birth_Date,
+    cell: row => <span className='text-capitalize'>{row.Birth_Date}</span>
   },
   {
     name: 'Teléfono',
     minWidth: '230px',
     sortable: true,
     sortField: 'billing',
-    selector: row => row.billing,
-    cell: row => <span className='text-capitalize'>{row.billing}</span>
+    selector: row => row.Phone,
+    cell: row => <span className='text-capitalize'>{row.Phone}</span>
   },
  
   {

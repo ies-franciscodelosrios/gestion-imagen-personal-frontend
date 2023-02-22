@@ -185,6 +185,7 @@ const UsersList = () => {
 
   // ** Get data on mount
   useEffect(() => {
+    
     dispatch(getAllData())
     dispatch(
       getData({
