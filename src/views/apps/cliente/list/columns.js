@@ -17,7 +17,7 @@ import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem
 // ** Renders Client Columns
 /*
 const renderClient = row => {
-  if (row.avatar.length) {
+  if (false && row.avatar.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
   } else {
     return (
@@ -89,9 +89,9 @@ export const columns = [
             className='user_name text-truncate text-body'
             onClick={() => store.dispatch(getUser(row.id))}
           >
-            <span className='fw-bolder'>{row.Name} {row.Surname}</span>
+            <span className='fw-bolder'>{row.Name.concat(' ',row.Surname)}</span>
           </Link>
-          <small className='text-truncate text-muted mb-0'>{row.email}</small>
+          <small className='text-truncate text-muted mb-0'>{row.Email}</small>
         </div>
       </div>
     )
@@ -108,9 +108,10 @@ export const columns = [
     name: 'Email',
     sortable: true,
     minWidth: '140px',
-    sortField: 'Email',
+    sortField: 'email',
     selector: row => row.Email,
-    cell: row => <span className=''>{row.Email}</span>
+    cell: row => <span className='text-capitalize'>{row.Email}</span>
+
   },
   {
     name: 'Fecha de Nacimiento',

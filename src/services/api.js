@@ -1,61 +1,60 @@
-import Axios from 'axios'
-import { getToken } from './UseToken'
+import Axios from 'axios';
+import { getToken } from './UseToken';
 
 const ApiConnect = Axios.create({
   baseURL: 'http://localhost:8000/api/',
   headers: {
     'Content-type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
-  }
-})
+    'Access-Control-Allow-Origin': '*',
+  },
+});
 
 export async function ApiLogin(email, password) {
   return await ApiConnect.post('login', {
     email,
     password,
-    device: 'navigator'
-  })
+    device: 'navigator',
+  });
 }
-
 
 export const getAllUserData = async (loginEmail) => {
   return await ApiConnect.get(`userByCorreo/${loginEmail}`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
-  })
-}
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
 
 export const getAllClientsData = async () => {
   return await ApiConnect.get('clients', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
-  })
-}
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
 
-export async function ApiLogout() {
-  return await ApiConnect.get('logout', {
+export const ApiDelClient = async (id) => {
+  return await ApiConnect.delete(`client/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
-  })
-}
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
 
 export async function ApiGetUser() {
   return await ApiConnect.get('users', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
-  })
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 }
 
 export async function ApiGetBooks(page) {
@@ -63,9 +62,9 @@ export async function ApiGetBooks(page) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
-  })
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 }
 
 export async function ApiGetBook(id) {
@@ -73,9 +72,9 @@ export async function ApiGetBook(id) {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
-  })
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 }
 
 export async function ApiAddBook(book) {
@@ -83,16 +82,16 @@ export async function ApiAddBook(book) {
     'v1/books',
     {
       title: book.title,
-      description: book.description
+      description: book.description,
     },
     {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`
-      }
+        Authorization: `Bearer ${getToken()}`,
+      },
     }
-  )
+  );
 }
 
 export async function ApiUpdateBook(book) {
@@ -100,24 +99,24 @@ export async function ApiUpdateBook(book) {
     'v1/books/' + book.id,
     {
       title: book.title,
-      description: book.description
+      description: book.description,
     },
     {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`
-      }
+        Authorization: `Bearer ${getToken()}`,
+      },
     }
-  )
+  );
 }
 
-export async function ApiDelBook(id) {
-  return await ApiConnect.delete('v1/books/' + id, {
+export async function ApiGetFaq() {
+  return await ApiConnect.get('questions', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`
-    }
-  })
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
 }

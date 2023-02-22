@@ -178,8 +178,6 @@ const UsersList = () => {
   const [sortColumn, setSortColumn] = useState('id')
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
-  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
 
   // ** Function to toggle sidebar
@@ -200,9 +198,7 @@ const UsersList = () => {
         q: searchTerm,
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
         status: currentStatus.value,
-        currentPlan: currentPlan.value
       })
     )
   }, [dispatch, store.data.length, sort, sortColumn, currentPage])
@@ -217,9 +213,7 @@ const UsersList = () => {
         q: searchTerm,
         perPage: rowsPerPage,
         page: page.selected + 1,
-        role: currentRole.value,
         status: currentStatus.value,
-        currentPlan: currentPlan.value
       })
     )
     setCurrentPage(page.selected + 1)
@@ -235,8 +229,6 @@ const UsersList = () => {
         q: searchTerm,
         perPage: value,
         page: currentPage,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
         status: currentStatus.value
       })
     )
@@ -253,9 +245,7 @@ const UsersList = () => {
         sortColumn,
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
         status: currentStatus.value,
-        currentPlan: currentPlan.value
       })
     )
   }
@@ -286,8 +276,6 @@ const UsersList = () => {
   // ** Table data to render
   const dataToRender = () => {
     const filters = {
-      role: currentRole.value,
-      currentPlan: currentPlan.value,
       status: currentStatus.value,
       q: searchTerm
     }
@@ -315,9 +303,7 @@ const UsersList = () => {
         q: searchTerm,
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
         status: currentStatus.value,
-        currentPlan: currentPlan.value
       })
     )
   }
@@ -325,95 +311,6 @@ const UsersList = () => {
   return (
     <Fragment>
 
-      {/*
-      <Card>
-        <CardHeader>
-          <CardTitle tag='h4'>Filters</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Row>
-            <Col md='4'>
-              <Label for='role-select'>Role</Label>
-              <Select
-                isClearable={false}
-                value={currentRole}
-                options={roleOptions}
-                className='react-select'
-                classNamePrefix='select'
-                theme={selectThemeColors}
-                onChange={data => {
-                  setCurrentRole(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      role: data.value,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      status: currentStatus.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col className='my-md-0 my-1' md='4'>
-              <Label for='plan-select'>Plan</Label>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={planOptions}
-                value={currentPlan}
-                onChange={data => {
-                  setCurrentPlan(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: data.value,
-                      status: currentStatus.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col md='4'>
-              <Label for='status-select'>Status</Label>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={statusOptions}
-                value={currentStatus}
-                onChange={data => {
-                  setCurrentStatus(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      status: data.value,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-          </Row>
-        </CardBody>
-      </Card>
-                */}
       <Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <DataTable

@@ -6,7 +6,7 @@ import logo from '@src/assets/images/logo/pericles.svg'
 //Template config options
 const themeConfig = {
   app: {
-    appName: 'Pericles',
+    appName: 'IES TABLERO',
     appLogoImage: logo
   },
   layout: {

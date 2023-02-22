@@ -14,6 +14,7 @@ import Breadcrumbs from '@components/breadcrumbs'
 
 // ** Styles
 import '@styles/base/pages/page-faq.scss'
+import { ApiGetFaq } from '../../../services/api'
 
 const Faq = () => {
   // ** States
@@ -21,9 +22,14 @@ const Faq = () => {
     [searchTerm, setSearchTerm] = useState('')
 
   const getFAQData = query => {
-    return axios.get('/faq/data', { params: { q: query } }).then(response => {
-      setData(response.data)
+    /*return ApiGetFaq()
+    .then((response) =>{
+      console.log(response);
+      //setData(response.questions.Question)
     })
+    .catch(
+      setData('faqData: { // payment  payment: { icon: "CreditCard", title: "Payment", subtitle: "Which license do I pollas?", qandA: [ { question: "Does my subscription automatically renew?",  ans: "Pastry pudding cookie toffee bonbon jujubes jujubes powder topping. Jelly beans gummi bears sweet roll bonbon muffin liquorice. Wafer lollipop sesame snaps. Brownie macaroon cookie muffin cupcake candy caramels tiramisu. Oat cake chocolate cake sweet jelly-o brownie biscuit marzipan. Jujubes donut marzipan chocolate bar. Jujubes sugar plum jelly beans tiramisu icing cheesecake."}')
+    ) */
   }
 
   useEffect(() => {
