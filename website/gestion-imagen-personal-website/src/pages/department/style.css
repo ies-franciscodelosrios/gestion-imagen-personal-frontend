@@ -14,12 +14,14 @@
 .body {
     margin-top: 10px;
     background-image: url(img/background.png);
+ 
 }
 
 .underTitle {
     border: 0px solid none;
     border-radius: 10px;
     background-color: #61C0BF;
+    
 }
 
 
@@ -44,4 +46,6 @@ h5 {
 
 .body2{
     background-color: #A6E4D9;
+   height: 430px;
+   margin-bottom: 30px;
 }

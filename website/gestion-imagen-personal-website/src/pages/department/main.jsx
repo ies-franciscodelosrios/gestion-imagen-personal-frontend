@@ -75,7 +75,7 @@ function main() {
 
 
         <div draggable="false" className="container pt-5" data-v-271253ee="">
-          <div className="mb-10 text-center text-lg-start">
+          <div className="mb-10 te  xt-center text-lg-start">
             <div className='row gx-lg-5'>
             <div className='col-lg-2 col-md-12 mb-4 mb-lg-0 '>
               </div >
@@ -126,11 +126,8 @@ function main() {
                           Mail: example@gmail.es
                         </li>
                       </ul>
-                   
                     </div>
                   </div>
-
-
                 </div>
               </div>
               
@@ -187,16 +184,10 @@ function main() {
                           Mail: example@gmail.es
                         </li>
                       </ul>
-                   
                     </div>
                   </div>
-
-
                 </div>
               </div>
-              
-             
-
             </div>
           </div>
         </div>

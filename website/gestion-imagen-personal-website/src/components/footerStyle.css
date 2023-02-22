@@ -3,23 +3,25 @@
      --lite: rgba(255, 255, 255, 0.6);
  }
 
-
- a {
-     margin-left: 10px;
-     margin-right: 10px;
- }
-
  .flex,
  .fixed_flex {
      display: flex;
      text-align: left;
+     margin-left: 50px;
+     margin-right: 50px;
  }
 
  .flex-content {
-     width: 100%;
-     position: relative;
- }
+margin-left: 50px; 
+margin-right: 50px;
 
+}
+ .bl{
+    border-left: 8px solid #5ab3b2;
+ }
+ .br{
+    border-right: 8px solid #5ab3b2;
+ }
 
  .padding_1x {
      padding: 1rem;
@@ -41,12 +43,13 @@
      color: white;
  }
 
- footer a {
+ .buttonLink {
      color: var(--lite);
      display: block;
      margin: 10px ;
 
  }
+
 
  footer p {
      display: block;
@@ -57,3 +60,4 @@
  th {
      border: 3px solid white;
  }
+
