@@ -9,9 +9,9 @@ const FaqContact = () => {
     <div className='faq-contact'>
       <Row className='mt-5 pt-75'>
         <Col className='text-center' sm='12'>
-          <h2>You still have a question?</h2>
+          <h2>¿Aun tienes preguntas?</h2>
           <p className='mb-3'>
-            If you cannot find a question in our FAQ, you can always contact us. We will answer to you shortly!
+            Si no se ha resuelto con las soluciones del FAQ accede a la documentación de la misma.
           </p>
         </Col>
         <Col sm='6'>
@@ -21,7 +21,7 @@ const FaqContact = () => {
                 <PhoneCall size={18} />
               </div>
               <h4>+ (810) 2548 2568</h4>
-              <span className='text-body'>We are always happy to help!</span>
+              <span className='text-body'>Siempre contentos por ayudarte!</span>
             </CardBody>
           </Card>
         </Col>
@@ -31,8 +31,8 @@ const FaqContact = () => {
               <div className='avatar avatar-tag bg-light-primary mb-2 mx-auto'>
                 <Mail size={18} />
               </div>
-              <h4>hello@help.com</h4>
-              <span className='text-body'>Best way to get answer faster!</span>
+              <h4>iestablero@help.com</h4>
+              <span className='text-body'>La mejor manera de conseguir una rápida respuesta!</span>
             </CardBody>
           </Card>
         </Col>
