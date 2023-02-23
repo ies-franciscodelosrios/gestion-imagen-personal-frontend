@@ -26,27 +26,6 @@ export const getAllUserData = async (loginEmail) => {
     },
   });
 };
-
-export const getAllClientsData = async () => {
-  return await ApiConnect.get('clients', {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-};
-
-export const ApiDelClient = async (id) => {
-  return await ApiConnect.delete(`client/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-};
-
 export async function ApiGetUser() {
   return await ApiConnect.get('users', {
     headers: {
@@ -57,59 +36,52 @@ export async function ApiGetUser() {
   });
 }
 
-export async function ApiGetBooks(page) {
-  return await ApiConnect.get('v1/books?page=' + page.toString(), {
+/* Clients */
+/* ----------------------------------------------------------------------------------------------------------------------------------------- */
+/**
+ * Http Request to get all clients from database
+ * @returns list with all clients
+ */
+export const getAllClientsData = async () => {
+  return await ApiConnect.get('clients', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: `Bearer ${getToken()}`,
     },
   });
-}
+};
 
-export async function ApiGetBook(id) {
-  return await ApiConnect.get('v1/books/' + id, {
+/**
+ * Http Request to get a client by id
+ * @param {*} id to identify the client
+ * @returns user data
+ */
+export const getClientById= async (id) => {
+  return await ApiConnect.get(`client/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: `Bearer ${getToken()}`,
     },
   });
-}
+};
 
-export async function ApiAddBook(book) {
-  return await ApiConnect.post(
-    'v1/books',
-    {
-      title: book.title,
-      description: book.description,
+/**
+ * Http Request to delete a client by id
+ * @param {*} id to identify the client
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const ApiDelClient = async (id) => {
+  return await ApiConnect.delete(`client/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
     },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`,
-      },
-    }
-  );
-}
+  });
+};
 
-export async function ApiUpdateBook(book) {
-  return await ApiConnect.put(
-    'v1/books/' + book.id,
-    {
-      title: book.title,
-      description: book.description,
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`,
-      },
-    }
-  );
-}
 
 export async function ApiGetFaq() {
   return await ApiConnect.get('questions', {

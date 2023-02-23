@@ -71,9 +71,9 @@ const UserInfoCard = ({ selectedUser }) => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      username: selectedUser.username,
-      lastName: selectedUser.fullName.split(' ')[1],
-      firstName: selectedUser.fullName.split(' ')[0]
+      username: selectedUser.Name,
+      lastName: selectedUser.Surname.split(' ')[1],
+      firstName: selectedUser.Name.split(' ')[0]
     }
   })
 
