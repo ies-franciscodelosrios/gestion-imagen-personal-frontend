@@ -23,8 +23,8 @@ const renderClient = row => {
       <Avatar
         initials
         className='me-1'
-        color={row.avatarColor || 'light-primary'}
-        content={row.fullName || 'John Doe'}
+        color={'light-primary'}
+        content={row.Name || 'John Doe'}
       />
     )
   }
@@ -77,8 +77,8 @@ export const columns = [
     name: 'Nombre Completo',
     sortable: true,
     minWidth: '300px',
-    sortField: 'fullName',
-    selector: row => row.fullName,
+    sortField: 'Name',
+    selector: row => row.Name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
         {renderClient(row)}
@@ -99,15 +99,15 @@ export const columns = [
     name: 'DNI',
     sortable: true,
     minWidth: '80px',
-    sortField: 'id',
-    selector: row => row.id,
+    sortField: 'DNI',
+    selector: row => row.DNI,
     cell: row => <span className='text-capitalize'>{row.DNI}</span>
   },
   {
     name: 'Email',
     sortable: true,
     minWidth: '140px',
-    sortField: 'email',
+    sortField: 'Email',
     selector: row => row.Email,
     cell: row => <span className='text-capitalize'>{row.Email}</span>
   },
@@ -115,7 +115,7 @@ export const columns = [
     name: 'Fecha de Nacimiento',
     minWidth: '200px',
     sortable: true,
-    sortField: 'currentPlan',
+    sortField: 'Birth_Date',
     selector: row => row.Birth_Date,
     cell: row => <span className='text-capitalize'>{row.Birth_Date}</span>
   },
@@ -123,7 +123,7 @@ export const columns = [
     name: 'Teléfono',
     minWidth: '230px',
     sortable: true,
-    sortField: 'billing',
+    sortField: 'Phone',
     selector: row => row.Phone,
     cell: row => <span className='text-capitalize'>{row.Phone}</span>
   },
@@ -146,10 +146,6 @@ export const columns = [
             >
               <FileText size={14} className='me-50' />
               <span className='align-middle'>Detalles</span>
-            </DropdownItem>
-            <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
-              <Archive size={14} className='me-50' />
-              <span className='align-middle'>Editar</span>
             </DropdownItem>
             <DropdownItem
               tag='a'
