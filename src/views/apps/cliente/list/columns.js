@@ -15,6 +15,7 @@ import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2,
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 // ** Renders Client Columns
+/*
 const renderClient = row => {
   if (false && row.avatar.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
@@ -29,7 +30,7 @@ const renderClient = row => {
     )
   }
 }
-
+*/
 // ** Renders Role Columns
 const renderRole = row => {
   const roleObj = {
@@ -78,10 +79,10 @@ export const columns = [
     sortable: true,
     minWidth: '300px',
     sortField: 'fullName',
-    selector: row => row.fullName,
+    selector: row => row.Name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {renderClient(row)}
+        {/*{renderClient(row)}*/}
         <div className='d-flex flex-column'>
           <Link
             to={`/apps/user/view/${row.id}`}
@@ -100,7 +101,7 @@ export const columns = [
     sortable: true,
     minWidth: '80px',
     sortField: 'id',
-    selector: row => row.id,
+    selector: row => row.DNI,
     cell: row => <span className='text-capitalize'>{row.DNI}</span>
   },
   {
@@ -110,12 +111,13 @@ export const columns = [
     sortField: 'email',
     selector: row => row.Email,
     cell: row => <span className='text-capitalize'>{row.Email}</span>
+
   },
   {
     name: 'Fecha de Nacimiento',
     minWidth: '200px',
     sortable: true,
-    sortField: 'currentPlan',
+    sortField: 'Birth_Date',
     selector: row => row.Birth_Date,
     cell: row => <span className='text-capitalize'>{row.Birth_Date}</span>
   },
@@ -123,7 +125,7 @@ export const columns = [
     name: 'Teléfono',
     minWidth: '230px',
     sortable: true,
-    sortField: 'billing',
+    sortField: 'Phone',
     selector: row => row.Phone,
     cell: row => <span className='text-capitalize'>{row.Phone}</span>
   },
