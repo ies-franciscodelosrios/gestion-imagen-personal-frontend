@@ -3,6 +3,7 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Footer from './components/footer'
+import News from './pages/news/newsMain';
 import {
   MDBCarousel,
   MDBCarouselItem,
@@ -13,7 +14,7 @@ function App() {
 
   return (
     <div className="App">
-    <MDBCarousel showIndicators showControls fade>
+    {/* <MDBCarousel showIndicators showControls fade>
       <MDBCarouselItem
         className='w-100 d-block'
         itemId={1}
@@ -43,7 +44,10 @@ function App() {
         <h5>Third slide label</h5>
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
       </MDBCarouselItem>
-    </MDBCarousel> 
+    </MDBCarousel>  */}
+
+    <News/>
+    <Footer/>
     </div>
     
   )

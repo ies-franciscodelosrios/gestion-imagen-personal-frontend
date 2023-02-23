@@ -1,0 +1,18 @@
+.underTitle {
+    border: 0px solid none;
+    border-radius: 10px;
+    background-color: #61C0BF;
+    border: 2px solid #A6E4D9;
+    border-style: inset    ;
+    margin-bottom: 15px;
+    
+}
+.card{
+    border: 3px solid black;
+    border-radius: 15px;
+}
+.news{
+    border: 3px solid #61C0BF;
+    padding-top: 10px;
+    border-radius: 15px;
+}
