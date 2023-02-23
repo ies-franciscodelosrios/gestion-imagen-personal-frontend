@@ -171,7 +171,7 @@ const UsersList = () => {
   const store = useSelector(state => state.users)
 
   // ** States
-  const [date, setDate] = useState()
+
   const [sort, setSort] = useState('desc')
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -185,11 +185,7 @@ const UsersList = () => {
   const QUOTE_REQUESTED = "QUOTE_REQUESTED";
   // ** Get data on mount
   useEffect(() => {
-    
-    getAllClientsData().then(response =>{
-      console.log(response.data);
-      setDate(response.data);
-    })
+    dispatch(getAllData())
    
     dispatch(
       getData({
@@ -325,7 +321,7 @@ const UsersList = () => {
             sortIcon={<ChevronDown />}
             className='react-dataTable'
             paginationComponent={CustomPagination}
-            data={date}
+            data={dataToRender()}
             subHeaderComponent={
               <CustomHeader
                 store={store}
