@@ -63,7 +63,8 @@ export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
  */
 export const getHomeRouteForLoggedInUser = userRole => {
   if (userRole === 0 ) return DefaultRoute
-  if (userRole === 1) return '/access-control'
+  if (userRole === 1) return DefaultRoute
+  if (userRole === 2) return DefaultRoute
   return '/login'
 }
 
@@ -71,9 +72,9 @@ export const getHomeRouteForLoggedInUser = userRole => {
 export const selectThemeColors = theme => ({
   ...theme,
   colors: {
-    ...theme.colors,
-    primary25: '#7367f01a', // for option hover bg-color
-    primary: '#7367f0', // for selected option bg-color
+    ...theme.colors, 
+    primary25: '#61C0BF', // for option hover bg-color
+    primary: '#61C0BF', // for selected option bg-color
     neutral10: '#7367f0', // for tags bg-color
     neutral20: '#ededed', // for input border-color
     neutral30: '#ededed' // for input hover border-color
