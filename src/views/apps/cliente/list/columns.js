@@ -101,7 +101,7 @@ export const columns = [
     minWidth: '80px',
     sortField: 'id',
     selector: row => row.id,
-    cell: row => <span className='text-capitalize'>{row.id}</span>
+    cell: row => <span className='text-capitalize'>{row.DNI}</span>
   },
   {
     name: 'Email',
