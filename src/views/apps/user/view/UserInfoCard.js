@@ -71,15 +71,15 @@ const UserInfoCard = ({ selectedUser }) => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      username: selectedUser.username,
-      lastName: selectedUser.fullName.split(' ')[1],
-      firstName: selectedUser.fullName.split(' ')[0]
+      username: selectedUser.Name.concat(' ', selectedUser.Surname),
+      lastName: selectedUser.Surname,
+      firstName: selectedUser.Name
     }
   })
 
   // ** render user img
   const renderUserImg = () => {
-    if (selectedUser !== null && selectedUser.avatar.length) {
+    if (selectedUser !== null) {
       return (
         <img
           height='110'
@@ -127,9 +127,9 @@ const UserInfoCard = ({ selectedUser }) => {
 
   const handleReset = () => {
     reset({
-      username: selectedUser.username,
-      lastName: selectedUser.fullName.split(' ')[1],
-      firstName: selectedUser.fullName.split(' ')[0]
+      username: selectedUser.Name.concat(' ', selectedUser.Surname),
+      lastName: selectedUser.Surname,
+      firstName: selectedUser.Name
     })
   }
 
@@ -177,10 +177,10 @@ const UserInfoCard = ({ selectedUser }) => {
               {renderUserImg()}
               <div className='d-flex flex-column align-items-center text-center'>
                 <div className='user-info'>
-                  <h4>{selectedUser !== null ? selectedUser.fullName : 'Eleanor Aguilar'}</h4>
+                  <h4>{selectedUser !== null ? selectedUser.Name.concat(' '+selectedUser.Surname) : 'Eleanor Aguilar'}</h4>
                   {selectedUser !== null ? (
-                    <Badge color={roleColors[selectedUser.role]} className='text-capitalize'>
-                      {selectedUser.role}
+                    <Badge color={roleColors[selectedUser.Rol]} className='text-capitalize'>
+                      {selectedUser.Rol}
                     </Badge>
                   ) : null}
                 </div>
@@ -207,43 +207,39 @@ const UserInfoCard = ({ selectedUser }) => {
               </div>
             </div>
           </div>
-          <h4 className='fw-bolder border-bottom pb-50 mb-1'>Details</h4>
+          <h4 className='fw-bolder border-bottom pb-50 mb-1'>Detalles</h4>
           <div className='info-container'>
             {selectedUser !== null ? (
               <ul className='list-unstyled'>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Username:</span>
-                  <span>{selectedUser.username}</span>
+                  <span className='fw-bolder me-25'>id: </span>
+                  <span className='text-capitalize'>{selectedUser.id}</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Billing Email:</span>
-                  <span>{selectedUser.email}</span>
+                  <span className='fw-bolder me-25'>Nombre: </span>
+                  <span>{selectedUser.Name}</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Status:</span>
-                  <Badge className='text-capitalize' color={statusColors[selectedUser.status]}>
-                    {selectedUser.status}
+                  <span className='fw-bolder me-25'>Apellido: </span>
+                  <span>{selectedUser.Surname}</span>
+                </li>
+                <li className='mb-75'>
+                  <span className='fw-bolder me-25'>DNI: </span>
+                  <span>{selectedUser.DNI}</span>
+                </li>
+                <li className='mb-75'>
+                  <span className='fw-bolder me-25'>Email: </span>
+                  <span>{selectedUser.Email}</span>
+                </li>
+                <li className='mb-75'>
+                  <span className='fw-bolder me-25'>Año Nacimiento: </span>
+                  <span>{selectedUser.Birth_Date}</span>
+                </li>
+                <li className='mb-75'>
+                  <span className='fw-bolder me-25'>Telefono: </span>
+                  <Badge className='text-capitalize' color={statusColors['active']}>
+                    {selectedUser.Phone}
                   </Badge>
-                </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Role:</span>
-                  <span className='text-capitalize'>{selectedUser.role}</span>
-                </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Tax ID:</span>
-                  <span>Tax-{selectedUser.contact.substr(selectedUser.contact.length - 4)}</span>
-                </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Contact:</span>
-                  <span>{selectedUser.contact}</span>
-                </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Language:</span>
-                  <span>English</span>
-                </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Country:</span>
-                  <span>England</span>
                 </li>
               </ul>
             ) : null}
@@ -262,14 +258,14 @@ const UserInfoCard = ({ selectedUser }) => {
         <ModalHeader className='bg-transparent' toggle={() => setShow(!show)}></ModalHeader>
         <ModalBody className='px-sm-5 pt-50 pb-5'>
           <div className='text-center mb-2'>
-            <h1 className='mb-1'>Edit User Information</h1>
-            <p>Updating user details will receive a privacy audit.</p>
+            <h1 className='mb-1'>Editar Información</h1>
+            <p>Actualizar los datos del cliente de manera segura.</p>
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className='gy-1 pt-75'>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='firstName'>
-                  First Name
+                  Nombre
                 </Label>
                 <Controller
                   defaultValue=''
@@ -283,7 +279,7 @@ const UserInfoCard = ({ selectedUser }) => {
               </Col>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='lastName'>
-                  Last Name
+                  Apellidos
                 </Label>
                 <Controller
                   defaultValue=''
@@ -297,7 +293,7 @@ const UserInfoCard = ({ selectedUser }) => {
               </Col>
               <Col xs={12}>
                 <Label className='form-label' for='username'>
-                  Username
+                  Nombre Completo
                 </Label>
                 <Controller
                   defaultValue=''
@@ -311,94 +307,25 @@ const UserInfoCard = ({ selectedUser }) => {
               </Col>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='billing-email'>
-                  Billing Email
+                  Email
                 </Label>
                 <Input
                   type='email'
                   id='billing-email'
-                  defaultValue={selectedUser.email}
-                  placeholder='example@domain.com'
-                />
-              </Col>
-              <Col md={6} xs={12}>
-                <Label className='form-label' for='status'>
-                  Status:
-                </Label>
-                <Select
-                  id='status'
-                  isClearable={false}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={statusOptions}
-                  theme={selectThemeColors}
-                  defaultValue={statusOptions[statusOptions.findIndex(i => i.value === selectedUser.status)]}
-                />
-              </Col>
-              <Col md={6} xs={12}>
-                <Label className='form-label' for='tax-id'>
-                  Tax ID
-                </Label>
-                <Input
-                  id='tax-id'
-                  placeholder='Tax-1234'
-                  defaultValue={selectedUser.contact.substr(selectedUser.contact.length - 4)}
+                  defaultValue={selectedUser.Email}
+                  placeholder='example@gmail.com'
                 />
               </Col>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='contact'>
                   Contact
                 </Label>
-                <Input id='contact' defaultValue={selectedUser.contact} placeholder='+1 609 933 4422' />
+                <Input id='contact' defaultValue={selectedUser.Phone} placeholder='+34 609 933 442' />
               </Col>
-              <Col md={6} xs={12}>
-                <Label className='form-label' for='language'>
-                  language
-                </Label>
-                <Select
-                  id='language'
-                  isClearable={false}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={languageOptions}
-                  theme={selectThemeColors}
-                  defaultValue={languageOptions[0]}
-                />
-              </Col>
-              <Col md={6} xs={12}>
-                <Label className='form-label' for='country'>
-                  Country
-                </Label>
-                <Select
-                  id='country'
-                  isClearable={false}
-                  className='react-select'
-                  classNamePrefix='select'
-                  options={countryOptions}
-                  theme={selectThemeColors}
-                  defaultValue={countryOptions[0]}
-                />
-              </Col>
-              <Col xs={12}>
-                <div className='d-flex align-items-center mt-1'>
-                  <div className='form-switch'>
-                    <Input type='switch' defaultChecked id='billing-switch' name='billing-switch' />
-                    <Label className='form-check-label' htmlFor='billing-switch'>
-                      <span className='switch-icon-left'>
-                        <Check size={14} />
-                      </span>
-                      <span className='switch-icon-right'>
-                        <X size={14} />
-                      </span>
-                    </Label>
-                  </div>
-                  <Label className='form-check-label fw-bolder' for='billing-switch'>
-                    Use as a billing address?
-                  </Label>
-                </div>
-              </Col>
+              
               <Col xs={12} className='text-center mt-2 pt-50'>
                 <Button type='submit' className='me-1' color='primary'>
-                  Submit
+                  Guardar
                 </Button>
                 <Button
                   type='reset'
@@ -409,7 +336,7 @@ const UserInfoCard = ({ selectedUser }) => {
                     setShow(false)
                   }}
                 >
-                  Discard
+                  Cancelar
                 </Button>
               </Col>
             </Row>
