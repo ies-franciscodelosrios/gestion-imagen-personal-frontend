@@ -9,10 +9,10 @@ const FaqContact = () => {
     <div className='faq-contact'>
       <Row className='mt-5 pt-75'>
         <Col className='text-center' sm='12'>
-          <h2>¿Aun tienes preguntas?</h2>
+         {/*  <h2>¿Aun tienes preguntas?</h2>
           <p className='mb-3'>
             Si no se ha resuelto con las soluciones del FAQ accede a la documentación de la misma.
-          </p>
+          </p> */}
         </Col>
         <Col sm='6'>
           <Card className='text-center faq-contact-card shadow-none py-1'>
@@ -20,7 +20,7 @@ const FaqContact = () => {
               <div className='avatar avatar-tag bg-light-primary mb-2 mx-auto'>
                 <PhoneCall size={18} />
               </div>
-              <h4>+ (810) 2548 2568</h4>
+              <h4>957 37 99 45</h4>
               <span className='text-body'>Siempre contentos por ayudarte!</span>
             </CardBody>
           </Card>

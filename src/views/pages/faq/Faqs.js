@@ -1,6 +1,6 @@
 // ** React Imports
 import { useState } from 'react'
-
+import axios from 'axios'
 // ** Icons Imports
 import * as Icon from 'react-feather'
 
@@ -26,7 +26,7 @@ const Faqs = ({ data }) => {
   const dataToRender = []
 
   // ** States
-  const [activeTab, setActiveTab] = useState('Payment')
+  const [activeTab, setActiveTab] = useState('Dashboard')
 
   const toggleTab = tab => setActiveTab(tab)
 
