@@ -113,6 +113,7 @@ export const ApiDelClient = async (id) => {
   });
 };
 
+
 export async function ApiGetFaq() {
   return await ApiConnect.get('questions', {
     headers: {

@@ -155,7 +155,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
 const UsersList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
+  const store = useSelector(state => state.client)
 
   // ** States
   const [sort, setSort] = useState('desc')
@@ -165,13 +165,26 @@ const UsersList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
+  const [currentData, setCurrentData] = useState([])
+
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
   // ** Get data on mount
   useEffect(() => {
-    dispatch(getAllData())
+    if (store.allData != null || store.allData != undefined) {
+      setCurrentData(store.allData);
+    }
+    dispatch(getAllData({
+      sort,
+      sortColumn,
+      q: searchTerm,
+      page: currentPage,
+      perPage: rowsPerPage,
+      status: currentStatus.value,
+      data: currentData
+    }))
     dispatch(
       getData({
         sort,
@@ -180,6 +193,7 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
+        data: currentData
       })
     )
   }, [dispatch, store.data.length, sort, sortColumn, currentPage])
@@ -195,6 +209,7 @@ const UsersList = () => {
         perPage: rowsPerPage,
         page: page.selected + 1,
         status: currentStatus.value,
+        data: currentData
       })
     )
     setCurrentPage(page.selected + 1)
@@ -210,7 +225,8 @@ const UsersList = () => {
         q: searchTerm,
         perPage: value,
         page: currentPage,
-        status: currentStatus.value
+        status: currentStatus.value,
+        data: currentData
       })
     )
     setRowsPerPage(value)
@@ -227,6 +243,7 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
+        data: currentData
       })
     )
   }
@@ -285,6 +302,7 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
+        data: currentData
       })
     )
   }
@@ -300,6 +318,7 @@ const UsersList = () => {
             sortServer
             pagination
             responsive
+            noDataComponent={'No se encontraron datos a mostar'}
             paginationServer
             columns={columns}
             onSort={handleSort}
