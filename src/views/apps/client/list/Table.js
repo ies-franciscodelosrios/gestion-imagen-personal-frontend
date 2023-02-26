@@ -165,7 +165,6 @@ const ClientList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
-  const [currentData, setCurrentData] = useState([])
 
 
   // ** Function to toggle sidebar
@@ -173,9 +172,6 @@ const ClientList = () => {
 
   // ** Get data on mount
   useEffect(() => {
-    if (store.allData != null || store.allData != undefined) {
-      setCurrentData(store.allData);
-    }
     dispatch(getAllData({
       sort,
       sortColumn,
@@ -183,7 +179,7 @@ const ClientList = () => {
       page: currentPage,
       perPage: rowsPerPage,
       status: currentStatus.value,
-      data: currentData
+      data: store.allData
     }))
     dispatch(
       getData({
@@ -193,10 +189,10 @@ const ClientList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: currentData
+        data: store.allData
       })
     )
-  }, [dispatch, store.data.length, sort, sortColumn, currentPage])
+  }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
 
 
   // ** Function in get data on page change
@@ -209,7 +205,7 @@ const ClientList = () => {
         perPage: rowsPerPage,
         page: page.selected + 1,
         status: currentStatus.value,
-        data: currentData
+        data: store.allData
       })
     )
     setCurrentPage(page.selected + 1)
@@ -226,7 +222,7 @@ const ClientList = () => {
         perPage: value,
         page: currentPage,
         status: currentStatus.value,
-        data: currentData
+        data: store.allData
       })
     )
     setRowsPerPage(value)
@@ -243,7 +239,7 @@ const ClientList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: currentData
+        data: store.allData
       })
     )
   }
@@ -302,7 +298,7 @@ const ClientList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: currentData
+        data: store.allData
       })
     )
   }

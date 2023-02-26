@@ -18,6 +18,7 @@ import illustration from '@src/assets/images/pages/ilustracion-perfil.png';
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
+import SheetTabs from './SheetTabs'
 
 const ClientView = () => {
   // ** Store Vars
@@ -51,6 +52,12 @@ const ClientView = () => {
         </Col>
         <Col xl='8' lg='7' xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
           <UserTabs active={active} toggleTab={toggleTab} />
+        </Col>
+      </Row>
+      <Row>
+        {' '}
+        <Col sm="12">
+          <SheetTabs></SheetTabs>
         </Col>
       </Row>
     </div>
