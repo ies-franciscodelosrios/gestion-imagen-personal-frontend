@@ -19,7 +19,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Button, Label, FormText, Form, Input } from 'reactstrap';
 
 // ** Store & Actions
-import { addUser } from '../store';
+import { addClient } from '../store';
 import { useDispatch } from 'react-redux';
 
 const defaultValues = {
@@ -71,7 +71,7 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
       toggleSidebar();
       //console.log(data);
       dispatch(
-        addUser({
+        addClient({
           DNI: data.DNI,
           Name: data.Name,
           Surname: data.Surname,
@@ -206,27 +206,6 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
             )}
           />
         </div>
-        {/* <div className="mb-1">
-          <Label className="form-label" for="Cycle">
-            Ciclo Formativo <span className="text-danger">*</span>
-          </Label>
-          <Controller
-            name="Cycle"
-            control={control}
-            render={({ field }) => (
-              <Select
-                isClearable={false}
-                classNamePrefix="Cycle"
-                options={cycleOptions}
-                theme={selectThemeColors}
-                className={classnames('react-select', {
-                  'is-invalid': data !== null && data.Cycle === null,
-                })}
-                {...field}
-              />
-            )}
-          />
-        </div> */}
         <div className="mb-1">
           <Label className="form-label" for="BirthDate">
             Fecha de Nacimiento

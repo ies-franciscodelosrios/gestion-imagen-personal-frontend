@@ -34,19 +34,16 @@ export const getClient = createAsyncThunk('appClients/getClient', async id => {
   return response.data.users
 })
 
-export const addUser = createAsyncThunk('appClients/addClient', async (user, { dispatch, getState }) => {
+export const addClient = createAsyncThunk('appClients/addClient', async (user, { dispatch, getState }) => {
   await AddClient(user)
-  await dispatch(getAllData())
-  await dispatch(getData(getState().users.params))
-  return user
+  const response = await getAllClientsData().then(result => {return result.data.users}) 
+  return response
 })
 
-export const deleteUser = createAsyncThunk('appClients/deleteClient', async (id, { dispatch, getState }) => {
+export const deleteClient = createAsyncThunk('appClients/deleteClient', async (id, { dispatch, getState }) => {
   await ApiDelClient(id)
-  await dispatch(getAllData())
-  await dispatch(getData(getState().users.params))
-  return id
-})
+  const response = await getAllClientsData().then(result => {return result.data.users}) 
+  return response})
 
 export const appClientsSlice = createSlice({
   name: 'appClients',
@@ -70,6 +67,14 @@ export const appClientsSlice = createSlice({
       })
       .addCase(getClient.fulfilled, (state, action) => {
         state.selectedClient = action.payload
+      })
+      .addCase(addClient.fulfilled, (state, action) => {
+        state.allData = action.payload
+        console.log(action.payload);
+      })
+      .addCase(deleteClient.fulfilled, (state, action) => {
+        state.allData = action.payload
+        console.log(action.payload);
       })
   }
 })
