@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 
 // ** Axios Imports
-import { AddClient, ApiDelClient, getAllClientsData, getClientById } from '../../../../services/api'
+import { AddClient, ApiDelClient, getAllClientsData, getClientById, updateClientBy } from '../../../../services/api'
 import { sort_data } from './sort_utils'
 
 
@@ -32,6 +32,11 @@ export const getData = createAsyncThunk('appClients/getData', async params => {
 export const getClient = createAsyncThunk('appClients/getClient', async id => {
   const response = await getClientById(id).then(result => {return result})
   return response.data.users
+})
+
+export const updateClient = createAsyncThunk('appClients/updateClient', async updatedClient => {
+  await updateClientBy(updatedClient, updatedClient.id);
+  return updatedClient
 })
 
 export const addClient = createAsyncThunk('appClients/addClient', async (user, { dispatch, getState }) => {
@@ -66,6 +71,9 @@ export const appClientsSlice = createSlice({
         state.total = action.payload.totalPages
       })
       .addCase(getClient.fulfilled, (state, action) => {
+        state.selectedClient = action.payload
+      })
+      .addCase(updateClient.fulfilled, (state, action) => {
         state.selectedClient = action.payload
       })
       .addCase(addClient.fulfilled, (state, action) => {

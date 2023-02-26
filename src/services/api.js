@@ -68,6 +68,24 @@ export const getClientById = async (id) => {
 };
 
 /**
+ * Http Request to get a client by id
+ * @param {*} id to identify the client
+ * @returns user data
+ */
+export const updateClientBy = async (user, id) => {
+  return await ApiConnect.put(
+    `client/${id}`,user,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+};
+
+/**
  * Http Request to add a new client
  * @returns response 200 if ok
  */
@@ -86,7 +104,7 @@ export const AddClient = async (user) => {
       Background_Health: ' ',
       Background_Aesthetic: ' ',
       Asthetic_Routine: ' ',
-      Hairdressing_Routine: ' '
+      Hairdressing_Routine: ' ',
     },
     {
       headers: {
@@ -112,7 +130,6 @@ export const ApiDelClient = async (id) => {
     },
   });
 };
-
 
 export async function ApiGetFaq() {
   return await ApiConnect.get('questions', {
