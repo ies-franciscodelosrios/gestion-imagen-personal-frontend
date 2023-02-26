@@ -152,10 +152,10 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
   )
 }
 
-const UsersList = () => {
+const ClientList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.client)
+  const store = useSelector(state => state.clients)
 
   // ** States
   const [sort, setSort] = useState('desc')
@@ -345,4 +345,4 @@ const UsersList = () => {
   )
 }
 
-export default UsersList
+export default ClientList

@@ -8,8 +8,7 @@ export function sort_data(params, response) {
   /**
    * Filter the list to match the param required
    */
-  if (params.q !== null ) {
-    console.log('filter');
+  if (params.q !== null || params.q !== '') {
     const filteredList = response.filter(obj => {
       // Crear una expresión regular con la cadena de búsqueda
       const regex = new RegExp(params.q, "i");

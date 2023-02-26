@@ -7,22 +7,20 @@ import { AddClient, ApiDelClient, getAllClientsData, getClientById } from '../..
 import { sort_data } from './sort_utils'
 
 
-export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
+export const getAllData = createAsyncThunk('appClients/getAllData', async (params) => {
   const response = {"data": {"users": params.data}} 
   if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
     Object.assign(response, await getAllClientsData().then(result => {return result})) 
-    console.log('peticion');
  }
   return response.data.users
 })
 
-export const getData = createAsyncThunk('appUsers/getData', async params => {
+
+export const getData = createAsyncThunk('appClients/getData', async params => {
   const response = {"data": {"users": params.data}};
   if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
      Object.assign(response, await getAllClientsData().then(result => {return result})) 
-     console.log('peticion');
   }
-  console.log(params);
   response.data.users = sort_data(params, response.data.users);
   return {
     params,
@@ -31,33 +29,33 @@ export const getData = createAsyncThunk('appUsers/getData', async params => {
   }
 })
 
-export const getUser = createAsyncThunk('appUsers/getUser', async id => {
+export const getClient = createAsyncThunk('appClients/getClient', async id => {
   const response = await getClientById(id).then(result => {return result})
   return response.data.users
 })
 
-export const addUser = createAsyncThunk('appUsers/addUser', async (user, { dispatch, getState }) => {
+export const addUser = createAsyncThunk('appClients/addClient', async (user, { dispatch, getState }) => {
   await AddClient(user)
-  await dispatch(getData(getState().users.params))
   await dispatch(getAllData())
+  await dispatch(getData(getState().users.params))
   return user
 })
 
-export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { dispatch, getState }) => {
+export const deleteUser = createAsyncThunk('appClients/deleteClient', async (id, { dispatch, getState }) => {
   await ApiDelClient(id)
-  await dispatch(getData(getState().users.params))
   await dispatch(getAllData())
+  await dispatch(getData(getState().users.params))
   return id
 })
 
-export const appUsersSlice = createSlice({
-  name: 'appUsers',
+export const appClientsSlice = createSlice({
+  name: 'appClients',
   initialState: {
     data: [],
     total: 1,
     params: {},
     allData: [],
-    selectedUser: null
+    selectedClient: null
   },
   reducers: {},
   extraReducers: builder => {
@@ -70,10 +68,10 @@ export const appUsersSlice = createSlice({
         state.params = action.payload.params
         state.total = action.payload.totalPages
       })
-      .addCase(getUser.fulfilled, (state, action) => {
-        state.selectedUser = action.payload
+      .addCase(getClient.fulfilled, (state, action) => {
+        state.selectedClient = action.payload
       })
   }
 })
 
-export default appUsersSlice.reducer
+export default appClientsSlice.reducer
