@@ -44,7 +44,7 @@ const checkIsValid = (data) => {
   );
 };
 
-const SidebarNewUsers = ({ open, toggleSidebar }) => {
+const SidebarNewClients = ({ open, toggleSidebar }) => {
   // ** States
   const [data, setData] = useState(null);
   const [BirthPicker, setBirthPicker] = useState(new Date());
@@ -302,4 +302,4 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
   );
 };
 
-export default SidebarNewUsers;
+export default SidebarNewClients;

@@ -22,9 +22,12 @@ const EcommerceCheckout = lazy(() => import('../../views/apps/ecommerce/checkout
 
 const UserList = lazy(() => import('../../views/apps/user/list'))
 const ListaProfesor = lazy(() => import('../../views/apps/profesor/list'))
-const ClientList = lazy(() => import('../../views/apps/cliente/list'))
+const ClientList = lazy(() => import('../../views/apps/client/list'))
 
+const ClientView = lazy(() => import('../../views/apps/client/view'))
+const TeacherView = lazy(() => import('../../views/apps/profesor/view'))
 const UserView = lazy(() => import('../../views/apps/user/view'))
+
 
 const Roles = lazy(() => import('../../views/apps/roles-permissions/roles'))
 const Permissions = lazy(() => import('../../views/apps/roles-permissions/permissions'))
@@ -173,16 +176,20 @@ const AppRoutes = [
     }
   },
   {
-    element: <UserList />,
-    path: '/apps/user/list'
+    element: <ClientList />,
+    path: '/apps/client/list'
+  },
+  {
+    element: <ClientView />,
+    path: '/apps/client/view/:id'
   },
   {
     element: <ListaProfesor />,
     path: '/apps/profesor/list'
   },
   {
-    element: <ClientList />,
-    path: '/apps/cliente/list'
+    element: <UserList />,
+    path: '/apps/user/list'
   },
   {
     path: '/apps/user/view',
