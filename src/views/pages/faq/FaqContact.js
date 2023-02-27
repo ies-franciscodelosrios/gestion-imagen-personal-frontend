@@ -6,7 +6,7 @@ import { Row, Col, Card, CardBody } from 'reactstrap'
 
 const FaqContact = () => {
   return (
-    <div className='faq-contact' style={{ marginTop:"30px"}}>
+    <div className='faq-contact'>
       <Row className='mt-5 pt-75'>
         <Col className='text-center' sm='12'>
          {/*  <h2>¿Aun tienes preguntas?</h2>
