@@ -72,9 +72,9 @@ export const getClientById = async (id) => {
  * @param {*} id to identify the client
  * @returns user data
  */
-export const updateClientBy = async (user, id) => {
+export const updateClientBy = async (user) => {
   return await ApiConnect.put(
-    `client/${id}`,user,
+    `client/${user.id}`,user,
     {
       headers: {
         'Content-Type': 'application/json',

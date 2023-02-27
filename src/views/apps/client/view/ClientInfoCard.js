@@ -105,6 +105,7 @@ const ClientInfoCard = () => {
     updatedClient.DNI = data.DNI;
     updatedClient.Phone = data.Phone;
     if (Object.values(data).every((field) => field.toString().length > 0)) {
+      console.log(updatedClient.id);
       dispatch(updateClient(updatedClient));
       setShow(false);
     } else {

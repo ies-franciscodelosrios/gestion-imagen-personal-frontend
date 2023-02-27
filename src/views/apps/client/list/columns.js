@@ -106,7 +106,7 @@ export const columns = [
   {
     name: 'Email',
     sortable: true,
-    minWidth: '140px',
+    minWidth: '200px',
     sortField: 'Email',
     selector: row => row.Email,
     cell: row => <span className='text-capitalize'>{row.Email}</span>
@@ -121,7 +121,7 @@ export const columns = [
   },
   {
     name: 'Teléfono',
-    minWidth: '230px',
+    minWidth: '170px',
     sortable: true,
     sortField: 'Phone',
     selector: row => row.Phone,

@@ -35,7 +35,7 @@ export const getClient = createAsyncThunk('appClients/getClient', async id => {
 })
 
 export const updateClient = createAsyncThunk('appClients/updateClient', async updatedClient => {
-  await updateClientBy(updatedClient, updatedClient.id);
+  await updateClientBy(updatedClient);
   return updatedClient
 })
 
