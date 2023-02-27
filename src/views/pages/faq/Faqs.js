@@ -54,8 +54,8 @@ const Faqs = ({ data }) => {
       const IconTag = Icon[item.icon]
 
       return (
-        <TabPane key={item.title} tabId={item.title}>
-          <div className='d-flex align-items-center'>
+        <TabPane key={item.title} tabId={item.title} >
+          <div className='d-flex align-items-center'  >
             <div className='avatar avatar-tag bg-light-primary me-1'>
               <IconTag size={20} />
             </div>
