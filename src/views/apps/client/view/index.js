@@ -45,7 +45,7 @@ const ClientView = () => {
     <div className='app-user-view'>
       <Row>
         <Col xl='4' lg='5' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
-          <ClientInfoCard selectedClient={store.selectedClient} />
+          <ClientInfoCard />
           <div className="mt-auto">
             <img className="img-fluid" src={illustration} alt="illustration" />
           </div>
@@ -57,7 +57,7 @@ const ClientView = () => {
       <Row>
         {' '}
         <Col sm="12">
-          <SheetTabs></SheetTabs>
+          <SheetTabs selectedClient={store.selectedClient}></SheetTabs>
         </Col>
       </Row>
     </div>
