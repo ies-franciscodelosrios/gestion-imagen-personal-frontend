@@ -48,12 +48,12 @@ const statusColors = {
 
 const MySwal = withReactContent(Swal);
 
-const ClientInfoCard = ({ selectedClient }) => {
+const ClientInfoCard = () => {
   // ** Store Vars
   const dispatch = useDispatch();
   const store = useSelector(state => state.clients)
 
-
+  const selectedClient = store.selectedClient;
 
   // ** State
   const [show, setShow] = useState(false);
@@ -211,7 +211,7 @@ const ClientInfoCard = ({ selectedClient }) => {
             ) : null}
           </div>
           <div className="d-flex justify-content-center pt-2">
-            <Button color="primary" onClick={() => setShow(true)}>
+            <Button color="primary" onClick={() => {handleReset(); setShow(true)}}>
               Editar
             </Button>
           </div>

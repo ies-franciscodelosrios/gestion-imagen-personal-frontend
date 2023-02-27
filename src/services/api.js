@@ -58,7 +58,7 @@ export const getAllClientsData = async () => {
  * @returns user data
  */
 export const getClientById = async (id) => {
-  return await ApiConnect.get(`client/${id}`, {
+  return await ApiConnect.get(`client/id/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
