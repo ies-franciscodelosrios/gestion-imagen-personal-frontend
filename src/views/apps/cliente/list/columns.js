@@ -108,10 +108,9 @@ export const columns = [
     name: 'Email',
     sortable: true,
     minWidth: '140px',
-    sortField: 'email',
+    sortField: 'Email',
     selector: row => row.Email,
     cell: row => <span className='text-capitalize'>{row.Email}</span>
-
   },
   {
     name: 'Fecha de Nacimiento',
