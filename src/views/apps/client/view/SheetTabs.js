@@ -26,7 +26,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import '@styles/react/libs/tables/react-dataTable-component.scss';
 import { Controller, useForm } from 'react-hook-form';
 const SheetTabs = (selectedClient) => {
-  const [data, setData] = useState(null)
+  const [datatab1, setDatatab1] = useState({})
 
   // ** State
   const [active, setActive] = useState('1');
@@ -75,28 +75,38 @@ const SheetTabs = (selectedClient) => {
   ];
 
   const { handleSubmit, control } = useForm({
-    Coloracion: null,
-    Grosor_piel: null,
-    Tacto: null,
-    Brillo_piel: null,
-    Aspecto_poro: null,
-    Grado_hidratacion: null,
+    Coloracion: '',
+    Grosor_piel: '',
+    Tacto: '',
+    Brillo_piel: '',
+    Aspecto_poro: '',
+    Grado_hidratacion: '',
   });
 
-  const onSubmit = data => {
-    setData(data)
+  /**
+   * Funcition that excute the save button
+   * @param {*} data to save into client
+   */
+  const onSubmittab1 = async data => {
+    await setDatatab1(data)
     if (Object.values(data).every((field) => field !== undefined && field.toString().length > 0)) {
       console.log('newtabs');
       
     }
     console.log(data);
+    console.log(datatab1);
   };
 
+  /**
+   * Funcition to change between tabs.
+   * @param {*} tab which is clicked
+   */
   const toggle = (tab) => {
     if (active !== tab) {
       setActive(tab);
     }
   };
+
   return (
     <Card>
       <CardHeader tag="h4">Fichas</CardHeader>
@@ -161,7 +171,7 @@ const SheetTabs = (selectedClient) => {
       <TabContent className="py-50 align-middle " activeTab={active}>
         <TabPane tabId="1">
           <CardBody>
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmittab1)}>
               <Row>
                 <Col md="6" sm="12" className="mb-1">
                   <Label className="form-label" for="Coloracion">
@@ -174,8 +184,10 @@ const SheetTabs = (selectedClient) => {
                     render={({ field }) => (
                       <CreatableSelect
                         options={SheetsOptions[0]}
+                        defaultValue={ (datatab1 !== null)? datatab1.Coloracion : "" }
+                        //inputValue={'Amarillento'}//}
                         classNamePrefix="select"
-                        className={classnames('react-select', { 'is-invalid': data !== null && data.Coloracion === undefined })}
+                        className='react-select'
                         {...field}
                       />
                     )}
@@ -193,7 +205,7 @@ const SheetTabs = (selectedClient) => {
                       <CreatableSelect
                         options={SheetsOptions[1]}
                         classNamePrefix="select"
-                        className={classnames('react-select', { 'is-invalid': data !== null && data.Grosor_piel === undefined })}
+                        className='react-select'
                         {...field}
                       />
                     )}
@@ -211,7 +223,7 @@ const SheetTabs = (selectedClient) => {
                       <CreatableSelect
                         options={SheetsOptions[2]}
                         classNamePrefix="select"
-                        className={classnames('react-select', { 'is-invalid': data !== null && data.Tacto === undefined })}
+                        className='react-select'
                         {...field}
                       />
                     )}
@@ -229,7 +241,7 @@ const SheetTabs = (selectedClient) => {
                       <CreatableSelect
                         options={SheetsOptions[3]}
                         classNamePrefix="select"
-                        className={classnames('react-select', { 'is-invalid': data !== null && data.Brillo_piel === undefined })}
+                        className='react-select'
                         {...field}
                       />
                     )}
@@ -247,7 +259,7 @@ const SheetTabs = (selectedClient) => {
                       <CreatableSelect
                         options={SheetsOptions[4]}
                         classNamePrefix="select"
-                        className={classnames('react-select', { 'is-invalid': data !== null && data.Aspecto_poro === undefined })}
+                        className='react-select'
                         {...field}
                       />
                     )}
@@ -265,7 +277,7 @@ const SheetTabs = (selectedClient) => {
                       <CreatableSelect
                         options={SheetsOptions[5]}
                         classNamePrefix="select"
-                        className={classnames('react-select', { 'is-invalid': data !== null && data.Grado_hidratacion === undefined })}
+                        className='react-select'
                         {...field}
                       />
                     )}

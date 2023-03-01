@@ -16,7 +16,7 @@ import UserTimeline from './UserTimeline'
 import Notifications from './Notifications'
 import ClientSheetsList from './ClientSheetsList'
 
-const UserTabs = ({ active, toggleTab }) => {
+const UserTabs = ({ active, toggleTab, client }) => {
   return (
     <Fragment>
       <Nav pills className='mb-2'>
@@ -35,7 +35,7 @@ const UserTabs = ({ active, toggleTab }) => {
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId='1'>
-          <ClientSheetsList />
+          <ClientSheetsList client={client}/>
         </TabPane>
         <TabPane tabId='2'>
           <SecurityTab />
