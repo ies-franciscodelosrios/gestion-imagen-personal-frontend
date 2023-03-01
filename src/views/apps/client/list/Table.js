@@ -129,28 +129,16 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
             <UncontrolledDropdown className='me-1'>
               <DropdownToggle color='secondary' caret outline>
                 <Share className='font-small-4 me-50' />
-                <span className='align-middle'>Exportar</span>
+                <span className='align-middle'>Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem className='w-100'>
                   <Printer className='font-small-4 me-50' />
-                  <span className='align-middle'>Imprimir</span>
+                  <span className='align-middle'>Importar</span>
                 </DropdownItem>
                 <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
                   <FileText className='font-small-4 me-50' />
-                  <span className='align-middle'>CSV</span>
-                </DropdownItem>
-                <DropdownItem className='w-100'>
-                  <Grid className='font-small-4 me-50' />
-                  <span className='align-middle'>Excel</span>
-                </DropdownItem>
-                <DropdownItem className='w-100'>
-                  <File className='font-small-4 me-50' />
-                  <span className='align-middle'>PDF</span>
-                </DropdownItem>
-                <DropdownItem className='w-100'>
-                  <Copy className='font-small-4 me-50' />
-                  <span className='align-middle'>Copy</span>
+                  <span className='align-middle'>Exportar</span>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -165,10 +153,10 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
   )
 }
 
-const UsersList = () => {
+const ClientList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
+  const store = useSelector(state => state.clients)
 
   // ** States
 
@@ -180,13 +168,21 @@ const UsersList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
 
+
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
   const QUOTE_REQUESTED = "QUOTE_REQUESTED";
   // ** Get data on mount
   useEffect(() => {
-    dispatch(getAllData())
-   
+    dispatch(getAllData({
+      sort,
+      sortColumn,
+      q: searchTerm,
+      page: currentPage,
+      perPage: rowsPerPage,
+      status: currentStatus.value,
+      data: store.allData
+    }))
     dispatch(
       getData({
         sort,
@@ -195,9 +191,10 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
+        data: store.allData
       })
     )
-  }, [dispatch, store.data.length, sort, sortColumn, currentPage])
+  }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
 
 
   // ** Function in get data on page change
@@ -210,6 +207,7 @@ const UsersList = () => {
         perPage: rowsPerPage,
         page: page.selected + 1,
         status: currentStatus.value,
+        data: store.allData
       })
     )
     setCurrentPage(page.selected + 1)
@@ -225,7 +223,8 @@ const UsersList = () => {
         q: searchTerm,
         perPage: value,
         page: currentPage,
-        status: currentStatus.value
+        status: currentStatus.value,
+        data: store.allData
       })
     )
     setRowsPerPage(value)
@@ -242,6 +241,7 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
+        data: store.allData
       })
     )
   }
@@ -300,6 +300,7 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
+        data: store.allData
       })
     )
   }
@@ -315,6 +316,7 @@ const UsersList = () => {
             sortServer
             pagination
             responsive
+            noDataComponent={'No se encontraron datos a mostar'}
             paginationServer
             columns={columns}
             onSort={handleSort}
@@ -341,4 +343,4 @@ const UsersList = () => {
   )
 }
 
-export default UsersList
+export default ClientList
