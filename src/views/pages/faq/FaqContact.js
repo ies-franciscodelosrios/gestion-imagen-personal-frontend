@@ -41,7 +41,7 @@ const FaqContact = () => {
           <Card className='text-center faq-contact-card shadow-none py-1'>
             <CardBody>
               <div className='avatar avatar-tag bg-light-primary mb-2 mx-auto'>
-              <a href="https://goo.gl/maps/6kwjE5LRAabU4PGm7">  <MapPin size={18} /></a>
+              <a href="https://goo.gl/maps/6kwjE5LRAabU4PGm7" target="_blank">  <MapPin size={18} /></a>
               </div>
               <h4>Av. de la Arruzafilla, s/n, 14011 Córdoba</h4>
               <span className='text-body'>Visitanos cuando quieras!</span>
