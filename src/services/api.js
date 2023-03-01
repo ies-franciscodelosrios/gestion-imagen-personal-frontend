@@ -93,6 +93,23 @@ export async function ApiGetFaq() {
   });
 }
 
+/* 
+  
+    PROFESOR
+
+*/
+
+export const getAllProfesorData = async () => {
+  return await ApiConnect.get('users/rol/1', {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+
 
 /* Students */
 /* ----------------------------------------------------------------------------------------------------------------------------------------- */
@@ -102,6 +119,7 @@ export async function ApiGetFaq() {
  */
 export const getAllStudentsData = async () => {
   return await ApiConnect.get('/users/rol/2', {
+
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -125,6 +143,9 @@ export const getUserById= async (id) => {
   });
 };
 
+
+
+
 /**
  * Http Request to delete a student by id
  * @param {*} id to identify the client
@@ -139,3 +160,4 @@ export const ApiDelUser = async (id) => {
     },
   });
 };
+
