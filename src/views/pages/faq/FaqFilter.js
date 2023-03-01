@@ -15,9 +15,6 @@ const FaqFilter = ({ searchTerm, setSearchTerm, getFAQData }) => {
       <Card
         className='faq-search'
         style={{
-          margin: "auto",
-          width: "900px",
-          height: "350px",
           border: "5px solid #e6f1f1",
           "border-radius": "20px",
           "margin-bottom":"20px",
@@ -37,16 +34,6 @@ const FaqFilter = ({ searchTerm, setSearchTerm, getFAQData }) => {
           <h2 className='text-primary'>¿Tienes Alguna pregunta?</h2>
           <CardText className='mb-2'>Busca entre nuestras preguntas más comunes o preguntanos directamente </CardText>
 
-
-
-          {/* <Form className='faq-search-input' onSubmit={e => e.preventDefault()}>
-            <InputGroup className='input-group-merge'>
-              <InputGroupText>
-                <Search size={14} />
-              </InputGroupText>
-              <Input value={searchTerm} onChange={e => handleFaqFilter(e)} placeholder='buscar duda...' />
-            </InputGroup>
-          </Form> */}
         </CardBody>
       </Card>
     </div>
