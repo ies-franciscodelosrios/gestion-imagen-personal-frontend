@@ -78,11 +78,9 @@ export const appClientsSlice = createSlice({
       })
       .addCase(addClient.fulfilled, (state, action) => {
         state.allData = action.payload
-        console.log(action.payload);
       })
       .addCase(deleteClient.fulfilled, (state, action) => {
         state.allData = action.payload
-        console.log(action.payload);
       })
   }
 })
