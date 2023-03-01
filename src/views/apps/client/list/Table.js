@@ -40,6 +40,7 @@ import {
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { getAllClientsData } from '../../../../services/api'
 
 // ** Table Header
 const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
@@ -158,6 +159,7 @@ const ClientList = () => {
   const store = useSelector(state => state.clients)
 
   // ** States
+
   const [sort, setSort] = useState('desc')
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -169,7 +171,7 @@ const ClientList = () => {
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-
+  const QUOTE_REQUESTED = "QUOTE_REQUESTED";
   // ** Get data on mount
   useEffect(() => {
     dispatch(getAllData({
