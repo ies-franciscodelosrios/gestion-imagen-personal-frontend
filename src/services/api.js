@@ -192,8 +192,6 @@ export const getUserById= async (id) => {
 };
 
 
-
-
 /**
  * Http Request to delete a student by id
  * @param {*} id to identify the client
