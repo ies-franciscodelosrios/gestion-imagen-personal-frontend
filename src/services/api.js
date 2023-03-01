@@ -92,18 +92,34 @@ export async function ApiGetFaq() {
     },
   });
 }
+
 /* 
   
     PROFESOR
 
 */
 
-/**
- * Http Request to get all profesor from database
- * @returns list with all profesor
- */
 export const getAllProfesorData = async () => {
   return await ApiConnect.get('users/rol/1', {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+
+
+/* Students */
+/* ----------------------------------------------------------------------------------------------------------------------------------------- */
+/**
+ * Http Request to get all students from database
+ * @returns list with all clients
+ */
+export const getAllStudentsData = async () => {
+  return await ApiConnect.get('/users/rol/2', {
+
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -127,7 +143,15 @@ export const getUserById= async (id) => {
   });
 };
 
-export const DelUser = async (id) => {
+
+
+
+/**
+ * Http Request to delete a student by id
+ * @param {*} id to identify the client
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const ApiDelUser = async (id) => {
   return await ApiConnect.delete(`user/${id}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -136,3 +160,4 @@ export const DelUser = async (id) => {
     },
   });
 };
+
