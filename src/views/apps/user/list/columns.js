@@ -15,6 +15,7 @@ import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2,
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 // ** Renders Client Columns
+/*
 const renderClient = row => {
   if (row.avatar.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
@@ -29,7 +30,7 @@ const renderClient = row => {
     )
   }
 }
-
+*/
 // ** Renders Role Columns
 const renderRole = row => {
   const roleObj = {
@@ -72,22 +73,23 @@ const statusObj = {
 }
 
 export const columns = [
+
   {
-    name: 'User',
+    name: 'Nombre Completo',
     sortable: true,
     minWidth: '300px',
     sortField: 'fullName',
-    selector: row => row.fullName,
+    selector: row => row.Name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {renderClient(row)}
+        {/*{renderClient(row)}*/}
         <div className='d-flex flex-column'>
           <Link
             to={`/apps/user/view/${row.id}`}
             className='user_name text-truncate text-body'
             onClick={() => store.dispatch(getUser(row.id))}
           >
-            <span className='fw-bolder'>{row.fullName}</span>
+            <span className='fw-bolder'>{row.Name.concat(' ',row.Surname)}</span>
           </Link>
           <small className='text-truncate text-muted mb-0'>{row.email}</small>
         </div>
@@ -95,40 +97,28 @@ export const columns = [
     )
   },
   {
-    name: 'Role',
+    name: 'DNI',
     sortable: true,
-    minWidth: '172px',
-    sortField: 'role',
-    selector: row => row.role,
-    cell: row => renderRole(row)
+    minWidth: '80px',
+    sortField: 'id',
+    selector: row => row.DNI,
+    cell: row => <span className='text-capitalize'>{row.DNI}</span>
   },
   {
-    name: 'Plan',
-    minWidth: '138px',
+    name: 'Ciclo',
     sortable: true,
-    sortField: 'currentPlan',
-    selector: row => row.currentPlan,
-    cell: row => <span className='text-capitalize'>{row.currentPlan}</span>
+    minWidth: '80px',
+    sortField: 'Cycle',
+    selector: row => row.Cycle,
+    cell: row => <span className='text-capitalize'>{row.Cycle}</span>
   },
   {
-    name: 'Billing',
-    minWidth: '230px',
+    name: 'Email',
     sortable: true,
-    sortField: 'billing',
-    selector: row => row.billing,
-    cell: row => <span className='text-capitalize'>{row.billing}</span>
-  },
-  {
-    name: 'Status',
-    minWidth: '138px',
-    sortable: true,
-    sortField: 'status',
-    selector: row => row.status,
-    cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.status]} pill>
-        {row.status}
-      </Badge>
-    )
+    minWidth: '140px',
+    sortField: 'Email',
+    selector: row => row.email,
+    cell: row => <span className='text-capitalize'>{row.email}</span>
   },
   {
     name: 'Actions',
@@ -147,11 +137,11 @@ export const columns = [
               onClick={() => store.dispatch(getUser(row.id))}
             >
               <FileText size={14} className='me-50' />
-              <span className='align-middle'>Details</span>
+              <span className='align-middle'>Detalles</span>
             </DropdownItem>
             <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
               <Archive size={14} className='me-50' />
-              <span className='align-middle'>Edit</span>
+              <span className='align-middle'>Editar</span>
             </DropdownItem>
             <DropdownItem
               tag='a'
@@ -163,7 +153,7 @@ export const columns = [
               }}
             >
               <Trash2 size={14} className='me-50' />
-              <span className='align-middle'>Delete</span>
+              <span className='align-middle'>Eliminar</span>
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
