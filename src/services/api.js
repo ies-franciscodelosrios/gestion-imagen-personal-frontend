@@ -92,3 +92,47 @@ export async function ApiGetFaq() {
     },
   });
 }
+/* 
+  
+    PROFESOR
+
+*/
+
+/**
+ * Http Request to get all profesor from database
+ * @returns list with all profesor
+ */
+export const getAllProfesorData = async () => {
+  return await ApiConnect.get('users/rol/1', {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to get a student by id
+ * @param {*} id to identify the client
+ * @returns user data
+ */
+export const getUserById= async (id) => {
+  return await ApiConnect.get(`user/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+export const DelUser = async (id) => {
+  return await ApiConnect.delete(`user/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
