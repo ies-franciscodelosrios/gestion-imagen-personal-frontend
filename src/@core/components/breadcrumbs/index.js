@@ -56,7 +56,7 @@ const BreadCrumbs = props => {
         </div>
       </div>
       <div className='content-header-right text-md-end col-md-3 col-12 d-md-block d-none'>
-        <div className='breadcrumb-right dropdown'>
+       {/*  <div className='breadcrumb-right dropdown'>
           <UncontrolledButtonDropdown>
             <DropdownToggle color='primary' className='btn-icon btn-round dropdown-toggle'>
               <Grid size={14} />
@@ -80,7 +80,7 @@ const BreadCrumbs = props => {
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledButtonDropdown>
-        </div>
+        </div> */}
       </div>
     </div>
   )
