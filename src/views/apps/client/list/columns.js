@@ -6,7 +6,7 @@ import Avatar from '@components/avatar'
 
 // ** Store & Actions
 import { store } from '@store/store'
-import { getUser, deleteUser } from '../store'
+import { getClient, deleteClient } from '../store'
 
 // ** Icons Imports
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
@@ -24,8 +24,8 @@ const renderClient = row => {
       <Avatar
         initials
         className='me-1'
-        color={row.avatarColor || 'light-primary'}
-        content={row.fullName || 'John Doe'}
+        color={'light-primary'}
+        content={row.Name || 'John Doe'}
       />
     )
   }
@@ -78,16 +78,16 @@ export const columns = [
     name: 'Nombre Completo',
     sortable: true,
     minWidth: '300px',
-    sortField: 'fullName',
+    sortField: 'Name',
     selector: row => row.Name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
         {/*{renderClient(row)}*/}
         <div className='d-flex flex-column'>
           <Link
-            to={`/apps/user/view/${row.id}`}
+            to={`/apps/client/view/${row.id}`}
             className='user_name text-truncate text-body'
-            onClick={() => store.dispatch(getUser(row.id))}
+            onClick={() => store.dispatch(getClient(row.id))}
           >
             <span className='fw-bolder'>{row.Name.concat(' ',row.Surname)}</span>
           </Link>
@@ -100,14 +100,14 @@ export const columns = [
     name: 'DNI',
     sortable: true,
     minWidth: '80px',
-    sortField: 'id',
+    sortField: 'DNI',
     selector: row => row.DNI,
     cell: row => <span className='text-capitalize'>{row.DNI}</span>
   },
   {
     name: 'Email',
     sortable: true,
-    minWidth: '140px',
+    minWidth: '200px',
     sortField: 'Email',
     selector: row => row.Email,
     cell: row => <span className='text-capitalize'>{row.Email}</span>
@@ -122,7 +122,7 @@ export const columns = [
   },
   {
     name: 'Teléfono',
-    minWidth: '230px',
+    minWidth: '170px',
     sortable: true,
     sortField: 'Phone',
     selector: row => row.Phone,
@@ -142,15 +142,11 @@ export const columns = [
             <DropdownItem
               tag={Link}
               className='w-100'
-              to={`/apps/user/view/${row.id}`}
-              onClick={() => store.dispatch(getUser(row.id))}
+              to={`/apps/client/view/${row.id}`}
+              onClick={() => store.dispatch(getClient(row.id))}
             >
               <FileText size={14} className='me-50' />
               <span className='align-middle'>Detalles</span>
-            </DropdownItem>
-            <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
-              <Archive size={14} className='me-50' />
-              <span className='align-middle'>Editar</span>
             </DropdownItem>
             <DropdownItem
               tag='a'
@@ -158,7 +154,7 @@ export const columns = [
               className='w-100'
               onClick={e => {
                 e.preventDefault()
-                store.dispatch(deleteUser(row.id))
+                store.dispatch(deleteClient(row.id))
               }}
             >
               <Trash2 size={14} className='me-50' />

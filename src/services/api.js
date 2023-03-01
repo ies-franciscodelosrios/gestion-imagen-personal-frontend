@@ -57,14 +57,63 @@ export const getAllClientsData = async () => {
  * @param {*} id to identify the client
  * @returns user data
  */
-export const getClientById= async (id) => {
-  return await ApiConnect.get(`client/${id}`, {
+export const getClientById = async (id) => {
+  return await ApiConnect.get(`client/id/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: `Bearer ${getToken()}`,
     },
   });
+};
+
+/**
+ * Http Request to get a client by id
+ * @param {*} id to identify the client
+ * @returns user data
+ */
+export const updateClientBy = async (user) => {
+  return await ApiConnect.put(
+    `client/${user.id}`,user,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+};
+
+/**
+ * Http Request to add a new client
+ * @returns response 200 if ok
+ */
+export const AddClient = async (user) => {
+  return await ApiConnect.post(
+    `client`,
+    {
+      DNI: user.DNI,
+      Name: user.Name,
+      Surname: user.Surname,
+      Birth_Date: user.BirthDate,
+      Phone: user.Phone,
+      Email: user.Email,
+      More_Info: ' ',
+      Life_Style: ' ',
+      Background_Health: ' ',
+      Background_Aesthetic: ' ',
+      Asthetic_Routine: ' ',
+      Hairdressing_Routine: ' ',
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
 };
 
 /**
@@ -81,7 +130,6 @@ export const ApiDelClient = async (id) => {
     },
   });
 };
-
 
 export async function ApiGetFaq() {
   return await ApiConnect.get('questions', {

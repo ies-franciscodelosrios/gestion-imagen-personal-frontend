@@ -16,7 +16,7 @@ export default [
     id: 'clientList',
     title: 'Clientes',
     icon: <Users size={12} />,
-    navLink: '/apps/cliente/list'
+    navLink: '/apps/client/list'
   },
   {
     id: 'ProfessorList',
