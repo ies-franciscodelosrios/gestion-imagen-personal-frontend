@@ -6,23 +6,15 @@ import { Card, CardBody, CardText, Form, Input, InputGroup, InputGroupText } fro
 import logo from '@src/assets/images/logo/logo.svg'
 const FaqFilter = ({ searchTerm, setSearchTerm, getFAQData }) => {
   const handleFaqFilter = e => {
-    setSearchTerm(e.target.value)
-    getFAQData(e.target.value)
+    /*setSearchTerm(e.target.value)
+    getFAQData(e.target.value)*/
   }
 
   return (
     <div id='faq-search-filter'>
       <Card
         className='faq-search'
-        style={{
-          border: "5px solid #e6f1f1",
-          "border-radius": "20px",
-          "margin-bottom":"20px",
-          "border-style": "outset",
-
-
-          backgroundImage: `url('@src/assets/images/banner/banner.png')`
-        }}
+       
       >
         <CardBody className='text-center'>
           <img
