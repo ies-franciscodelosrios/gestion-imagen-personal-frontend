@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
 import axios from 'axios'
-import { getAllProfesorData, getUserById ,DelUser } from '../../../../services/api'
+import { getAllProfesorData, getUserById ,ApiDelUser } from '../../../../services/api'
 
 /* ALL PROFESOR */
 
@@ -41,7 +41,7 @@ export const addUser = createAsyncThunk('appUsers/addUser', async (user, { dispa
 /* DELETE USER BY ID */
 
 export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { dispatch, getState }) => {
-  await DelUser(id)
+  await ApiDelUser(id)
   await dispatch(getData(getState().users.params))
   await dispatch(getAllData())
   return id
