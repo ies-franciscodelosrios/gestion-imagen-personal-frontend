@@ -22,6 +22,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateClient } from '../store';
+import { toast } from 'react-hot-toast';
 
 const ClientSheetsList = () => {
   // ** Store Vars
@@ -54,11 +55,10 @@ const ClientSheetsList = () => {
   Otros_esteticos: '',
 }
 
-  const [data, setData] = useState(
-    store.selectedClient.More_Info.length > 10
-      ? JSON.parse(store.selectedClient.More_Info)
-      : inputs );
+  const [data, setData] = useState(    store.selectedClient.More_Info.length > 10 ? JSON.parse(store.selectedClient.More_Info) : inputs );
 
+  const { reset, handleSubmit, control } = useForm({ inputs });
+  
   // ** Get data on mount
   useEffect(() => {
     try {
@@ -69,9 +69,6 @@ const ClientSheetsList = () => {
     handleReset();
   }, [dispatch, store.selectedClient]);
   
-
-  const { reset, handleSubmit, control } = useForm({ inputs });
-
   /**
    * Funcition that excute the save button
    * @param {*} data to save into client
@@ -86,29 +83,29 @@ const ClientSheetsList = () => {
   const handleReset = () => {
     reset({
       Alergias: data.Alergias,
-      Patologias: '',
-      Intervenciones: '',
-      Medicamento: '',
-      Protesis: '',
-      Otros_antecedentes: '',
-      Fuma: '',
-      Frecuencia_fuma: '',
-      alcohol: '',
-      Frecuencia_alcohol: '',
-      agua: '',
-      Frecuencia_agua: '',
-      deporte: '',
-      Frecuencia_deporte: '',
-      tipo_vida: '',
-      tolerancia_solar: '',
-      Cicatricacion: '',
-      Alimentacion: '',
-      tratamientos: '',
-      Problema: '',
-      Problema_tiempo: '',
-      Problema_relacion: '',
-      Cosmeticos: '',
-      Otros_esteticos: '',
+      Patologias: data.Patologias,
+      Intervenciones: data.Intervenciones,
+      Medicamento: data.Medicamento,
+      Protesis: data.Protesis,
+      Otros_antecedentes: data.Otros_antecedentes,
+      Fuma: data.Fuma,
+      Frecuencia_fuma: data.Frecuencia_fuma,
+      alcohol: data.alcohol,
+      Frecuencia_alcohol: data.Frecuencia_alcohol,
+      agua: data.agua,
+      Frecuencia_agua: data.Frecuencia_agua,
+      deporte: data.deporte,
+      Frecuencia_deporte: data.Frecuencia_deporte,
+      tipo_vida: data.tipo_vida,
+      tolerancia_solar: data.tolerancia_solar,
+      Cicatricacion: data.Cicatricacion,
+      Alimentacion: data.Alimentacion,
+      tratamientos: data.tratamientos,
+      Problema: data.Problema,
+      Problema_tiempo: data.Problema_tiempo,
+      Problema_relacion: data.Problema_relacion,
+      Cosmeticos: data.Cosmeticos,
+      Otros_esteticos: data.Otros_esteticos,
     });
   };
 
@@ -126,7 +123,7 @@ const ClientSheetsList = () => {
                 Alergias
               </Label>
               <Controller
-                defaultValue={data.Patologias}
+                defaultValue={data.Alergias}
                 control={control}
                 id="Alergias"
                 name="Alergias"
@@ -501,7 +498,7 @@ const ClientSheetsList = () => {
             </Col>
             <Col sm="12">
               <div className="d-flex">
-                <Button className="me-1" color="primary" type="submit">
+                <Button className="me-1" color="primary" type="submit" onClick={()=> toast.success('Correctamente Guardado!')}>
                   Guardar
                 </Button>
                 <Button
@@ -509,6 +506,7 @@ const ClientSheetsList = () => {
                   color="secondary"
                   onClick={() => {
                     handleReset();
+                    toast.error('Borrado de datos no guardados')
                   }}
                 >
                   Cancelar
