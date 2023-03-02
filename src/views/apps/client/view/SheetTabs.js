@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { selectThemeColors } from '@utils';
 
 // ** Icons Imports
-import { Home, Settings, EyeOff, User } from 'react-feather';
+import { Home, Settings, EyeOff, User, Trello } from 'react-feather';
 import {
   Row,
   Col,
@@ -41,11 +41,7 @@ const SheetTabs = () => {
       ? JSON.parse(store.selectedClient.Life_Style)
       : {}
   );
-  const [datatab2, setDatatab2] = useState(
-    store.selectedClient.Background_Health.length > 20
-      ? JSON.parse(store.selectedClient.Background_Health)
-      : {}
-  );
+
 
   // ** State
   const [active, setActive] = useState('1');
@@ -205,25 +201,34 @@ const SheetTabs = () => {
 
   const capilar_fields = {
     1: {
-  t2Coloracion: {label:'Coloracion', identifier:'t2Coloracion'},
-  t2Tacto: {label:'Tacto', identifier:'t2Tacto'},
-  t2Brillo_piel: {label:'Brillo piel', identifier:'t2Brillo_piel'},
-  t2Grado_hidratacion: {label:'Grado hidratacion', identifier:'t2Grado_hidratacion'},
-  t2Secreciones_sebaceas: {label:'Secreciones sebaceas', identifier:'t2Secreciones_sebaceas'},
-  t2Alteracion_vacular: {label:'Alteracion vacular', identifier:'t2Alteracion_vacular'},
-  t2Alteracion_Tallo_Capilar: {label:'Alteracion Tallo Capilar', identifier:'t2Alteracion_Tallo_Capilar'},
-  t2Descamacion: {label:'Descamacion', identifier:'t2Descamacion'},
-  t2Otras_alteraciones: {label:'Otras alteraciones', identifier:'t2Otras_alteraciones'},
- }
-// 2: {
-//   Lupa: {label:'Lupa', identifier:'Lupa'}, 
-//   Medidor_de_hidratacion: {label:'Medidor de hidratacion', identifier:'Medidor_de_hidratacion'}, 
-//   Luz_de_Wood: {label:'Luz de Wood', identifier:'Luz_de_Wood'}, 
-//   Otros_medios: {label:'Otros medios', identifier:'Otros_medios'}},
-// 3: {
-// Tipo: {label:'Tipo', identifier:'Tipo'}, 
-// Alteraciones: {label:'Alteraciones', identifier:'Alteraciones'}},
-};
+      t2Coloracion: {label:'Coloracion', identifier:'t2Coloracion'},
+      t2Tacto: {label:'Tacto', identifier:'t2Tacto'},
+      t2Brillo_piel: {label:'Brillo piel', identifier:'t2Brillo_piel'},
+      t2Grado_hidratacion: {label:'Grado hidratacion', identifier:'t2Grado_hidratacion'},
+      t2Secreciones_sebaceas: {label:'Secreciones sebaceas', identifier:'t2Secreciones_sebaceas'},
+      t2Alteracion_vacular: {label:'Alteracion vacular', identifier:'t2Alteracion_vacular'},
+      t2Alteracion_Tallo_Capilar: {label:'Alteracion Tallo Capilar', identifier:'t2Alteracion_Tallo_Capilar'},
+      t2Descamacion: {label:'Descamacion', identifier:'t2Descamacion'},
+      t2Otras_alteraciones: {label:'Otras alteraciones', identifier:'t2Otras_alteraciones'},
+    },
+    2: {
+      t2Microcamara: {label:'Microcámara', identifier:'t2Microcamara'}, 
+      t2Otros_medios: {label:'Otros medios', identifier:'t2Otros_medios'}
+    },
+    3: {
+      t2Frecuencia_lavado: {label:'Frecuencia de lavado', identifier:'t2Frecuencia_lavado'}, 
+      t2Comsmeticos_habituales: {label:'Cosméticos habituales', identifier:'t2Comsmeticos_habituales'},
+      t2Frecuencia_secador: {label:'Frecuencia de secador', identifier:'t2Frecuencia_secador'}, 
+      t2Frecuencia_plancha: {label:'Frecuencia de plancha', identifier:'t2Frecuencia_plancha'},
+      t2Uso_utensilios_peluqueria: {label:'Uso de otros utensilios de peluqueria', identifier:'t2Uso_utensilios_peluqueria'}, 
+      t2Frecuencia_asis_peluqueria: {label:'Frecuencia asistencia peluqueria', identifier:'t2Frecuencia_asis_peluqueria'},
+      t2Servicios_peluqueria: {label:'Servicios peluqueria realizados', identifier:'t2Servicios_peluqueria'}, 
+    },
+    4: {
+      t2Tipo: {label:'Tipo', identifier:'t2Tipo'}, 
+      t2Alteraciones: {label:'Alteraciones', identifier:'t2Alteraciones'}
+    },
+  };
   var capilar_options = {
     1: [
       [
@@ -286,9 +291,59 @@ const SheetTabs = () => {
         { value: 'Picor/sudoración', label: 'Picor/sudoración' },
       ],
     ],
-
+    2: ['',''],
+    3: [
+    [
+      { value: 'Diario', label: 'Diario' },
+      { value: 'Cada dos días', label: 'Cada dos días' },
+      { value: 'Más', label: 'Más' },
+    ],[
+      { value: 'Champú', label: 'Champú' },
+      { value: 'Mascarilla', label: 'Mascarilla' },
+      { value: 'Acomdicionador', label: 'Acomdicionador' },
+    ],[
+      { value: 'Diario', label: 'Diario' },
+      { value: 'Cada dos días', label: 'Cada dos días' },
+      { value: 'Más', label: 'Más' },
+    ],[
+      { value: 'Diario', label: 'Diario' },
+      { value: 'Cada dos días', label: 'Cada dos días' },
+      { value: 'Más', label: 'Más' },
+    ],[],[
+      { value: 'Semanal', label: 'Semanal' },
+      { value: 'Mensual', label: 'Mensual' },
+      { value: 'Más', label: 'Más' },
+    ],[
+      { value: 'Coloración', label: 'Coloración' },
+      { value: 'Permanente', label: 'Permanente' },
+    ]
+    ],
+    4: ['','']
   };
 
+  const color_fields = {
+    1: {
+      t3Cabello: {label:'Cabello', identifier:'t3Cabello'},
+      t3Altura_Tono: {label:'Altura de tono', identifier:'t3Altura_Tono'},
+      t3Reflejo: {label:' Reflejo', identifier:'t3Reflejo'},
+      t3Intensidad: {label:'Intensidad', identifier:'t3Intensidad'},
+      t3Porcetaje_canas: {label:'Porcentaje de canas', identifier:'t3Porcetaje_canas'},
+      t3Color_deseado: {label:' Color deseado', identifier:'t3Color_deseado'},
+    }
+  };
+  var color_options = {
+    1: [
+      [
+        { value: 'Graso', label: 'Graso' },
+        { value: 'Seco', label: 'Seco' },
+        { value: 'Normal', label: 'Normal' },
+        { value: 'Grueso', label: 'Grueso' },
+        { value: 'Fino', label: 'Fino' },
+        { value: 'Poroso', label: 'Poroso' },
+        { value: 'No Poroso', label: 'No Poroso' },
+      ],[],[],[],[],[]
+    ]
+  };
 
   const { reset, handleSubmit, control } = useForm(facial_fields);
 
@@ -296,20 +351,14 @@ const SheetTabs = () => {
    * Funcitions that excute the save button
    * @param {*} data to save into client
    */
-  const onSubmittab1 = async (data) => {
+  const onSubmit = async (data) => {
     const updatedClient = { ...store.selectedClient };
     await setDatatab1(data);
 
     updatedClient.Life_Style = JSON.stringify(data);
     dispatch(updateClient(updatedClient));
   };
-   const onSubmittab2 = async (data) => {
-    const updatedClient = { ...store.selectedClient };
-    await setDatatab2(data);
 
-    updatedClient.Life_Style = JSON.stringify(data);
-    dispatch(updateClient(updatedClient));
-  };
 
   /**
    * Funcition to change between tabs.
@@ -346,6 +395,34 @@ const SheetTabs = () => {
       Otros_medios: datatab1['Otros_medios'] || '',
       Tipo: datatab1['Tipo'] || '',
       Alteraciones: datatab1['Alteraciones'] || '',
+      // TAB 2
+      t2Coloracion: datatab1['t2Coloracion'] || '',
+      t2Tacto: datatab1['t2Tacto'] || '',
+      t2Brillo_piel: datatab1['t2Brillo_piel'] || '',
+      t2Grado_hidratacion: datatab1['t2Grado_hidratacion'] || '',
+      t2Secreciones_sebaceas: datatab1['t2Secreciones_sebaceas'] || '',
+      t2Alteracion_vacular: datatab1['t2Alteracion_vacular'] || '',
+      t2Alteracion_Tallo_Capilar: datatab1['t2Alteracion_Tallo_Capilar'] || '',
+      t2Descamacion: datatab1['t2Descamacion'] || '',
+      t2Otras_alteraciones: datatab1['t2Otras_alteraciones'] || '',
+      t2Microcamara: datatab1['t2Microcamara'] || '', 
+      t2Otros_medios: datatab1['t2Otros_medios'] || '',
+      t2Frecuencia_lavado: datatab1['t2Frecuencia_lavado'] || '', 
+      t2Comsmeticos_habituales: datatab1['t2Comsmeticos_habituales'] || '',
+      t2Frecuencia_secador: datatab1['t2Frecuencia_secador'] || '', 
+      t2Frecuencia_plancha: datatab1['t2Frecuencia_plancha'] || '',
+      t2Uso_utensilios_peluqueria: datatab1['t2Uso_utensilios_peluqueria'] || '', 
+      t2Frecuencia_asis_peluqueria: datatab1['t2Frecuencia_asis_peluqueria'] || '',
+      t2Servicios_peluqueria: datatab1['t2Servicios_peluqueria'] || '', 
+      t2Tipo: datatab1['t2Tipo'] || '', 
+      t2Alteraciones: datatab1['t2Alteraciones'] || '',
+      //TAB 3
+      t3Altura_Tono: datatab1['t3Altura_Tono'] || '',
+      t3Reflejo: datatab1['t3Reflejo'] || '',
+      t3Intensidad: datatab1['t3Intensidad'] || '',
+      t3Porcetaje_canas: datatab1['t3Porcetaje_canas'] || '',
+      t3Color_deseado: datatab1['t3Color_deseado'] || '',
+      t3Cabello: datatab1['t3Cabello'] || '',
     });
   };
 
@@ -371,7 +448,7 @@ const SheetTabs = () => {
               toggle('1');
             }}
           >
-            <Home size={14} />
+            <Trello size={14} />
             <span className="align-middle">Facial</span>
           </NavLink>
         </NavItem>
@@ -382,7 +459,7 @@ const SheetTabs = () => {
               toggle('2');
             }}
           >
-            <Settings size={14} />
+            <Trello size={14} />
             <span className="align-middle">Capilar</span>
           </NavLink>
         </NavItem>
@@ -393,15 +470,15 @@ const SheetTabs = () => {
               toggle('3');
             }}
           >
-            <Settings size={14} />
-            <span className="align-middle">Capilar</span>
+            <Trello size={14} />
+            <span className="align-middle">Color Pelo</span>
           </NavLink>
         </NavItem>
       </Nav>
       <TabContent className="py-50 align-middle " activeTab={active}>
         <TabPane tabId="1">
           <CardBody>
-            <Form onSubmit={handleSubmit(onSubmittab1)}>
+            <Form onSubmit={handleSubmit(onSubmit)}>
               <Row>
                 <CardHeader>
                   <CardTitle tag="h4">Observación,Tacto y Palpación</CardTitle>
@@ -490,8 +567,8 @@ const SheetTabs = () => {
                         render={({ field }) => (
                           <Input
                             {...field}
-                            type="text"
-                            placeholder="Cosmeticos usados"
+                            type="textarea"
+                            placeholder="Escribe..."
                           />
                         )}
                       />
@@ -521,7 +598,7 @@ const SheetTabs = () => {
         </TabPane>
         <TabPane tabId="2">
           <CardBody>
-          <Form onSubmit={handleSubmit(onSubmittab2)}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
               <Row>
               <CardHeader>
                   <CardTitle tag="h4">Observación,Tacto y Palpación</CardTitle>
@@ -558,15 +635,110 @@ const SheetTabs = () => {
                     </Col>
                   );
                 })}
+                <CardHeader>
+                  <CardTitle tag="h4">Exploración con Aparatologia</CardTitle>
+                </CardHeader>
+                {Object.values(capilar_fields[2]).map((dato, index) => {
+                  return (
+                    <Col md="6" sm="12" className="mb-1" key={dato.identifier}>
+                      <Label className="form-label" for={dato.identifier}>
+                        {dato.label}
+                      </Label>
+                      <Controller
+                        control={control}
+                        id={dato.identifier}
+                        name={dato.identifier}
+                        defaultValue={capilar_options[2][index]}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            type="textarea"
+                            placeholder= 'Escribe...'
+                          />
+                        )}
+                      />
+                    </Col>
+                  );
+                })}
+                <CardHeader>
+                  <CardTitle tag="h4">Hábitos Capilares</CardTitle>
+                </CardHeader>
+                {Object.values(capilar_fields[3]).map((data, index) => {
+                  return (
+                    <Col md="6" sm="12" className="mb-1" key={data.identifier}>
+                      <Label className="form-label" for={data.identifier}>
+                        {data.label}
+                      </Label>
+                      <Controller
+                        control={control}
+                        id={data.identifier}
+                        name={data.identifier}
+                        render={({ field }) => (
+                          <CreatableSelect
+                            noOptionsMessage={() => 'Nada Disponible'}
+                            placeholder="Selecciona..."
+                            formatCreateLabel={(inputText) =>
+                              `Crear"${inputText}"`
+                            }
+                            theme={selectThemeColors}
+                            isMulti="true"
+                            options={capilar_options[3][index]}
+                            defaultValue={
+                              datatab1 !== null ? datatab1[data.identifier] : ''
+                            }
+                            classNamePrefix="select"
+                            className="react-select"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </Col>
+                  );
+                })}
+                <CardHeader>
+                  <CardTitle tag="h4">Diagnostico Capilar</CardTitle>
+                </CardHeader>
+                {Object.values(capilar_fields[4]).map((dato, index) => {
+                  return (
+                    <Col md="6" sm="12" className="mb-1" key={dato.identifier}>
+                      <Label className="form-label" for={dato.identifier}>
+                        {dato.label}
+                      </Label>
+                      <Controller
+                        control={control}
+                        id={dato.identifier}
+                        name={dato.identifier}
+                        defaultValue={capilar_options[4][index]}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            type="textarea"
+                            placeholder= 'Escribe...'
+                          />
+                        )}
+                      />
+                    </Col>
+                  );
+                })}
                 <Col sm="12">
                   <div className="d-flex">
                     <Button
                       className="me-1"
                       color="primary"
                       type="submit"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={()=> toast.success('Correctamente Guardado!')}
                     >
                       Guardar
+                    </Button>
+                    <Button
+                      className="me-1"
+                      color="secondary"
+                      onClick={async() => {
+                        handleReset();
+                        toast.error('Borrado de datos no guardados')
+                      }}
+                    >
+                      Cancelar
                     </Button>
                   </div>
                 </Col>
@@ -576,39 +748,62 @@ const SheetTabs = () => {
         </TabPane>
         <TabPane tabId="3">
           <CardBody>
-            <Form>
+          <Form onSubmit={handleSubmit(onSubmit)}>
               <Row>
-                <Col md="6" sm="12" className="mb-1">
-                  <Label className="form-label" for="nameMultid">
-                    First Name
-                  </Label>
-                  <Input
-                    type="text"
-                    name="name"
-                    id="nameMultid"
-                    placeholder="First Name"
-                  />
-                </Col>
-                <Col md="6" sm="12" className="mb-1">
-                  <Label className="form-label" for="lastNameMultif">
-                    Last Name
-                  </Label>
-                  <Input
-                    type="text"
-                    name="lastname"
-                    id="lastNameMultif"
-                    placeholder="Last Name"
-                  />
-                </Col>
+                <CardHeader>
+                  <CardTitle tag="h4">Datos de Color Peluqueria</CardTitle>
+                </CardHeader>
+                {Object.values(color_fields[1]).map((data, index) => {
+                  return (
+                    <Col md="6" sm="12" className="mb-1" key={data.identifier}>
+                      <Label className="form-label" for={data.identifier}>
+                        {data.label}
+                      </Label>
+                      <Controller
+                        control={control}
+                        id={data.identifier}
+                        name={data.identifier}
+                        render={({ field }) => (
+                          <CreatableSelect
+                            noOptionsMessage={() => 'Nada Disponible'}
+                            placeholder="Selecciona..."
+                            formatCreateLabel={(inputText) =>
+                              `Crear"${inputText}"`
+                            }
+                            theme={selectThemeColors}
+                            isMulti="true"
+                            options={color_options[1][index]}
+                            defaultValue={
+                              datatab1 !== null ? datatab1[data.identifier] : ''
+                            }
+                            classNamePrefix="select"
+                            className="react-select"
+                            {...field}
+                          />
+                        )}
+                      />
+                    </Col>
+                  );
+                })}
                 <Col sm="12">
                   <div className="d-flex">
-                    <Button
+                  <Button
                       className="me-1"
                       color="primary"
                       type="submit"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={()=> toast.success('Correctamente Guardado!')}
                     >
                       Guardar
+                    </Button>
+                    <Button
+                      className="me-1"
+                      color="secondary"
+                      onClick={async() => {
+                        handleReset();
+                        toast.error('Borrado de datos no guardados')
+                      }}
+                    >
+                      Cancelar
                     </Button>
                   </div>
                 </Col>
