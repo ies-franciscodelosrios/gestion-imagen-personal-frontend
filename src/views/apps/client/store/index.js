@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
 import { AddClient, ApiDelClient, getAllClientsData, getClientById, updateClientBy } from '../../../../services/api'
-import { sort_data } from './sort_utils'
+import { handleConfirmCancel, sort_data } from './sort_utils'
 
 
 export const getAllData = createAsyncThunk('appClients/getAllData', async (params) => {
@@ -35,6 +35,7 @@ export const getClient = createAsyncThunk('appClients/getClient', async id => {
 })
 
 export const updateClient = createAsyncThunk('appClients/updateClient', async updatedClient => {
+  console.log(updatedClient);
   await updateClientBy(updatedClient);
   return updatedClient
 })
@@ -46,7 +47,8 @@ export const addClient = createAsyncThunk('appClients/addClient', async (user, {
 })
 
 export const deleteClient = createAsyncThunk('appClients/deleteClient', async (id, { dispatch, getState }) => {
-  await ApiDelClient(id)
+  (await handleConfirmCancel())? await ApiDelClient(id) :'';
+
   const response = await getAllClientsData().then(result => {return result.data.users}) 
   return response})
 
