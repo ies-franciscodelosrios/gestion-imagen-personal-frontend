@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
@@ -29,6 +29,11 @@ import img6 from '@src/assets/images/avatars/11-small.png'
 // ** Styles Imports
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
+import { AddAppointment, getAllClientsData, getAllStudentsData, getAllUserData } from '../../../services/api'
+
+
+
+
 
 const AddEventSidebar = props => {
   // ** Props
@@ -60,6 +65,10 @@ const AddEventSidebar = props => {
     })
 
   // ** States
+  const [alumnos, setAlumnos] = useState('')
+  const [dnialumno, setDniAlumno] = useState('')
+  const [dnicliente, setDniCliente] = useState('')
+  const [clientes, setClientes] = useState('')
   const [url, setUrl] = useState('')
   const [desc, setDesc] = useState('')
   const [guests, setGuests] = useState({})
@@ -69,24 +78,37 @@ const AddEventSidebar = props => {
   const [endPicker, setEndPicker] = useState(new Date())
   const [startPicker, setStartPicker] = useState(new Date())
   const [calendarLabel, setCalendarLabel] = useState([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
+  useEffect(() => {
+    fetchData();
+    handleSubmit();
+  }, []);
 
+  
   // ** Select Options
   const options = [
     { value: 'Peluquería', label: 'Peluquería', color: 'danger' },
     { value: 'Estética', label: 'Estética', color: 'warning' },
   ]
 
-  const guestsOptions = [
-    { value: 'Nerea Fernández', label: 'Nerea Fernández', avatar: img1 },
-    { value: 'Lorena Santos', label: 'Lorena Santos', avatar: img2 },
-    { value: 'Silvia García', label: 'Silvia García', avatar: img3 },
+  const fetchData = async () => {
+    const response = await getAllStudentsData();
+    const response2 = await getAllClientsData();
+    const data = response.data.users.map((alumno) => ({
+      value: `${alumno.Name} ${alumno.Surname}`,
+      label: `${alumno.Name} ${alumno.Surname}`,
+      dni: alumno.DNI,
+      avatar: img5
+    }));
+    const data2 = response2.data.users.map((cliente) => ({
+      value: `${cliente.Name} ${cliente.Surname}`,
+      label: `${cliente.Name} ${cliente.Surname}`,
+      dni: cliente.DNI,
+      avatar: img5
+    }));
+    setAlumnos(data);
+    setClientes(data2);
+  };
 
-  ]
-
-  const alumnos = [
-    { value: 'Fran Sánchez', label: 'Fran Sánchez', avatar: img5 },
-    { value: 'Noelia Hurtado', label: 'Noelia Hurtado', avatar: img6 },
-  ]
 
   // ** Custom select components
   const OptionComponent = ({ data, ...props }) => {
@@ -99,10 +121,9 @@ const AddEventSidebar = props => {
   }
 
   const GuestsComponent = ({ data, ...props }) => {
-    return (
+    return (          
       <components.Option {...props}>
         <div className='d-flex flex-wrap align-items-center'>
-          <Avatar className='my-0 me-1' size='sm' img={data.avatar} />
           <div>{data.label}</div>
         </div>
       </components.Option>
@@ -113,19 +134,28 @@ const AddEventSidebar = props => {
   const handleAddEvent = () => {
     const obj = {
       title: getValues('title'),
+      dateappo: startPicker.toISOString().slice(0, 10),
       start: startPicker,
-      end: endPicker,
-      allDay,
+      dnialumno : dnialumno,
+      dnicliente : dnicliente,
       display: 'block',
       extendedProps: {
         calendar: calendarLabel[0].label,
         url: url.length ? url : undefined,
         guests: guests.length ? guests : undefined,
         pupils: pupils.length ? pupils : undefined,
-        location: location.length ? location : undefined,
+        // location: location.length ? location : undefined,
         desc: desc.length ? desc : undefined
       }
     }
+    console.log(obj.dateappo);
+    if(obj.calendar="Peluquería")
+      obj.calendar= 0;
+    else
+      obj.calendar=1;
+
+    console.log(obj.calendar);
+    AddAppointment(obj);
     dispatch(addEvent(obj))
     refetchEvents()
     handleAddEventSidebar()
@@ -220,8 +250,8 @@ const AddEventSidebar = props => {
         }
       }
 
-      const propsToUpdate = ['id', 'title', 'url']
-      const extendedPropsToUpdate = ['calendar', 'guests','pupils', 'location', 'description']
+      const propsToUpdate = ['id', 'title', 'url', 'alumnos']
+      const extendedPropsToUpdate = ['calendar', 'guests','alumnos','pupils', 'location', 'description']
       dispatch(updateEvent(eventToUpdate))
       updateEventInCalendar(eventToUpdate, propsToUpdate, extendedPropsToUpdate)
 
@@ -363,7 +393,7 @@ const AddEventSidebar = props => {
               />
             </div>
 
-            <div className='mb-1'>
+            {/* <div className='mb-1'>
               <Label className='form-label' for='endDate'>
                 Fecha de Terminar
               </Label>
@@ -381,7 +411,7 @@ const AddEventSidebar = props => {
                   dateFormat: 'd-m-Y H:i'
                 }}
               />
-            </div>
+            </div> */}
 {/* 
             <div className='form-switch mb-1'>
               <Input
@@ -423,11 +453,17 @@ menuPortalTarget={document.body}
                 className='react-select'
                 classNamePrefix='select'
                 isClearable={false}
-                options={guestsOptions}
+                options={clientes}
                 placeholder='Seleccionar'
                 theme={selectThemeColors}
                 value={guests.length ? [...guests] : null}
-                onChange={data => setGuests([...data])}
+                onChange={data => { setGuests([...data])
+                  if (data) {
+                    const selectedDnis = data.map(item => item.dni);
+                    setDniCliente(selectedDnis[0]);
+                    console.log(dnicliente);
+                  }
+                }}
                 components={{
                   Option: GuestsComponent
                   
@@ -451,7 +487,13 @@ menuPortalTarget={document.body}
                 options={alumnos}
                 theme={selectThemeColors}
                 value={pupils.length ? [...pupils] : null}
-                onChange={data => setPupils([...data])}
+                onChange={data => { setPupils([...data]);
+                  if (data) {
+                    const selectedDnis = data.map(item => item.dni);
+                    setDniAlumno(selectedDnis[0]);
+                    console.log(dnialumno);
+                  }
+                }}
                 components={{
                   Option: GuestsComponent
                 }}
