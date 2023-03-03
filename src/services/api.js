@@ -167,7 +167,6 @@ export const getAllProfesorData = async () => {
  */
 export const getAllStudentsData = async () => {
   return await ApiConnect.get('/users/rol/2', {
-
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -209,3 +208,41 @@ export const ApiDelUser = async (id) => {
   });
 };
 
+/* Appointments */
+/* ----------------------------------------------------------------------------------------------------------------------------------------- */
+
+/**
+ * Http Request to add a new appointment
+ * @returns response 200 if ok
+ */
+export const AddAppointment = async (event) => {
+  return await ApiConnect.post(
+    `appointment`,
+    {
+      Date: event.dateappo,
+      Treatment: event.calendar,
+      Protocol: event.title,
+      DNI_client: event.dnicliente,
+      DNI_Student: event.dnialumno,
+      Consultancy: event.desc,
+      created_at: event.start,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+};
+
+export const getAllAppointments = async () => {
+  return await ApiConnect.get('appointments', {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
