@@ -69,7 +69,7 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
     setData(data);
     if (checkIsValid(data)) {
       toggleSidebar();
-      //console.log(data);
+      console.log(data);
       dispatch(
         addClient({
           DNI: data.DNI,
@@ -96,6 +96,7 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
         }
       }
     }
+    console.log(onSubmit)
   };
 
   const handleSidebarClosed = () => {

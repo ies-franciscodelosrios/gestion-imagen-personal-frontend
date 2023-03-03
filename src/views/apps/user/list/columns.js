@@ -78,7 +78,7 @@ export const columns = [
     name: 'Nombre Completo',
     sortable: true,
     minWidth: '300px',
-    sortField: 'fullName',
+    sortField: 'Name',
     selector: row => row.Name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
@@ -118,7 +118,7 @@ export const columns = [
     minWidth: '140px',
     sortField: 'Email',
     selector: row => row.email,
-    cell: row => <span className='text-capitalize'>{row.email}</span>
+    cell: row => <span>{row.email}</span>
   },
   {
     name: 'Actions',
