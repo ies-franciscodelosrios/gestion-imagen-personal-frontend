@@ -17,7 +17,7 @@ import UserInfoCard from './UserInfoCard'
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 
-const UserView = () => {
+const TeacherView = () => {
   // ** Store Vars
   const store = useSelector(state => state.users)
   const dispatch = useDispatch()
@@ -49,14 +49,20 @@ const UserView = () => {
           <UserTabs active={active} toggleTab={toggleTab} />
         </Col>
       </Row>
+      <Row>
+        {' '}
+        <Col sm="12">
+          <SheetTabs ></SheetTabs>
+        </Col>
+      </Row>
     </div>
   ) : (
     <Alert color='danger'>
-      <h4 className='alert-heading'>User not found</h4>
+      <h4 className='alert-heading'>Profesor no encontrado</h4>
       <div className='alert-body'>
-        User with id: {id} doesn't exist. Check list of all Users: <Link to='/apps/user/list'>Users List</Link>
+        Profesor con id: {id} no existe. Revise la lista de profesores: <Link to='/apps/profesor/list'>Lista de profesores</Link>
       </div>
     </Alert>
   )
 }
-export default UserView
+export default TeacherView
