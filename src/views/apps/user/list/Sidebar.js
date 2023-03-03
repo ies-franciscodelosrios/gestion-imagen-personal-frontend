@@ -176,7 +176,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
                 className='react-select'
                 classNamePrefix='select'
                 id="Cycle"
-                placeholder="Grado Medio - Peluquería y cosmética capilar"
+                placeholder="Elige tu ciclo"
                 invalid={errors.Cycle && true}
                 {...field}
               />
