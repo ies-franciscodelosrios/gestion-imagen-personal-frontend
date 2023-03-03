@@ -238,8 +238,6 @@ export const AddStudent = async (user) => {
 };
 
 
-
-
 /**
  * Http Request to delete a student by id
  * @param {*} id to identify the student
