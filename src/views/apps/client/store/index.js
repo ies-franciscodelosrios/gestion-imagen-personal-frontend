@@ -6,15 +6,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { AddClient, ApiDelClient, getAllClientsData, getClientById, updateClientBy } from '../../../../services/api'
 import { sort_data } from './sort_utils'
 
-
+// Preguntar mañana de donde viene appClients
 export const getAllData = createAsyncThunk('appClients/getAllData', async (params) => {
   const response = {"data": {"users": params.data}} 
   if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
     Object.assign(response, await getAllClientsData().then(result => {return result})) 
- }
+  }
   return response.data.users
 })
-
 
 export const getData = createAsyncThunk('appClients/getData', async params => {
   const response = {"data": {"users": params.data}};

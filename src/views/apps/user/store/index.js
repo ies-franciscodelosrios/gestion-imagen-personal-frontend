@@ -3,15 +3,24 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
 import axios from 'axios'
-import { ApiDelUser, getAllStudentsData, getUserById } from '../../../../services/api'
+import {getAllStudentsData, getUserById, updateUserBy, ApiDelUser, AddStudent  } from '../../../../services/api'
+import { sort_data } from './sort_utils'
 
-export const getAllData = createAsyncThunk('appUsers/getAllData', async () => {
-  const response = await getAllStudentsData().then(result => {return result}) 
+
+export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
+  const response = {"data": {"users": params.data}} 
+  if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
+    Object.assign(response, await getAllStudentsData().then(result => {return result}))
+  }
   return response.data.users
 })
 
 export const getData = createAsyncThunk('appUsers/getData', async params => {
-  const response = await getAllStudentsData().then(result => {return result})
+  const response = {"data": {"users": params.data}}; 
+  if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
+    Object.assign(response, await getAllStudentsData().then(result => {return result}))
+  }
+  response.data.users = sort_data(params, response.data.users);
   return {
     params,
     data: response.data.users,
@@ -21,23 +30,25 @@ export const getData = createAsyncThunk('appUsers/getData', async params => {
 
 export const getUser = createAsyncThunk('appUsers/getUser', async id => {
   const response = await getUserById(id).then(result => {return result})
-  console.log(response)
   return response.data.user
 })
 
+export const updateUser = createAsyncThunk('appUsers/updateUser', async updatedUser => {
+  await updateUserBy(updatedUser);
+  return updatedUser
+})
+
 export const addUser = createAsyncThunk('appUsers/addUser', async (user, { dispatch, getState }) => {
-  await axios.post('/apps/users/add-user', user)
-  await dispatch(getData(getState().users.params))
-  await dispatch(getAllData())
-  return user
+  await AddStudent(user)
+  console.log(user)
+  const response = await getAllStudentsData().then(result => {return result.data.users})
+  return response
 })
 
 export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { dispatch, getState }) => {
   await ApiDelUser(id)
-  await dispatch(getData(getState().users.params))
-  await dispatch(getAllData())
-  return id
-})
+  const response = await getAllStudentsData().then(result => {return result.data.users}) 
+  return response})
 
 export const appUsersSlice = createSlice({
   name: 'appUsers',
@@ -61,6 +72,15 @@ export const appUsersSlice = createSlice({
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.selectedUser = action.payload
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.selectedUser = action.payload
+      })
+      .addCase(addUser.fulfilled, (state, action) => {
+        state.allData = action.payload
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.allData = action.payload
       })
   }
 })
