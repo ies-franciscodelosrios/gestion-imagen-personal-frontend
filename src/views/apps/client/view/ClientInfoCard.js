@@ -31,6 +31,7 @@ import Avatar from '@components/avatar';
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
+import { toast } from 'react-hot-toast';
 
 const roleColors = {
   editor: 'light-info',
@@ -328,7 +329,7 @@ const ClientInfoCard = () => {
               </Col>
 
               <Col xs={12} className="text-center mt-2 pt-50">
-                <Button type="submit" className="me-1" color="primary">
+                <Button type="submit" className="me-1" color="primary" onClick={()=> toast.success('Correctamente Guardado!')}>
                   Guardar
                 </Button>
                 <Button
@@ -338,6 +339,7 @@ const ClientInfoCard = () => {
                   onClick={() => {
                     handleReset();
                     setShow(false);
+                    toast.error('Borrado de datos no guardados')
                   }}
                 >
                   Cancelar
