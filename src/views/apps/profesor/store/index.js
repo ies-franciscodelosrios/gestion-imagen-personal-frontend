@@ -64,11 +64,6 @@ export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { d
   return id
 })
 
-/* export const updateUser = createAsyncThunk('appUsers/updateUser', async updatedUser => {
-  console.log(updatedUser);
-  await updateUserBy(updatedUser);
-  return updatedUser
-}) */
 
 export const appUsersSlice = createSlice({
   name: 'appUsers',
