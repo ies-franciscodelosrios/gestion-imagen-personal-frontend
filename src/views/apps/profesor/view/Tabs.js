@@ -15,8 +15,8 @@ import BillingPlanTab from './BillingTab'
 import UserTimeline from './UserTimeline'
 import Notifications from './Notifications'
 import UserProjectsList from './UserProjectsList'
-import ProfesorSheetList from './ProfesorSheetsList'
-const UserTabs = ({ active, toggleTab, profesor }) => {
+
+const UserTabs = ({ active, toggleTab }) => {
   return (
     <Fragment>
       <Nav pills className='mb-2'>
@@ -33,8 +33,8 @@ const UserTabs = ({ active, toggleTab, profesor }) => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink active={active === '3'} onClick={() => toggleTab('4')}>
-            <Bell className='font-medium-3 me-50' />
+          <NavLink active={active === '3'} onClick={() => toggleTab('3')}>
+            <Bookmark className='font-medium-3 me-50' />
             <span className='fw-bold'>Notificaciones</span>
           </NavLink>
         </NavItem>
@@ -44,23 +44,23 @@ const UserTabs = ({ active, toggleTab, profesor }) => {
             <span className='fw-bold'>Alumnos</span>
           </NavLink>
         </NavItem>
-        
+       
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId='1'>
-        <ProfesorSheetList profesor={profesor}/>
+          <UserProjectsList />
+          <UserTimeline />
+          <InvoiceList />
         </TabPane>
         <TabPane tabId='2'>
           <SecurityTab />
         </TabPane>
         <TabPane tabId='3'>
-          <SecurityTab />
+          <BillingPlanTab />
         </TabPane>
         <TabPane tabId='4'>
-          <SecurityTab />
+          <Notifications />
         </TabPane>
-   
-       
       </TabContent>
     </Fragment>
   )
