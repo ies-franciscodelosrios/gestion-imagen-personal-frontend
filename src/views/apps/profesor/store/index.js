@@ -3,8 +3,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
 import axios from 'axios'
+
 import { getAllProfesorData, getUserById, updateUserBy, ApiDelUser,AddProfesor } from '../../../../services/api'
 import { sort_data } from './sort_utils'
+
 
 
 /* ALL PROFESOR */
@@ -39,7 +41,9 @@ export const getData = createAsyncThunk('appProfesors/getData', async params => 
 export const getProfesor = createAsyncThunk('appProfesors/getUser', async id => {
   const response = await getUserById(id).then(result => { return result })
   console.log(response)
-  return response.data.user
+  console.log(response.data.users)
+
+  return response.data.users
 })
 /* ADD PROFESOR */
 export const addProfesor = createAsyncThunk('appProfesors/addUserProfesor', async (user, { dispatch, getState }) => {
@@ -69,7 +73,7 @@ export const appProfesorsSlice = createSlice({
     total: 1,
     params: {},
     allData: [],
-    selectedUser: null
+    selectedProfesor: null
   },
   reducers: {},
   extraReducers: builder => {
@@ -83,10 +87,10 @@ export const appProfesorsSlice = createSlice({
         state.total = action.payload.totalPages
       })
       .addCase(getProfesor.fulfilled, (state, action) => {
-        state.selectedUser = action.payload
+        state.selectedProfesor = action.payload
       })
       .addCase(updateProfesor.fulfilled, (state, action) => {
-        state.selectedUser = action.payload
+        state.selectedProfesor = action.payload
       })
       .addCase(addProfesor.fulfilled, (state, action) => {
         state.allData = action.payload
