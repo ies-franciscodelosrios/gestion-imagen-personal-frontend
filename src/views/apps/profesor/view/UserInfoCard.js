@@ -1,7 +1,7 @@
 // ** React Imports
 import { useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { updateUser } from '../store';
+import { updateProfesor } from '../store';
 
 // ** Reactstrap Imports
 import {
@@ -52,9 +52,9 @@ const MySwal = withReactContent(Swal);
 const UserInfoCard = () => {
   // ** Store Vars
   const dispatch = useDispatch();
-  const store = useSelector(state => state.users)
+  const store = useSelector(state => state.profesor)
 
-  const selectedUser = store.selectedUser;
+  const selectedUser = store.selectedProfesor;
 
   // ** State
   const [show, setShow] = useState(false);
@@ -99,15 +99,15 @@ const UserInfoCard = () => {
   };
 
   const onSubmit = (data) => {
-    const updateUser = { ...store.selectedUser };
+    const updateUser = { ...store.selectedProfesor };
     updateUser.Name = data.Name;
     updateUser.Surname = data.Surname;
     updateUser.email = data.email;
     updateUser.DNI = data.DNI;
     updateUser.Phone = data.Phone;
     if (Object.values(data).every((field) => field.toString().length > 0)) {
-      console.log(updateUser.id);
-      dispatch(updateClient(updateUser));
+      console.log(updateProfesor.id);
+      dispatch(updateProfesor(updateUser));
       setShow(false);
     } else {
       for (const key in data) {

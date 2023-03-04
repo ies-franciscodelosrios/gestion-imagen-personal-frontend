@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getUser } from '../store'
+import { getProfesor } from '../store'
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Reactstrap Imports
@@ -19,7 +19,7 @@ import '@styles/react/apps/app-users.scss'
 
 const TeacherView = () => {
   // ** Store Vars
-  const store = useSelector(state => state.users)
+  const store = useSelector(state => state.profesor)
   const dispatch = useDispatch()
 
   // ** Hooks
@@ -27,7 +27,7 @@ const TeacherView = () => {
 
   // ** Get suer on mount
   useEffect(() => {
-    dispatch(getUser(parseInt(id)))
+    dispatch(getProfesor(parseInt(id)))
   }, [dispatch])
 
   const [active, setActive] = useState('1')
@@ -38,14 +38,14 @@ const TeacherView = () => {
     }
   }
 
-  return store.selectedUser !== null && store.selectedUser !== undefined ? (
+  return store.selectedProfesor !== null && store.selectedProfesor !== undefined ? (
     <div className='app-user-view'>
       <Row>
         <Col xl='4' lg='5' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
-          <UserInfoCard selectedUser={store.selectedUser} />
+          <UserInfoCard selectedProfesor={store.selectedProfesor} />
         </Col>
         <Col xl='8' lg='7' xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          <UserTabs active={active} toggleTab={toggleTab} selectedUser={store.selectedUser} />
+          <UserTabs active={active} toggleTab={toggleTab} selectedProfesor={store.selectedProfesor} />
         </Col>
       </Row>
     </div>

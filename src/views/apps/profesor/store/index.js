@@ -73,7 +73,7 @@ export const appProfesorsSlice = createSlice({
     total: 1,
     params: {},
     allData: [],
-    selectedUser: null
+    selectedProfesor: null
   },
   reducers: {},
   extraReducers: builder => {
@@ -87,10 +87,10 @@ export const appProfesorsSlice = createSlice({
         state.total = action.payload.totalPages
       })
       .addCase(getProfesor.fulfilled, (state, action) => {
-        state.selectedUser = action.payload
+        state.selectedProfesor = action.payload
       })
       .addCase(updateProfesor.fulfilled, (state, action) => {
-        state.selectedUser = action.payload
+        state.selectedProfesor = action.payload
       })
       .addCase(addProfesor.fulfilled, (state, action) => {
         state.allData = action.payload
