@@ -6,6 +6,7 @@ import todo from '@src/views/apps/todo/store'
 import chat from '@src/views/apps/chat/store'
 import clients from '@src/views/apps/client/store'
 import users from '@src/views/apps/user/store'
+import profesor from '@src/views/apps/profesor/store'
 import email from '@src/views/apps/email/store'
 import kanban from '@src/views/apps/kanban/store'
 import invoice from '@src/views/apps/invoice/store'
@@ -21,6 +22,7 @@ const rootReducer = {
   email,
   clients,
   users,
+  profesor,
   kanban,
   navbar,
   layout,

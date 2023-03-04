@@ -19,7 +19,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { Button, Label, FormText, Form, Input } from 'reactstrap'
 
 // ** Store & Actions
-import { addUserProfesor } from '../store'
+import { addProfesor } from '../store'
 import { useDispatch } from 'react-redux'
 
 const defaultValues = {
@@ -42,7 +42,7 @@ const checkIsValid = data => {
     typeof field === 'object' ? field !== null : field.length > 0)
 }
 
-const SidebarNewUsers = ({ open, toggleSidebar }) => {
+const SidebarNewProfesor = ({ open, toggleSidebar }) => {
   // ** States
   const [data, setData] = useState(null);
   const [BirthPicker, setBirthPicker] = useState(new Date());
@@ -70,7 +70,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
       toggleSidebar()
       console.log(data);
       dispatch(
-        addUserProfesor({
+        addProfesor({
           DNI: data.DNI,
           Rol: data.Rol,
           Course_year: data.Course_year,
@@ -217,4 +217,4 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
   );
 }
 
-export default SidebarNewUsers
+export default SidebarNewProfesor
