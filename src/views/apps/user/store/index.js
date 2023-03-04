@@ -30,7 +30,7 @@ export const getData = createAsyncThunk('appUsers/getData', async params => {
 
 export const getUser = createAsyncThunk('appUsers/getUser', async id => {
   const response = await getUserById(id).then(result => {return result})
-  return response.data.user
+  return response.data.users
 })
 
 export const updateUser = createAsyncThunk('appUsers/updateUser', async updatedUser => {
