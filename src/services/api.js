@@ -236,7 +236,29 @@ export const AddStudent = async (user) => {
   );
 };
 
-
+export const AddProfesor = async (user) => {
+  return await ApiConnect.post(
+    `user/addprofessor`,
+    {
+      DNI: user.DNI,
+      Rol: user.Rol,
+      Course_year: user.Course_year,
+      Cycle: user.Cycle,
+      Name: user.Name,
+      Surname: user.Surname,
+      email: user.email,
+      password: user.password,
+      Others: ' ',
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+};
 /**
  * Http Request to delete a student by id
  * @param {*} id to identify the student

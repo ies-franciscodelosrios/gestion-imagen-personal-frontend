@@ -3,19 +3,28 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
 import axios from 'axios'
-import { getAllProfesorData, getUserById ,ApiDelUser } from '../../../../services/api'
+import { getAllProfesorData, getUserById, updateUserBy, ApiDelUser,AddProfesor } from '../../../../services/api'
+import { sort_data } from './sort_utils'
+
 
 /* ALL PROFESOR */
 
-export const getAllData = createAsyncThunk('appUsers/getAllData', async () => {
-  const response = await getAllProfesorData().then(result => {return result}) 
+export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
+  const response = { "data": { "users": params.data } }
+  if ((response === null || response.data.users.length <= 0) && params.q == '') {
+    Object.assign(response, await getAllProfesorData().then(result => { return result }))
+  }
   return response.data.users
 })
 
 /*  */
 
 export const getData = createAsyncThunk('appUsers/getData', async params => {
-  const response = await getAllProfesorData().then(result => {return result})
+  const response = { "data": { "users": params.data } };
+  if ((response === null || response.data.users.length <= 0) && params.q == '') {
+    Object.assign(response, await getAllProfesorData().then(result => { return result }))
+  }
+  response.data.users = sort_data(params, response.data.users);
   return {
     params,
     data: response.data.users,
@@ -26,18 +35,22 @@ export const getData = createAsyncThunk('appUsers/getData', async params => {
 /* GET USER BY ID */
 
 export const getUser = createAsyncThunk('appUsers/getUser', async id => {
-  const response = await getUserById(id).then(result => {return result})
+  const response = await getUserById(id).then(result => { return result })
   console.log(response)
   return response.data.user
 })
-
-export const addUser = createAsyncThunk('appUsers/addUser', async (user, { dispatch, getState }) => {
-  await axios.post('/apps/users/add-user', user)
-  await dispatch(getData(getState().users.params))
-  await dispatch(getAllData())
-  return user
+/* ADD PROFESOR */
+export const addUserProfesor = createAsyncThunk('appUsers/addUserProfesor', async (user, { dispatch, getState }) => {
+  await AddProfesor(user)
+  console.log(user)
+  const response = await getAllProfesorData().then(result => { return result.data.users })
+  return response
 })
-
+/* UPDATE PROFESOR */
+export const updateUser = createAsyncThunk('appUsers/updateUser', async updatedUser => {
+  await updateUserBy(updatedUser);
+  return updatedUser
+})
 /* DELETE USER BY ID */
 
 export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { dispatch, getState }) => {
@@ -70,7 +83,15 @@ export const appUsersSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.selectedUser = action.payload
       })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.selectedUser = action.payload
+      })
+      .addCase(addUser.fulfilled, (state, action) => {
+        state.allData = action.payload
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.allData = action.payload
+      })
   }
 })
-
 export default appUsersSlice.reducer
