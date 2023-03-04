@@ -16,7 +16,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { Button, Label, FormText, Form, Input } from 'reactstrap'
 
 // ** Store & Actions
-import { addUser } from '../store'
+import { addUserProfesor } from '../store'
 import { useDispatch } from 'react-redux'
 
 const defaultValues = {
@@ -78,40 +78,38 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
   } = useForm({ defaultValues })
 
   // ** Function to handle form submit
-  const onSubmit = data => {
+  const onSubmit = (data) => {
+    data.Course_year = BirthPicker.toISOString().split('T')[0];
+    //data.Cycle = data.Cycle.value;
+    console.log(data.Course_year)
     setData(data)
     if (checkIsValid(data)) {
       toggleSidebar()
+      console.log(data);
       dispatch(
-        addUser({
-          role,
-          avatar: '',
-          status: 'active',
+        addUserProfesor({
+          DNI: data.DNI,
+          Rol: data.Rol,
+          Course_year: data.Course_year,
+          Cycle: data.Cycle,
+          Name: data.Name,
+          Surname: data.Surname,
           email: data.email,
-          currentPlan: plan,
-          billing: 'auto debit',
-          company: data.company,
-          contact: data.contact,
-          fullName: data.fullName,
-          username: data.username,
-          country: data.country.value
+          password: ' ',
+          Others: ' '
         })
-      )
+      );
     } else {
+      console.log('not correct');
       for (const key in data) {
         if (data[key] === null) {
           setError('country', {
             type: 'manual'
-          })
-        }
-        if (data[key] !== null && data[key].length === 0) {
-          setError(key, {
-            type: 'manual'
-          })
+          });
         }
       }
     }
-  }
+  };
 
   const handleSidebarClosed = () => {
     for (const key in defaultValues) {
@@ -123,131 +121,115 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
 
   return (
     <Sidebar
-      size='lg'
+      size="lg"
       open={open}
-      title='New User'
-      headerClassName='mb-1'
-      contentClassName='pt-0'
+      title="Nuevo Cliente"
+      headerClassName="mb-1"
+      contentClassName="pt-0"
       toggleSidebar={toggleSidebar}
       onClosed={handleSidebarClosed}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <div className='mb-1'>
-          <Label className='form-label' for='fullName'>
-            Full Name <span className='text-danger'>*</span>
+        <div className="mb-1">
+          <Label className="form-label" for="DNI">
+            DNI <span className="text-danger">*</span>
           </Label>
           <Controller
-            name='fullName'
-            control={control}
-            render={({ field }) => (
-              <Input id='fullName' placeholder='John Doe' invalid={errors.fullName && true} {...field} />
-            )}
-          />
-        </div>
-        <div className='mb-1'>
-          <Label className='form-label' for='username'>
-            Username <span className='text-danger'>*</span>
-          </Label>
-          <Controller
-            name='username'
-            control={control}
-            render={({ field }) => (
-              <Input id='username' placeholder='johnDoe99' invalid={errors.username && true} {...field} />
-            )}
-          />
-        </div>
-        <div className='mb-1'>
-          <Label className='form-label' for='userEmail'>
-            Email <span className='text-danger'>*</span>
-          </Label>
-          <Controller
-            name='email'
+            name="DNI"
             control={control}
             render={({ field }) => (
               <Input
-                type='email'
-                id='userEmail'
-                placeholder='john.doe@example.com'
+                id="DNI"
+                placeholder="31000000Y"
+                invalid={errors.Name && true}
+                {...field}
+              />
+            )}
+          />
+        </div>
+        <div className="mb-1">
+          <Label className="form-label" for="Name">
+            Nombre <span className="text-danger">*</span>
+          </Label>
+          <Controller
+            name="Name"
+            control={control}
+            render={({ field }) => (
+              <Input
+                id="Name"
+                placeholder="Pedro"
+                invalid={errors.Name && true}
+                {...field}
+              />
+            )}
+          />
+        </div>
+        <div className="mb-1">
+          <Label className="form-label" for="Surname">
+            Apellido <span className="text-danger">*</span>
+          </Label>
+          <Controller
+            name="Surname"
+            control={control}
+            render={({ field }) => (
+              <Input
+                id="Surname"
+                placeholder="Torres"
+                invalid={errors.Surname && true}
+                {...field}
+              />
+            )}
+          />
+        </div>
+       {/*  <div className="mb-1">
+          <Label className="form-label" for="Cycle">
+            Ciclo <span className="text-danger">*</span>
+          </Label>
+          <Controller
+            name="Cycle"
+            control={control}
+            render={({ field }) => (
+              <Select
+                options={cycleOptions}
+                theme={selectThemeColors}
+                className='react-select'
+                classNamePrefix='select'
+                id="Cycle"
+                placeholder="Elige tu ciclo"
+                invalid={errors.Cycle && true}
+                {...field}
+              />
+
+            )}
+          />
+        </div> */}
+        <div className="mb-1">
+          <Label className="form-label" for="email">
+            Email <span className="text-danger">*</span>
+          </Label>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input
+                type="email"
+                id="email"
+                placeholder="nombre@gmail.com"
                 invalid={errors.email && true}
                 {...field}
               />
             )}
           />
-          <FormText color='muted'>You can use letters, numbers & periods</FormText>
+          <FormText color="muted">
+            Puedes usar letras, numero y simbolos.
+          </FormText>
         </div>
-
-        <div className='mb-1'>
-          <Label className='form-label' for='contact'>
-            Contact <span className='text-danger'>*</span>
-          </Label>
-          <Controller
-            name='contact'
-            control={control}
-            render={({ field }) => (
-              <Input id='contact' placeholder='(397) 294-5153' invalid={errors.contact && true} {...field} />
-            )}
-          />
-        </div>
-        <div className='mb-1'>
-          <Label className='form-label' for='company'>
-            Company <span className='text-danger'>*</span>
-          </Label>
-          <Controller
-            name='company'
-            control={control}
-            render={({ field }) => (
-              <Input id='company' placeholder='Company Pvt Ltd' invalid={errors.company && true} {...field} />
-            )}
-          />
-        </div>
-        <div className='mb-1'>
-          <Label className='form-label' for='country'>
-            Country <span className='text-danger'>*</span>
-          </Label>
-          <Controller
-            name='country'
-            control={control}
-            render={({ field }) => (
-              // <Input id='country' placeholder='Australia' invalid={errors.country && true} {...field} />
-              <Select
-                isClearable={false}
-                classNamePrefix='select'
-                options={countryOptions}
-                theme={selectThemeColors}
-                className={classnames('react-select', { 'is-invalid': data !== null && data.country === null })}
-                {...field}
-              />
-            )}
-          />
-        </div>
-        <div className='mb-1'>
-          <Label className='form-label' for='user-role'>
-            User Role
-          </Label>
-          <Input type='select' id='user-role' name='user-role' value={role} onChange={e => setRole(e.target.value)}>
-            <option value='subscriber'>Subscriber</option>
-            <option value='editor'>Editor</option>
-            <option value='maintainer'>Maintainer</option>
-            <option value='author'>Author</option>
-            <option value='admin'>Admin</option>
-          </Input>
-        </div>
-        <div className='mb-1' value={plan} onChange={e => setPlan(e.target.value)}>
-          <Label className='form-label' for='select-plan'>
-            Select Plan
-          </Label>
-          <Input type='select' id='select-plan' name='select-plan'>
-            <option value='basic'>Basic</option>
-            <option value='enterprise'>Enterprise</option>
-            <option value='company'>Company</option>
-            <option value='team'>Team</option>
-          </Input>
-        </div>
-        <Button type='submit' className='me-1' color='primary'>
-          Submit
+        
+        <Button type="submit" className="me-1" color="primary">
+          Guardar
         </Button>
-        <Button type='reset' color='secondary' outline onClick={toggleSidebar}>
-          Cancel
+        <Button type="reset" color="secondary" outline onClick={toggleSidebar}>
+          Cancelar
         </Button>
       </Form>
     </Sidebar>
