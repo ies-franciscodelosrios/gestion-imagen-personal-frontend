@@ -3,6 +3,9 @@ import { useState } from 'react'
 
 // ** Custom Components
 import Sidebar from '@components/sidebar'
+import Flatpickr from 'react-flatpickr'
+import '@styles/react/libs/flatpickr/flatpickr.scss'
+
 
 // ** Utils
 import { selectThemeColors } from '@utils'
@@ -20,50 +23,30 @@ import { addUserProfesor } from '../store'
 import { useDispatch } from 'react-redux'
 
 const defaultValues = {
+  DNI: '',
+  Name: '',
+  Surname: '',
   email: '',
-  contact: '',
-  company: '',
-  fullName: '',
-  username: '',
-  country: null
+  Cycle: ''
 }
 
-const countryOptions = [
-  { label: 'Australia', value: 'Australia' },
-  { label: 'Bangladesh', value: 'Bangladesh' },
-  { label: 'Belarus', value: 'Belarus' },
-  { label: 'Brazil', value: 'Brazil' },
-  { label: 'Canada', value: 'Canada' },
-  { label: 'China', value: 'China' },
-  { label: 'France', value: 'France' },
-  { label: 'Germany', value: 'Germany' },
-  { label: 'India', value: 'India' },
-  { label: 'Indonesia', value: 'Indonesia' },
-  { label: 'Israel', value: 'Israel' },
-  { label: 'Italy', value: 'Italy' },
-  { label: 'Japan', value: 'Japan' },
-  { label: 'Korea', value: 'Korea' },
-  { label: 'Mexico', value: 'Mexico' },
-  { label: 'Philippines', value: 'Philippines' },
-  { label: 'Russia', value: 'Russia' },
-  { label: 'South', value: 'South' },
-  { label: 'Thailand', value: 'Thailand' },
-  { label: 'Turkey', value: 'Turkey' },
-  { label: 'Ukraine', value: 'Ukraine' },
-  { label: 'United Arab Emirates', value: 'United Arab Emirates' },
-  { label: 'United Kingdom', value: 'United Kingdom' },
-  { label: 'United States', value: 'United States' }
-]
+const cycleOptions = [
+  { label: 'Grado Medio - Peluquería y cosmética capilar', value: 'Grado Medio - Peluquería y cosmética capilar' },
+  { label: 'Grado Medio - Estética y belleza', value: 'Grado Medio - Estética y belleza' },
+  { label: 'Grado Superior - Estética integral y bienestar', value: 'Grado Superior - Estética integral y bienestar' },
+  { label: 'Grado Superior - Estilismo y dirección de peluquería', value: 'Grado Superior - Estilismo y dirección de peluquería' },
+];
 
 const checkIsValid = data => {
-  return Object.values(data).every(field => (typeof field === 'object' ? field !== null : field.length > 0))
+  return Object.values(data).every(field => 
+    typeof field === 'object' ? field !== null : field.length > 0)
 }
 
 const SidebarNewUsers = ({ open, toggleSidebar }) => {
   // ** States
-  const [data, setData] = useState(null)
-  const [plan, setPlan] = useState('basic')
-  const [role, setRole] = useState('subscriber')
+  const [data, setData] = useState(null);
+  const [BirthPicker, setBirthPicker] = useState(new Date());
+
 
   // ** Store Vars
   const dispatch = useDispatch()
@@ -81,7 +64,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
   const onSubmit = (data) => {
     data.Course_year = BirthPicker.toISOString().split('T')[0];
     //data.Cycle = data.Cycle.value;
-    console.log(data.Course_year)
+     console.log(data.Course_year)
     setData(data)
     if (checkIsValid(data)) {
       toggleSidebar()
@@ -91,11 +74,11 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
           DNI: data.DNI,
           Rol: data.Rol,
           Course_year: data.Course_year,
-          Cycle: data.Cycle,
+          Cycle: data.Cycle.label,
           Name: data.Name,
           Surname: data.Surname,
           email: data.email,
-          password: ' ',
+          password: data.password,
           Others: ' '
         })
       );
@@ -113,17 +96,15 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
 
   const handleSidebarClosed = () => {
     for (const key in defaultValues) {
-      setValue(key, '')
+      setValue(key, '');
     }
-    setRole('subscriber')
-    setPlan('basic')
   }
 
   return (
     <Sidebar
       size="lg"
       open={open}
-      title="Nuevo Cliente"
+      title="Nuevo Profesor"
       headerClassName="mb-1"
       contentClassName="pt-0"
       toggleSidebar={toggleSidebar}
@@ -181,7 +162,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
             )}
           />
         </div>
-       {/*  <div className="mb-1">
+        <div className="mb-1">
           <Label className="form-label" for="Cycle">
             Ciclo <span className="text-danger">*</span>
           </Label>
@@ -202,7 +183,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
 
             )}
           />
-        </div> */}
+        </div>
         <div className="mb-1">
           <Label className="form-label" for="email">
             Email <span className="text-danger">*</span>
@@ -233,7 +214,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
         </Button>
       </Form>
     </Sidebar>
-  )
+  );
 }
 
 export default SidebarNewUsers
