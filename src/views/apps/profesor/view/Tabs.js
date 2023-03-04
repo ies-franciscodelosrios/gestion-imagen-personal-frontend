@@ -5,15 +5,14 @@ import { Fragment } from 'react'
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link } from 'react-feather'
+import { User, Bookmark, Edit3, Book } from 'react-feather'
 
 // ** User Components
-import InvoiceList from './InvoiceList'
+
 import SecurityTab from './SecurityTab'
-import Connections from './Connections'
 import BillingPlanTab from './BillingTab'
 import UserTimeline from './UserTimeline'
-import Notifications from './Notifications'
+import Tratamientos from './Tratamientos'
 import UserProjectsList from './UserProjectsList'
 
 const UserTabs = ({ active, toggleTab }) => {
@@ -28,7 +27,7 @@ const UserTabs = ({ active, toggleTab }) => {
         </NavItem>
         <NavItem>
           <NavLink active={active === '2'} onClick={() => toggleTab('2')}>
-            <Lock className='font-medium-3 me-50' />
+            <Edit3 className='font-medium-3 me-50' />
             <span className='fw-bold'>Configuracion</span>
           </NavLink>
         </NavItem>
@@ -40,8 +39,8 @@ const UserTabs = ({ active, toggleTab }) => {
         </NavItem>
         <NavItem>
           <NavLink active={active === '4'} onClick={() => toggleTab('4')}>
-            <Bell className='font-medium-3 me-50' />
-            <span className='fw-bold'>Alumnos</span>
+            <Book className='font-medium-3 me-50' />
+            <span className='fw-bold'>Tratamientos</span>
           </NavLink>
         </NavItem>
        
@@ -50,7 +49,6 @@ const UserTabs = ({ active, toggleTab }) => {
         <TabPane tabId='1'>
           <UserProjectsList />
           <UserTimeline />
-          <InvoiceList />
         </TabPane>
         <TabPane tabId='2'>
           <SecurityTab />
@@ -59,7 +57,7 @@ const UserTabs = ({ active, toggleTab }) => {
           <BillingPlanTab />
         </TabPane>
         <TabPane tabId='4'>
-          <Notifications />
+          <Tratamientos />
         </TabPane>
       </TabContent>
     </Fragment>

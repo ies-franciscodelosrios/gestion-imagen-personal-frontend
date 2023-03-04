@@ -99,7 +99,7 @@ const UserInfoCard = () => {
   };
 
   const onSubmit = (data) => {
-    const updateUser = {...store.selectedUser};
+    const updateUser = { ...store.selectedUser };
     updateUser.Name = data.Name;
     updateUser.Surname = data.Surname;
     updateUser.email = data.email;
@@ -149,7 +149,7 @@ const UserInfoCard = () => {
                       color={roleColors[selectedUser.Rol]}
                       className="text-capitalize"
                     >
-                      {selectedUser.Rol}
+                      {rolChanger( selectedUser.Rol)}
                     </Badge>
                   ) : null}
                 </div>
@@ -157,14 +157,14 @@ const UserInfoCard = () => {
             </div>
           </div>
           <div className="d-flex justify-content-around my-2 pt-75">
-         
+
             <div className="d-flex align-items-start">
               <Badge color="light-primary" className="rounded p-75">
                 <Briefcase className="font-medium-2" />
               </Badge>
               <div className="ms-75">
                 <h4 className="mb-0">5</h4>
-                <small>Proyectos en revision</small>
+                <small>Tratamientos en revision</small>
               </div>
             </div>
           </div>
@@ -188,7 +188,7 @@ const UserInfoCard = () => {
                   <span className="fw-bolder me-25">Email: </span>
                   <span>{selectedUser.email}</span>
                 </li>
-               
+
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Telefono: </span>
                   <Badge
@@ -202,7 +202,7 @@ const UserInfoCard = () => {
             ) : null}
           </div>
           <div className="d-flex justify-content-center pt-2">
-            <Button color="primary" onClick={() => {handleReset(); setShow(true)}}>
+            <Button color="primary" onClick={() => { handleReset(); setShow(true) }}>
               Editar
             </Button>
           </div>
@@ -318,7 +318,7 @@ const UserInfoCard = () => {
               </Col>
 
               <Col xs={12} className="text-center mt-2 pt-50">
-                <Button type="submit" className="me-1" color="primary" onClick={()=> toast.success('Correctamente Guardado!')}>
+                <Button type="submit" className="me-1" color="primary" onClick={() => toast.success('Correctamente Guardado!')}>
                   Guardar
                 </Button>
                 <Button
@@ -341,5 +341,13 @@ const UserInfoCard = () => {
     </Fragment>
   );
 };
-
+function rolChanger(rol) {
+  let rolTitle = "";
+  if (rol == 0) {
+    rolTitle = "Administrador";
+  } else if (rol == 1) {
+    rolTitle = "Profesor";
+  }
+  return rolTitle;
+}
 export default UserInfoCard;
