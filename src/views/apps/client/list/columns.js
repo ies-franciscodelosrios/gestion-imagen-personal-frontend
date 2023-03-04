@@ -31,40 +31,9 @@ const renderClient = row => {
   }
 }
 
-// ** Renders Role Columns
-const renderRole = row => {
-  const roleObj = {
-    subscriber: {
-      class: 'text-primary',
-      icon: User
-    },
-    maintainer: {
-      class: 'text-success',
-      icon: Database
-    },
-    editor: {
-      class: 'text-info',
-      icon: Edit2
-    },
-    author: {
-      class: 'text-warning',
-      icon: Settings
-    },
-    admin: {
-      class: 'text-danger',
-      icon: Slack
-    }
-  }
 
-  const Icon = roleObj[row.role] ? roleObj[row.role].icon : Edit2
 
-  return (
-    <span className='text-truncate text-capitalize align-middle'>
-      <Icon size={18} className={`${roleObj[row.role] ? roleObj[row.role].class : ''} me-50`} />
-      {row.role}
-    </span>
-  )
-}
+
 
 const statusObj = {
   pending: 'light-warning',
@@ -154,7 +123,8 @@ export const columns = [
               className='w-100'
               onClick={e => {
                 e.preventDefault()
-                store.dispatch(deleteClient(row.id))
+                store.dispatch(deleteClient(row.id));
+                
               }}
             >
               <Trash2 size={14} className='me-50' />
