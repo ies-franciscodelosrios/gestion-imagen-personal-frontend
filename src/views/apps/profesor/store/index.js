@@ -11,13 +11,15 @@ import { sort_data } from './sort_utils'
 
 /* ALL PROFESOR */
 
-export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
+ export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
   const response = { "data": { "users": params.data } }
   if ((response === null || response.data.users.length <= 0) && params.q == '') {
     Object.assign(response, await getAllProfesorData().then(result => { return result }))
   }
+
   return response.data.users
-})
+  
+}) 
 
 /*  */
 
@@ -65,7 +67,7 @@ export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { d
 })
 
 
-export const appUsersSlice = createSlice({
+export const appProfesorSlice = createSlice({
   name: 'appUsers',
   initialState: {
     data: [],
@@ -99,4 +101,4 @@ export const appUsersSlice = createSlice({
       })
   }
 })
-export default appUsersSlice.reducer
+export default appProfesorSlice.reducer

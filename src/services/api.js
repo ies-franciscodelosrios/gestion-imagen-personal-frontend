@@ -148,7 +148,7 @@ export async function ApiGetFaq() {
 */
 
 export const getAllProfesorData = async () => {
-  return await ApiConnect.get('users/rol/1', {
+  return await ApiConnect.get('/users/rol/1', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -303,8 +303,27 @@ export const AddAppointment = async (event) => {
   );
 };
 
+/**
+ * Http Request to get all appointments
+ * @returns appointments data
+ */
 export const getAllAppointments = async () => {
   return await ApiConnect.get('appointments', {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to get a appointment by id
+ * @param {*} id to identify the appointment
+ * @returns appointment data
+ */
+export const getAppointmentbyId = async (id) => {
+  return await ApiConnect.get(`appointment/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
