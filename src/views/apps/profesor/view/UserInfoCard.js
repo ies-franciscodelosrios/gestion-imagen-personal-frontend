@@ -19,6 +19,7 @@ import { selectThemeColors } from '@utils'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
+import { useSelector } from 'react-redux'
 
 const roleColors = {
   editor: 'light-info',
@@ -34,34 +35,15 @@ const statusColors = {
   inactive: 'light-secondary'
 }
 
-const statusOptions = [
-  { value: 'active', label: 'Active' },
-  { value: 'inactive', label: 'Inactive' },
-  { value: 'suspended', label: 'Suspended' }
-]
-
-const countryOptions = [
-  { value: 'uk', label: 'UK' },
-  { value: 'usa', label: 'USA' },
-  { value: 'france', label: 'France' },
-  { value: 'russia', label: 'Russia' },
-  { value: 'canada', label: 'Canada' }
-]
-
-const languageOptions = [
-  { value: 'english', label: 'English' },
-  { value: 'spanish', label: 'Spanish' },
-  { value: 'french', label: 'French' },
-  { value: 'german', label: 'German' },
-  { value: 'dutch', label: 'Dutch' }
-]
 
 const MySwal = withReactContent(Swal)
 
-const UserInfoCard = ({ selectedUser }) => {
+const UserInfoCard = () => {
+
   // ** State
   const [show, setShow] = useState(false)
-
+  const store = useSelector(state => state.users)
+  const selectedUser = store.selectedUser;
   // ** Hook
   const {
     reset,
@@ -71,55 +53,54 @@ const UserInfoCard = ({ selectedUser }) => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      username: selectedUser.username,
-      lastName: selectedUser.fullName.split(' ')[1],
-      firstName: selectedUser.fullName.split(' ')[0]
+      Name: selectedUser.Name,
+      Surname: selectedUser.Surname,
+      Email: selectedUser.Email,
+      DNI: selectedUser.DNI,
+      Phone: selectedUser.Phone,
     }
   })
 
   // ** render user img
   const renderUserImg = () => {
-    if (selectedUser !== null && selectedUser.avatar.length) {
-      return (
-        <img
-          height='110'
-          width='110'
-          alt='user-avatar'
-          src={selectedUser.avatar}
-          className='img-fluid rounded mt-3 mb-2'
-        />
-      )
-    } else {
-      return (
-        <Avatar
-          initials
-          color={selectedUser.avatarColor || 'light-primary'}
-          className='rounded mt-3 mb-2'
-          content={selectedUser.fullName}
-          contentStyles={{
-            borderRadius: 0,
-            fontSize: 'calc(48px)',
-            width: '100%',
-            height: '100%'
-          }}
-          style={{
-            height: '110px',
-            width: '110px'
-          }}
-        />
-      )
-    }
-  }
+    return (
+      <Avatar
+        initials
+        color={'light-primary'}
+        className="rounded mt-3 mb-2"
+        content={selectedUser.Name}
+        contentStyles={{
+          borderRadius: 0,
+          fontSize: 'calc(48px)',
+          width: '100%',
+          height: '100%',
+        }}
+        style={{
+          height: '110px',
+          width: '110px',
+        }}
+      />
+    );
+  };
+
 
   const onSubmit = data => {
-    if (Object.values(data).every(field => field.length > 0)) {
-      setShow(false)
+    const updatedUser = { ...store.selectedUser };
+    updatedUser.Name = data.Name;
+    updatedUser.Surname = data.Surname;
+    updatedUser.Email = data.Email;
+    updatedUser.DNI = data.DNI;
+    updatedUser.Phone = data.Phone;
+    if (Object.values(data).every((field) => field.toString().length > 0)) {
+      console.log(updatedUser.id);
+      dispatch(updateClient(updatedUser));
+      setShow(false);
     } else {
       for (const key in data) {
         if (data[key].length === 0) {
           setError(key, {
-            type: 'manual'
-          })
+            type: 'manual',
+          });
         }
       }
     }
@@ -127,46 +108,15 @@ const UserInfoCard = ({ selectedUser }) => {
 
   const handleReset = () => {
     reset({
-      username: selectedUser.username,
-      lastName: selectedUser.fullName.split(' ')[1],
-      firstName: selectedUser.fullName.split(' ')[0]
-    })
+      Name: selectedClient.Name,
+      Surname: selectedClient.Surname,
+      Email: selectedClient.Email,
+      DNI: selectedClient.DNI,
+      Phone: selectedClient.Phone,
+    });
   }
 
-  const handleSuspendedClick = () => {
-    return MySwal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert user!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Suspend user!',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-outline-danger ms-1'
-      },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.value) {
-        MySwal.fire({
-          icon: 'success',
-          title: 'Suspended!',
-          text: 'User has been suspended.',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        })
-      } else if (result.dismiss === MySwal.DismissReason.cancel) {
-        MySwal.fire({
-          title: 'Cancelled',
-          text: 'Cancelled Suspension :)',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        })
-      }
-    })
-  }
+
 
   return (
     <Fragment>
@@ -177,7 +127,10 @@ const UserInfoCard = ({ selectedUser }) => {
               {renderUserImg()}
               <div className='d-flex flex-column align-items-center text-center'>
                 <div className='user-info'>
-                  <h4>{selectedUser !== null ? selectedUser.fullName : 'Eleanor Aguilar'}</h4>
+                  <h4>
+                    {selectedUser !== null ?
+                      selectedUser.name.concat(' ' + selectedUser.Surname) : 'Eleanor Aguilar'}
+                  </h4>
                   {selectedUser !== null ? (
                     <Badge color={roleColors[selectedUser.role]} className='text-capitalize'>
                       {selectedUser.role}
@@ -212,11 +165,11 @@ const UserInfoCard = ({ selectedUser }) => {
             {selectedUser !== null ? (
               <ul className='list-unstyled'>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Username:</span>
+                  <span className='fw-bolder me-25'>Nombre:</span>
                   <span>{selectedUser.username}</span>
                 </li>
                 <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Billing Email:</span>
+                  <span className='fw-bolder me-25'>Correo:</span>
                   <span>{selectedUser.email}</span>
                 </li>
                 <li className='mb-75'>
