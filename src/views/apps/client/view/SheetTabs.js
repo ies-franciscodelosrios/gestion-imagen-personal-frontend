@@ -577,7 +577,7 @@ const SheetTabs = () => {
                 })}
                 <Col sm="12">
                   <div className="d-flex">
-                    <Button className="me-1" color="primary" type="submit" onClick={()=> toast.success('Correctamente Guardado!')}>
+                    <Button className="me-1" color="primary" type="submit" >
                       Guardar
                     </Button>
                     <Button
@@ -726,7 +726,6 @@ const SheetTabs = () => {
                       className="me-1"
                       color="primary"
                       type="submit"
-                      onClick={()=> toast.success('Correctamente Guardado!')}
                     >
                       Guardar
                     </Button>
@@ -791,7 +790,6 @@ const SheetTabs = () => {
                       className="me-1"
                       color="primary"
                       type="submit"
-                      onClick={()=> toast.success('Correctamente Guardado!')}
                     >
                       Guardar
                     </Button>
