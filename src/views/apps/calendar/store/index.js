@@ -8,9 +8,14 @@ import { AddAppointment, getAllAppointments, getAllStudentsData } from '../../..
 
 
 
-export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async calendars => {
-  const response = await axios.get('/apps/calendar/events', { calendars })
-  return response.data
+export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (params) => {
+  const response = {"data": {"appointment": params.data}};
+  if ((response === null || response.data.appointment.length <= 0 ) && params.q == '') {
+     Object.assign(response, await getAllAppointments().then(response => {return response})) 
+  }
+  response.data.users = sort_data(params, response.data.users);
+  console.log(response.data.users);
+  return response.data.users;
 })
 
 

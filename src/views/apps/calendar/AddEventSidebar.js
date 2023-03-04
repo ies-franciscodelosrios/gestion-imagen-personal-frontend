@@ -29,8 +29,8 @@ import img6 from '@src/assets/images/avatars/11-small.png'
 // ** Styles Imports
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
-import { AddAppointment, getAllClientsData, getAllStudentsData, getAllUserData } from '../../../services/api'
-
+import { AddAppointment, getAllAppointments, getAllClientsData, getAllStudentsData, getAllUserData } from '../../../services/api'
+import {fetchEvents} from '../calendar/store'
 
 
 
@@ -81,7 +81,9 @@ const AddEventSidebar = props => {
   useEffect(() => {
     fetchData();
     handleSubmit();
-  }, []);
+    dispatch(fetchEvents({
+    }))
+  }, [fetchEvents]);
 
   
   // ** Select Options
@@ -108,6 +110,7 @@ const AddEventSidebar = props => {
     setAlumnos(data);
     setClientes(data2);
   };
+
 
 
   // ** Custom select components
@@ -148,6 +151,7 @@ const AddEventSidebar = props => {
         desc: desc.length ? desc : undefined
       }
     }
+
     console.log(obj.dateappo);
     if(obj.calendar="Peluquería")
       obj.calendar= 0;
@@ -156,8 +160,9 @@ const AddEventSidebar = props => {
 
     console.log(obj.calendar);
     AddAppointment(obj);
-    dispatch(addEvent(obj))
+    // dispatch(addEvent(obj))
     refetchEvents()
+
     handleAddEventSidebar()
     toast.success('Cita Añadida')
   }
@@ -234,27 +239,27 @@ const AddEventSidebar = props => {
   const handleUpdateEvent = () => {
     if (getValues('title').length) {
       const eventToUpdate = {
-        id: selectedEvent.id,
-        title: getValues('title'),
-        allDay,
-        start: startPicker,
-        end: endPicker,
-        url,
-        display: allDay === false ? 'block' : undefined,
-        extendedProps: {
-          location,
-          description: desc,
-          guests,
-          pupils,
-          calendar: calendarLabel[0].label
+          id: selectedEvent.id,
+          title: getValues('title'),
+          dateappo: startPicker.toISOString().slice(0, 10),
+          start: startPicker.toISOString(),
+          dnialumno : dnialumno,
+          dnicliente : dnicliente,
+          display: 'block',
+          extendedProps: {
+            calendar: calendarLabel[0].label,
+            url: url.length ? url : undefined,
+            guests: guests.length ? guests : undefined,
+            pupils: pupils.length ? pupils : undefined,
+            // location: location.length ? location : undefined,
+            desc: desc.length ? desc : undefined
+          }
         }
-      }
 
       const propsToUpdate = ['id', 'title', 'url', 'alumnos']
       const extendedPropsToUpdate = ['calendar', 'guests','alumnos','pupils', 'location', 'description']
       dispatch(updateEvent(eventToUpdate))
       updateEventInCalendar(eventToUpdate, propsToUpdate, extendedPropsToUpdate)
-
       handleAddEventSidebar()
       toast.success('Cita Actualizada')
     } else {
@@ -263,6 +268,13 @@ const AddEventSidebar = props => {
       })
     }
   }
+  const flatpickrOptions = {
+    enableTime: true,
+    time_24hr: true,
+    dateFormat: 'Y-m-d H:i',
+    mode: 'single', // Muestra un solo campo de fecha en dispositivos móviles
+    // Otras opciones...
+  };
 
   // ** (UI) removeEventInCalendar
   const removeEventInCalendar = eventId => {
@@ -386,9 +398,11 @@ const AddEventSidebar = props => {
                 onChange={date => setStartPicker(date[0])}
                 value={startPicker}
                 options={{
-                  enableTime: allDay === false,
+                  enableTime: true,
+                  time_24hr: true,
                   dateFormat: 'd-m-Y H:i',
-                  locale:"es"
+                  locale:"es",
+                  timeZone: 'UTC+1'
                 }}
               />
             </div>

@@ -19,6 +19,7 @@ import { fetchEvents, selectEvent, updateEvent, updateFilter, updateAllFilters, 
 
 // ** Styles
 import '@styles/react/apps/app-calendar.scss'
+import { getAllAppointments } from '../../../services/api'
 
 // ** CalendarColors
 const calendarsColor = {
@@ -38,6 +39,31 @@ const CalendarComponent = () => {
   const [calendarApi, setCalendarApi] = useState(null)
   const [addSidebarOpen, setAddSidebarOpen] = useState(false)
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false)
+  const [eventos, setEventos] = useState()
+
+
+  const fetchAppointmentData = async () => {
+    const response = await getAllAppointments();
+    const appointments = response.data.users.map((event) => ({
+      Id: event.id,
+      Date: event.Date,
+      Treatment: event.Treatment,
+      Protocol: event.Protocol,
+      DNI_client: event.DNI_client,
+      DNI_Student: event.DNI_Student,
+      Consultancy: event.Consultancy,
+      created_at: event.created_at,
+    }));
+
+    const data = {
+      events: appointments,
+      selectedEvent: {},
+      selectedCalendars: ['Peluquería', 'Estética']
+    };
+    console.log(data);
+    setEventos(data);
+    console.log(eventos);
+  };
 
   // ** Hooks
   const [isRtl] = useRTL()
@@ -58,7 +84,6 @@ const CalendarComponent = () => {
     extendedProps: {
       calendar: '',
       guests: [],
-      pupils: [],
       location: '',
       description: ''
     }
@@ -73,7 +98,8 @@ const CalendarComponent = () => {
 
   // ** Fetch Events On Mount
   useEffect(() => {
-    dispatch(fetchEvents(store.selectedCalendars))
+    fetchAppointmentData();
+    // dispatch(fetchEvents(store.selectedCalendars))
   }, [])
 
   return (
