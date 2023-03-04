@@ -31,6 +31,7 @@ import Avatar from '@components/avatar';
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
+import { toast } from 'react-hot-toast';
 
 const roleColors = {
   editor: 'light-info',
@@ -101,7 +102,7 @@ const ClientInfoCard = () => {
     const updatedClient = {...store.selectedClient};
     updatedClient.Name = data.Name;
     updatedClient.Surname = data.Surname;
-    updatedClient.Email = data.Email;
+    updatedClient.email = data.email;
     updatedClient.DNI = data.DNI;
     updatedClient.Phone = data.Phone;
     if (Object.values(data).every((field) => field.toString().length > 0)) {
@@ -230,7 +231,7 @@ const ClientInfoCard = () => {
         <ModalBody className="px-sm-5 pt-50 pb-5">
           <div className="text-center mb-2">
             <h1 className="mb-1">Editar Información</h1>
-            <p>Actualizar los datos del cliente de manera segura.</p>
+            <p>Actualizar los datos del Estudiante de manera segura.</p>
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className="gy-1 pt-75">
@@ -239,7 +240,7 @@ const ClientInfoCard = () => {
                   Nombre
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.Name}
+                  defaultValue=''
                   control={control}
                   id="Name"
                   name="Name"
@@ -328,7 +329,7 @@ const ClientInfoCard = () => {
               </Col>
 
               <Col xs={12} className="text-center mt-2 pt-50">
-                <Button type="submit" className="me-1" color="primary">
+                <Button type="submit" className="me-1" color="primary" onClick={()=> toast.success('Correctamente Guardado!')}>
                   Guardar
                 </Button>
                 <Button
@@ -338,6 +339,7 @@ const ClientInfoCard = () => {
                   onClick={() => {
                     handleReset();
                     setShow(false);
+                    toast.error('Borrado de datos no guardados')
                   }}
                 >
                   Cancelar

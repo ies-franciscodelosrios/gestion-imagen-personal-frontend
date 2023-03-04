@@ -31,10 +31,10 @@ const defaultValues = {
 }
 
 const cycleOptions = [
-  { label: 'Grado Medio - Peluquería y cosmética capilar', value: 'GM Peluquería' },
-  { label: 'Grado Medio - Estilismo y dirección de peluquería', value: 'GM Estética' },
-  { label: 'Grado Superior - Estética integral y bienestar', value: 'GS Estética' },
-  { label: 'Grado Superior - Estilismo y dirección de peluquería', value: 'GS Peluquería' },
+  { label: 'Grado Medio - Peluquería y cosmética capilar', value: 'Grado Medio - Peluquería y cosmética capilar' },
+  { label: 'Grado Medio - Estética y belleza', value: 'Grado Medio - Estética y belleza' },
+  { label: 'Grado Superior - Estética integral y bienestar', value: 'Grado Superior - Estética integral y bienestar' },
+  { label: 'Grado Superior - Estilismo y dirección de peluquería', value: 'Grado Superior - Estilismo y dirección de peluquería' },
 ];
 
 const checkIsValid = data => {
@@ -64,7 +64,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
   const onSubmit = (data) => {
     data.Course_year = BirthPicker.toISOString().split('T')[0];
     //data.Cycle = data.Cycle.value;
-    console.log(data.Course_year)
+     console.log(data.Course_year)
     setData(data)
     if (checkIsValid(data)) {
       toggleSidebar()
@@ -74,11 +74,11 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
           DNI: data.DNI,
           Rol: data.Rol,
           Course_year: data.Course_year,
-          Cycle: data.Cycle,
+          Cycle: data.Cycle.label,
           Name: data.Name,
           Surname: data.Surname,
           email: data.email,
-          password: ' ',
+          password: data.password,
           Others: ' '
         })
       );

@@ -15,6 +15,7 @@ import locale from '@fullcalendar/core/locales/es'
 import toast from 'react-hot-toast'
 import { Menu } from 'react-feather'
 import { Card, CardBody } from 'reactstrap'
+import { getAllClientsData } from '../../../services/api'
 
 const Calendar = props => {
   // ** Refs
@@ -37,6 +38,7 @@ const Calendar = props => {
 
   // ** UseEffect checks for CalendarAPI Update
   useEffect(() => {
+
     if (calendarApi === null) {
       setCalendarApi(calendarRef.current.getApi())
     }
