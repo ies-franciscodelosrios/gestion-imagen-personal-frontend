@@ -329,7 +329,7 @@ const ClientInfoCard = () => {
               </Col>
 
               <Col xs={12} className="text-center mt-2 pt-50">
-                <Button type="submit" className="me-1" color="primary" onClick={()=> toast.success('Correctamente Guardado!')}>
+                <Button type="submit" className="me-1" color="primary">
                   Guardar
                 </Button>
                 <Button
