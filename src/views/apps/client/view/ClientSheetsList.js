@@ -498,7 +498,7 @@ const ClientSheetsList = () => {
             </Col>
             <Col sm="12">
               <div className="d-flex">
-                <Button className="me-1" color="primary" type="submit" onClick={()=> toast.success('Correctamente Guardado!')}>
+                <Button className="me-1" color="primary" type="submit" >
                   Guardar
                 </Button>
                 <Button
