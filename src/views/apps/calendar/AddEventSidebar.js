@@ -82,9 +82,7 @@ const AddEventSidebar = props => {
     fetchData();
     handleSubmit();
     dispatch(fetchEvents({
-      data: store.allData
     }))
-    console.log(getAllAppointments().then(result => {return result.data.users})) 
   }, [fetchEvents]);
 
   
@@ -244,7 +242,7 @@ const AddEventSidebar = props => {
           id: selectedEvent.id,
           title: getValues('title'),
           dateappo: startPicker.toISOString().slice(0, 10),
-          start: startPicker,
+          start: startPicker.toISOString(),
           dnialumno : dnialumno,
           dnicliente : dnicliente,
           display: 'block',
@@ -270,6 +268,13 @@ const AddEventSidebar = props => {
       })
     }
   }
+  const flatpickrOptions = {
+    enableTime: true,
+    time_24hr: true,
+    dateFormat: 'Y-m-d H:i',
+    mode: 'single', // Muestra un solo campo de fecha en dispositivos móviles
+    // Otras opciones...
+  };
 
   // ** (UI) removeEventInCalendar
   const removeEventInCalendar = eventId => {
@@ -393,9 +398,11 @@ const AddEventSidebar = props => {
                 onChange={date => setStartPicker(date[0])}
                 value={startPicker}
                 options={{
-                  enableTime: allDay === false,
+                  enableTime: true,
+                  time_24hr: true,
                   dateFormat: 'd-m-Y H:i',
-                  locale:"es"
+                  locale:"es",
+                  timeZone: 'UTC+1'
                 }}
               />
             </div>
