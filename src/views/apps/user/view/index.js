@@ -13,7 +13,6 @@ import { Row, Col, Alert } from 'reactstrap';
 import UserTabs from './Tabs';
 import PlanCard from './PlanCard';
 import UserInfoCard from './UserInfoCard';
-import SheetTabs from './SheetTabs';
 import illustration from '@src/assets/images/pages/ilustracion-perfil.png';
 
 // ** Styles
@@ -50,22 +49,16 @@ const UserView = () => {
           </div>
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          <UserTabs active={active} toggleTab={toggleTab} />
-        </Col>
-      </Row>
-      <Row>
-        {' '}
-        <Col sm="12">
-          <SheetTabs></SheetTabs>
+          <UserTabs active={active} toggleTab={toggleTab} selectedUser={store.selectedUser} />
         </Col>
       </Row>
     </div>
   ) : (
     <Alert color="danger">
-      <h4 className="alert-heading">User not found</h4>
+      <h4 className="alert-heading">Alumno no encontrado</h4>
       <div className="alert-body">
-        User with id: {id} doesn't exist. Check list of all Users:{' '}
-        <Link to="/apps/user/list">Users List</Link>
+        Alumno con id: {id} no existe. Comprueba la lista de usuarios:{' '}
+        <Link to="/apps/user/list">Lista de Alumnos</Link>
       </div>
     </Alert>
   );
