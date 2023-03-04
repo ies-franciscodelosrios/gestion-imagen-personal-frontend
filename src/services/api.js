@@ -148,7 +148,7 @@ export async function ApiGetFaq() {
 */
 
 export const getAllProfesorData = async () => {
-  return await ApiConnect.get('users/rol/1', {
+  return await ApiConnect.get('/users/rol/1', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
