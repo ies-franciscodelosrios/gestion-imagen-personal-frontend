@@ -11,7 +11,7 @@ import { sort_data } from './sort_utils'
 
 /* ALL PROFESOR */
 
- export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
+ export const getAllData = createAsyncThunk('appProfesors/getAllData', async (params) => {
   const response = { "data": { "users": params.data } }
   if ((response === null || response.data.users.length <= 0) && params.q == '') {
     Object.assign(response, await getAllProfesorData().then(result => { return result }))
@@ -23,7 +23,7 @@ import { sort_data } from './sort_utils'
 
 /*  */
 
-export const getData = createAsyncThunk('appUsers/getData', async params => {
+export const getData = createAsyncThunk('appProfesors/getData', async params => {
   const response = { "data": { "users": params.data } };
   if ((response === null || response.data.users.length <= 0) && params.q == '') {
     Object.assign(response, await getAllProfesorData().then(result => { return result }))
@@ -36,9 +36,9 @@ export const getData = createAsyncThunk('appUsers/getData', async params => {
   }
 })
 
-/* GET USER BY ID */
+/* GET PROFESOR BY ID */
 
-export const getUser = createAsyncThunk('appUsers/getUser', async id => {
+export const getProfesor = createAsyncThunk('appProfesors/getUser', async id => {
   const response = await getUserById(id).then(result => { return result })
   console.log(response)
   console.log(response.data.users)
@@ -46,29 +46,28 @@ export const getUser = createAsyncThunk('appUsers/getUser', async id => {
   return response.data.users
 })
 /* ADD PROFESOR */
-export const addUserProfesor = createAsyncThunk('appUsers/addUserProfesor', async (user, { dispatch, getState }) => {
+export const addProfesor = createAsyncThunk('appProfesors/addUserProfesor', async (user, { dispatch, getState }) => {
   await AddProfesor(user)
   console.log(user)
   const response = await getAllProfesorData().then(result => { return result.data.users })
   return response
 })
 /* UPDATE PROFESOR */
-export const updateUser = createAsyncThunk('appUsers/updateUser', async updatedUser => {
+export const updateProfesor = createAsyncThunk('appProfesors/updateUser', async updatedUser => {
   await updateUserBy(updatedUser);
   return updatedUser
 })
-/* DELETE USER BY ID */
+/* DELETE PROFESOR BY ID */
 
-export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { dispatch, getState }) => {
+export const deleteProfesor = createAsyncThunk('appProfesors/deleteUser', async (id, { dispatch, getState }) => {
   await ApiDelUser(id)
   await dispatch(getData(getState().users.params))
   await dispatch(getAllData())
   return id
 })
 
-
-export const appProfesorSlice = createSlice({
-  name: 'appUsers',
+export const appProfesorsSlice = createSlice({
+  name: 'appProfesors',
   initialState: {
     data: [],
     total: 1,
@@ -87,18 +86,18 @@ export const appProfesorSlice = createSlice({
         state.params = action.payload.params
         state.total = action.payload.totalPages
       })
-      .addCase(getUser.fulfilled, (state, action) => {
+      .addCase(getProfesor.fulfilled, (state, action) => {
         state.selectedUser = action.payload
       })
-      .addCase(updateUser.fulfilled, (state, action) => {
+      .addCase(updateProfesor.fulfilled, (state, action) => {
         state.selectedUser = action.payload
       })
-      .addCase(addUser.fulfilled, (state, action) => {
+      .addCase(addProfesor.fulfilled, (state, action) => {
         state.allData = action.payload
       })
-      .addCase(deleteUser.fulfilled, (state, action) => {
+      .addCase(deleteProfesor.fulfilled, (state, action) => {
         state.allData = action.payload
       })
   }
 })
-export default appProfesorSlice.reducer
+export default appProfesorsSlice.reducer
