@@ -188,6 +188,10 @@ const AppRoutes = [
     path: '/apps/profesor/list'
   },
   {
+    element: <TeacherView />,
+    path: '/apps/profesor/view/:id'
+  },
+  {
     element: <UserList />,
     path: '/apps/user/list'
   },
@@ -199,6 +203,7 @@ const AppRoutes = [
     element: <UserView />,
     path: '/apps/user/view/:id'
   },
+
   {
     element: <Roles />,
     path: '/apps/roles'
