@@ -1,5 +1,5 @@
 // ** React Import
-import { useEffect, useRef, memo } from 'react'
+import { useEffect, useRef, memo, useState } from 'react'
 
 // ** Full Calendar & it's Plugins
 import '@fullcalendar/react/dist/vdom'
@@ -15,9 +15,14 @@ import locale from '@fullcalendar/core/locales/es'
 import toast from 'react-hot-toast'
 import { Menu } from 'react-feather'
 import { Card, CardBody } from 'reactstrap'
-import { getAllClientsData } from '../../../services/api'
+import { getAllAppointments, getAllClientsData } from '../../../services/api'
+
+
+
 
 const Calendar = props => {
+
+  
   // ** Refs
   const calendarRef = useRef(null)
 
@@ -36,9 +41,32 @@ const Calendar = props => {
     updateEvent
   } = props
 
+  const [eventos, setEventos] = useState({ events: [] });
+
+
+  const fetchAppointmentData = async () => {
+    const response = await getAllAppointments();
+    const appointments = response.data.users.map((event) => ({
+      id: event.id,
+      start: event.Date,
+      title: event.Protocol,
+      allDay: true,
+      editable:true
+    }));
+  
+    const data = {
+      events: appointments,
+      selectedEvent: {},
+      selectedCalendars: ['Peluquería', 'Estética']
+    };
+  
+    setEventos(data);
+  };
+
   // ** UseEffect checks for CalendarAPI Update
   useEffect(() => {
 
+    fetchAppointmentData();
     if (calendarApi === null) {
       setCalendarApi(calendarRef.current.getApi())
     }
@@ -46,7 +74,7 @@ const Calendar = props => {
 
   // ** calendarOptions(Props)
   const calendarOptions = {
-    events: store.events.length ? store.events : [],
+    events: eventos.events,
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
     timeZone: 'UTC',
     locales: locale,
@@ -149,7 +177,7 @@ const Calendar = props => {
     // Get direction from app state (store)
     direction: isRtl ? 'rtl' : 'ltr'
   }
- 
+ console.log(eventos.events);
   return (
     <Card className='shadow-none border-0 mb-0 rounded-0'>
       <CardBody className='pb-0'>

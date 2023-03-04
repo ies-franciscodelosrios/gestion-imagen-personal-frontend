@@ -49,7 +49,8 @@ export const deleteClient = createAsyncThunk('appClients/deleteClient', async (i
   (await handleConfirmCancel())? await ApiDelClient(id) :'';
 
   const response = await getAllClientsData().then(result => {return result.data.users}) 
-  return response})
+  return response
+})
 
 export const appClientsSlice = createSlice({
   name: 'appClients',

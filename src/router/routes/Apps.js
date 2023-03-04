@@ -203,6 +203,7 @@ const AppRoutes = [
     element: <UserView />,
     path: '/apps/user/view/:id'
   },
+
   {
     element: <Roles />,
     path: '/apps/roles'
