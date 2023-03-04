@@ -1,5 +1,6 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { toast } from 'react-hot-toast'
 
 
 // ** Axios Imports
@@ -35,13 +36,13 @@ export const getClient = createAsyncThunk('appClients/getClient', async id => {
 
 export const updateClient = createAsyncThunk('appClients/updateClient', async updatedClient => {
   console.log(updatedClient);
-  await updateClientBy(updatedClient);
+  await updateClientBy(updatedClient).then(() =>{toast.success('Correctamente Guardado!')}).catch(()=>{toast.error('Error al Actualizar cliente!')});
   return updatedClient
 })
 
 export const addClient = createAsyncThunk('appClients/addClient', async (user, { dispatch, getState }) => {
   await AddClient(user)
-  const response = await getAllClientsData().then(result => {return result.data.users}) 
+  const response = await getAllClientsData().then(result => {toast.success('Correctamente Guardado!');return result.data.users}).catch(toast.error('Error al añadir cliente!')); 
   return response
 })
 
