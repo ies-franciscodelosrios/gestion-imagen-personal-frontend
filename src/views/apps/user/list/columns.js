@@ -99,7 +99,7 @@ export const columns = [
   {
     name: 'DNI',
     sortable: true,
-    minWidth: '80px',
+    minWidth: '40px',
     sortField: 'id',
     selector: row => row.DNI,
     cell: row => <span className='text-capitalize'>{row.DNI}</span>
@@ -107,22 +107,22 @@ export const columns = [
   {
     name: 'Ciclo',
     sortable: true,
-    minWidth: '80px',
+    minWidth: '400px',
     sortField: 'Cycle',
     selector: row => row.Cycle,
-    cell: row => <span className='text-capitalize'>{row.Cycle}</span>
+    cell: row => <span>{row.Cycle}</span>
   },
   {
     name: 'Email',
     sortable: true,
-    minWidth: '140px',
+    minWidth: '100px',
     sortField: 'Email',
     selector: row => row.email,
     cell: row => <span>{row.email}</span>
   },
   {
     name: 'Actions',
-    minWidth: '100px',
+    minWidth: '30px',
     cell: row => (
       <div className='column-action'>
         <UncontrolledDropdown>
