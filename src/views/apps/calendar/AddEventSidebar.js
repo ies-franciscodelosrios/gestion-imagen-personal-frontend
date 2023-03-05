@@ -185,12 +185,16 @@ const AddEventSidebar = props => {
   // ** Set sidebar fields
   const handleSelectedEvent = () => {
     if (!isObjEmpty(selectedEvent)) {
-      const calendar = selectedEvent.extendedProps.calendar
+      const extendedProps = selectedEvent.extendedProps;
+      const calendar = extendedProps && extendedProps.calendar;
 
       const resolveLabel = () => {
+
         if (calendar.length) {
+          console.log("hola");
           return { label: calendar, value: calendar, color: calendarsColor[calendar] }
         } else {
+          console.log("adios");
           return { value: 'Peluquería', label: 'Peluquería', color: 'danger' }
         }
       }
@@ -323,7 +327,7 @@ const AddEventSidebar = props => {
       isOpen={open}
       className='sidebar-lg'
       toggle={handleAddEventSidebar}
-      onOpened={handleSelectedEvent}
+      onOpened={ handleSelectedEvent(selectedEvent)}
       onClosed={handleResetInputValues}
       contentClassName='p-0 overflow-hidden'
       modalClassName='modal-slide-in event-sidebar'
