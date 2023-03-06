@@ -61,7 +61,7 @@ const AddEventSidebar = props => {
       handleSubmit,
       formState: { errors }
     } = useForm({
-      defaultValues: { title: '' }
+      defaultValues: { title: '', description:'' }
     })
 
   // ** States
@@ -80,10 +80,11 @@ const AddEventSidebar = props => {
   const [calendarLabel, setCalendarLabel] = useState([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
   useEffect(() => {
     fetchData();
+    setAlumnos();
     handleSubmit();
     dispatch(fetchEvents({
     }))
-  }, [fetchEvents]);
+  }, [fetchEvents,selectedEvent,setAlumnos]);
 
   
   // ** Select Options
@@ -152,6 +153,7 @@ const AddEventSidebar = props => {
       }
     }
 
+
     console.log(obj.dateappo);
     if(obj.calendar="Peluquería")
       obj.calendar= 0;
@@ -170,13 +172,14 @@ const AddEventSidebar = props => {
   // ** Reset Input Values on Close
   const handleResetInputValues = () => {
     dispatch(selectEvent({}))
-    setValue('title', '')
+    setValue('title', 'description')
     setAllDay(false)
     setUrl('')
     setLocation('')
     setDesc('')
     setGuests({})
     setPupils({})
+    setAlumnos({})
     setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
     setStartPicker(new Date())
     setEndPicker(new Date())
@@ -187,28 +190,42 @@ const AddEventSidebar = props => {
     if (!isObjEmpty(selectedEvent)) {
       const extendedProps = selectedEvent.extendedProps;
       const calendar = extendedProps && extendedProps.calendar;
-      console.log(calendar);
-      const resolveLabel = () => {
+      // const resolveLabel = () => {
 
-        if (calendar.length) {
-          console.log("hola");
-          return { label: calendar, value: calendar, color: calendarsColor[calendar] }
-        } else {
-          console.log("adios");
-          return { value: 'Peluquería', label: 'Peluquería', color: 'danger' }
-        }
-      }
+      //   // if (calendar.length) {
+      //   //   console.log("hola");
+      //   //   return { label: calendar, value: calendar, color: calendarsColor[calendar] }
+      //   // } else {
+      //   //   console.log("adios");
+      //   //   return { value: 'Peluquería', label: 'Peluquería', color: 'danger' }
+      //   // }
+      // }
+      console.log(selectedEvent.extendedProps.description);
+
+
       setValue('title', selectedEvent.title || getValues('title'))
-      setAllDay(selectedEvent.allDay || allDay)
-      setUrl(selectedEvent.url || url)
-      setLocation(selectedEvent.extendedProps.location || location)
+      // setAllDay(selectedEvent.allDay || allDay)
+      // setUrl(selectedEvent.url || url)
+      // setLocation(selectedEvent.extendedProps.location || location)
       setDesc(selectedEvent.extendedProps.description || desc)
-      setGuests(selectedEvent.extendedProps.guests || guests)
-      setPupils(selectedEvent.extendedProps.pupils || pupils)
+      // setGuests(selectedEvent.extendedProps.guests || guests)
+      // setPupils(obtenerAlumno() || 'hola')
+      selectedEvent.extendedProps.alumno.then(data => {
+        
+        setPupils(data);
+        setAlumnos(data);
+        console.log(pupils);
+        console.log(alumnos);
+        console.log(data);
+      });
+
       setStartPicker(new Date(selectedEvent.start))
-      setEndPicker(selectedEvent.allDay ? new Date(selectedEvent.start) : new Date(selectedEvent.end))
-      setCalendarLabel([resolveLabel()])
+      console.log(selectedEvent.start)
+      // setEndPicker(selectedEvent.allDay ? new Date(selectedEvent.start) : new Date(selectedEvent.end))
+      // setCalendarLabel([resolveLabel()])
+      
     }
+    
   }
 
   // ** (UI) updateEventInCalendar
@@ -260,7 +277,7 @@ const AddEventSidebar = props => {
           }
         }
 
-      const propsToUpdate = ['id', 'title', 'url', 'alumnos']
+      const propsToUpdate = ['id', 'title', 'url', 'alumnos', 'desc']
       const extendedPropsToUpdate = ['calendar', 'guests','alumnos','pupils', 'location', 'description']
       dispatch(updateEvent(eventToUpdate))
       updateEventInCalendar(eventToUpdate, propsToUpdate, extendedPropsToUpdate)
@@ -272,13 +289,7 @@ const AddEventSidebar = props => {
       })
     }
   }
-  const flatpickrOptions = {
-    enableTime: true,
-    time_24hr: true,
-    dateFormat: 'Y-m-d H:i',
-    mode: 'single', // Muestra un solo campo de fecha en dispositivos móviles
-    // Otras opciones...
-  };
+
 
   // ** (UI) removeEventInCalendar
   const removeEventInCalendar = eventId => {
@@ -327,7 +338,7 @@ const AddEventSidebar = props => {
       isOpen={open}
       className='sidebar-lg'
       toggle={handleAddEventSidebar}
-      onOpened={ handleSelectedEvent(selectedEvent)}
+      onOpened={() => handleSelectedEvent(selectedEvent)}
       onClosed={handleResetInputValues}
       contentClassName='p-0 overflow-hidden'
       modalClassName='modal-slide-in event-sidebar'
@@ -404,8 +415,7 @@ const AddEventSidebar = props => {
                 options={{
                   enableTime: true,
                   time_24hr: true,
-                  dateFormat: 'd-m-Y H:i',
-                  locale:"es",
+                  dateFormat: 'Y-m-dTH:i:S',
                   timeZone: 'UTC+1'
                 }}
               />
@@ -511,6 +521,7 @@ menuPortalTarget={document.body}
                     setDniAlumno(selectedDnis[0]);
                     console.log(dnialumno);
                   }
+
                 }}
                 components={{
                   Option: GuestsComponent

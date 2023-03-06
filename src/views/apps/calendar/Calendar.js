@@ -15,7 +15,7 @@ import locale from '@fullcalendar/core/locales/es'
 import toast from 'react-hot-toast'
 import { Menu } from 'react-feather'
 import { Card, CardBody } from 'reactstrap'
-import { getAllAppointments, getAllClientsData } from '../../../services/api'
+import { getAllAppointments, getAllClientsData,getClientByData } from '../../../services/api'
 
 
 
@@ -46,13 +46,25 @@ const Calendar = props => {
 
   const fetchAppointmentData = async () => {
     const response = await getAllAppointments();
-    const appointments = response.data.users.map((event) => ({
-      id: event.id,
-      start: event.Date,
-      title: event.Protocol,
-      allDay: true,
-      editable:true
-    }));
+    const appointments = response.data.users.map((event) => {
+      const alumnoPromise = getClientByData(event.DNI_client).then((response) => response.data.users);
+      
+      return {
+        id: event.id,
+        start: event.Date,
+        title: event.Protocol,
+        allDay: true,
+        editable: true,
+        description: event.Consultancy,
+        alumno: alumnoPromise.then((alumno) => ({
+          value: `${alumno.Name} ${alumno.Surname}`,
+          label: `${alumno.Name} ${alumno.Surname}`,
+          dni: alumno.DNI,
+          avatar: ''
+        })),
+        backgroundColor: 'primary'
+      };
+    });
   
     const data = {
       events: appointments,
@@ -67,6 +79,7 @@ const Calendar = props => {
   useEffect(() => {
 
     fetchAppointmentData();
+
     if (calendarApi === null) {
       setCalendarApi(calendarRef.current.getApi())
     }
