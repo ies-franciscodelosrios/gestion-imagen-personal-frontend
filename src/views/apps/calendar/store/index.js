@@ -4,33 +4,16 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // ** Axios Imports
 import axios from 'axios'
 
-import { AddAppointment, getAllAppointments, getAllStudentsData } from '../../../../services/api'
-
-
-
-export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (params) => {
-  const response = {"data": {"appointment": params.data}};
-  if ((response === null || response.data.appointment.length <= 0 ) && params.q == '') {
-     Object.assign(response, await getAllAppointments().then(response => {return response})) 
-  }
-  response.data.users = sort_data(params, response.data.users);
-  console.log(response.data.users);
-  return response.data.users;
+export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async calendars => {
+  console.log("hola");
+  const response = await axios.get('/apps/calendar/events', { calendars })
+  return response.data
 })
-
-
-
 
 export const addEvent = createAsyncThunk('appCalendar/addEvent', async (event, { dispatch, getState }) => {
   await axios.post('/apps/calendar/add-event', { event })
   await dispatch(fetchEvents(getState().calendar.selectedCalendars))
   return event
-})
-
-export const addAppointment = createAsyncThunk('appAppointments/addAppointments', async (event, { dispatch, getState }) => {
-  await AddAppointment(event)
-  const response = await getAllAppointments().then(result => {return result.data.event}) 
-  return response
 })
 
 export const updateEvent = createAsyncThunk('appCalendar/updateEvent', async (event, { dispatch, getState }) => {
@@ -50,7 +33,7 @@ export const updateFilter = createAsyncThunk('appCalendar/updateFilter', async (
 
 export const updateAllFilters = createAsyncThunk('appCalendar/updateAllFilters', async (value, { dispatch }) => {
   if (value === true) {
-    await dispatch(fetchEvents(['Peluquería', 'Estética']))
+    await dispatch(fetchEvents(['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC']))
   } else {
     await dispatch(fetchEvents([]))
   }
@@ -67,10 +50,11 @@ export const appCalendarSlice = createSlice({
   initialState: {
     events: [],
     selectedEvent: {},
-    selectedCalendars: ['Peluquería', 'Estética']
+    selectedCalendars: ['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC']
   },
   reducers: {
     selectEvent: (state, action) => {
+      console.log(action.payload);
       state.selectedEvent = action.payload
     }
   },
@@ -90,7 +74,7 @@ export const appCalendarSlice = createSlice({
         const value = action.payload
         let selected = []
         if (value === true) {
-          selected = ['Peluquería', 'Estética']
+          selected = ['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC']
         } else {
           selected = []
         }

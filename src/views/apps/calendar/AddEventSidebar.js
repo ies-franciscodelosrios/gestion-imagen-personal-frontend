@@ -187,7 +187,7 @@ const AddEventSidebar = props => {
     if (!isObjEmpty(selectedEvent)) {
       const extendedProps = selectedEvent.extendedProps;
       const calendar = extendedProps && extendedProps.calendar;
-
+      console.log(calendar);
       const resolveLabel = () => {
 
         if (calendar.length) {
