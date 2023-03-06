@@ -68,6 +68,23 @@ export const getClientById = async (id) => {
 };
 
 /**
+ * Http Request to get a client by data
+ * @param {*} id to identify the client
+ * @returns user data
+ */
+export const getClientByData = async (id) => {
+  return await ApiConnect.get(`client/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+
+
+/**
  * Http Request to get a client by id
  * @param {*} id to identify the client
  * @returns user data
