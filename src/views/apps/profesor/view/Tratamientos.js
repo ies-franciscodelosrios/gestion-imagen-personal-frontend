@@ -8,7 +8,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getAllData, getData } from '../store'
+import { getAllData, getAppointments, getData } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -41,7 +41,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
 
     const columnDelimiter = ','
     const lineDelimiter = '\n'
-    const keys = Object.keys(store.data[0])
+    const keys = Object.keys(store.appoitments[0])
 
     result = ''
     result += keys.join(columnDelimiter)
@@ -62,22 +62,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
     return result
   }
 
-  // ** Downloads CSV
-  function downloadCSV(array) {
-    const link = document.createElement('a')
-    let csv = convertArrayOfObjectsToCSV(array)
-    if (csv === null) return
 
-    const filename = 'export.csv'
-
-    if (!csv.match(/^data:text\/csv/i)) {
-      csv = `data:text/csv;charset=utf-8,${csv}`
-    }
-
-    link.setAttribute('href', encodeURI(csv))
-    link.setAttribute('download', filename)
-    link.click()
-  }
   return (
     <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
       <Row>
@@ -98,9 +83,9 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
             </Input>
             <label htmlFor='rows-per-page'>Tratamientos</label>
           </div>
-           <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
+         {/*  <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
             <label className='mb-0' htmlFor='search-invoice'>
-            Buscar:
+              Buscar:
             </label>
             <Input
               id='search-invoice'
@@ -109,9 +94,9 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
               value={searchTerm}
               onChange={e => handleFilter(e.target.value)}
             />
-          </div>
+          </div> */}
         </Col>
-       
+
       </Row>
     </div>
   )
@@ -121,11 +106,13 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
 const UsersList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
+  const store = useSelector(state => state.profesor)
+
+
 
   // ** States
 
-  const [sort, setSort] = useState('desc')
+  const [sort, setSort] = useState('asc')
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [sortColumn, setSortColumn] = useState('id')
@@ -138,17 +125,8 @@ const UsersList = () => {
   const QUOTE_REQUESTED = "QUOTE_REQUESTED";
   // ** Get data on mount
   useEffect(() => {
-    dispatch(getAllData({
-      sort,
-      sortColumn,
-      q: searchTerm,
-      page: currentPage,
-      perPage: rowsPerPage,
-      status: currentStatus.value,
-      data: store.allData
-    }))
     dispatch(
-      getData({
+      getAppointments({
         sort,
         sortColumn,
         q: searchTerm,
@@ -166,12 +144,12 @@ const UsersList = () => {
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
-      getData({
+      getAppointments({
         sort,
         sortColumn,
         q: searchTerm,
+        page: currentPage,
         perPage: rowsPerPage,
-        page: page.selected + 1,
         status: currentStatus.value,
         data: store.allData
       })
@@ -183,12 +161,12 @@ const UsersList = () => {
   const handlePerPage = e => {
     const value = parseInt(e.currentTarget.value)
     dispatch(
-      getData({
+      getAppointments({
         sort,
         sortColumn,
         q: searchTerm,
-        perPage: value,
         page: currentPage,
+        perPage: rowsPerPage,
         status: currentStatus.value,
         data: store.allData
       })
@@ -201,10 +179,10 @@ const UsersList = () => {
   const handleFilter = val => {
     setSearchTerm(val)
     dispatch(
-      getData({
+      getAppointments({
         sort,
-        q: val,
         sortColumn,
+        q: searchTerm,
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
@@ -216,7 +194,7 @@ const UsersList = () => {
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = Number(Math.ceil(store.total / rowsPerPage))
-
+console.log(rowsPerPage)
     return (
       <ReactPaginate
         previousLabel={''}
@@ -247,19 +225,19 @@ const UsersList = () => {
       return filters[k].length > 0
     })
 
-    if (store.data.length > 0) {
-      return store.data
-    } else if (store.data.length === 0 && isFiltered) {
+    if (store.appoitments!==undefined && store.appoitments.length > 0) {
+      return store.appoitments
+    } else if (store.appoitments===undefined || store.appoitments.length === 0 && isFiltered) {
       return []
     } else {
-      return store.allData.slice(0, rowsPerPage)
+      return store.appoitments.slice(0, rowsPerPage)
     }
   }
   const handleSort = (column, sortDirection) => {
     setSort(sortDirection)
     setSortColumn(column.sortField)
     dispatch(
-      getData({
+      getAppointments({
         sort,
         sortColumn,
         q: searchTerm,
@@ -274,10 +252,10 @@ const UsersList = () => {
   return (
     <Fragment>
       {
-        
+
       }
 
-<Card className='overflow-hidden'>
+      <Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <DataTable
             noHeader
@@ -306,7 +284,7 @@ const UsersList = () => {
         </div>
       </Card>
 
-     
+
     </Fragment>
   )
 }
