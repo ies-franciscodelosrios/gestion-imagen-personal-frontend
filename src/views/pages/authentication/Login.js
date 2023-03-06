@@ -128,8 +128,19 @@ const Login = () => {
             });
           })
           .catch((err) => {
-            console.log('Not found API token...');
-            console.log(err);
+            for (const key in data) {
+              if (key.toString() == 'password') {
+                setError(key, {
+                  type: 'manual',
+                  message: 'Correo o contraseña incorecta'
+                });
+              }else{
+                setError(key, {
+                  type: 'manual',
+                });
+              }
+            }
+            
           });
 
     } else {
@@ -229,7 +240,7 @@ const Login = () => {
               </div>
               <div className="mb-1">
                 <div className="d-flex justify-content-between">
-                  <Label className="form-label" for="login-password">
+                  <Label className="form-label" for="password">
                     Contraseña
                   </Label>
                   <Link to="/forgot-password">
@@ -248,6 +259,7 @@ const Login = () => {
                     />
                   )}
                 />
+              {errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
               </div>
               <div className="form-check mb-1">
                 <Input type="checkbox" id="remember-me" />

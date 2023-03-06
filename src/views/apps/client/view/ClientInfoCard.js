@@ -32,6 +32,7 @@ import Avatar from '@components/avatar';
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
 import { toast } from 'react-hot-toast';
+import { getRol } from '../../../../utility/Utils';
 
 const roleColors = {
   editor: 'light-info',
@@ -212,11 +213,13 @@ const ClientInfoCard = () => {
               </ul>
             ) : null}
           </div>
+          {getRol() <= 1 ? 
           <div className="d-flex justify-content-center pt-2">
             <Button color="primary" onClick={() => {handleReset(); setShow(true)}}>
               Editar
             </Button>
           </div>
+          : null}
         </CardBody>
       </Card>
       <Modal
