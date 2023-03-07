@@ -1,7 +1,5 @@
-// ** React Import
 import { useEffect, useRef, memo, useState } from 'react'
 
-// ** Full Calendar & it's Plugins
 import '@fullcalendar/react/dist/vdom'
 import FullCalendar from '@fullcalendar/react'
 import listPlugin from '@fullcalendar/list'
@@ -9,28 +7,25 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import locale from '@fullcalendar/core/locales/es'
-
-
-// ** Third Party Components
+// ** Styles Imports
+import '@styles/react/libs/react-select/_react-select.scss'
+import '@styles/react/libs/flatpickr/flatpickr.scss'
 import toast from 'react-hot-toast'
 import { Menu } from 'react-feather'
 import { Card, CardBody } from 'reactstrap'
-import { getAllAppointments, getAllClientsData,getClientByData } from '../../../services/api'
-
-
-
+import { getAllAppointments, getAllClientsData, getClientByData, getUserByDNI } from '../../../services/api'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchEvents } from './store'
 
 const Calendar = props => {
+ // ** Store Vars
+ const dispatch = useDispatch();
+ const store = useSelector((state) => state.calendar);
 
-  
-  // ** Refs
   const calendarRef = useRef(null)
-
-  // ** Props
+  const eventos = []
   const {
-    store,
     isRtl,
-    dispatch,
     calendarsColor,
     calendarApi,
     setCalendarApi,
@@ -41,53 +36,15 @@ const Calendar = props => {
     updateEvent
   } = props
 
-  const [eventos, setEventos] = useState({ events: [] });
 
 
-  const fetchAppointmentData = async () => {
-    const response = await getAllAppointments();
-    const appointments = response.data.users.map((event) => {
-      const alumnoPromise = getClientByData(event.DNI_client).then((response) => response.data.users);
-      
-      return {
-        id: event.id,
-        start: event.Date,
-        title: event.Protocol,
-        allDay: true,
-        editable: true,
-        description: event.Consultancy,
-        alumno: alumnoPromise.then((alumno) => ({
-          value: `${alumno.Name} ${alumno.Surname}`,
-          label: `${alumno.Name} ${alumno.Surname}`,
-          dni: alumno.DNI,
-          avatar: ''
-        })),
-        backgroundColor: 'primary'
-      };
-    });
-  
-    const data = {
-      events: appointments,
-      selectedEvent: {},
-      selectedCalendars: ['Peluquería', 'Estética']
-    };
-  
-    setEventos(data);
-  };
-
-  // ** UseEffect checks for CalendarAPI Update
   useEffect(() => {
-
-    fetchAppointmentData();
-
-    if (calendarApi === null) {
-      setCalendarApi(calendarRef.current.getApi())
-    }
-  }, [calendarApi])
-
+    dispatch(fetchEvents({events: eventos}))
+    console.log(store)
+  }, [])
   // ** calendarOptions(Props)
   const calendarOptions = {
-    events: eventos.events,
+    events: eventos,
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
     timeZone: 'UTC',
     locales: locale,
@@ -190,7 +147,6 @@ const Calendar = props => {
     // Get direction from app state (store)
     direction: isRtl ? 'rtl' : 'ltr'
   }
- console.log(eventos.events);
   return (
     <Card className='shadow-none border-0 mb-0 rounded-0'>
       <CardBody className='pb-0'>
