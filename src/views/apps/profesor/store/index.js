@@ -8,7 +8,10 @@ import { getAllProfesorData, getUserById ,DelUser } from '../../../../services/a
 /* ALL PROFESOR */
 
 export const getAllData = createAsyncThunk('appUsers/getAllData', async () => {
-  const response = await getAllProfesorData().then(result => {return result}) 
+  const response = {"data": {"users": params.data}} 
+  if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
+    Object.assign(response, await getAllProfesorData().then(result => {return result})) 
+ }
   return response.data.users
 })
 
