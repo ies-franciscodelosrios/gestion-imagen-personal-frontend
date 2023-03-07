@@ -46,13 +46,20 @@ export const getProfesor = createAsyncThunk('appProfesors/getUser', async id => 
   return response.data.users
 })
 
-export const getAppointments = createAsyncThunk('appAppountments/getAppountments', async (params) => {
+/* GET ALL APPOINTMENTS */
+
+export const getAppointments = createAsyncThunk('appAppointments/getAppointments', async (params) => {
   const response = await getAllAppointments().then(result => { return result })
   console.log(response)
   response.data.users = sort_appointments(params, response.data.users);
 
   return response.data.users
 })
+
+/* */
+
+
+
 /* ADD PROFESOR */
 export const addProfesor = createAsyncThunk('appProfesors/addUserProfesor', async (user, { dispatch, getState }) => {
   await AddProfesor(user)

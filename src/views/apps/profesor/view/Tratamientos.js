@@ -83,7 +83,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
             </Input>
             <label htmlFor='rows-per-page'>Tratamientos</label>
           </div>
-         {/*  <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
+          {/*  <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
             <label className='mb-0' htmlFor='search-invoice'>
               Buscar:
             </label>
@@ -193,8 +193,8 @@ const UsersList = () => {
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(store.total / rowsPerPage))
-console.log(rowsPerPage)
+    const count = Number(Math.ceil(store.appoitments.length / rowsPerPage))
+    console.log(count )
     return (
       <ReactPaginate
         previousLabel={''}
@@ -225,9 +225,9 @@ console.log(rowsPerPage)
       return filters[k].length > 0
     })
 
-    if (store.appoitments!==undefined && store.appoitments.length > 0) {
+    if (store.appoitments !== undefined && store.appoitments.length > 0) {
       return store.appoitments
-    } else if (store.appoitments===undefined || store.appoitments.length === 0 && isFiltered) {
+    } else if (store.appoitments === undefined || store.appoitments.length === 0 && isFiltered) {
       return []
     } else {
       return store.appoitments.slice(0, rowsPerPage)

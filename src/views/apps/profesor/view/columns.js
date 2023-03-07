@@ -44,7 +44,6 @@ export const columns = [
     sortField: 'id',
     selector: row => row.id,
     cell: row => row.id
-
   }, {
     minWidth: '200px',
     name: 'Fecha',
@@ -74,10 +73,7 @@ export const columns = [
     sortField: 'Treatment',
     selector: row => row.Treatment,
     cell: row => row.Treatment
-  },
-
-
-  {
+  },{
     name: "Protocolo",
     minWidth: '200px',
     sortable: true,
@@ -92,16 +88,11 @@ export const columns = [
           <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
             <br />
             {row.Protocol}
-
           </UncontrolledTooltip>
         </Fragment>
       )
     }
-  },
-
-
-
-  {
+  },{
     name: "Consultas",
     minWidth: '200px',
     sortable: true,
@@ -116,13 +107,11 @@ export const columns = [
           <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
             <br />
             {row.Consultancy}
-
           </UncontrolledTooltip>
         </Fragment>
       )
     }
-  },
-  {
+  },{
     name: "Seguimiento",
     minWidth: '200px',
     sortable: true,
@@ -135,16 +124,13 @@ export const columns = [
         <Fragment>
           <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
           <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
-
             <br />
             {row.Tracking}
-
           </UncontrolledTooltip>
         </Fragment>
       )
     }
-  },
-  {
+  },{
     name: "Encuesta",
     minWidth: '200px',
     sortable: true,
@@ -157,16 +143,11 @@ export const columns = [
         <Fragment>
           <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
           <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
-
             <br />
             {row.Survey}
-
           </UncontrolledTooltip>
         </Fragment>
       )
     }
   }
-
-
-
 ]
