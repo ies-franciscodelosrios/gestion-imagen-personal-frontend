@@ -186,7 +186,17 @@ const UsersList = () => {
   // ** Get data on mount
   useEffect(() => {
     
-    dispatch(getAllData())
+    dispatch(getAllData({
+      sort,
+      sortColumn,
+      q: searchTerm,
+      page: currentPage,
+      perPage: rowsPerPage,
+      role: currentRole.value,
+      status: currentStatus.value,
+      currentPlan: currentPlan.value
+      data:
+    }))
     dispatch(
       getData({
         sort,
