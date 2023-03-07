@@ -159,9 +159,7 @@ export async function ApiGetFaq() {
 }
 
 /* 
-  
-    PROFESOR
-
+    Teacher
 */
 
 export const getAllProfesorData = async () => {
