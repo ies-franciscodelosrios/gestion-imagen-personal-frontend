@@ -15,22 +15,22 @@ import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2,
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 // ** Renders Client Columns
-/*
-const renderClient = row => {
-  if (row.avatar.length) {
+
+const renderStudent = row => {
+  if (false && row.avatar.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
   } else {
     return (
       <Avatar
         initials
         className='me-1'
-        color={row.avatarColor || 'light-primary'}
-        content={row.fullName || 'John Doe'}
+        color={'light-primary'}
+        content={row.Name || 'John Doe'}
       />
     )
   }
 }
-*/
+
 // ** Renders Role Columns
 const renderRole = row => {
   const roleObj = {
@@ -78,11 +78,11 @@ export const columns = [
     name: 'Nombre Completo',
     sortable: true,
     minWidth: '300px',
-    sortField: 'fullName',
+    sortField: 'Name',
     selector: row => row.Name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {/*{renderClient(row)}*/}
+        {renderStudent(row)}
         <div className='d-flex flex-column'>
           <Link
             to={`/apps/user/view/${row.id}`}
@@ -99,7 +99,7 @@ export const columns = [
   {
     name: 'DNI',
     sortable: true,
-    minWidth: '80px',
+    minWidth: '40px',
     sortField: 'id',
     selector: row => row.DNI,
     cell: row => <span className='text-capitalize'>{row.DNI}</span>
@@ -107,22 +107,22 @@ export const columns = [
   {
     name: 'Ciclo',
     sortable: true,
-    minWidth: '80px',
+    minWidth: '400px',
     sortField: 'Cycle',
     selector: row => row.Cycle,
-    cell: row => <span className='text-capitalize'>{row.Cycle}</span>
+    cell: row => <span>{row.Cycle}</span>
   },
   {
     name: 'Email',
     sortable: true,
-    minWidth: '140px',
+    minWidth: '100px',
     sortField: 'Email',
     selector: row => row.email,
-    cell: row => <span className='text-capitalize'>{row.email}</span>
+    cell: row => <span>{row.email}</span>
   },
   {
     name: 'Actions',
-    minWidth: '100px',
+    minWidth: '30px',
     cell: row => (
       <div className='column-action'>
         <UncontrolledDropdown>

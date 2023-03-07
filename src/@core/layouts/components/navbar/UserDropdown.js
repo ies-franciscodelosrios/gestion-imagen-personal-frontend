@@ -45,7 +45,7 @@ const UserDropdown = () => {
           <span className='user-name fw-bold'>{(userData && userData['fullName']) || 'Usuario'}</span>
           <span className='user-status'>{ (userData && userData['rol'])|| 'Admin'}</span>
         </div>
-        <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
+        <Avatar initials content={JSON.parse(localStorage.getItem('userData')).Name || 'Usuario'} imgHeight='50' imgWidth='50' status='online' className='me-1' color={'light-primary'}/>
       </DropdownToggle>
       <DropdownMenu end>
         <DropdownItem tag={Link} to='/pages/profile'>
@@ -65,7 +65,7 @@ const UserDropdown = () => {
         </DropdownItem>
         <DropdownItem tag={Link} to='/login' onClick={() => dispatch(handleLogout())}>
           <Power size={14} className='me-75' />
-          <span className='align-middle'>Cerar Sesión</span>
+          <span className='align-middle'>Cerrar Sesión</span>
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>

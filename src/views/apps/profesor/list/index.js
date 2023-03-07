@@ -16,9 +16,10 @@ import '@styles/react/apps/app-users.scss'
 const ProfesorList = () => {
   return (
     <div className='app-user-list'>
+      {}
       <Table />
     </div>
   )
 }
 
-export default UsersList
+export default ProfesorList
