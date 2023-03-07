@@ -95,7 +95,7 @@ const CalendarComponent = () => {
 
   // ** Fetch Events On Mount
   useEffect(() => {
-    fetchAppointmentData();
+    // fetchAppointmentData();
     // dispatch(fetchEvents(store.selectedCalendars))
   }, [])
 

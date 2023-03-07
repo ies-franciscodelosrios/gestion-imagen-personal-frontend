@@ -3,11 +3,48 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
 import axios from 'axios'
+import { getAllAppointments, getClientByData, getUserByDNI } from '../../../../services/api';
 
 export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async calendars => {
-  console.log("hola");
-  const response = await axios.get('/apps/calendar/events', { calendars })
-  return response.data
+  var appointments=calendars.events;
+  console.log("holadas");
+  if(calendars.events===null || calendars.events.length <= 5){
+    console.log("peticion");
+
+  const response = await getAllAppointments();
+   appointments = response.data.users.map((event) => {
+    const alumnoPromise = getUserByDNI(event.DNI_Student).then((response) => response.data.users);
+    const clientePromise = getClientByData(event.DNI_client).then((response) => response.data.users);
+
+    return {
+      id: event.id,
+      start: event.Date,
+      title: event.Protocol,
+      calendarLabel: event.Treatment,
+      created_at: event.created_at,
+      allDay: true,
+      color: '#FAE3D9',
+      editable: true,
+      description: event.Consultancy,
+      alumno: alumnoPromise.then((alumno) => ({
+        value: `${alumno.Name} ${alumno.Surname}`,
+        label: `${alumno.Name} ${alumno.Surname}`,
+        dni: alumno.DNI,
+        avatar: ''
+      })),
+      cliente: clientePromise.then((cliente) => ({
+        value: `${cliente.Name} ${cliente.Surname}`,
+        label: `${cliente.Name} ${cliente.Surname}`,
+        dni: cliente.DNI,
+        avatar: ''
+      })),
+      backgroundColor: '#FAE3D9'
+    };
+  });
+}
+
+console.log(appointments);
+  return appointments
 })
 
 export const addEvent = createAsyncThunk('appCalendar/addEvent', async (event, { dispatch, getState }) => {

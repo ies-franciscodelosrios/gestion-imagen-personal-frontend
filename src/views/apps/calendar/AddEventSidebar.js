@@ -13,7 +13,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { useForm, Controller } from 'react-hook-form'
 
 // ** Reactstrap Imports
-import { Button, Modal, ModalHeader, ModalBody, Label, Input, Form } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody, Label, Input, Form, Col } from 'reactstrap'
 
 // ** Utils
 import { selectThemeColors, isObjEmpty } from '@utils'
@@ -71,20 +71,53 @@ const AddEventSidebar = props => {
   const [clientes, setClientes] = useState('')
   const [url, setUrl] = useState('')
   const [desc, setDesc] = useState('')
+  const [user, setUser] = useState('')
+  const [client, setClient] = useState('')
   const [guests, setGuests] = useState({})
   const [pupils, setPupils] = useState({})
   const [allDay, setAllDay] = useState(false)
   const [location, setLocation] = useState('')
   const [endPicker, setEndPicker] = useState(new Date())
   const [startPicker, setStartPicker] = useState(new Date())
-  const [calendarLabel, setCalendarLabel] = useState([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
+  const [calendarLabel, setCalendarLabel] = useState([{ value: 'Peluquería', label: 'Peluquería', color: 'primary' }])
+  
+  
+  // const fetchData = async () => {
+  //   const response = await getAllStudentsData();
+  //   const response2 = await getAllClientsData();
+  //   const data = response.data.users.map((alumno) => ({
+  //     value: `${alumno.Name} ${alumno.Surname}`,
+  //     label: `${alumno.Name} ${alumno.Surname}`,
+  //     dni: alumno.DNI,
+  //     avatar: img5
+  //   }));
+  //   const data2 = response2.data.users.map((cliente) => ({
+  //     value: `${cliente.Name} ${cliente.Surname}`,
+  //     label: `${cliente.Name} ${cliente.Surname}`,
+  //     dni: cliente.DNI,
+  //     avatar: img5
+  //   }));
+  //   setAlumnos(data);
+  //   setClientes(data2);
+  // };
+
+
   useEffect(() => {
-    fetchData();
-    setAlumnos();
+    // fetchData();
     handleSubmit();
-    dispatch(fetchEvents({
-    }))
-  }, [fetchEvents,selectedEvent,setAlumnos]);
+    if (!isObjEmpty(selectedEvent)) {
+      selectedEvent.extendedProps.alumno.then(data => {
+        setUser(data.label || user);
+      }); 
+  
+      selectedEvent.extendedProps.cliente.then(data => {
+        setClient(data.label || client);
+      }); 
+    }
+  }, [store, handleSubmit, selectedEvent, client, user]);
+
+
+  
 
   
   // ** Select Options
@@ -92,25 +125,6 @@ const AddEventSidebar = props => {
     { value: 'Peluquería', label: 'Peluquería', color: 'danger' },
     { value: 'Estética', label: 'Estética', color: 'warning' },
   ]
-
-  const fetchData = async () => {
-    const response = await getAllStudentsData();
-    const response2 = await getAllClientsData();
-    const data = response.data.users.map((alumno) => ({
-      value: `${alumno.Name} ${alumno.Surname}`,
-      label: `${alumno.Name} ${alumno.Surname}`,
-      dni: alumno.DNI,
-      avatar: img5
-    }));
-    const data2 = response2.data.users.map((cliente) => ({
-      value: `${cliente.Name} ${cliente.Surname}`,
-      label: `${cliente.Name} ${cliente.Surname}`,
-      dni: cliente.DNI,
-      avatar: img5
-    }));
-    setAlumnos(data);
-    setClientes(data2);
-  };
 
 
 
@@ -164,7 +178,7 @@ const AddEventSidebar = props => {
     AddAppointment(obj);
     // dispatch(addEvent(obj))
     refetchEvents()
-
+    fetchData()
     handleAddEventSidebar()
     toast.success('Cita Añadida')
   }
@@ -172,14 +186,13 @@ const AddEventSidebar = props => {
   // ** Reset Input Values on Close
   const handleResetInputValues = () => {
     dispatch(selectEvent({}))
-    setValue('title', 'description')
+    setValue('title', '')
     setAllDay(false)
     setUrl('')
     setLocation('')
     setDesc('')
     setGuests({})
     setPupils({})
-    setAlumnos({})
     setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: 'danger' }])
     setStartPicker(new Date())
     setEndPicker(new Date())
@@ -190,6 +203,7 @@ const AddEventSidebar = props => {
     if (!isObjEmpty(selectedEvent)) {
       const extendedProps = selectedEvent.extendedProps;
       const calendar = extendedProps && extendedProps.calendar;
+      console.log(selectedEvent);
       // const resolveLabel = () => {
 
       //   // if (calendar.length) {
@@ -200,26 +214,41 @@ const AddEventSidebar = props => {
       //   //   return { value: 'Peluquería', label: 'Peluquería', color: 'danger' }
       //   // }
       // }
-      console.log(selectedEvent.extendedProps.description);
 
+      
+        console.log(store);
+        selectedEvent.extendedProps.alumno.then(data => {
+          setUser(data.label || user)}) 
+
+        selectedEvent.extendedProps.cliente.then(data => {
+          setClient(data.label || client)}) 
 
       setValue('title', selectedEvent.title || getValues('title'))
+      if(selectedEvent.extendedProps.calendarLabel=='0' || selectedEvent.extendedProps.calendarLabel==null){
+        setCalendarLabel([{value: 'Peluquería', label: 'Peluquería'}])
+      }else{
+        console.log('hola');
+        setCalendarLabel([{value: 'Estética', label: 'Estética'}])
+      }
+      console.log(selectedEvent.extendedProps.calendarLabel)
       // setAllDay(selectedEvent.allDay || allDay)
       // setUrl(selectedEvent.url || url)
       // setLocation(selectedEvent.extendedProps.location || location)
       setDesc(selectedEvent.extendedProps.description || desc)
       // setGuests(selectedEvent.extendedProps.guests || guests)
       // setPupils(obtenerAlumno() || 'hola')
-      selectedEvent.extendedProps.alumno.then(data => {
+      // selectedEvent.extendedProps.alumno.then(data => {
         
-        setPupils(data);
-        setAlumnos(data);
-        console.log(pupils);
-        console.log(alumnos);
-        console.log(data);
-      });
+      // //   setPupils(data);
+      //   setUser(data.label);
+      // //   console.log(pupils);
+      // //   console.log(alumnos);
+      // //   console.log(data);
+      // //   fetchData();
 
-      setStartPicker(new Date(selectedEvent.start))
+      // });
+
+      setStartPicker(new Date(selectedEvent.extendedProps.created_at))
       console.log(selectedEvent.start)
       // setEndPicker(selectedEvent.allDay ? new Date(selectedEvent.start) : new Date(selectedEvent.end))
       // setCalendarLabel([resolveLabel()])
@@ -227,6 +256,7 @@ const AddEventSidebar = props => {
     }
     
   }
+
 
   // ** (UI) updateEventInCalendar
   const updateEventInCalendar = (updatedEventData, propsToUpdate, extendedPropsToUpdate) => {
@@ -406,7 +436,6 @@ const AddEventSidebar = props => {
               </Label>
               <Flatpickr
                 required
-                locale='es'
                 id='startDate'
                 name='startDate'
                 className='form-control'
@@ -468,11 +497,57 @@ const AddEventSidebar = props => {
                 placeholder='https://www.google.com'
               />
             </div>
- */}
+ */} 
+
+
+{isObjEmpty(selectedEvent) ? null : (
+              <Col md="6" sm="12" className="mb-1">
+              <Label className="form-label" for="Cosmeticos">
+                Cliente:
+              </Label>
+              <Controller
+                control={control}
+                id="Cosmeticos"
+                name="Cosmeticos"
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="Cliente cita"
+                    value={client}
+                  />
+                )}
+              />{' '}
+            </Col>
+ )}
+  {isObjEmpty(selectedEvent) ? null : (
+              <Col md="6" sm="12" className="mb-1">
+              <Label className="form-label" for="Cosmeticos">
+                Alumno:
+              </Label>
+              <Controller
+                control={control}
+                id="Cosmeticos"
+                name="Cosmeticos"
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    type="text"
+                    placeholder="Cliente cita"
+                    value={user}
+                  />
+                )}
+              />{' '}
+            </Col>
+ )}
+ 
+ {selectedEvent && selectedEvent.title && selectedEvent.title.length ? null : (
             <div className='mb-1'>
+           
               <Label className='form-label' for='guests'>
                 Asignar Cliente
               </Label>
+              
               <Select
 menuPortalTarget={document.body} 
               styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
@@ -497,8 +572,8 @@ menuPortalTarget={document.body}
                   
                 }}
               />
-            </div>
-
+            </div>)}
+            {selectedEvent && selectedEvent.title && selectedEvent.title.length ? null : (
             <div className='mb-1'>
               <Label className='form-label' for='pupils'>
                 Elegir Alumno
@@ -527,7 +602,7 @@ menuPortalTarget={document.body}
                   Option: GuestsComponent
                 }}
               />
-            </div>
+            </div>)}
 
             {/*
             <div className='mb-1'>

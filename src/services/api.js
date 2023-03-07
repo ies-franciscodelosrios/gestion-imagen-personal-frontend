@@ -207,6 +207,21 @@ export const getUserById= async (id) => {
   });
 };
 
+/**
+ * Http Request to get a student by DNI
+ * @param {*} id to identify the client
+ * @returns user data
+ */
+export const getUserByDNI= async (id) => {
+  return await ApiConnect.get(`userByDni/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
 
 
 
