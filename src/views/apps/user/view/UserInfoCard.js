@@ -1,8 +1,23 @@
 // ** React Imports
 import { useState, Fragment } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateUser } from '../store';
 
 // ** Reactstrap Imports
-import { Row, Col, Card, Form, CardBody, Button, Badge, Modal, Input, Label, ModalBody, ModalHeader } from 'reactstrap'
+import { 
+  Row, 
+  Col, 
+  Card, 
+  Form, 
+  CardBody, 
+  Button, 
+  Badge, 
+  Modal, 
+  Input, 
+  Label, 
+  ModalBody, 
+  ModalHeader 
+} from 'reactstrap'
 
 // ** Third Party Components
 import Swal from 'sweetalert2'
@@ -19,6 +34,14 @@ import { selectThemeColors } from '@utils'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
+import { toast } from 'react-hot-toast';
+
+const cycleOptions = [
+  { label: 'Grado Medio - Peluquería y cosmética capilar', value: 'Grado Medio - Peluquería y cosmética capilar' },
+  { label: 'Grado Medio - Estética y belleza', value: 'Grado Medio - Estética y belleza' },
+  { label: 'Grado Superior - Estética integral y bienestar', value: 'Grado Superior - Estética integral y bienestar' },
+  { label: 'Grado Superior - Estilismo y dirección de peluquería', value: 'Grado Superior - Estilismo y dirección de peluquería' },
+];
 
 const roleColors = {
   editor: 'light-info',
@@ -34,31 +57,16 @@ const statusColors = {
   inactive: 'light-secondary'
 }
 
-const statusOptions = [
-  { value: 'active', label: 'Active' },
-  { value: 'inactive', label: 'Inactive' },
-  { value: 'suspended', label: 'Suspended' }
-]
-
-const countryOptions = [
-  { value: 'uk', label: 'UK' },
-  { value: 'usa', label: 'USA' },
-  { value: 'france', label: 'France' },
-  { value: 'russia', label: 'Russia' },
-  { value: 'canada', label: 'Canada' }
-]
-
-const languageOptions = [
-  { value: 'english', label: 'English' },
-  { value: 'spanish', label: 'Spanish' },
-  { value: 'french', label: 'French' },
-  { value: 'german', label: 'German' },
-  { value: 'dutch', label: 'Dutch' }
-]
 
 const MySwal = withReactContent(Swal)
 
-const UserInfoCard = ({ selectedUser }) => {
+const UserInfoCard = () => {
+  // ** Store Vars
+  const dispatch = useDispatch();
+  const store = useSelector(state => state.users)
+
+  const selectedUser = store.selectedUser;
+
   // ** State
   const [show, setShow] = useState(false)
 
@@ -71,31 +79,22 @@ const UserInfoCard = ({ selectedUser }) => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      username: selectedUser.Name.concat(' ', selectedUser.Surname),
-      lastName: selectedUser.Surname,
-      firstName: selectedUser.Name
+      Name: '',
+      Surname: '',
+      email: '',
+      DNI: '',
+      Cycle: ''
     }
   })
 
   // ** render user img
   const renderUserImg = () => {
-    if (selectedUser !== null) {
-      return (
-        <img
-          height='110'
-          width='110'
-          alt='user-avatar'
-          src={selectedUser.avatar}
-          className='img-fluid rounded mt-3 mb-2'
-        />
-      )
-    } else {
       return (
         <Avatar
           initials
-          color={selectedUser.avatarColor || 'light-primary'}
+          color={'light-primary'}
           className='rounded mt-3 mb-2'
-          content={selectedUser.fullName}
+          content={selectedUser.Name}
           contentStyles={{
             borderRadius: 0,
             fontSize: 'calc(48px)',
@@ -109,10 +108,19 @@ const UserInfoCard = ({ selectedUser }) => {
         />
       )
     }
-  }
 
-  const onSubmit = data => {
-    if (Object.values(data).every(field => field.length > 0)) {
+  const onSubmit = (data) => {
+    const updatedUser = {...store.selectedUser};
+    updatedUser.Name = data.Name;
+    updatedUser.Surname = data.Surname;
+    updatedUser.email = data.email;
+    updatedUser.DNI = data.DNI;
+    updatedUser.Cycle = data.Cycle.label;
+    console.log(data);
+
+    if (Object.values(data).every(field => typeof field !== "object" || Object.values(field).every(value => value.length > 0))){
+      console.log(updatedUser.id);
+      dispatch(updateUser(updatedUser));
       setShow(false)
     } else {
       for (const key in data) {
@@ -120,6 +128,7 @@ const UserInfoCard = ({ selectedUser }) => {
           setError(key, {
             type: 'manual'
           })
+          
         }
       }
     }
@@ -127,59 +136,33 @@ const UserInfoCard = ({ selectedUser }) => {
 
   const handleReset = () => {
     reset({
-      username: selectedUser.Name.concat(' ', selectedUser.Surname),
-      lastName: selectedUser.Surname,
-      firstName: selectedUser.Name
-    })
-  }
-
-  const handleSuspendedClick = () => {
-    return MySwal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert user!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, Suspend user!',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-outline-danger ms-1'
-      },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.value) {
-        MySwal.fire({
-          icon: 'success',
-          title: 'Suspended!',
-          text: 'User has been suspended.',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        })
-      } else if (result.dismiss === MySwal.DismissReason.cancel) {
-        MySwal.fire({
-          title: 'Cancelled',
-          text: 'Cancelled Suspension :)',
-          icon: 'error',
-          customClass: {
-            confirmButton: 'btn btn-success'
-          }
-        })
-      }
+      Name: selectedUser.Name,
+      Surname: selectedUser.Surname,
+      email: selectedUser.email,
+      DNI: selectedUser.DNI,
+      Cycle: selectedUser.Cycle.label,
     })
   }
 
   return (
     <Fragment>
       <Card>
-        <CardBody>
-          <div className='user-avatar-section'>
-            <div className='d-flex align-items-center flex-column'>
+      <CardBody>
+          <div className="user-avatar-section">
+            <div className="d-flex align-items-center flex-column">
               {renderUserImg()}
-              <div className='d-flex flex-column align-items-center text-center'>
-                <div className='user-info'>
-                  <h4>{selectedUser !== null ? selectedUser.Name.concat(' '+selectedUser.Surname) : 'Eleanor Aguilar'}</h4>
+              <div className="d-flex flex-column align-items-center text-center">
+                <div className="user-info">
+                  <h4>
+                    {selectedUser !== null
+                      ? selectedUser.Name.concat(' ' + selectedUser.Surname)
+                      : 'Eleanor Aguilar'}
+                  </h4>
                   {selectedUser !== null ? (
-                    <Badge color={roleColors[selectedUser.Rol]} className='text-capitalize'>
+                    <Badge
+                      color={roleColors[selectedUser.Rol]}
+                      className="text-capitalize"
+                    >
                       {selectedUser.Rol}
                     </Badge>
                   ) : null}
@@ -187,144 +170,172 @@ const UserInfoCard = ({ selectedUser }) => {
               </div>
             </div>
           </div>
-          <div className='d-flex justify-content-around my-2 pt-75'>
-            <div className='d-flex align-items-start me-2'>
-              <Badge color='light-primary' className='rounded p-75'>
-                <Check className='font-medium-2' />
+          <div className="d-flex justify-content-around my-2 pt-75">
+            <div className="d-flex align-items-start me-2">
+              <Badge color="light-primary" className="rounded p-75">
+                <Check className="font-medium-2" />
               </Badge>
-              <div className='ms-75'>
-                <h4 className='mb-0'>1.23k</h4>
-                <small>Tasks Done</small>
+              <div className="ms-75">
+                <h4 className="mb-0">123</h4>
+                <small>Tratamientos</small>
               </div>
             </div>
-            <div className='d-flex align-items-start'>
-              <Badge color='light-primary' className='rounded p-75'>
-                <Briefcase className='font-medium-2' />
+            <div className="d-flex align-items-start">
+              <Badge color="light-primary" className="rounded p-75">
+                <Briefcase className="font-medium-2" />
               </Badge>
-              <div className='ms-75'>
-                <h4 className='mb-0'>568</h4>
+              <div className="ms-75">
+                <h4 className="mb-0">568</h4>
                 <small>Projects Done</small>
               </div>
             </div>
           </div>
-          <h4 className='fw-bolder border-bottom pb-50 mb-1'>Detalles</h4>
-          <div className='info-container'>
+          <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
+          <div className="info-container">
             {selectedUser !== null ? (
-              <ul className='list-unstyled'>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>id: </span>
-                  <span className='text-capitalize'>{selectedUser.id}</span>
-                </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Nombre: </span>
+              <ul className="list-unstyled">
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Nombre: </span>
                   <span>{selectedUser.Name}</span>
                 </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Apellido: </span>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Apellido: </span>
                   <span>{selectedUser.Surname}</span>
                 </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>DNI: </span>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">DNI: </span>
                   <span>{selectedUser.DNI}</span>
                 </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Email: </span>
-                  <span>{selectedUser.Email}</span>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Email: </span>
+                  <span>{selectedUser.email}</span>
                 </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Año Nacimiento: </span>
-                  <span>{selectedUser.Birth_Date}</span>
-                </li>
-                <li className='mb-75'>
-                  <span className='fw-bolder me-25'>Telefono: </span>
-                  <Badge className='text-capitalize' color={statusColors['active']}>
-                    {selectedUser.Phone}
-                  </Badge>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Ciclo: </span>
+                  <span>{selectedUser.Cycle}</span>
                 </li>
               </ul>
             ) : null}
           </div>
-          <div className='d-flex justify-content-center pt-2'>
-            <Button color='primary' onClick={() => setShow(true)}>
-              Edit
-            </Button>
-            <Button className='ms-1' color='danger' outline onClick={handleSuspendedClick}>
-              Suspended
+          <div className="d-flex justify-content-center pt-2">
+            <Button color="primary" onClick={() => {handleReset(); setShow(true)}}>
+              Editar
             </Button>
           </div>
         </CardBody>
       </Card>
-      <Modal isOpen={show} toggle={() => setShow(!show)} className='modal-dialog-centered modal-lg'>
-        <ModalHeader className='bg-transparent' toggle={() => setShow(!show)}></ModalHeader>
+      <Modal 
+        isOpen={show} 
+        toggle={() => setShow(!show)} 
+        className='modal-dialog-centered modal-lg'
+      >
+        <ModalHeader 
+          className='bg-transparent' 
+          toggle={() => setShow(!show)}
+        ></ModalHeader>
         <ModalBody className='px-sm-5 pt-50 pb-5'>
           <div className='text-center mb-2'>
             <h1 className='mb-1'>Editar Información</h1>
-            <p>Actualizar los datos del cliente de manera segura.</p>
+            <p>Actualizar los datos del User de manera segura.</p>
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className='gy-1 pt-75'>
               <Col md={6} xs={12}>
-                <Label className='form-label' for='firstName'>
+                <Label className='form-label' for='Name'>
                   Nombre
                 </Label>
                 <Controller
                   defaultValue=''
                   control={control}
-                  id='firstName'
-                  name='firstName'
+                  id='Name'
+                  name='Name'
                   render={({ field }) => (
-                    <Input {...field} id='firstName' placeholder='John' invalid={errors.firstName && true} />
+                    <Input 
+                      {...field} 
+                      id='Name' 
+                      placeholder='John' 
+                      invalid={errors.firstName && true} 
+                      />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className='form-label' for='lastName'>
+                <Label className='form-label' for='Surname'>
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue=''
+                  defaultValue={selectedUser.Surname}
                   control={control}
-                  id='lastName'
-                  name='lastName'
+                  id='Surname'
+                  name='Surname'
                   render={({ field }) => (
-                    <Input {...field} id='lastName' placeholder='Doe' invalid={errors.lastName && true} />
+                    <Input 
+                      {...field} 
+                      id='Surname' 
+                      placeholder='Doe' 
+                      invalid={errors.lastName && true}
+                      />
                   )}
                 />
               </Col>
               <Col xs={12}>
-                <Label className='form-label' for='username'>
-                  Nombre Completo
+                <Label className='form-label' for='email'>
+                  Email
                 </Label>
                 <Controller
-                  defaultValue=''
+                  defaultValue={selectedUser.email}
                   control={control}
-                  id='username'
-                  name='username'
+                  id="email"
+                  name="email"
                   render={({ field }) => (
-                    <Input {...field} id='username' placeholder='john.doe.007' invalid={errors.username && true} />
+                    <Input
+                      {...field}
+                      type="email"
+                      id="email"
+                      placeholder="nombre@gmail.com"
+                      invalid={errors.email && true}
+                    />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className='form-label' for='billing-email'>
-                  Email
+                <Label className="form-label" for="DNI">
+                  Dni
                 </Label>
-                <Input
-                  type='email'
-                  id='billing-email'
-                  defaultValue={selectedUser.Email}
-                  placeholder='example@gmail.com'
+                <Controller
+                  defaultValue={selectedUser.DNI}
+                  control={control}
+                  id="DNI"
+                  name="DNI"
+                  render={({ field }) => (
+                    <Input {...field} id="DNI" placeholder="31000000C" />
+                  )}
                 />
               </Col>
-              <Col md={6} xs={12}>
-                <Label className='form-label' for='contact'>
-                  Contact
-                </Label>
-                <Input id='contact' defaultValue={selectedUser.Phone} placeholder='+34 609 933 442' />
+              <Col xs={12}>
+              <Label className="form-label" for="Cycle">
+            Ciclo <span className="text-danger">*</span>
+          </Label>
+          <Controller
+            name="Cycle"
+            control={control}
+            render={({ field }) => (
+              <Select
+                options={cycleOptions}
+                theme={selectThemeColors}
+                className='react-select'
+                classNamePrefix='select'
+                id="Cycle"
+                placeholder="Elige tu ciclo"
+                invalid={errors.Cycle && true}
+                {...field}
+              />
+
+            )}
+          />
               </Col>
-              
               <Col xs={12} className='text-center mt-2 pt-50'>
-                <Button type='submit' className='me-1' color='primary'>
+              <Button type="submit" className="me-1" color="primary" onClick={()=> toast.success('Correctamente Guardado!')}>
                   Guardar
                 </Button>
                 <Button
@@ -334,6 +345,7 @@ const UserInfoCard = ({ selectedUser }) => {
                   onClick={() => {
                     handleReset()
                     setShow(false)
+                    toast.error('Borrado de datos no guardados')
                   }}
                 >
                   Cancelar
@@ -344,7 +356,8 @@ const UserInfoCard = ({ selectedUser }) => {
         </ModalBody>
       </Modal>
     </Fragment>
-  )
-}
+  );
 
+}
+  
 export default UserInfoCard

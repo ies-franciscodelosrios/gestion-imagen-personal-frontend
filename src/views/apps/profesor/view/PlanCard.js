@@ -31,10 +31,10 @@ const PlanCard = () => {
   const handleConfirmCancel = () => {
     return MySwal.fire({
       title: '',
-      text: 'Are you sure you would like to cancel your subscription?',
+      text: '¿Estas seguro que quieres cancelar tu subscripción?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes',
+      confirmButtonText: 'Si',
       customClass: {
         confirmButton: 'btn btn-primary',
         cancelButton: 'btn btn-outline-danger ms-1'
@@ -44,16 +44,16 @@ const PlanCard = () => {
       if (result.value) {
         MySwal.fire({
           icon: 'success',
-          title: 'Unsubscribed!',
-          text: 'Your subscription cancelled successfully.',
+          title: 'Subcripcion cancelada!',
+          text: 'Su subcripcion ha sido cancelada con exito.',
           customClass: {
             confirmButton: 'btn btn-success'
           }
         })
       } else if (result.dismiss === MySwal.DismissReason.cancel) {
         MySwal.fire({
-          title: 'Cancelled',
-          text: 'Unsubscription Cancelled!!',
+          title: 'Cancelado',
+          text: 'Unsubscripcion cancelada!!',
           icon: 'error',
           customClass: {
             confirmButton: 'btn btn-success'

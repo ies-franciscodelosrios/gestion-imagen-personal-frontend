@@ -91,7 +91,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
       <Row>
         <Col xl='6' className='d-flex align-items-center p-0'>
           <div className='d-flex align-items-center w-100'>
-            <label htmlFor='rows-per-page'>Show</label>
+            <label htmlFor='rows-per-page'>Ver</label>
             <Input
               className='mx-50'
               type='select'
@@ -104,7 +104,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
               <option value='25'>25</option>
               <option value='50'>50</option>
             </Input>
-            <label htmlFor='rows-per-page'>Entries</label>
+            <label htmlFor='rows-per-page'>Registros</label>
           </div>
         </Col>
         <Col
@@ -113,7 +113,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
         >
           <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
             <label className='mb-0' htmlFor='search-invoice'>
-              Search:
+            Buscar:
             </label>
             <Input
               id='search-invoice'
@@ -125,37 +125,25 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
           </div>
 
           <div className='d-flex align-items-center table-header-actions'>
-            <UncontrolledDropdown className='me-1'>
+          <UncontrolledDropdown className='me-1'>
               <DropdownToggle color='secondary' caret outline>
                 <Share className='font-small-4 me-50' />
-                <span className='align-middle'>Export</span>
+                <span className='align-middle'>Exportar</span>
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem className='w-100'>
                   <Printer className='font-small-4 me-50' />
-                  <span className='align-middle'>Print</span>
+                  <span className='align-middle'>Imprimir</span>
                 </DropdownItem>
                 <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
                   <FileText className='font-small-4 me-50' />
                   <span className='align-middle'>CSV</span>
                 </DropdownItem>
-                <DropdownItem className='w-100'>
-                  <Grid className='font-small-4 me-50' />
-                  <span className='align-middle'>Excel</span>
-                </DropdownItem>
-                <DropdownItem className='w-100'>
-                  <File className='font-small-4 me-50' />
-                  <span className='align-middle'>PDF</span>
-                </DropdownItem>
-                <DropdownItem className='w-100'>
-                  <Copy className='font-small-4 me-50' />
-                  <span className='align-middle'>Copy</span>
-                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
 
             <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-              Add New User
+            Añadir Nuevo Profesor
             </Button>
           </div>
         </Col>
@@ -164,38 +152,34 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
   )
 }
 
-const UsersList = () => {
+const ProfesorList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
+  const store = useSelector(state => state.profesor)
 
   // ** States
+
   const [sort, setSort] = useState('desc')
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [sortColumn, setSortColumn] = useState('id')
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' })
-  const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' })
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-
+  const QUOTE_REQUESTED = "QUOTE_REQUESTED";
   // ** Get data on mount
   useEffect(() => {
-    
     dispatch(getAllData({
       sort,
       sortColumn,
       q: searchTerm,
       page: currentPage,
       perPage: rowsPerPage,
-      role: currentRole.value,
       status: currentStatus.value,
-      currentPlan: currentPlan.value
-      data:
+      data: store.allData
     }))
     dispatch(
       getData({
@@ -204,37 +188,14 @@ const UsersList = () => {
         q: searchTerm,
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
         status: currentStatus.value,
-        currentPlan: currentPlan.value
+        data: store.allData
       })
     )
-  }, [dispatch, store.data.length, sort, sortColumn, currentPage])
+  }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
 
   // ** User filter options
-  const roleOptions = [
-    { value: '', label: 'Select Role' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' }
-  ]
 
-  const planOptions = [
-    { value: '', label: 'Select Plan' },
-    { value: 'basic', label: 'Basic' },
-    { value: 'company', label: 'Company' },
-    { value: 'enterprise', label: 'Enterprise' },
-    { value: 'team', label: 'Team' }
-  ]
-
-  const statusOptions = [
-    { value: '', label: 'Select Status', number: 0 },
-    { value: 'pending', label: 'Pending', number: 1 },
-    { value: 'active', label: 'Active', number: 2 },
-    { value: 'inactive', label: 'Inactive', number: 3 }
-  ]
 
   // ** Function in get data on page change
   const handlePagination = page => {
@@ -245,9 +206,8 @@ const UsersList = () => {
         q: searchTerm,
         perPage: rowsPerPage,
         page: page.selected + 1,
-        role: currentRole.value,
         status: currentStatus.value,
-        currentPlan: currentPlan.value
+        data: store.allData
       })
     )
     setCurrentPage(page.selected + 1)
@@ -263,13 +223,13 @@ const UsersList = () => {
         q: searchTerm,
         perPage: value,
         page: currentPage,
-        role: currentRole.value,
-        currentPlan: currentPlan.value,
-        status: currentStatus.value
+        status: currentStatus.value,
+        data: store.allData
       })
     )
     setRowsPerPage(value)
   }
+
 
   // ** Function in get data on search query change
   const handleFilter = val => {
@@ -281,9 +241,8 @@ const UsersList = () => {
         sortColumn,
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
         status: currentStatus.value,
-        currentPlan: currentPlan.value
+        data: store.allData
       })
     )
   }
@@ -314,8 +273,6 @@ const UsersList = () => {
   // ** Table data to render
   const dataToRender = () => {
     const filters = {
-      role: currentRole.value,
-      currentPlan: currentPlan.value,
       status: currentStatus.value,
       q: searchTerm
     }
@@ -332,7 +289,6 @@ const UsersList = () => {
       return store.allData.slice(0, rowsPerPage)
     }
   }
-
   const handleSort = (column, sortDirection) => {
     setSort(sortDirection)
     setSortColumn(column.sortField)
@@ -343,104 +299,19 @@ const UsersList = () => {
         q: searchTerm,
         page: currentPage,
         perPage: rowsPerPage,
-        role: currentRole.value,
         status: currentStatus.value,
-        currentPlan: currentPlan.value
+        data: store.allData
       })
     )
   }
 
   return (
     <Fragment>
-      <Card>
-        <CardHeader>
-          <CardTitle tag='h4'>Filters</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Row>
-            <Col md='4'>
-              <Label for='role-select'>Role</Label>
-              <Select
-                isClearable={false}
-                value={currentRole}
-                options={roleOptions}
-                className='react-select'
-                classNamePrefix='select'
-                theme={selectThemeColors}
-                onChange={data => {
-                  setCurrentRole(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      role: data.value,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      status: currentStatus.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col className='my-md-0 my-1' md='4'>
-              <Label for='plan-select'>Plan</Label>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={planOptions}
-                value={currentPlan}
-                onChange={data => {
-                  setCurrentPlan(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: data.value,
-                      status: currentStatus.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col md='4'>
-              <Label for='status-select'>Status</Label>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={statusOptions}
-                value={currentStatus}
-                onChange={data => {
-                  setCurrentStatus(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      status: data.value,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-          </Row>
-        </CardBody>
-      </Card>
+      {
+        
+      }
 
-      <Card className='overflow-hidden'>
+<Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <DataTable
             noHeader
@@ -474,4 +345,4 @@ const UsersList = () => {
   )
 }
 
-export default UsersList
+export default ProfesorList

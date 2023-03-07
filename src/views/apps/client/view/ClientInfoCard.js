@@ -31,6 +31,8 @@ import Avatar from '@components/avatar';
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
+import { toast } from 'react-hot-toast';
+import { getRol } from '../../../../utility/Utils';
 
 const roleColors = {
   editor: 'light-info',
@@ -211,11 +213,13 @@ const ClientInfoCard = () => {
               </ul>
             ) : null}
           </div>
+          {getRol() <= 1 ? 
           <div className="d-flex justify-content-center pt-2">
             <Button color="primary" onClick={() => {handleReset(); setShow(true)}}>
               Editar
             </Button>
           </div>
+          : null}
         </CardBody>
       </Card>
       <Modal
@@ -230,7 +234,7 @@ const ClientInfoCard = () => {
         <ModalBody className="px-sm-5 pt-50 pb-5">
           <div className="text-center mb-2">
             <h1 className="mb-1">Editar Información</h1>
-            <p>Actualizar los datos del cliente de manera segura.</p>
+            <p>Actualizar los datos del Cliente de manera segura.</p>
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className="gy-1 pt-75">
@@ -338,6 +342,7 @@ const ClientInfoCard = () => {
                   onClick={() => {
                     handleReset();
                     setShow(false);
+                    toast.error('Borrado de datos no guardados')
                   }}
                 >
                   Cancelar

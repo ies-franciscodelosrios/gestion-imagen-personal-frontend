@@ -65,7 +65,7 @@ const ClientView = () => {
     <Alert color='danger'>
       <h4 className='alert-heading'>Cliente no encontrado</h4>
       <div className='alert-body'>
-        Cliente con id: {id} no existe. Revise la lista de clientes: <Link to='/apps/client/list'>Lista Clientes</Link>
+        Cliente con id: {id} no existe. Revise la lista de clientes: <Link to='/apps/client/list'>Lista clientes</Link>
       </div>
     </Alert>
   )

@@ -15,7 +15,7 @@ import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2,
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 // ** Renders Client Columns
-/*
+
 const renderClient = row => {
   if (false && row.avatar.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
@@ -30,41 +30,10 @@ const renderClient = row => {
     )
   }
 }
-*/
-// ** Renders Role Columns
-const renderRole = row => {
-  const roleObj = {
-    subscriber: {
-      class: 'text-primary',
-      icon: User
-    },
-    maintainer: {
-      class: 'text-success',
-      icon: Database
-    },
-    editor: {
-      class: 'text-info',
-      icon: Edit2
-    },
-    author: {
-      class: 'text-warning',
-      icon: Settings
-    },
-    admin: {
-      class: 'text-danger',
-      icon: Slack
-    }
-  }
 
-  const Icon = roleObj[row.role] ? roleObj[row.role].icon : Edit2
 
-  return (
-    <span className='text-truncate text-capitalize align-middle'>
-      <Icon size={18} className={`${roleObj[row.role] ? roleObj[row.role].class : ''} me-50`} />
-      {row.role}
-    </span>
-  )
-}
+
+
 
 const statusObj = {
   pending: 'light-warning',
@@ -82,7 +51,7 @@ export const columns = [
     selector: row => row.Name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {/*{renderClient(row)}*/}
+        {renderClient(row)}
         <div className='d-flex flex-column'>
           <Link
             to={`/apps/client/view/${row.id}`}
@@ -154,7 +123,8 @@ export const columns = [
               className='w-100'
               onClick={e => {
                 e.preventDefault()
-                store.dispatch(deleteClient(row.id))
+                store.dispatch(deleteClient(row.id));
+                
               }}
             >
               <Trash2 size={14} className='me-50' />
