@@ -14,18 +14,16 @@ import toast from 'react-hot-toast'
 import { Menu } from 'react-feather'
 import { Card, CardBody } from 'reactstrap'
 import { getAllAppointments, getAllClientsData, getClientByData, getUserByDNI } from '../../../services/api'
-import { useDispatch, useSelector } from 'react-redux'
 import { fetchEvents } from './store'
 
 const Calendar = props => {
- // ** Store Vars
- const dispatch = useDispatch();
- const store = useSelector((state) => state.calendar);
 
   const calendarRef = useRef(null)
-  const eventos = []
+
   const {
+    store,
     isRtl,
+    dispatch,
     calendarsColor,
     calendarApi,
     setCalendarApi,
@@ -36,15 +34,60 @@ const Calendar = props => {
     updateEvent
   } = props
 
+  const eventos = [];
+  const alumnos = [];
+  const clientes = [];
+  // const [appointmentsLoaded, setAppointmentsLoaded] = useState(false)
+  // const [appointments, setAppointments] = useState([])
 
+  // const fetchAppointmentData = async () => {
+  //   const response = await getAllAppointments();
+  //   const appointments = response.data.users.map((event) => {
+  //     const alumnoPromise = getUserByDNI(event.DNI_Student).then((response) => response.data.users);
+  //     const clientePromise = getClientByData(event.DNI_client).then((response) => response.data.users);
+
+  //     return {
+  //       id: event.id,
+  //       start: event.Date,
+  //       title: event.Protocol,
+  //       calendarLabel: event.Treatment,
+  //       created_at: event.created_at,
+  //       allDay: true,
+  //       color: '#FAE3D9',
+  //       editable: true,
+  //       description: event.Consultancy,
+  //       alumno: alumnoPromise.then((alumno) => ({
+  //         value: `${alumno.Name} ${alumno.Surname}`,
+  //         label: `${alumno.Name} ${alumno.Surname}`,
+  //         dni: alumno.DNI,
+  //         avatar: ''
+  //       })),
+  //       cliente: clientePromise.then((cliente) => ({
+  //         value: `${cliente.Name} ${cliente.Surname}`,
+  //         label: `${cliente.Name} ${cliente.Surname}`,
+  //         dni: cliente.DNI,
+  //         avatar: ''
+  //       })),
+  //       backgroundColor: '#FAE3D9'
+  //     };
+  //   });
+  //   console.log(appointments);
+  //   setAppointments(appointments);
+  //   setAppointmentsLoaded(true);
+  // };
+
+  
 
   useEffect(() => {
-    dispatch(fetchEvents({events: eventos}))
-    console.log(store)
+    // if (!appointmentsLoaded) {
+    //   fetchAppointmentData();
+    // } else if (calendarApi === null) {
+    //   setCalendarApi(calendarRef.current.getApi())}
+    dispatch(fetchEvents({events:eventos,users:alumnos,clients:clientes}));
   }, [])
   // ** calendarOptions(Props)
   const calendarOptions = {
-    events: eventos,
+    events: store.events,
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
     timeZone: 'UTC',
     locales: locale,
