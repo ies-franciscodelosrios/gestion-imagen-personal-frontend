@@ -176,7 +176,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
           <div className="text-center mb-2">
             <h1 className="mb-1">Importar Clientes</h1>
           </div>
-          <Import handleImportData={showImport}></Import>
+          <Import type={'client'} handleImportData={showImport}></Import>
         </ModalBody>
       </Modal>
     </div>

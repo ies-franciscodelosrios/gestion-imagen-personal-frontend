@@ -105,23 +105,38 @@ const Import = (props) => {
   }
 
   const renderTableBody = () => {
-    Object.assign(dataArrApi,
-    dataArr.map((user) => {
-      return {
-        DNI: user["DNI/Pasaporte"],
-        Name: user["Alumno/a"].split(',')[1],
-        Surname: user["Alumno/a"].split(',')[0],
-        Email: user["Correo electrónico personal alumno/a"],
-        Phone: user["Teléfono personal alumno/a"],
-        BirthDate: '2000-01-01',
-        More_Info: ' ',
-        Life_Style: ' ',
-        Background_Health: ' ',
-        Background_Aesthetic: ' ',
-        Asthetic_Routine: ' ',
-        Hairdressing_Routine: ' '
-      };
-    }));    
+    switch (props.type) {
+      case 'client':
+        Object.assign(dataArrApi,
+          dataArr.map((user) => {
+            return {
+            DNI: user["DNI/Pasaporte"],
+            Name: user["Alumno/a"].split(',')[1],
+            Surname: user["Alumno/a"].split(',')[0],
+            Email: user["Correo electrónico personal alumno/a"],
+            Phone: user["Teléfono personal alumno/a"],
+            BirthDate: '2000-01-01',
+            More_Info: ' ',
+            Life_Style: ' ',
+            Background_Health: ' ',
+            Background_Aesthetic: ' ',
+            Asthetic_Routine: ' ',
+            Hairdressing_Routine: ' '
+          };
+        }));  
+        break;
+
+      case 'student':
+      
+      break;
+
+      case 'teacher':
+      
+      break;
+    
+      default:
+        break;
+    }  
 
     if (dataArr !== null && dataArr.length) {
       return dataArr.map((col, index) => {
