@@ -82,28 +82,29 @@ const AddEventSidebar = props => {
   const [calendarLabel, setCalendarLabel] = useState([{ value: 'Peluquería', label: 'Peluquería', color: 'primary' }])
   
   
-  // const fetchData = async () => {
-  //   const response = await getAllStudentsData();
-  //   const response2 = await getAllClientsData();
-  //   const data = response.data.users.map((alumno) => ({
-  //     value: `${alumno.Name} ${alumno.Surname}`,
-  //     label: `${alumno.Name} ${alumno.Surname}`,
-  //     dni: alumno.DNI,
-  //     avatar: img5
-  //   }));
-  //   const data2 = response2.data.users.map((cliente) => ({
-  //     value: `${cliente.Name} ${cliente.Surname}`,
-  //     label: `${cliente.Name} ${cliente.Surname}`,
-  //     dni: cliente.DNI,
-  //     avatar: img5
-  //   }));
-  //   setAlumnos(data);
-  //   setClientes(data2);
-  // };
+  const fetchData = async () => {
+    // const response = await getAllStudentsData();
+    // const response2 = await getAllClientsData();
+    // const data = response.data.users.map((alumno) => ({
+    //   value: `${alumno.Name} ${alumno.Surname}`,
+    //   label: `${alumno.Name} ${alumno.Surname}`,
+    //   dni: alumno.DNI,
+    //   avatar: img5
+    // }));
+    // const data2 = response2.data.users.map((cliente) => ({
+    //   value: `${cliente.Name} ${cliente.Surname}`,
+    //   label: `${cliente.Name} ${cliente.Surname}`,
+    //   dni: cliente.DNI,
+    //   avatar: img5
+    // }));
+    setAlumnos(store.users);
+    setClientes(store.clients);
+    console.log(store)
+  };
 
 
   useEffect(() => {
-    // fetchData();
+    fetchData();
     handleSubmit();
     if (!isObjEmpty(selectedEvent)) {
       selectedEvent.extendedProps.alumno.then(data => {
@@ -175,8 +176,8 @@ const AddEventSidebar = props => {
       obj.calendar=1;
 
     console.log(obj.calendar);
-    AddAppointment(obj);
-    // dispatch(addEvent(obj))
+    // AddAppointment(obj);
+    dispatch(addEvent(obj))
     refetchEvents()
     fetchData()
     handleAddEventSidebar()

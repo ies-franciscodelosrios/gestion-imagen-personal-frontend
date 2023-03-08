@@ -3,13 +3,33 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
 import axios from 'axios'
-import { getAllAppointments, getClientByData, getUserByDNI } from '../../../../services/api';
+import { AddAppointment, getAllAppointments, getAllClientsData, getAllStudentsData, getClientByData, getUserByDNI } from '../../../../services/api';
 
 export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async calendars => {
   var appointments=calendars.events;
+  var dataUsers = calendars.users;
+  var dataClients = calendars.clients;
   console.log("holadas");
   if(calendars.events===null || calendars.events.length <= 5){
     console.log("peticion");
+    const clients = await getAllStudentsData();
+
+    const users = await getAllClientsData();
+   
+     dataUsers = users.data.users.map((alumno) => ({
+      value: `${alumno.Name} ${alumno.Surname}`,
+      label: `${alumno.Name} ${alumno.Surname}`,
+      dni: alumno.DNI,
+      avatar: ''
+    }));
+
+     dataClients = clients.data.users.map((cliente) => ({
+      value: `${cliente.Name} ${cliente.Surname}`,
+      label: `${cliente.Name} ${cliente.Surname}`,
+      dni: cliente.DNI,
+      avatar: ''
+    }));
+    
 
   const response = await getAllAppointments();
    appointments = response.data.users.map((event) => {
@@ -43,15 +63,24 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async cal
   });
 }
 
-console.log(appointments);
-  return appointments
+console.log("que pasa");
+  return {
+    events: appointments,
+    clients: dataClients,
+    users: dataUsers
+  }
 })
 
 export const addEvent = createAsyncThunk('appCalendar/addEvent', async (event, { dispatch, getState }) => {
-  await axios.post('/apps/calendar/add-event', { event })
+  console.log(event)
+  await AddAppointment(event).then((response)=> {return response});
   await dispatch(fetchEvents(getState().calendar.selectedCalendars))
   return event
 })
+
+
+
+
 
 export const updateEvent = createAsyncThunk('appCalendar/updateEvent', async (event, { dispatch, getState }) => {
   await axios.post('/apps/calendar/update-event', { event })
@@ -85,6 +114,8 @@ export const removeEvent = createAsyncThunk('appCalendar/removeEvent', async id 
 export const appCalendarSlice = createSlice({
   name: 'appCalendar',
   initialState: {
+    users: [],
+    clients: [],
     events: [],
     selectedEvent: {},
     selectedCalendars: ['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC']
@@ -98,7 +129,9 @@ export const appCalendarSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchEvents.fulfilled, (state, action) => {
-        state.events = action.payload
+        state.events = action.payload.events,
+        state.users = action.payload.users,
+        state.clients = action.payload.clients
       })
       .addCase(updateFilter.fulfilled, (state, action) => {
         if (state.selectedCalendars.includes(action.payload)) {
