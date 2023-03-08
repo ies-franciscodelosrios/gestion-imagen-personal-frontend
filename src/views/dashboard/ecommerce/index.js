@@ -36,11 +36,9 @@ const EcommerceDashboard = () => {
           <StatsCard cols={{ xl: '3', sm: '6' }} />
         </Col>
       </Row>
-
       <Row className="match-height">
         <Col lg="4" md="12">
           <CardUserTimeline/>
-          
         </Col>
         <Col lg="8" md="12">
             <Cardfp />
