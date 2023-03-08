@@ -48,11 +48,9 @@ const Calendar = (props) => {
   } = props;
 
   useEffect(() => {
-    (appointmentList.length<=0)?dispatch(fetchEvents({ events: appointmentList, users: userList, clients: clientList })):null;
-    if (store.events !== null && store.events.length >= 1) {
-      setappointmentList(store.events)
-    }
-    console.log(appointmentList);
+    (appointmentList.length<=0)?dispatch(fetchEvents({ events: appointmentList, users: [], clients: [] })):null;
+    setappointmentList(store.events);
+    
   }, [store.events]);
 
   // ** calendarOptions(Props)

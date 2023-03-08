@@ -4,44 +4,43 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // ** Axios Imports
 import axios from 'axios';
 import {
+  AddAppointment,
   getAllAppointments,
   getAllClientsData,
   getAllStudentsData,
   getClientByData,
   getUserByDNI,
 } from '../../../../services/api';
+import { findUser } from './sort_utils';
 
 export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (calendars) => {
-    var appointmentList = calendars.events;
-    var userList = calendars.users;
-    var clientList = calendars.clients;
+    const appointmentList = calendars.events;
+    const studentList = calendars.users;
+    const clientList = calendars.clients;
 
-    if (calendars.events === null || calendars.events.length <= 5) {   
-      console.log('peticion');   
-      const users = await getAllStudentsData();
-      const clients = await getAllClientsData();
-      userList = users.data.users.map((alumno) => ({
+    if (calendars.events === null || calendars.events.length <= 0) {   
+      const students = await getAllStudentsData().then(result => {return result}).catch(() =>{console.log('error all student')});
+      const clients = await getAllClientsData().then(result => {return result}).catch(() =>{console.log('error all client')});
+      Object.assign(studentList, students.data.users.map((alumno) => ({
         value: `${alumno.Name} ${alumno.Surname}`,
         label: `${alumno.Name} ${alumno.Surname}`,
         dni: alumno.DNI,
         avatar: 'img5',
-      }));
-      clientList = clients.data.users.map((cliente) => ({
+      })));
+      Object.assign(clientList ,clients.data.users.map((cliente) => ({
         value: `${cliente.Name} ${cliente.Surname}`,
         label: `${cliente.Name} ${cliente.Surname}`,
         dni: cliente.DNI,
         avatar: 'img5',
-      }));
+      })));
+      
+      const appointments = await getAllAppointments().then(result => {return result}).catch(() => {console.log('error all apointments')});
 
-      const appointments = await getAllAppointments();
-
-      appointmentList = appointments.data.users.map((event) => {
-        const alumnoPromise = getUserByDNI(event.DNI_Student).then(
-          (response) => response.data.users
-        );
-        const clientePromise = getClientByData(event.DNI_client).then(
-          (response) => response.data.users
-        );
+      Object.assign(appointmentList, await appointments.data.users.map(event => {
+        const alumnoPromise = {};
+        Object.assign(alumnoPromise, findUser(event.DNI_Student, students.data.users));
+        const clientePromise = {};
+        Object.assign(clientePromise, findUser(event.DNI_client, clients.data.users));
 
         return {
           id: event.id,
@@ -50,29 +49,28 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
           calendarLabel: event.Treatment,
           created_at: event.created_at,
           allDay: true,
-          color: '#FAE3D9',
+          color: event.Treatment == 0?'#FFB6B9':'#628395',
           editable: true,
           description: event.Consultancy,
-          alumno: alumnoPromise.then((alumno) => ({
-            value: `${alumno.Name} ${alumno.Surname}`,
-            label: `${alumno.Name} ${alumno.Surname}`,
-            dni: alumno.DNI,
+          alumno: {
+            value: `${alumnoPromise.Name} ${alumnoPromise.Surname}`,
+            label: `${alumnoPromise.Name} ${alumnoPromise.Surname}`,
+            dni: alumnoPromise.DNI,
             avatar: '',
-          })),
-          cliente: clientePromise.then((cliente) => ({
-            value: `${cliente.Name} ${cliente.Surname}`,
-            label: `${cliente.Name} ${cliente.Surname}`,
-            dni: cliente.DNI,
+          },
+          cliente: {
+            value: `${clientePromise.Name} ${clientePromise.Surname}`,
+            label: `${clientePromise.Name} ${clientePromise.Surname}`,
+            dni: clientePromise.DNI,
             avatar: '',
-          })),
-          backgroundColor: '#FAE3D9',
+          },
+          backgroundColor: event.Treatment == 0? '#FFB6B9':'#628395',
         };
-      });
+      }) )
     }
-    console.log(status.events)
     return {
       events: appointmentList,
-      users: userList,
+      users: studentList,
       clients: clientList
     };
   }
@@ -81,10 +79,8 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
 export const addEvent = createAsyncThunk(
   'appCalendar/addEvent',
   async (event, { dispatch, getState }) => {
-    await AddAppointment({ event });
-    await dispatch(
-      fetchEvents({ events: state.events, users: undefined, clients: undefined })
-    );
+    await AddAppointment(event);
+    await dispatch( fetchEvents({events: [], users: [], clients: []}));
     return event;
   }
 );
@@ -149,7 +145,6 @@ export const appCalendarSlice = createSlice({
   },
   reducers: {
     selectEvent: (state, action) => {
-      console.log(action.payload);
       state.selectedEvent = action.payload;
     },
   },

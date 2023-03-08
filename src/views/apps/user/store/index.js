@@ -10,7 +10,7 @@ import { handleConfirmCancel, sort_data } from './sort_utils'
 export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
   const response = {"data": {"users": params.data}} 
   if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
-    Object.assign(response, await getAllStudentsData().then(result => {return result}))
+    Object.assign(response, await getAllStudentsData().then(result => {return result}).catch(console.log('error joselu')))
   }
   return response.data.users
 })
@@ -18,7 +18,7 @@ export const getAllData = createAsyncThunk('appUsers/getAllData', async (params)
 export const getData = createAsyncThunk('appUsers/getData', async params => {
   const response = {"data": {"users": params.data}}; 
   if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
-    Object.assign(response, await getAllStudentsData().then(result => {return result}))
+    Object.assign(response, await getAllStudentsData().then(result => {return result}).catch(console.log('error joselu')))
   }
   response.data.users = sort_data(params, response.data.users);
   return {
