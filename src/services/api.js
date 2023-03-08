@@ -363,3 +363,39 @@ export const getAppointmentbyId = async (id) => {
     },
   });
 };
+
+/**
+ * Http Request to get all appointments
+ * @returns appointments data
+ */
+export const updateAppointment = async (event) => {
+  return await ApiConnect.put(`appointment/${event.id}`, {
+    Date: event.dateappo,
+    Treatment: event.calendar,
+    Protocol: event.title,
+    DNI_client: event.dnicliente,
+    DNI_Student: event.dnialumno,
+    Consultancy: event.desc,
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to delete a appointment by id
+ * @param {*} id to identify the client
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const deleteAppointment = async (id) => {
+  return await ApiConnect.delete(`appointment/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};

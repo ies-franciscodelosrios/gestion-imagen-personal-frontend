@@ -129,8 +129,7 @@ const AddEventSidebar = (props) => {
 
   // ** Adds New Event
   const handleAddEvent = () => {
-    console.log(guests)
-    console.log(pupils)
+
     const obj = {
       title: getValues('title'),
       dateappo: startPicker.toISOString().split('T')[0],
@@ -215,18 +214,20 @@ const AddEventSidebar = (props) => {
       // }
       
 
-      setGuests({value: `${selectedEvent.extendedProps.cliente.value} ${selectedEvent.extendedProps.cliente.value}`,
-      label: `${selectedEvent.extendedProps.cliente.label} ${selectedEvent.extendedProps.cliente.label}`,
+      setGuests(selectedEvent.extendedProps.cliente.label == "undefined undefined" ? "" : {
+      value: selectedEvent.extendedProps.cliente.value,
+      label: selectedEvent.extendedProps.cliente.label,
       dni: selectedEvent.extendedProps.cliente.dni,
       avatar: '',})
-      setPupils({value: `${selectedEvent.extendedProps.alumno.value} ${selectedEvent.extendedProps.alumno.value}`,
-      label: `${selectedEvent.extendedProps.alumno.label} ${selectedEvent.extendedProps.alumno.label}`,
+      setPupils(selectedEvent.extendedProps.alumno.label == "undefined undefined" ? "" : {
+      value: selectedEvent.extendedProps.alumno.value,
+      label: selectedEvent.extendedProps.alumno.label,
       dni: selectedEvent.extendedProps.alumno.dni,
       avatar: '',})
       setValue('title', selectedEvent.title || getValues('title'));
-      setUser(selectedEvent.extendedProps.alumno.label == "undefined undefined" ?  "" : selectedEvent.extendedProps.alumno.label);
+      setUser(selectedEvent.extendedProps.alumno.label == "undefined" ?  "" : selectedEvent.extendedProps.alumno.label);
       console.log(alumnos)
-      setClient(selectedEvent.extendedProps.cliente.label == "undefined undefined" ? "" : selectedEvent.extendedProps.cliente.label);
+      setClient(selectedEvent.extendedProps.cliente.label == "undefined" ? "" : selectedEvent.extendedProps.cliente.label);
       if (
         selectedEvent.extendedProps.calendarLabel == '0' ||
         selectedEvent.extendedProps.calendarLabel == null
@@ -260,6 +261,7 @@ const AddEventSidebar = (props) => {
       // setCalendarLabel([resolveLabel()])
     }
   };        
+
 
   // ** (UI) updateEventInCalendar
   const updateEventInCalendar = (
@@ -303,13 +305,14 @@ const AddEventSidebar = (props) => {
   // ** Updates Event in Store
   const handleUpdateEvent = () => {
     if (getValues('title').length) {
+      console.log("dentro");
       const eventToUpdate = {
         id: selectedEvent.id,
         title: getValues('title'),
         dateappo: startPicker.toISOString().slice(0, 10),
         start: startPicker.toISOString(),
-        dnialumno: dnialumno,
-        dnicliente: dnicliente,
+        dnialumno: pupils.dni,
+        dnicliente: guests.dni,
         display: 'block',
         extendedProps: {
           calendar: calendarLabel[0].label,
@@ -330,12 +333,13 @@ const AddEventSidebar = (props) => {
         'location',
         'description',
       ];
-      dispatch(updateEvent(eventToUpdate));
-      updateEventInCalendar(
-        eventToUpdate,
-        propsToUpdate,
-        extendedPropsToUpdate
-      );
+     console.log(eventToUpdate);
+     dispatch(updateEvent(eventToUpdate))
+      // updateEventInCalendar(
+      //   eventToUpdate,
+      //   propsToUpdate,
+      //   extendedPropsToUpdate
+      // );
       handleAddEventSidebar();
       toast.success('Cita Actualizada');
     } else {
@@ -352,7 +356,7 @@ const AddEventSidebar = (props) => {
 
   const handleDeleteEvent = () => {
     dispatch(removeEvent(selectedEvent.id));
-    removeEventInCalendar(selectedEvent.id);
+    // removeEventInCalendar(selectedEvent.id);
     handleAddEventSidebar();
     toast.error('Cita Eliminada');
   };
