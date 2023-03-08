@@ -1,36 +1,42 @@
-// ** React Import
-import { useEffect, useRef, memo, useState } from 'react'
+import { useEffect, useRef, memo, useState } from 'react';
 
-// ** Full Calendar & it's Plugins
-import '@fullcalendar/react/dist/vdom'
-import FullCalendar from '@fullcalendar/react'
-import listPlugin from '@fullcalendar/list'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import locale from '@fullcalendar/core/locales/es'
+import '@fullcalendar/react/dist/vdom';
+import FullCalendar from '@fullcalendar/react';
+import listPlugin from '@fullcalendar/list';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import locale from '@fullcalendar/core/locales/es';
+// ** Styles Imports
+import '@styles/react/libs/react-select/_react-select.scss';
+import '@styles/react/libs/flatpickr/flatpickr.scss';
+import toast from 'react-hot-toast';
+import { Menu } from 'react-feather';
+import { Card, CardBody } from 'reactstrap';
+import {
+  getAllAppointments,
+  getAllClientsData,
+  getClientByData,
+  getUserByDNI,
+} from '../../../services/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEvents } from './store';
+
+const Calendar = (props) => {
+  // ** Store Vars
+  const dispatch = useDispatch();
+  const store = useSelector((state) => state.calendar);
+
+  //Variables
+  const calendarRef = useRef(null);
+  const [appointmentList, setappointmentList] = useState([]);
+  const [userList, setuserList] = useState([]);
+  const [clientList, setclientList] = useState([]);
 
 
-// ** Third Party Components
-import toast from 'react-hot-toast'
-import { Menu } from 'react-feather'
-import { Card, CardBody } from 'reactstrap'
-import { getAllAppointments, getAllClientsData } from '../../../services/api'
 
-
-
-
-const Calendar = props => {
-
-  
-  // ** Refs
-  const calendarRef = useRef(null)
-
-  // ** Props
   const {
-    store,
     isRtl,
-    dispatch,
     calendarsColor,
     calendarApi,
     setCalendarApi,
@@ -38,43 +44,18 @@ const Calendar = props => {
     blankEvent,
     toggleSidebar,
     selectEvent,
-    updateEvent
-  } = props
+    updateEvent,
+  } = props;
 
-  const [eventos, setEventos] = useState({ events: [] });
-
-
-  const fetchAppointmentData = async () => {
-    const response = await getAllAppointments();
-    const appointments = response.data.users.map((event) => ({
-      id: event.id,
-      start: event.Date,
-      title: event.Protocol,
-      allDay: true,
-      editable:true
-    }));
-  
-    const data = {
-      events: appointments,
-      selectedEvent: {},
-      selectedCalendars: ['Peluquería', 'Estética']
-    };
-  
-    setEventos(data);
-  };
-
-  // ** UseEffect checks for CalendarAPI Update
   useEffect(() => {
-
-    fetchAppointmentData();
-    if (calendarApi === null) {
-      setCalendarApi(calendarRef.current.getApi())
-    }
-  }, [calendarApi])
+    (appointmentList.length<=0)?dispatch(fetchEvents({ events: appointmentList, users: [], clients: [] })):null;
+    setappointmentList(store.events);
+    
+  }, [store.events]);
 
   // ** calendarOptions(Props)
   const calendarOptions = {
-    events: eventos.events,
+    events: appointmentList,
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
     timeZone: 'UTC',
     locales: locale,
@@ -82,7 +63,7 @@ const Calendar = props => {
     initialView: 'dayGridMonth',
     headerToolbar: {
       start: 'sidebarToggle, prev,next, title',
-      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
     },
     /*
       Enable dragging and resizing event
@@ -116,17 +97,18 @@ const Calendar = props => {
 
     eventClassNames({ event: calendarEvent }) {
       // eslint-disable-next-line no-underscore-dangle
-      const colorName = calendarsColor[calendarEvent._def.extendedProps.calendar]
+      const colorName =
+        calendarsColor[calendarEvent._def.extendedProps.calendar];
 
       return [
         // Background Color
-        `bg-light-${colorName}`
-      ]
+        `bg-light-${colorName}`,
+      ];
     },
 
     eventClick({ event: clickedEvent }) {
-      dispatch(selectEvent(clickedEvent))
-      handleAddEventSidebar()
+      dispatch(selectEvent(clickedEvent));
+      handleAddEventSidebar();
 
       // * Only grab required field otherwise it goes in infinity loop
       // ! Always grab all fields rendered by form (even if it get `undefined`) otherwise due to Vue3/Composition API you might get: "object is not extensible"
@@ -138,19 +120,19 @@ const Calendar = props => {
 
     customButtons: {
       sidebarToggle: {
-        text: <Menu className='d-xl-none d-block' />,
+        text: <Menu className="d-xl-none d-block" />,
         click() {
-          toggleSidebar(true)
-        }
-      }
+          toggleSidebar(true);
+        },
+      },
     },
 
     dateClick(info) {
-      const ev = blankEvent
-      ev.start = info.date
-      ev.end = info.date
-      dispatch(selectEvent(ev))
-      handleAddEventSidebar()
+      const ev = blankEvent;
+      ev.start = info.date;
+      ev.end = info.date;
+      dispatch(selectEvent(ev));
+      handleAddEventSidebar();
     },
 
     /*
@@ -159,8 +141,8 @@ const Calendar = props => {
       ? We can use `eventDragStop` but it doesn't return updated event so we have to use `eventDrop` which returns updated event
     */
     eventDrop({ event: droppedEvent }) {
-      dispatch(updateEvent(droppedEvent))
-      toast.success('Cita Actualizada')
+      dispatch(updateEvent(droppedEvent));
+      toast.success('Cita Actualizada');
     },
 
     /*
@@ -168,24 +150,23 @@ const Calendar = props => {
       ? Docs: https://fullcalendar.io/docs/eventResize
     */
     eventResize({ event: resizedEvent }) {
-      dispatch(updateEvent(resizedEvent))
-      toast.success('Cita Actualizada')
+      dispatch(updateEvent(resizedEvent));
+      toast.success('Cita Actualizada');
     },
 
     ref: calendarRef,
 
     // Get direction from app state (store)
-    direction: isRtl ? 'rtl' : 'ltr'
-  }
- console.log(eventos.events);
+    direction: isRtl ? 'rtl' : 'ltr',
+  };
+
   return (
-    <Card className='shadow-none border-0 mb-0 rounded-0'>
-      <CardBody className='pb-0'>
+    <Card className="shadow-none border-0 mb-0 rounded-0">
+      <CardBody className="pb-0">
         <FullCalendar {...calendarOptions} />{' '}
-        
       </CardBody>
     </Card>
-  )
-}
+  );
+};
 
-export default memo(Calendar)
+export default memo(Calendar);

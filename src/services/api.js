@@ -68,7 +68,28 @@ export const getClientById = async (id) => {
 };
 
 /**
+<<<<<<< HEAD
+ * Http Request to get a client by data
+ * @param {*} id to identify the client
+ * @returns user data
+ */
+export const getClientByData = async (id) => {
+  return await ApiConnect.get(`client/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+
+
+/**
+ * Http Request to get a client by id
+=======
  * Http Request to update a client by id
+>>>>>>> main
  * @param {*} id to identify the client
  * @returns user data
  */
@@ -142,9 +163,7 @@ export async function ApiGetFaq() {
 }
 
 /* 
-  
-    PROFESOR
-
+    Teacher
 */
 
 export const getAllProfesorData = async () => {
@@ -191,7 +210,21 @@ export const getUserById= async (id) => {
 };
 
 /**
- * Http Request to update a user
+ * Http Request to get a student by DNI
+ * @param {*} id to identify the client
+ * @returns user data
+ */
+export const getUserByDNI= async (id) => {
+  return await ApiConnect.get(`userByDni/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+ /* Http Request to update a user
  * @param {*} id to identify the user
  * @returns response 200 if ok
  */
@@ -291,7 +324,6 @@ export const AddAppointment = async (event) => {
       DNI_client: event.dnicliente,
       DNI_Student: event.dnialumno,
       Consultancy: event.desc,
-      created_at: event.start,
     },
     {
       headers: {
@@ -324,6 +356,42 @@ export const getAllAppointments = async () => {
  */
 export const getAppointmentbyId = async (id) => {
   return await ApiConnect.get(`appointment/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to get all appointments
+ * @returns appointments data
+ */
+export const updateAppointment = async (event) => {
+  return await ApiConnect.put(`appointment/${event.id}`, {
+    Date: event.dateappo,
+    Treatment: event.calendar,
+    Protocol: event.title,
+    DNI_client: event.dnicliente,
+    DNI_Student: event.dnialumno,
+    Consultancy: event.desc,
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to delete a appointment by id
+ * @param {*} id to identify the client
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const deleteAppointment = async (id) => {
+  return await ApiConnect.delete(`appointment/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',

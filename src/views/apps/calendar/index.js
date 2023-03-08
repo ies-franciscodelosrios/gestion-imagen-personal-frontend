@@ -45,14 +45,11 @@ const CalendarComponent = () => {
   const fetchAppointmentData = async () => {
     const response = await getAllAppointments();
     const appointments = response.data.users.map((event) => ({
-      Id: event.id,
-      Date: event.Date,
-      Treatment: event.Treatment,
-      Protocol: event.Protocol,
-      DNI_client: event.DNI_client,
-      DNI_Student: event.DNI_Student,
-      Consultancy: event.Consultancy,
-      created_at: event.created_at,
+      id: event.id,
+      start: event.Date,
+      title: event.Protocol,
+      allDay: true,
+      editable:true
     }));
 
     const data = {
@@ -98,7 +95,7 @@ const CalendarComponent = () => {
 
   // ** Fetch Events On Mount
   useEffect(() => {
-    fetchAppointmentData();
+    // fetchAppointmentData();
     // dispatch(fetchEvents(store.selectedCalendars))
   }, [])
 
