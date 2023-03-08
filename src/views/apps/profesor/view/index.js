@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getProfesor } from '../store'
+import { getProfesor,getAppointments } from '../store'
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Reactstrap Imports
@@ -28,6 +28,7 @@ const TeacherView = () => {
   // ** Get suer on mount
   useEffect(() => {
     dispatch(getProfesor(parseInt(id)))
+    dispatch(getAppointments())
   }, [dispatch])
 
   const [active, setActive] = useState('1')
