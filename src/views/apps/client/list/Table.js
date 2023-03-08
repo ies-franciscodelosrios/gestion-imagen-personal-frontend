@@ -8,7 +8,7 @@ import Sidebar from './Sidebar'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getAllData, getData } from '../store'
+import { addMultipleClients, getAllData, getData } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -34,16 +34,25 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  UncontrolledDropdown
+  UncontrolledDropdown,
+  Modal,
+  ModalHeader,
+  ModalBody
 } from 'reactstrap'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
-import { getAllClientsData } from '../../../../services/api'
+import Import from '../../../extensions/import-export/Import'
 
 // ** Table Header
 const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
+  // ** Store Vars
+  const dispatch = useDispatch()
+
+  // **State Modal Import Clients
+  const [show, setShow] = useState(false);
+
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {
     let result
@@ -69,6 +78,11 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
     })
 
     return result
+  }
+
+  function showImport(data){
+    dispatch(addMultipleClients(data));
+    setShow(false);
   }
 
   // ** Downloads CSV
@@ -132,8 +146,8 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
                 <span className='align-middle'>Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem className='w-100'>
-                  <Printer className='font-small-4 me-50' />
+                <DropdownItem className='w-100' onClick={() => setShow(!show)}>
+                  <FileText className='font-small-4 me-50' />
                   <span className='align-middle'>Importar</span>
                 </DropdownItem>
                 <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
@@ -149,6 +163,22 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
           </div>
         </Col>
       </Row>
+      <Modal
+        isOpen={show}
+        toggle={() => setShow(!show)}
+        className="modal-dialog-centered modal-lg"
+      >
+        <ModalHeader
+          className="bg-transparent"
+          toggle={() => setShow(!show)}
+        ></ModalHeader>
+        <ModalBody className="px-sm-5 pt-50 pb-5">
+          <div className="text-center mb-2">
+            <h1 className="mb-1">Importar Clientes</h1>
+          </div>
+          <Import handleImportData={showImport}></Import>
+        </ModalBody>
+      </Modal>
     </div>
   )
 }
@@ -159,7 +189,6 @@ const ClientList = () => {
   const store = useSelector(state => state.clients)
 
   // ** States
-
   const [sort, setSort] = useState('desc')
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
