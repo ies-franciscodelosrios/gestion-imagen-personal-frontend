@@ -46,7 +46,7 @@ export const addClient = createAsyncThunk('appClients/addClient', async (user, {
   return response
 })
 
-export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient', async (users, { dispatch, getState }) => {
+export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient', async (users) => {
   users.map(async (user) =>{
     try {
       await AddClient(user);
