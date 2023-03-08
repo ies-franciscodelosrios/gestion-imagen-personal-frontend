@@ -5,11 +5,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
   AddAppointment,
+  deleteAppointment,
   getAllAppointments,
   getAllClientsData,
   getAllStudentsData,
   getClientByData,
   getUserByDNI,
+  updateAppointment
 } from '../../../../services/api';
 import { findUser } from './sort_utils';
 
@@ -88,8 +90,9 @@ export const addEvent = createAsyncThunk(
 export const updateEvent = createAsyncThunk(
   'appCalendar/updateEvent',
   async (event, { dispatch, getState }) => {
-    await axios.post('/apps/calendar/update-event', { event });
-    await dispatch(fetchEvents(getState().calendar.selectedCalendars));
+    console.log(event);
+    await updateAppointment(event);
+    await dispatch(fetchEvents({events: [], users: [], clients: []}));
     return event;
   }
 );
@@ -128,8 +131,9 @@ export const updateAllFilters = createAsyncThunk(
 
 export const removeEvent = createAsyncThunk(
   'appCalendar/removeEvent',
-  async (id) => {
-    await axios.delete('/apps/calendar/remove-event', { id });
+  async (id, { dispatch, getState }) => {
+    await deleteAppointment(id);
+    await dispatch(fetchEvents({events: [], users: [], clients: []}));
     return id;
   }
 );
