@@ -46,6 +46,16 @@ export const addClient = createAsyncThunk('appClients/addClient', async (user, {
   return response
 })
 
+export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient', async (users) => {
+  await users.map( (user) =>{
+    try {
+      AddClient(user);
+    } catch (error) {}
+  })
+  const response = await getAllClientsData().then(result => {toast.success('Correctamente Importados!'); return result.data.users}).catch(); 
+  return response
+})
+
 export const deleteClient = createAsyncThunk('appClients/deleteClient', async (id, { dispatch, getState }) => {
   (await handleConfirmCancel())? await ApiDelClient(id) :'';
 
@@ -80,6 +90,9 @@ export const appClientsSlice = createSlice({
         state.selectedClient = action.payload
       })
       .addCase(addClient.fulfilled, (state, action) => {
+        state.allData = action.payload
+      })
+      .addCase(addMultipleClients.fulfilled, (state, action) => {
         state.allData = action.payload
       })
       .addCase(deleteClient.fulfilled, (state, action) => {

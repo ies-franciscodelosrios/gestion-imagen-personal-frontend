@@ -11,12 +11,13 @@ import { DownloadCloud } from 'react-feather'
 import ExtensionsHeader from '@components/extensions-header'
 
 // ** Reactstrap Imports
-import { Row, Col, Card, CardBody, Table, CardHeader, CardTitle, Input, Label } from 'reactstrap'
+import { Row, Col, Card, CardBody, Table, CardHeader, CardTitle, Input, Label, Button } from 'reactstrap'
 
 // ** Styles
 import '@styles/react/libs/file-uploader/file-uploader.scss'
 
-const Import = () => {
+const Import = (props) => {
+
   // ** States
   const [name, setName] = useState('')
   const [value, setValue] = useState('')
@@ -93,17 +94,57 @@ const Import = () => {
         if (index === 0) return [...Object.keys(col)]
         else return null
       })
-    : []
-  /*eslint-enable */
-  const dataArr = value.length ? filteredData : tableData.length && !value.length ? tableData : null
+      : []
+      /*eslint-enable */
+      const dataArr = value.length ? filteredData : tableData.length && !value.length ? tableData : null
+      const dataArrApi = []
+
+  
+  function setShow() {
+    props.handleImportData(dataArrApi);
+  }
 
   const renderTableBody = () => {
+    switch (props.type) {
+      case 'client':
+        Object.assign(dataArrApi,
+          dataArr.map((user) => {
+            return {
+            DNI: user["DNI/Pasaporte"],
+            Name: user["Alumno/a"].split(',')[1],
+            Surname: user["Alumno/a"].split(',')[0],
+            Email: user["Correo electrónico personal alumno/a"],
+            Phone: user["Teléfono personal alumno/a"],
+            BirthDate: '2000-01-01',
+            More_Info: ' ',
+            Life_Style: ' ',
+            Background_Health: ' ',
+            Background_Aesthetic: ' ',
+            Asthetic_Routine: ' ',
+            Hairdressing_Routine: ' '
+          };
+        }));  
+        break;
+
+      case 'student':
+      
+      break;
+
+      case 'teacher':
+      
+      break;
+    
+      default:
+        break;
+    }  
+
     if (dataArr !== null && dataArr.length) {
       return dataArr.map((col, index) => {
-        const keys = Object.keys(col)
-        const renderTd = keys.map((key, index) => <td key={index}>{col[key]}</td>)
-        return <tr key={index}>{renderTd}</tr>
-      })
+          const keys = Object.keys(col)
+          const renderTd = keys.map((key, index) => <td key={index}>{col[key]}</td>)
+          return <tr key={index}>{renderTd}</tr>
+        }
+      )
     } else {
       return null
     }
@@ -121,11 +162,6 @@ const Import = () => {
 
   return (
     <Fragment>
-      <ExtensionsHeader
-        title='XLSX'
-        subTitle='Xlsx is a parser and writer for various spreadsheet formats'
-        link='https://github.com/SheetJS/sheetjs'
-      />
       <Row className='import-component'>
         <Col sm='12'>
           <Card>
@@ -136,13 +172,13 @@ const Import = () => {
                     <input {...getInputProps()} />
                     <div className='d-flex align-items-center justify-content-center flex-column'>
                       <DownloadCloud size={64} />
-                      <h5>Drop Files here or click to upload</h5>
+                      <h5>Arrastra los archivos aqui o súbelos</h5>
                       <p className='text-secondary'>
-                        Drop files here or click{' '}
+                        Añade los archivos o haz click{' '}
                         <a href='/' onClick={e => e.preventDefault()}>
-                          browse
+                          explorador
                         </a>{' '}
-                        thorough your machine
+                        a traves de tu ordenador
                       </p>
                     </div>
                   </div>
@@ -156,9 +192,14 @@ const Import = () => {
             <Card>
               <CardHeader className='justify-content-between flex-wrap'>
                 <CardTitle tag='h4'>{name}</CardTitle>
+                <div className='my-1'>
+                  <Button color="primary" onClick={setShow}>
+                    Importar
+                  </Button>
+                </div>
                 <div className='d-flex align-items-center justify-content-end'>
                   <Label for='search-input' className='me-1'>
-                    Search
+                    Buscar
                   </Label>
                   <Input id='search-input' type='text' bsSize='sm' value={value} onChange={e => handleFilter(e)} />
                 </div>
