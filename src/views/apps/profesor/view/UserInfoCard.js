@@ -70,9 +70,8 @@ const UserInfoCard = () => {
     defaultValues: {
       Name: selectedUser.Name,
       Surname: selectedUser.Surname,
-      Email: selectedUser.email,
+      email: selectedUser.email,
       DNI: selectedUser.DNI,
-      Phone: selectedUser.Phone,
     },
   });
 
@@ -99,22 +98,29 @@ const UserInfoCard = () => {
   };
 
   const onSubmit = (data) => {
-    const updateUser = { ...store.selectedProfesor };
-    updateUser.Name = data.Name;
-    updateUser.Surname = data.Surname;
-    updateUser.email = data.email;
-    updateUser.DNI = data.DNI;
-    updateUser.Phone = data.Phone;
-    if (Object.values(data).every((field) => field.toString().length > 0)) {
-      console.log(updateProfesor.id);
-      dispatch(updateProfesor(updateUser));
+    
+    console.log({...store.selectedProfesor})
+
+    const updatedTeacher = {...store.selectedProfesor};
+    console.log(updatedTeacher)
+    updatedTeacher.Name = data.Name;
+    updatedTeacher.Surname = data.Surname;
+    updatedTeacher.email = data.email;
+    updatedTeacher.DNI = data.DNI;
+    updatedTeacher.Course_year = data.Course_year;
+    updatedTeacher.Cycle = data.Cycle;
+
+
+    if (Object.values(updatedTeacher).every((field) => field.toString().length > 0)) {
+      console.log(updatedTeacher.id);
+      dispatch(updateProfesor(updatedTeacher));
       setShow(false);
     } else {
       for (const key in data) {
         if (data[key].length === 0) {
           setError(key, {
             type: 'manual',
-          });
+          }); 
         }
       }
     }
@@ -124,9 +130,10 @@ const UserInfoCard = () => {
     reset({
       Name: selectedUser.Name,
       Surname: selectedUser.Surname,
-      Email: selectedUser.email,
+      email: selectedUser.email,
       DNI: selectedUser.DNI,
-      Phone: selectedUser.Phone,
+      Cycle:selectedUser.Cycle,
+      Course_year:selectedUser.Course_year,
     });
   };
 
@@ -144,21 +151,21 @@ const UserInfoCard = () => {
                       ? selectedUser.Name.concat(' ' + selectedUser.Surname)
                       : 'Eleanor Aguilar'}
                   </h4>
-                  {selectedUser !== null ? (
+                {/*   {selectedUser !== null ? (
                     <Badge
                       color={roleColors[selectedUser.Rol]}
                       className="text-capitalize"
                     >
                       {rolChanger( selectedUser.Rol)}
                     </Badge>
-                  ) : null}
+                  ) : null} */}
                 </div>
               </div>
             </div>
           </div>
           <div className="d-flex justify-content-around my-2 pt-75">
 
-            <div className="d-flex align-items-start">
+            {/* <div className="d-flex align-items-start">
               <Badge color="light-primary" className="rounded p-75">
                 <Briefcase className="font-medium-2" />
               </Badge>
@@ -166,7 +173,7 @@ const UserInfoCard = () => {
                 <h4 className="mb-0">5</h4>
                 <small>Tratamientos en revision</small>
               </div>
-            </div>
+            </div> */}
           </div>
           <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
           <div className="info-container">
@@ -185,19 +192,14 @@ const UserInfoCard = () => {
                   <span>{selectedUser.DNI}</span>
                 </li>
                 <li className="mb-75">
-                  <span className="fw-bolder me-25">Email: </span>
+                  <span className="fw-bolder me-25">email: </span>
                   <span>{selectedUser.email}</span>
                 </li>
-
                 <li className="mb-75">
-                  <span className="fw-bolder me-25">Telefono: </span>
-                  <Badge
-                    className="text-capitalize"
-                    color={statusColors['active']}
-                  >
-                    {selectedUser.Phone}
-                  </Badge>
+                  <span className="fw-bolder me-25">Curso: </span>
+                  <span>{selectedUser.Course_year}</span>
                 </li>
+               
               </ul>
             ) : null}
           </div>
@@ -262,12 +264,12 @@ const UserInfoCard = () => {
                   )}
                 />
               </Col>
-              <Col xs={12}>
+              <Col md={6} xs={12}>
                 <Label className="form-label" for="Email">
                   Email
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.Email}
+                  defaultValue={selectedUser.email}
                   control={control}
                   id="Email"
                   name="Email"
@@ -277,7 +279,7 @@ const UserInfoCard = () => {
                       type="email"
                       id="Email"
                       placeholder="nombre@gmail.com"
-                      invalid={errors.Email && true}
+                      invalid={errors.email && true}
                     />
                   )}
                 />
@@ -296,23 +298,18 @@ const UserInfoCard = () => {
                   )}
                 />
               </Col>
+         
               <Col md={6} xs={12}>
-                <Label className="form-label" for="Phone">
-                  Teléfono
+                <Label className="form-label" for="Course_year">
+                  Curso
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.Phone}
+                  defaultValue={selectedUser.Course_year}
                   control={control}
-                  type='number'
-                  id="Phone"
-                  name="Phone"
+                  id="Course_year"
+                  name="Course_year"
                   render={({ field }) => (
-                    <Input
-                      {...field}
-                      type="number"
-                      id="Phone"
-                      placeholder="609 933 442"
-                    />
+                    <Input {...field} id="Course_year" placeholder="2023-02-23" />
                   )}
                 />
               </Col>
