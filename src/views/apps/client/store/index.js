@@ -46,6 +46,16 @@ export const addClient = createAsyncThunk('appClients/addClient', async (user, {
   return response
 })
 
+export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient', async (users, { dispatch, getState }) => {
+  users.map(async (user) =>{
+    try {
+      await AddClient(user);
+    } catch (error) {}
+  })
+  const response = await getAllClientsData().then(result => {toast.success('Correctamente Importados!');return result.data.users}).catch(toast.error('Error al actualizar clientes!')); 
+  return response
+})
+
 export const deleteClient = createAsyncThunk('appClients/deleteClient', async (id, { dispatch, getState }) => {
   (await handleConfirmCancel())? await ApiDelClient(id) :'';
 
