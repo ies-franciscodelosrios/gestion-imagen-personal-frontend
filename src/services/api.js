@@ -68,6 +68,7 @@ export const getClientById = async (id) => {
 };
 
 /**
+<<<<<<< HEAD
  * Http Request to get a client by data
  * @param {*} id to identify the client
  * @returns user data
@@ -86,6 +87,9 @@ export const getClientByData = async (id) => {
 
 /**
  * Http Request to get a client by id
+=======
+ * Http Request to update a client by id
+>>>>>>> main
  * @param {*} id to identify the client
  * @returns user data
  */
@@ -163,7 +167,7 @@ export async function ApiGetFaq() {
 */
 
 export const getAllProfesorData = async () => {
-  return await ApiConnect.get('users/rol/1', {
+  return await ApiConnect.get('/users/rol/1', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -178,7 +182,7 @@ export const getAllProfesorData = async () => {
 /* ----------------------------------------------------------------------------------------------------------------------------------------- */
 /**
  * Http Request to get all students from database
- * @returns list with all clients
+ * @returns list with all students
  */
 export const getAllStudentsData = async () => {
   return await ApiConnect.get('/users/rol/2', {
@@ -192,7 +196,7 @@ export const getAllStudentsData = async () => {
 
 /**
  * Http Request to get a student by id
- * @param {*} id to identify the client
+ * @param {*} id to identify the student
  * @returns user data
  */
 export const getUserById= async (id) => {
@@ -220,12 +224,77 @@ export const getUserByDNI= async (id) => {
   });
 };
 
-
-
+ /* Http Request to update a user
+ * @param {*} id to identify the user
+ * @returns response 200 if ok
+ */
+export const updateUserBy = async (user) => {
+  return await ApiConnect.put(
+    `user/${user.id}`,user,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+};
 
 /**
+ * Http Request to add a new student
+ * @returns response 200 if ok
+ */
+export const AddStudent = async (user) => {
+  return await ApiConnect.post(
+    `user/addstudent`,
+    {
+      DNI: user.DNI,
+      Rol: user.Rol,
+      Course_year: user.Course_year,
+      Cycle: user.Cycle,
+      Name: user.Name,
+      Surname: user.Surname,
+      email: user.email,
+      password: user.password,
+      Others: ' ',
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+};
+
+export const AddProfesor = async (user) => {
+  return await ApiConnect.post(
+    `user/addprofessor`,
+    {
+      DNI: user.DNI,
+      Rol: user.Rol,
+      Course_year: user.Course_year,
+      Cycle: user.Cycle,
+      Name: user.Name,
+      Surname: user.Surname,
+      email: user.email,
+      password: user.password,
+      Others: ' ',
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+};
+/**
  * Http Request to delete a student by id
- * @param {*} id to identify the client
+ * @param {*} id to identify the student
  * @returns response 200 for ok OR 401 for not found
  */
 export const ApiDelUser = async (id) => {
@@ -255,7 +324,6 @@ export const AddAppointment = async (event) => {
       DNI_client: event.dnicliente,
       DNI_Student: event.dnialumno,
       Consultancy: event.desc,
-      created_at: event.start,
     },
     {
       headers: {

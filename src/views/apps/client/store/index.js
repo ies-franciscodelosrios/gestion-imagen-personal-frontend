@@ -1,20 +1,20 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { toast } from 'react-hot-toast'
 
 
 // ** Axios Imports
 import { AddClient, ApiDelClient, getAllClientsData, getClientById, updateClientBy } from '../../../../services/api'
-import { sort_data } from './sort_utils'
+import { handleConfirmCancel, sort_data } from './sort_utils'
 
-
+// Preguntar mañana de donde viene appClients
 export const getAllData = createAsyncThunk('appClients/getAllData', async (params) => {
   const response = {"data": {"users": params.data}} 
   if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
     Object.assign(response, await getAllClientsData().then(result => {return result})) 
- }
+  }
   return response.data.users
 })
-
 
 export const getData = createAsyncThunk('appClients/getData', async params => {
   const response = {"data": {"users": params.data}};
@@ -35,20 +35,23 @@ export const getClient = createAsyncThunk('appClients/getClient', async id => {
 })
 
 export const updateClient = createAsyncThunk('appClients/updateClient', async updatedClient => {
-  await updateClientBy(updatedClient);
+  console.log(updatedClient);
+  await updateClientBy(updatedClient).then(() =>{toast.success('Correctamente Guardado!')}).catch(()=>{toast.error('Error al Actualizar cliente!')});
   return updatedClient
 })
 
 export const addClient = createAsyncThunk('appClients/addClient', async (user, { dispatch, getState }) => {
   await AddClient(user)
-  const response = await getAllClientsData().then(result => {return result.data.users}) 
+  const response = await getAllClientsData().then(result => {toast.success('Correctamente Guardado!');return result.data.users}).catch(toast.error('Error al añadir cliente!')); 
   return response
 })
 
 export const deleteClient = createAsyncThunk('appClients/deleteClient', async (id, { dispatch, getState }) => {
-  await ApiDelClient(id)
+  (await handleConfirmCancel())? await ApiDelClient(id) :'';
+
   const response = await getAllClientsData().then(result => {return result.data.users}) 
-  return response})
+  return response
+})
 
 export const appClientsSlice = createSlice({
   name: 'appClients',
