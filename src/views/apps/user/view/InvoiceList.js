@@ -48,7 +48,8 @@ const InvoiceList = () => {
         sortColumn,
         page: currentPage,
         perPage: rowsPerPage,
-        status: statusValue
+        status: statusValue,
+        data: store.allData
       })
     )
   }, [dispatch, store.data.length])
@@ -82,7 +83,8 @@ const InvoiceList = () => {
         sort: sortDirection,
         status: statusValue,
         perPage: rowsPerPage,
-        sortColumn: column.sortField
+        sortColumn: column.sortField,
+        data: store.allData
       })
     )
   }

@@ -324,7 +324,6 @@ export const AddAppointment = async (event) => {
       DNI_client: event.dnicliente,
       DNI_Student: event.dnialumno,
       Consultancy: event.desc,
-      created_at: event.start,
     },
     {
       headers: {

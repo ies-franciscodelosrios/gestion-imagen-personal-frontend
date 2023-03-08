@@ -27,24 +27,11 @@ import {
 // ** Utils
 import { selectThemeColors, isObjEmpty } from '@utils';
 
-// ** Avatar Images
-import img1 from '@src/assets/images/avatars/1-small.png';
-import img2 from '@src/assets/images/avatars/3-small.png';
-import img3 from '@src/assets/images/avatars/5-small.png';
-import img4 from '@src/assets/images/avatars/7-small.png';
-import img5 from '@src/assets/images/avatars/9-small.png';
-import img6 from '@src/assets/images/avatars/11-small.png';
 
 // ** Styles Imports
 import '@styles/react/libs/react-select/_react-select.scss';
 import '@styles/react/libs/flatpickr/flatpickr.scss';
-import {
-  AddAppointment,
-  getAllAppointments,
-  getAllClientsData,
-  getAllStudentsData,
-  getAllUserData,
-} from '../../../services/api';
+
 import { addEvent, fetchEvents } from '../calendar/store';
 
 const AddEventSidebar = (props) => {
@@ -94,16 +81,15 @@ const AddEventSidebar = (props) => {
   ]);
 
   const fetchData = async () => {
-    console.log('fetch');
-    console.log(store);
     setAlumnos(store.users);
     setClientes(store.clients);
   };
 
   useEffect(() => {
     fetchData();
-    //handleSubmit();
+    handleSubmit();
     if (!isObjEmpty(selectedEvent)) {
+      console.log(store.selectedEvent);
       selectedEvent.extendedProps.alumno.then((data) => {
         setUser(data.label || user);
       });
@@ -144,7 +130,7 @@ const AddEventSidebar = (props) => {
   const handleAddEvent = () => {
     const obj = {
       title: getValues('title'),
-      dateappo: startPicker.toISOString().slice(0, 10),
+      dateappo: startPicker.toISOString().split('T')[0],
       start: startPicker,
       dnialumno: dnialumno,
       dnicliente: dnicliente,
@@ -159,7 +145,7 @@ const AddEventSidebar = (props) => {
       },
     };
 
-    console.log(obj.dateappo);
+    console.log(obj);
     if ((obj.calendar = 'Peluquería')) obj.calendar = 0;
     else obj.calendar = 1;
 
