@@ -17,6 +17,8 @@ import Notifications from './Notifications'
 import UserProjectsList from './UserProjectsList'
 import SheetTabs from './SheetTabs'
 import BasicInformation from './BasicInformation'
+import Tratamientos from './Tratamientos'
+import CardUserTimeline from './CardUserTimeline';
 
 
 const UserTabs = ({ active, toggleTab }) => {
@@ -32,26 +34,16 @@ const UserTabs = ({ active, toggleTab }) => {
         <NavItem>
           <NavLink active={active === '2'} onClick={() => toggleTab('2')}>
             <Lock className='font-medium-3 me-50' />
-            <span className='fw-bold'>Historial de Tratamientos</span>
+            <span className='fw-bold'>Tratamientos</span>
           </NavLink>
         </NavItem>
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId='1'>
-          <BasicInformation></BasicInformation>
-
+          <CardUserTimeline/>
         </TabPane>
         <TabPane tabId='2'>
-          <SecurityTab />
-        </TabPane>
-        <TabPane tabId='3'>
-          <BillingPlanTab />
-        </TabPane>
-        <TabPane tabId='4'>
-          <Notifications />
-        </TabPane>
-        <TabPane tabId='5'>
-          <Connections />
+          <Tratamientos/>
         </TabPane>
       </TabContent>
     </Fragment>
