@@ -100,7 +100,7 @@ const Faqs = ({ data }) => {
             <img
               alt='illustration'
               src={illustration}
-              style={{ transform: 'scaleX(1)' }}
+              style={{ width:"300px",height:"300px" }}
               className='img-fluid d-none d-md-block'
             />
           </div>
