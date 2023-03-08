@@ -128,16 +128,16 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
           <UncontrolledDropdown className='me-1'>
               <DropdownToggle color='secondary' caret outline>
                 <Share className='font-small-4 me-50' />
-                <span className='align-middle'>Exportar</span>
+                <span className='align-middle'>Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem className='w-100'>
-                  <Printer className='font-small-4 me-50' />
-                  <span className='align-middle'>Imprimir</span>
+                  <FileText className='font-small-4 me-50' />
+                  <span className='align-middle'>Importar</span>
                 </DropdownItem>
                 <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
                   <FileText className='font-small-4 me-50' />
-                  <span className='align-middle'>CSV</span>
+                  <span className='align-middle'>Exportar</span>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
