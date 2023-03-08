@@ -72,7 +72,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
       dispatch(
         addUser({
           DNI: data.DNI,
-          Rol: data.Rol,
+          Rol: 2,
           Course_year: data.Course_year,
           Cycle: data.Cycle.label,
           Name: data.Name,

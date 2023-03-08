@@ -10,10 +10,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 
 // ** User View Components
-import UserTabs from './Tabs';
 import PlanCard from './PlanCard';
 import UserInfoCard from './UserInfoCard';
-import illustration from '@src/assets/images/pages/ilustracion-perfil.png';
+import illustration from '@src/assets/images/users/Barber-rafiki.png';
+import UserTabs from './Tabs';
 
 // ** Styles
 import '@styles/react/apps/app-users.scss';
@@ -49,7 +49,7 @@ const UserView = () => {
           </div>
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          <UserTabs active={active} toggleTab={toggleTab} selectedUser={store.selectedUser} />
+        <UserTabs active={active} toggleTab={toggleTab} selectedUser={store.selectedUser} />
         </Col>
       </Row>
     </div>
