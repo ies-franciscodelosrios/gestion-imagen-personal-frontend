@@ -160,10 +160,10 @@ const UserInfoCard = () => {
                   </h4>
                   {selectedUser !== null ? (
                     <Badge
-                      color={roleColors[selectedUser.Rol]}
+                      color={roleColors[selectedUser.DNI]}
                       className="text-capitalize"
                     >
-                      {selectedUser.Rol}
+                      {selectedUser.DNI}
                     </Badge>
                   ) : null}
                 </div>
@@ -180,7 +180,7 @@ const UserInfoCard = () => {
                 <small>Tratamientos</small>
               </div>
             </div>
-            <div className="d-flex align-items-start">
+            {/* <div className="d-flex align-items-start">
               <Badge color="light-primary" className="rounded p-75">
                 <Briefcase className="font-medium-2" />
               </Badge>
@@ -188,7 +188,7 @@ const UserInfoCard = () => {
                 <h4 className="mb-0">568</h4>
                 <small>Projects Done</small>
               </div>
-            </div>
+            </div> */}
           </div>
           <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
           <div className="info-container">
@@ -236,7 +236,7 @@ const UserInfoCard = () => {
         <ModalBody className='px-sm-5 pt-50 pb-5'>
           <div className='text-center mb-2'>
             <h1 className='mb-1'>Editar Información</h1>
-            <p>Actualizar los datos del User de manera segura.</p>
+            <p>Actualiza los datos del estudiante de manera segura.</p>
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className='gy-1 pt-75'>
