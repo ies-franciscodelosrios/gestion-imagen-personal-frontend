@@ -112,6 +112,7 @@ const CalendarComponent = () => {
             <SidebarLeft
               store={store}
               dispatch={dispatch}
+              fetchEvents={fetchEvents}
               updateFilter={updateFilter}
               toggleSidebar={toggleSidebar}
               updateAllFilters={updateAllFilters}

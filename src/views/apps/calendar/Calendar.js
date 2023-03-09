@@ -154,7 +154,7 @@ const Calendar = (props) => {
       toast.success('Cita Actualizada');
     },
 
-    ref: calendarRef,
+
 
     // Get direction from app state (store)
     direction: isRtl ? 'rtl' : 'ltr',
@@ -163,7 +163,7 @@ const Calendar = (props) => {
   return (
     <Card className="shadow-none border-0 mb-0 rounded-0">
       <CardBody className="pb-0">
-        <FullCalendar {...calendarOptions} />{' '}
+        <FullCalendar ref={calendarRef} {...calendarOptions} />{' '}
       </CardBody>
     </Card>
   );

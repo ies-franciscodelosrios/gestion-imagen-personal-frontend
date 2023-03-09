@@ -19,8 +19,8 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
     const appointmentList = calendars.events;
     const studentList = calendars.users;
     const clientList = calendars.clients;
-
-    if (calendars.events === null || calendars.events.length <= 0) {   
+    const filtros = calendars.calendarLabel;
+    if (calendars.events === null || calendars.events.length <= 0 || calendars.events.calendarLabel==filtros) {
       const students = await getAllStudentsData().then(result => {return result}).catch(() =>{console.log('error all student')});
       const clients = await getAllClientsData().then(result => {return result}).catch(() =>{console.log('error all client')});
       Object.assign(studentList, students.data.users.map((alumno) => ({
@@ -51,7 +51,7 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
           calendarLabel: event.Treatment,
           created_at: event.created_at,
           allDay: true,
-          color: event.Treatment == 0?'#FFB6B9':'#628395',
+          color: event.Treatment == 0?'#FFB6B9':'#A6E4D9',
           editable: true,
           description: event.Consultancy,
           alumno: {
@@ -66,7 +66,7 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
             dni: clientePromise.DNI,
             avatar: '',
           },
-          backgroundColor: event.Treatment == 0? '#FFB6B9':'#628395',
+          backgroundColor: event.Treatment == 0? '#FFB6B9':'#A6E4D9',
         };
       }) )
     }
@@ -97,10 +97,38 @@ export const updateEvent = createAsyncThunk(
   }
 );
 
+// export const updateFilter = createAsyncThunk(
+//   'appCalendar/updateFilter',
+
+//   async (filter, { dispatch, getState }) => {
+//     if (getState().calendar.selectedCalendars.includes(filter)) {
+
+//       await dispatch(
+//         fetchEvents(
+//           getState().calendar.selectedCalendars.filter((i) => i !== filter)
+//         )
+//       );
+//     } else {
+
+//       await dispatch(
+//         fetchEvents([...getState().calendar.selectedCalendars, filter])
+//       );
+//     }
+//     return filter;
+//   }
+// );
+
+
+
 export const updateFilter = createAsyncThunk(
   'appCalendar/updateFilter',
   async (filter, { dispatch, getState }) => {
-    if (getState().calendar.selectedCalendars.includes(filter)) {
+    const state = getState();
+    const selectedCalendars = state.calendar.selectedCalendars;
+    console.log(state.calendar.selectedCalendars);
+        if (selectedCalendars.includes(filter)) {
+          console.log("ESTOY DENTRO");
+
       await dispatch(
         fetchEvents(
           getState().calendar.selectedCalendars.filter((i) => i !== filter)
@@ -115,12 +143,13 @@ export const updateFilter = createAsyncThunk(
   }
 );
 
+
 export const updateAllFilters = createAsyncThunk(
   'appCalendar/updateAllFilters',
   async (value, { dispatch }) => {
     if (value === true) {
       await dispatch(
-        fetchEvents(['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC'])
+        fetchEvents(['Peluquería', 'Estética'])
       );
     } else {
       await dispatch(fetchEvents([]));
@@ -145,7 +174,8 @@ export const appCalendarSlice = createSlice({
     clients: [],
     events: [],
     selectedEvent: {},
-    selectedCalendars: ['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC'],
+    selectedCalendars: ['Peluquería', 'Estética'],
+    calendarLabel:['Peluquería', 'Estética']
   },
   reducers: {
     selectEvent: (state, action) => {
@@ -158,6 +188,7 @@ export const appCalendarSlice = createSlice({
         state.events = action.payload.events;
         state.users = action.payload.users;
         state.clients = action.payload.clients;
+        state.calendarLabel = action.payload.calendarLabel;
       })
       .addCase(updateFilter.fulfilled, (state, action) => {
         if (state.selectedCalendars.includes(action.payload)) {
@@ -173,7 +204,7 @@ export const appCalendarSlice = createSlice({
         const value = action.payload;
         let selected = [];
         if (value === true) {
-          selected = ['Peluquería', 'Business', 'Estética', 'Holiday', 'ETC'];
+          selected = ['Peluquería', 'Estética'];
         } else {
           selected = [];
         }

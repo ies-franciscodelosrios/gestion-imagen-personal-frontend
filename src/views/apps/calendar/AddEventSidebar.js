@@ -32,7 +32,7 @@ import { selectThemeColors, isObjEmpty } from '@utils';
 import '@styles/react/libs/react-select/_react-select.scss';
 import '@styles/react/libs/flatpickr/flatpickr.scss';
 
-import { addEvent, fetchEvents } from '../calendar/store';
+import { addEvent, fetchEvents, updateFilter } from '../calendar/store';
 
 const AddEventSidebar = (props) => {
   // ** Props
@@ -76,11 +76,22 @@ const AddEventSidebar = (props) => {
   const [allDay, setAllDay] = useState(false);
   const [location, setLocation] = useState('');
   const [endPicker, setEndPicker] = useState(new Date());
-  const [startPicker, setStartPicker] = useState(new Date());
+  const now = new Date();
+const year = now.getFullYear();
+const month = now.getMonth() + 1;
+const day = now.getDate();
+const hours = now.getHours();
+const minutes = now.getMinutes();
+
+const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
+
+
   const [calendarLabel, setCalendarLabel] = useState([
     { value: 'Peluquería', label: 'Peluquería', color: 'primary' },
   ]);
-
+  console.log(store);
+  console.log(startPicker);
+  console.log(selectedEvent.start);
   const fetchData = async () => {
     setAlumnos(store.users);
     setClientes(store.clients);
@@ -89,6 +100,7 @@ const AddEventSidebar = (props) => {
   useEffect(() => {
     fetchData();
     handleSubmit();
+    console.log(store.events);
     // if (!isObjEmpty(selectedEvent)) {
     //   console.log(store.selectedEvent);
     //   selectedEvent.extendedProps.alumno.then((data) => {
@@ -137,19 +149,19 @@ const AddEventSidebar = (props) => {
       dnialumno: dnialumno,
       dnicliente: dnicliente,
       display: 'block',
+      desc: desc.length ? desc : undefined,
+      calendar: calendarLabel[0].label,
       extendedProps: {
-        calendar: calendarLabel[0].label,
         url: url.length ? url : undefined,
         guests: guests.length ? guests : undefined,
         pupils: pupils.length ? pupils : undefined,
         // location: location.length ? location : undefined,
-        desc: desc.length ? desc : undefined,
       },
     };
 
-    console.log(obj);
-    if ((obj.calendar = 'Peluquería')) obj.calendar = 0;
-    else obj.calendar = 1;
+    console.log(obj.calendar);
+    if ((obj.calendar == 'Peluquería')) {obj.calendar = 0;}
+    else {obj.calendar = 1;}
 
     dispatch(addEvent(obj));
     refetchEvents();
@@ -229,13 +241,13 @@ const AddEventSidebar = (props) => {
       console.log(alumnos)
       setClient(selectedEvent.extendedProps.cliente.label == "undefined" ? "" : selectedEvent.extendedProps.cliente.label);
       if (
-        selectedEvent.extendedProps.calendarLabel == '0' ||
+        selectedEvent.extendedProps.calendarLabel == 0 ||
         selectedEvent.extendedProps.calendarLabel == null
       ) {
-        setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería' }]);
+        setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: '#FFB6B9' }]);
       } else {
-        console.log('hola');
-        setCalendarLabel([{ value: 'Estética', label: 'Estética' }]);
+        console.log('esto es estética');
+        setCalendarLabel([{ value: 'Estética', label: 'Estética', color: '#A6E4D9' }]);
       }
       console.log(selectedEvent.extendedProps.calendarLabel);
       // setAllDay(selectedEvent.allDay || allDay)
@@ -261,7 +273,10 @@ const AddEventSidebar = (props) => {
       // setCalendarLabel([resolveLabel()])
     }
   };        
-
+  console.log(calendarLabel);
+  console.log(startPicker);
+  console.log(pupils.dni);
+  console.log(guests.dni);
 
   // ** (UI) updateEventInCalendar
   const updateEventInCalendar = (
@@ -314,16 +329,20 @@ const AddEventSidebar = (props) => {
         dnialumno: pupils.dni,
         dnicliente: guests.dni,
         display: 'block',
+        desc: desc.length ? desc : undefined,
+        calendar: calendarLabel[0].label,
         extendedProps: {
-          calendar: calendarLabel[0].label,
           url: url.length ? url : undefined,
           guests: guests.length ? guests : undefined,
           pupils: pupils.length ? pupils : undefined,
           // location: location.length ? location : undefined,
-          desc: desc.length ? desc : undefined,
         },
       };
 
+      if ((eventToUpdate.calendar == 'Peluquería')) {eventToUpdate.calendar = 0;}
+      else {eventToUpdate.calendar = 1;}
+
+      console.log(eventToUpdate);
       const propsToUpdate = ['id', 'title', 'url', 'alumnos', 'desc'];
       const extendedPropsToUpdate = [
         'calendar',
@@ -400,6 +419,7 @@ const AddEventSidebar = (props) => {
   const CloseBtn = (
     <X className="cursor-pointer" size={15} onClick={handleAddEventSidebar} />
   );
+
 
   return (
     <Modal
@@ -494,11 +514,11 @@ const AddEventSidebar = (props) => {
                 name="startDate"
                 className="form-control"
                 onChange={(date) => setStartPicker(date[0])}
-                value={startPicker}
+                value={selectedEvent.start === undefined ? startPicker : selectedEvent.start}
                 options={{
                   enableTime: true,
                   time_24hr: true,
-                  dateFormat: 'Y-m-dTH:i:S',
+                  dateFormat: 'Y-m-dTH:i',
                   timeZone: 'UTC+1',
                 }}
               />
