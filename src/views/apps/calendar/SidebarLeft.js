@@ -70,6 +70,7 @@ const SidebarLeft = props => {
                       checked={store.selectedCalendars.includes(filter.label)}
                       onChange={() => {
                         dispatch(updateFilter(filter.label))
+                        console.log(filter.label);
                       }}
                     />
                     <Label className='form-check-label' for={`${filter.label}-event`}>
