@@ -13,13 +13,16 @@ import {
   Eye,
   Send,
   Edit,
+  Clipboard,
   Save,
   Info,
   PieChart,
   Download,
   TrendingUp,
   CheckCircle,
-  ArrowDownCircle
+  ArrowDownCircle,
+  BookOpen,
+  ChevronsRight
 } from 'react-feather'
 
 // ** Vars
@@ -35,19 +38,47 @@ const invoiceStatusObj = {
 // ** Table columns
 export const columns = [
   {
-    name: '#',
+    minWidth: '30px',
+    name: 'ID',
     sortable: true,
     sortField: 'id',
-    minWidth: '107px',
     selector: row => row.id,
-    cell: row => <Link className='fw-bolder' to={`/apps/invoice/preview/${row.id}`}>{`#${row.id}`}</Link>
+    cell: row => row.id
+  }, {
+    minWidth: '200px',
+    name: 'Fecha',
+    sortable: true,
+    sortField: 'date',
+    selector: row => row.Date,
+    cell: row => row.Date
+  }, {
+    minWidth: '200px',
+    name: 'Dni cliente',
+    sortable: true,
+    sortField: 'DNI_client',
+    selector: row => row.DNI_client,
+    cell: row => row.DNI_client
+  }, {
+    minWidth: '200px',
+    name: 'Dni estudiante',
+    sortable: true,
+    sortField: 'Dni_Student',
+    selector: row => row.DNI_Student,
+    cell: row => row.DNI_Student
   },
   {
-    name: <TrendingUp size={14} />,
-    minWidth: '102px',
+    minWidth: '200px',
+    name: 'Tratamiento',
     sortable: true,
-    sortField: 'invoiceStatus',
-    selector: row => row.invoiceStatus,
+    sortField: 'Treatment',
+    selector: row => row.Treatment,
+    cell: row => row.Treatment
+  },{
+    name: "Protocolo",
+    minWidth: '200px',
+    sortable: true,
+    sortField: 'Protocol',
+    selector: row => row.Protocol,
     cell: row => {
       const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
         Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Edit
@@ -55,52 +86,68 @@ export const columns = [
         <Fragment>
           <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
           <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
-            <span className='fw-bold'>{row.invoiceStatus}</span>
             <br />
-            <span className='fw-bold'>Balance:</span> {row.balance}
-            <br />
-            <span className='fw-bold'>Due Date:</span> {row.dueDate}
+            {row.Protocol}
           </UncontrolledTooltip>
         </Fragment>
       )
     }
-  },
-
-  {
-    name: 'Total Paid',
-    sortable: true,
-    minWidth: '150px',
-    sortField: 'total',
-    selector: row => row.total,
-    cell: row => <span>${row.total || 0}</span>
-  },
-  {
+  },{
+    name: "Consultas",
     minWidth: '200px',
-    name: 'Issued Date',
-    cell: row => row.dueDate
-  },
-  {
-    name: 'Action',
-    minWidth: '110px',
-    cell: row => (
-      <div className='column-action d-flex align-items-center'>
-        <Send className='text-body cursor-pointer' size={17} id={`send-tooltip-${row.id}`} />
-        <UncontrolledTooltip placement='top' target={`send-tooltip-${row.id}`}>
-          Send Mail
-        </UncontrolledTooltip>
-
-        <Link className='text-body' to={`/apps/invoice/preview/${row.id}`} id={`pw-tooltip-${row.id}`}>
-          <Eye size={17} className='mx-1' />
-        </Link>
-        <UncontrolledTooltip placement='top' target={`pw-tooltip-${row.id}`}>
-          Preview Invoice
-        </UncontrolledTooltip>
-
-        <Download className='text-body cursor-pointer' size={17} id={`download-tooltip-${row.id}`} />
-        <UncontrolledTooltip placement='top' target={`download-tooltip-${row.id}`}>
-          Download Invoice
-        </UncontrolledTooltip>
-      </div>
-    )
+    sortable: true,
+    sortField: 'Consultancy',
+    selector: row => row.Consultancy,
+    cell: row => {
+      const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
+        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Clipboard
+      return (
+        <Fragment>
+          <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
+          <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
+            <br />
+            {row.Consultancy}
+          </UncontrolledTooltip>
+        </Fragment>
+      )
+    }
+  },{
+    name: "Seguimiento",
+    minWidth: '200px',
+    sortable: true,
+    sortField: 'Tracking',
+    selector: row => row.Tracking,
+    cell: row => {
+      const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
+        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : ChevronsRight
+      return (
+        <Fragment>
+          <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
+          <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
+            <br />
+            {row.Tracking}
+          </UncontrolledTooltip>
+        </Fragment>
+      )
+    }
+  },{
+    name: "Encuesta",
+    minWidth: '200px',
+    sortable: true,
+    sortField: 'Survey',
+    selector: row => row.Survey,
+    cell: row => {
+      const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
+        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : BookOpen
+      return (
+        <Fragment>
+          <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
+          <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
+            <br />
+            {row.Survey}
+          </UncontrolledTooltip>
+        </Fragment>
+      )
+    }
   }
 ]
