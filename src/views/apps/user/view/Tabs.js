@@ -2,48 +2,28 @@
 import { Fragment } from 'react'
 
 // ** Reactstrap Imports
-import { Nav, Col,NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link } from 'react-feather'
+import { User, Bookmark, Edit3, Book } from 'react-feather'
 
 // ** User Components
-import InvoiceList from './InvoiceList'
-import SecurityTab from './SecurityTab'
-import Connections from './Connections'
-import BillingPlanTab from './BillingTab'
-import UserTimeline from './UserTimeline'
-import Notifications from './Notifications'
-import UserProjectsList from './UserProjectsList'
-import SheetTabs from './SheetTabs'
-import BasicInformation from './BasicInformation'
 import Tratamientos from './Tratamientos'
-import CardUserTimeline from './CardUserTimeline';
-
 
 const UserTabs = ({ active, toggleTab }) => {
   return (
     <Fragment>
       <Nav pills className='mb-2'>
-        <NavItem>
+      <NavItem>
           <NavLink active={active === '1'} onClick={() => toggleTab('1')}>
-            <User className='font-medium-3 me-50' />
-            <span className='fw-bold'>Cuenta</span>
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink active={active === '2'} onClick={() => toggleTab('2')}>
-            <Lock className='font-medium-3 me-50' />
+            <Book className='font-medium-3 me-50' />
             <span className='fw-bold'>Tratamientos</span>
           </NavLink>
         </NavItem>
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId='1'>
-          <CardUserTimeline/>
-        </TabPane>
-        <TabPane tabId='2'>
-          <Tratamientos/>
+          <Tratamientos />
         </TabPane>
       </TabContent>
     </Fragment>

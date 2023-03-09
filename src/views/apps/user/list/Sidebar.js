@@ -104,7 +104,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
     <Sidebar
       size="lg"
       open={open}
-      title="Nuevo Cliente"
+      title="Nuevo Estudiante"
       headerClassName="mb-1"
       contentClassName="pt-0"
       toggleSidebar={toggleSidebar}

@@ -3,8 +3,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 
 // ** Axios Imports
-import {getAllStudentsData, getUserById, updateUserBy, ApiDelUser, AddStudent  } from '../../../../services/api'
-import { handleConfirmCancel, sort_data } from './sort_utils'
+import {getAllStudentsData, getUserById, updateUserBy, ApiDelUser, AddStudent, getAllAppointments  } from '../../../../services/api'
+import { handleConfirmCancel, sort_appointments, sort_data } from './sort_utils'
 
 
 export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
@@ -33,6 +33,16 @@ export const getUser = createAsyncThunk('appUsers/getUser', async id => {
   return response.data.users
 })
 
+/* GET ALL APPOINTMENTS */
+
+export const getAppointments = createAsyncThunk('appAppointments/getAppointments', async (params) => {
+  const response = await getAllAppointments().then(result => { return result })
+  console.log(response)
+  response.data.users = sort_appointments(params, response.data.users);
+
+  return response.data.users
+})
+
 export const updateUser = createAsyncThunk('appUsers/updateUser', async updatedUser => {
   await updateUserBy(updatedUser);
   return updatedUser
@@ -58,6 +68,7 @@ export const appUsersSlice = createSlice({
     total: 1,
     params: {},
     allData: [],
+    appoitments: [],
     selectedUser: null
   },
   reducers: {},
@@ -82,6 +93,9 @@ export const appUsersSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.allData = action.payload
+      })
+      .addCase(getAppointments.fulfilled, (state, action) => {
+        state.appoitments = action.payload
       })
   }
 })
