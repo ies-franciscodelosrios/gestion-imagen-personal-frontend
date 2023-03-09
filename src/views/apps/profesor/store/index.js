@@ -1,11 +1,12 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+
 // ** Axios Imports
 import axios from 'axios'
 
 import { getAllProfesorData, getUserById, updateUserBy, ApiDelUser,AddProfesor, getAllAppointments } from '../../../../services/api'
-import { sort_appointments, sort_data } from './sort_utils'
+import {handleConfirmCancel, sort_appointments, sort_data } from './sort_utils'
 
 
 
@@ -75,10 +76,13 @@ export const updateProfesor = createAsyncThunk('appProfesors/updateUser', async 
 /* DELETE PROFESOR BY ID */
 
 export const deleteProfesor = createAsyncThunk('appProfesors/deleteUser', async (id, { dispatch, getState }) => {
-  await ApiDelUser(id)
+  (await handleConfirmCancel())? await ApiDelUser(id) :'';
+  const response = await getAllProfesorData().then(result => {return result.data.users}) 
+  return response
+  /* await ApiDelUser(id) 
   await dispatch(getData(getState().users.params))
   await dispatch(getAllData())
-  return id
+  return id */
 })
 
 export const appProfesorsSlice = createSlice({
