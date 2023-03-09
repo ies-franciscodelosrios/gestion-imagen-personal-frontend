@@ -46,9 +46,9 @@ export const columns = [
     cell: row => row.id
   }, {
     minWidth: '200px',
-    name: 'Fecha',
+    name: 'Date',
     sortable: true,
-    sortField: 'date',
+    sortField: 'Date',
     selector: row => row.Date,
     cell: row => row.Date
   }, {
