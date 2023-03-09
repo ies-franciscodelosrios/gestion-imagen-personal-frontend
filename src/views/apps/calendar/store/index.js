@@ -51,7 +51,7 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
           calendarLabel: event.Treatment,
           created_at: event.created_at,
           allDay: true,
-          color: event.Treatment == 0?'#FFB6B9':'#628395',
+          color: event.Treatment == 0?'#FFB6B9':'#A6E4D9',
           editable: true,
           description: event.Consultancy,
           alumno: {
@@ -66,7 +66,7 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
             dni: clientePromise.DNI,
             avatar: '',
           },
-          backgroundColor: event.Treatment == 0? '#FFB6B9':'#628395',
+          backgroundColor: event.Treatment == 0? '#FFB6B9':'#A6E4D9',
         };
       }) )
     }
@@ -97,11 +97,37 @@ export const updateEvent = createAsyncThunk(
   }
 );
 
+// export const updateFilter = createAsyncThunk(
+//   'appCalendar/updateFilter',
+
+//   async (filter, { dispatch, getState }) => {
+//     if (getState().calendar.selectedCalendars.includes(filter)) {
+
+//       await dispatch(
+//         fetchEvents(
+//           getState().calendar.selectedCalendars.filter((i) => i !== filter)
+//         )
+//       );
+//     } else {
+
+//       await dispatch(
+//         fetchEvents([...getState().calendar.selectedCalendars, filter])
+//       );
+//     }
+//     return filter;
+//   }
+// );
+
+
+
 export const updateFilter = createAsyncThunk(
   'appCalendar/updateFilter',
-
   async (filter, { dispatch, getState }) => {
-    if (getState().calendar.selectedCalendars.includes(filter)) {
+    const state = getState();
+    const selectedCalendars = state.calendar.selectedCalendars;
+    console.log(state.calendar.selectedCalendars);
+        if (selectedCalendars.includes(filter)) {
+          console.log("ESTOY DENTRO");
 
       await dispatch(
         fetchEvents(
@@ -109,7 +135,6 @@ export const updateFilter = createAsyncThunk(
         )
       );
     } else {
-
       await dispatch(
         fetchEvents([...getState().calendar.selectedCalendars, filter])
       );
@@ -117,6 +142,7 @@ export const updateFilter = createAsyncThunk(
     return filter;
   }
 );
+
 
 export const updateAllFilters = createAsyncThunk(
   'appCalendar/updateAllFilters',
