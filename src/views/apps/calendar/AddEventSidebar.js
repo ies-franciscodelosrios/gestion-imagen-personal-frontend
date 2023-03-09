@@ -514,7 +514,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
                 name="startDate"
                 className="form-control"
                 onChange={(date) => setStartPicker(date[0])}
-                value={selectedEvent.start === undefined ? startPicker : selectedEvent.start}
+                value={startPicker}
                 options={{
                   enableTime: true,
                   time_24hr: true,
