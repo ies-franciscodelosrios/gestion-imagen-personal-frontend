@@ -187,31 +187,6 @@ const Login = () => {
             <CardText className="mb-2">
               Inicie sesión con su cuenta y empize un nuevo dia
             </CardText>
-            <Alert color="primary">
-              <div className="alert-body font-small-2">
-                <p>
-                  <small className="me-50">
-                    <span className="fw-bold">Admin:</span> admin@demo.com |
-                    admin
-                  </small>
-                </p>
-                <p>
-                  <small className="me-50">
-                    <span className="fw-bold">Client:</span> client@demo.com |
-                    client
-                  </small>
-                </p>
-              </div>
-              <HelpCircle
-                id="login-tip"
-                className="position-absolute"
-                size={18}
-                style={{ top: '10px', right: '10px' }}
-              />
-              <UncontrolledTooltip target="login-tip" placement="left">
-                This is just for ACL demo purpose.
-              </UncontrolledTooltip>
-            </Alert>
             <Form
               className="auth-login-form mt-2"
               onSubmit={handleSubmit(onSubmit)}
@@ -271,9 +246,6 @@ const Login = () => {
                 Iniciar Sesión
               </Button>
             </Form>
-            <p className="text-center mt-2">
-              <span className="me-25">¿Nuevo en la Plataforma?</span>
-            </p>
           </Col>
         </Col>
       </Row>
