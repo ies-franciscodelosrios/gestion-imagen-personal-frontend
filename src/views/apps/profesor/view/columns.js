@@ -46,7 +46,7 @@ export const columns = [
     cell: row => row.id
   }, {
     minWidth: '200px',
-    name: 'Date',
+    name: 'Fecha',
     sortable: true,
     sortField: 'Date',
     selector: row => row.Date,
