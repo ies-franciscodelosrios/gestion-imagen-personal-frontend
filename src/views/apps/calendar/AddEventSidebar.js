@@ -32,7 +32,7 @@ import { selectThemeColors, isObjEmpty } from '@utils';
 import '@styles/react/libs/react-select/_react-select.scss';
 import '@styles/react/libs/flatpickr/flatpickr.scss';
 
-import { addEvent, fetchEvents } from '../calendar/store';
+import { addEvent, fetchEvents, updateFilter } from '../calendar/store';
 
 const AddEventSidebar = (props) => {
   // ** Props
@@ -89,8 +89,9 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   const [calendarLabel, setCalendarLabel] = useState([
     { value: 'Peluquería', label: 'Peluquería', color: 'primary' },
   ]);
-
+  console.log(store);
   console.log(startPicker);
+  console.log(selectedEvent.start);
   const fetchData = async () => {
     setAlumnos(store.users);
     setClientes(store.clients);
@@ -99,6 +100,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   useEffect(() => {
     fetchData();
     handleSubmit();
+    console.log(store.events);
     // if (!isObjEmpty(selectedEvent)) {
     //   console.log(store.selectedEvent);
     //   selectedEvent.extendedProps.alumno.then((data) => {
@@ -245,7 +247,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
         setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: '#FFB6B9' }]);
       } else {
         console.log('esto es estética');
-        setCalendarLabel([{ value: 'Estética', label: 'Estética', color: '#628395' }]);
+        setCalendarLabel([{ value: 'Estética', label: 'Estética', color: '#A6E4D9' }]);
       }
       console.log(selectedEvent.extendedProps.calendarLabel);
       // setAllDay(selectedEvent.allDay || allDay)
@@ -512,7 +514,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
                 name="startDate"
                 className="form-control"
                 onChange={(date) => setStartPicker(date[0])}
-                value={startPicker}
+                value={selectedEvent.start === undefined ? startPicker : selectedEvent.start}
                 options={{
                   enableTime: true,
                   time_24hr: true,

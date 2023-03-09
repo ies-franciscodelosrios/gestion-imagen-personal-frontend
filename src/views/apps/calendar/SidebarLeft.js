@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 
 // ** Custom Components
 import classnames from 'classnames'
@@ -9,12 +9,16 @@ import { Card, CardBody, Button, Input, Label } from 'reactstrap'
 
 // ** illustration import
 import illustration from '@src/assets/images/pages/ilustracion-calendario.png'
+import { fetchEvents } from './store'
 
 // ** Filters Checkbox Array
 const filters = [
   { label: 'Peluquería', color: 'danger', className: 'form-check-danger mb-1' },
-  { label: 'Estética', color: 'warning', className: 'form-check-warning mb-1' },
+  { label: 'Estética', color: '#A6E4D9', className: 'form-check-warning mb-1' },
 ]
+
+
+
 
 const SidebarLeft = props => {
   // ** Props
@@ -34,6 +38,7 @@ const SidebarLeft = props => {
             <span className='align-middle'>Añadir Cita</span>
           </Button>
         </CardBody>
+               
         <CardBody>
           <h5 className='section-label mb-1'>
             <span className='align-middle'>Filtro</span>
@@ -51,6 +56,7 @@ const SidebarLeft = props => {
               Ver Todo
             </Label>
           </div>
+   
           <div className='calendar-events-filter'>
             {filters.length &&
               filters.map(filter => {
@@ -70,7 +76,8 @@ const SidebarLeft = props => {
                       checked={store.selectedCalendars.includes(filter.label)}
                       onChange={() => {
                         dispatch(updateFilter(filter.label))
-                        console.log(filter.label);
+                        console.log(store);
+                        dispatch(fetchEvents(store))
                       }}
                     />
                     <Label className='form-check-label' for={`${filter.label}-event`}>
@@ -79,7 +86,7 @@ const SidebarLeft = props => {
                   </div>
                 )
               })}
-          </div>
+          </div> 
         </CardBody>
       </Card>
       <div className='mt-auto'>
