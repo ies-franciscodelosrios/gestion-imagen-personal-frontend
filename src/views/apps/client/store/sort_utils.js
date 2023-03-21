@@ -12,14 +12,15 @@ export function sort_data(params, response) {
    * Filter the list to match the param required
    */
   if (params.q !== null || params.q !== '') {
-    const filteredList = response.filter(obj => {
+    const filteredList = response.data.users.filter(obj => {
       // Crear una expresión regular con la cadena de búsqueda
       const regex = new RegExp(params.q, "i");
       // Buscar la cadena de búsqueda en todas las propiedades del objeto
       return Object.values(obj).some(value => regex.test(String(value)));
     });
-    response = filteredList;
+    response.data.users = filteredList;
   }
+
 
   /**
    * Sort asc or desc by column clicked
@@ -27,40 +28,55 @@ export function sort_data(params, response) {
   if (params.sort == 'asc') {
     switch (params.sortColumn) {
       case 'id':
-        return response.sort(compareById);
+        response.data.users.sort(compareById);
       case 'Name':
-        return response.sort(compareByName);
+        response.data.users.sort(compareByName);
       case 'DNI':
-        return response.sort(compareByDNI);
+        response.data.users.sort(compareByDNI);
       case 'Email':
-        return response.sort(compareByEmail);
+        response.data.users.sort(compareByEmail);
       case 'Birth_Date':
-        return response.sort(compareByBirthDate);
+        response.data.users.sort(compareByBirthDate);
       case 'Phone':
-        return response.sort(compareByPhone);
+        response.data.users.sort(compareByPhone);
       default:
-        return response;
+        response.data.users;
     }
   } else if (params.sort == 'desc') {
     switch (params.sortColumn) {
       case 'id':
-        return response.sort(descompareById);
+        response.data.users.sort(descompareById);
       case 'Name':
-        return response.sort(descompareByName);
+        response.data.users.sort(descompareByName);
       case 'DNI':
-        return response.sort(descompareByDNI);
+        response.data.users.sort(descompareByDNI);
       case 'Email':
-        return response.sort(descompareByEmail);
+        response.data.users.sort(descompareByEmail);
       case 'Birth_Date':
-        return response.sort(descompareByBirthDate);
+        response.data.users.sort(descompareByBirthDate);
       case 'Phone':
-        return response.sort(descompareByPhone);
+        response.data.users.sort(descompareByPhone);
       default:
-        return response;
+        response.data.users;
     }
   }
+
+  response.data.total = response.data.users.length;
+
+  response.data.users = paginateArray(response.data.users, params.page, params.perPage);
+
+  return response;
 }
 
+
+//----------------------------------------------------------------------
+// Pagination
+//----------------------------------------------------------------------
+function paginateArray(array, pageNumber, pageSize) {
+  const startIndex = (pageNumber - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  return array.slice(startIndex, endIndex);
+}
 //----------------------------------------------------------------------
 // Ordenar por ID
 //----------------------------------------------------------------------
