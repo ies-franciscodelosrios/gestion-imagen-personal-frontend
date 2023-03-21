@@ -21,7 +21,7 @@ export const getData = createAsyncThunk('appClients/getData', async params => {
   if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
      Object.assign(response, await getAllClientsData().then(result => {return result})) 
   }
-  response.data.users = sort_data(params, response.data.users);
+  Object.assign(response, sort_data(params, response));
   return {
     params,
     data: response.data.users,
