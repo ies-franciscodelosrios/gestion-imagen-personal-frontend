@@ -89,9 +89,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   const [calendarLabel, setCalendarLabel] = useState([
     { value: 'Peluquería', label: 'Peluquería', color: 'primary' },
   ]);
-  console.log(store);
-  console.log(startPicker);
-  console.log(selectedEvent.start);
+
   const fetchData = async () => {
     setAlumnos(store.users);
     setClientes(store.clients);
@@ -100,9 +98,9 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   useEffect(() => {
     fetchData();
     handleSubmit();
-    console.log(store.events);
+
     // if (!isObjEmpty(selectedEvent)) {
-    //   console.log(store.selectedEvent);
+    //   store.selectedEvent);
     //   selectedEvent.extendedProps.alumno.then((data) => {
     //     setUser(data.label || user);
     //   });
@@ -141,11 +139,11 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
 
   // ** Adds New Event
   const handleAddEvent = () => {
-
+    const startPickerDate = new Date(Date.parse(startPicker));
     const obj = {
       title: getValues('title'),
-      dateappo: startPicker.toISOString().split('T')[0],
-      start: startPicker,
+      dateappo: startPickerDate.toISOString().split('T')[0],
+      start: startPickerDate,
       dnialumno: dnialumno,
       dnicliente: dnicliente,
       display: 'block',
@@ -159,10 +157,9 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       },
     };
 
-    console.log(obj.calendar);
+
     if ((obj.calendar == 'Peluquería')) {obj.calendar = 0;}
     else {obj.calendar = 1;}
-
     dispatch(addEvent(obj));
     refetchEvents();
     fetchData();
@@ -191,24 +188,19 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   const handleSelectedEvent = () => {
     if (!isObjEmpty(selectedEvent)) {
 
-      console.log(selectedEvent.length);
-
-
 
       if (selectedEvent.title==='') {
-        console.log("hola");
+
         return { label: 'Peluquería', value: 'Peluquería', color: 'danger' }
       }
       
-      console.log(selectedEvent);
-      console.log(store);
-      console.log("hey");
+
 
       // if (selectedEvent.extendedProps.alumno instanceof Promise) {
       //   selectedEvent.extendedProps.alumno
       //     .then((data) => {
       //       setUser(data.label || user);
-      //       console.log(data.label);
+      //       data.label);
       //     })
       //     .catch((error) => {
       //       console.error('Error while resolving alumno Promise:', error);
@@ -224,59 +216,89 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       //       console.error('Error while resolving cliente Promise:', error);
       //     });
       // }
-      
 
-      setGuests(selectedEvent.extendedProps.cliente.label == "undefined undefined" ? "" : {
-      value: selectedEvent.extendedProps.cliente.value,
-      label: selectedEvent.extendedProps.cliente.label,
-      dni: selectedEvent.extendedProps.cliente.dni,
-      avatar: '',})
-      setPupils(selectedEvent.extendedProps.alumno.label == "undefined undefined" ? "" : {
-      value: selectedEvent.extendedProps.alumno.value,
-      label: selectedEvent.extendedProps.alumno.label,
-      dni: selectedEvent.extendedProps.alumno.dni,
-      avatar: '',})
+
+      if(!isObjEmpty(selectedEvent.extendedProps.cliente)){
+        setGuests([{
+          value: selectedEvent.extendedProps.cliente.value,
+          label: selectedEvent.extendedProps.cliente.label,
+          dni: selectedEvent.extendedProps.cliente.dni,
+          avatar: '',
+        }]);
+      }
+      else{
+
+      setGuests(
+        selectedEvent.extendedProps.cliente.value==="undefined undefined" || selectedEvent.extendedProps.cliente.label === "undefined undefined"
+          ? ""
+          : {
+              value: selectedEvent.extendedProps.cliente.value,
+              label: selectedEvent.extendedProps.cliente.label,
+              dni: selectedEvent.extendedProps.cliente.dni,
+              avatar: '',
+            }
+      );
+    }
+
+
+    if(!isObjEmpty(selectedEvent.extendedProps.alumno)){
+      setPupils([{
+        value: selectedEvent.extendedProps.alumno.value,
+        label: selectedEvent.extendedProps.alumno.label,
+        dni: selectedEvent.extendedProps.alumno.dni,
+        avatar: '',
+      }]);
+    }
+    else{
+      setPupils(
+        selectedEvent.extendedProps.alumno.value === "undefined undefined" || selectedEvent.extendedProps.alumno.label === "undefined undefined"
+          ? selectedEvent.extendedProps.alumno
+          : {
+              value: selectedEvent.extendedProps.alumno.value,
+              label: selectedEvent.extendedProps.alumno.label,
+              dni: selectedEvent.extendedProps.alumno.dni,
+              avatar: '',
+            }
+      );
+    }
+
       setValue('title', selectedEvent.title || getValues('title'));
-      setUser(selectedEvent.extendedProps.alumno.label == "undefined" ?  "" : selectedEvent.extendedProps.alumno.label);
-      console.log(alumnos)
-      setClient(selectedEvent.extendedProps.cliente.label == "undefined" ? "" : selectedEvent.extendedProps.cliente.label);
+      // setUser(selectedEvent.extendedProps.alumno.label == "undefined" ?  "" : selectedEvent.extendedProps.alumno.label);
+      setStartPicker(selectedEvent.start);
+      // setClient(selectedEvent.extendedProps.cliente.label == "undefined" ? "" : selectedEvent.extendedProps.cliente.label);
       if (
         selectedEvent.extendedProps.calendarLabel == 0 ||
         selectedEvent.extendedProps.calendarLabel == null
       ) {
         setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: '#FFB6B9' }]);
       } else {
-        console.log('esto es estética');
         setCalendarLabel([{ value: 'Estética', label: 'Estética', color: '#A6E4D9' }]);
       }
-      console.log(selectedEvent.extendedProps.calendarLabel);
+
       // setAllDay(selectedEvent.allDay || allDay)
       // setUrl(selectedEvent.url || url)
       // setLocation(selectedEvent.extendedProps.location || location)
       setDesc(selectedEvent.extendedProps.description || desc);
-      // setGuests(selectedEvent.extendedProps.guests || guests)
+  // setGuests(selectedEvent.extendedProps.guests || guests)
       // setPupils(obtenerAlumno() || 'hola')
       // selectedEvent.extendedProps.alumno.then(data => {
 
       // //   setPupils(data);
       //   setUser(data.label);
-      // //   console.log(pupils);
-      // //   console.log(alumnos);
-      // //   console.log(data);
+      // //   pupils);
+      // //   alumnos);
+      // //   data);
       // //   fetchData();
 
       // });
 
-      setStartPicker(new Date(selectedEvent.extendedProps.created_at==null ? '': selectedEvent.extendedProps.created_at));
-      console.log(selectedEvent.start);
+      // setStartPicker(new Date(selectedEvent.extendedProps.created_at==null ? '': selectedEvent.extendedProps.created_at));
+
       // setEndPicker(selectedEvent.allDay ? new Date(selectedEvent.start) : new Date(selectedEvent.end))
       // setCalendarLabel([resolveLabel()])
     }
   };        
-  console.log(calendarLabel);
-  console.log(startPicker);
-  console.log(pupils.dni);
-  console.log(guests.dni);
+
 
   // ** (UI) updateEventInCalendar
   const updateEventInCalendar = (
@@ -319,15 +341,18 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
 
   // ** Updates Event in Store
   const handleUpdateEvent = () => {
+
     if (getValues('title').length) {
-      console.log("dentro");
+
       const eventToUpdate = {
+
+
         id: selectedEvent.id,
         title: getValues('title'),
         dateappo: startPicker.toISOString().slice(0, 10),
         start: startPicker.toISOString(),
-        dnialumno: pupils.dni,
-        dnicliente: guests.dni,
+        dnialumno: pupils[0]?.dni,
+        dnicliente: guests[0]?.dni,
         display: 'block',
         desc: desc.length ? desc : undefined,
         calendar: calendarLabel[0].label,
@@ -342,7 +367,6 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       if ((eventToUpdate.calendar == 'Peluquería')) {eventToUpdate.calendar = 0;}
       else {eventToUpdate.calendar = 1;}
 
-      console.log(eventToUpdate);
       const propsToUpdate = ['id', 'title', 'url', 'alumnos', 'desc'];
       const extendedPropsToUpdate = [
         'calendar',
@@ -352,7 +376,6 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
         'location',
         'description',
       ];
-     console.log(eventToUpdate);
      dispatch(updateEvent(eventToUpdate))
       // updateEventInCalendar(
       //   eventToUpdate,
@@ -583,12 +606,10 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
                   theme={selectThemeColors}
                   value={guests}
                   onChange={(data) => {
-                    console.log(data);
                     setGuests([data]);
                     if (data) {
                       const selectedDnis = data.dni;
                       setDniCliente(selectedDnis);
-                      console.log(dnicliente);
                     }
                   }}
                   components={{
@@ -615,12 +636,10 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
                   theme={selectThemeColors}
                   value={pupils}
                   onChange={(data) => {
-                    console.log(data);
                     setPupils([data]);
                     if (data) {
                       const selectedDnis = data.dni;
                       setDniAlumno(selectedDnis);
-                      console.log(dnialumno);
                     }
                   }}
                   components={{
