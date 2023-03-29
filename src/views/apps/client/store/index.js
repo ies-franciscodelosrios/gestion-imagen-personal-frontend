@@ -51,22 +51,21 @@ export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient
   const loading = toast.loading('Cargando Datos');
   await setTimeout(async() => {
   try {
-        await users.map( (user) =>{
-          AddClient(user);
+        await users.map( async(user) =>{
+          await AddClient(user);
         })
-        toast.success('Correctamente Importados', {
-          id: loading,
-        });
-      } catch (error) {
-        toast.error('Error al Importar', {
-          id: loading,
+  } catch (error) {
+    toast.error('Error al Importar', {
+      id: loading,
     });
   }finally{
-    response = await getAllClientsData().then(result => {toast.success('si'); return result.data.users}).catch(); 
+    response = await getAllClientsData().then(result => { return result.data.users}).catch(); 
+    toast.success('Correctamente Importados', {
+      id: loading,
+    });
     
   }
 }, 500);
-  
   return response
 })
 
