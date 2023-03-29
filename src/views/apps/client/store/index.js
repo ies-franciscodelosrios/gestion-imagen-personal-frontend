@@ -47,12 +47,26 @@ export const addClient = createAsyncThunk('appClients/addClient', async (user, {
 })
 
 export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient', async (users) => {
-  await users.map( (user) =>{
-    try {
-      AddClient(user);
-    } catch (error) {}
-  })
-  const response = await getAllClientsData().then(result => {toast.success('Correctamente Importados!'); return result.data.users}).catch(); 
+  let response = null;
+  const loading = toast.loading('Cargando Datos');
+  await setTimeout(async() => {
+  try {
+        await users.map( (user) =>{
+          AddClient(user);
+        })
+        toast.success('Correctamente Importados', {
+          id: loading,
+        });
+      } catch (error) {
+        toast.error('Error al Importar', {
+          id: loading,
+    });
+  }finally{
+    response = await getAllClientsData().then(result => {toast.success('si'); return result.data.users}).catch(); 
+    
+  }
+}, 500);
+  
   return response
 })
 
@@ -93,7 +107,7 @@ export const appClientsSlice = createSlice({
         state.allData = action.payload
       })
       .addCase(addMultipleClients.fulfilled, (state, action) => {
-        state.allData = action.payload
+        //state.allData = action.payload
       })
       .addCase(deleteClient.fulfilled, (state, action) => {
         state.allData = action.payload
