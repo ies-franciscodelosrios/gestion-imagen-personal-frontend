@@ -49,7 +49,6 @@ export const addClient = createAsyncThunk('appClients/addClient', async (user, {
 export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient', async (users) => {
   let response = null;
   const loading = toast.loading('Cargando Datos');
-  await setTimeout(async() => {
   try {
         await users.map( async(user) =>{
           await AddClient(user);
@@ -65,7 +64,6 @@ export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient
     });
     
   }
-}, 500);
   return response
 })
 
@@ -106,7 +104,7 @@ export const appClientsSlice = createSlice({
         state.allData = action.payload
       })
       .addCase(addMultipleClients.fulfilled, (state, action) => {
-        //state.allData = action.payload
+        action.payload? state.allData = action.payload : '';
       })
       .addCase(deleteClient.fulfilled, (state, action) => {
         state.allData = action.payload
