@@ -8,12 +8,7 @@ import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { User, Lock, Bookmark, Bell, Link } from 'react-feather'
 
 // ** User Components
-import InvoiceList from './InvoiceList'
 import SecurityTab from './SecurityTab'
-import Connections from './Connections'
-import BillingPlanTab from './BillingTab'
-import UserTimeline from './UserTimeline'
-import Notifications from './Notifications'
 import ClientSheetsList from './ClientSheetsList'
 
 const UserTabs = ({ active, toggleTab, client }) => {
