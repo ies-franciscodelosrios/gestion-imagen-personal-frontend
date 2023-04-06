@@ -1,0 +1,11 @@
+# exclude development files and directories
+node_modules
+public
+src
+dist
+.git
+
+# exclude build artifacts
+build
+*.log
+*.swp
