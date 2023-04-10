@@ -1,20 +1,12 @@
-# Use an official Node runtime as a parent image
-FROM node:14-alpine
-
-# Set the working directory to /app
-WORKDIR /gestion-imagen-personal-frontend
-
-# Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
-
-# Install the dependencies
+FROM node:18-alpine3.17 as build
+WORKDIR /app
+COPY . /app
 RUN npm install
+RUN npm run build
 
-# Copy the contents of the dist folder to the container
-COPY dist/ ./
-
-# Expose port 3000
-EXPOSE 3000
-
-# Start the app
-CMD ["npm", "start"]
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install nginx -y
+COPY --from=build /app/dist /var/www/html/
+EXPOSE 80
+CMD ["nginx","-g","daemon off;"]

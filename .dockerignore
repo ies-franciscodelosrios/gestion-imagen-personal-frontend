@@ -1,11 +1,6 @@
-# exclude development files and directories
 node_modules
-public
-src
-dist
+.dockerignore
 .git
-
-# exclude build artifacts
-build
-*.log
-*.swp
+.gitignore
+.env
+README.md
