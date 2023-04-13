@@ -80,10 +80,10 @@ const UserInfoCard = () => {
   } = useForm({
     defaultValues: {
       Name: '',
-      Surname: '',
+      surname: '',
       email: '',
-      DNI: '',
-      Cycle: ''
+      dni: '',
+      cycle: ''
     }
   })
 
@@ -94,7 +94,7 @@ const UserInfoCard = () => {
           initials
           color={'light-primary'}
           className='rounded mt-3 mb-2'
-          content={selectedUser.Name}
+          content={selectedUser.name}
           contentStyles={{
             borderRadius: 0,
             fontSize: 'calc(48px)',
@@ -111,11 +111,11 @@ const UserInfoCard = () => {
 
   const onSubmit = (data) => {
     const updatedUser = {...store.selectedUser};
-    updatedUser.Name = data.Name;
-    updatedUser.Surname = data.Surname;
+    updatedUser.name = data.name;
+    updatedUser.surname = data.surname;
     updatedUser.email = data.email;
-    updatedUser.DNI = data.DNI;
-    updatedUser.Cycle = data.Cycle.label;
+    updatedUser.dni = data.dni;
+    updatedUser.cycle = data.cycle.label;
     console.log(data);
 
     if (Object.values(data).every(field => typeof field !== "object" || Object.values(field).every(value => value.length > 0))){
@@ -136,11 +136,11 @@ const UserInfoCard = () => {
 
   const handleReset = () => {
     reset({
-      Name: selectedUser.Name,
-      Surname: selectedUser.Surname,
+      name: selectedUser.name,
+      surname: selectedUser.surname,
       email: selectedUser.email,
-      DNI: selectedUser.DNI,
-      Cycle: selectedUser.Cycle.label,
+      dni: selectedUser.dni,
+      cycle: selectedUser.cycle.label,
     })
   }
 
@@ -155,15 +155,15 @@ const UserInfoCard = () => {
                 <div className="user-info">
                   <h4>
                     {selectedUser !== null
-                      ? selectedUser.Name.concat(' ' + selectedUser.Surname)
+                      ? selectedUser.name.concat(' ' + selectedUser.surname)
                       : 'Eleanor Aguilar'}
                   </h4>
                   {selectedUser !== null ? (
                     <Badge
-                      color={roleColors[selectedUser.Rol]}
+                      color={roleColors[selectedUser.rol]}
                       className="text-capitalize"
                     >
-                      {selectedUser.Rol}
+                      {selectedUser.rol}
                     </Badge>
                   ) : null}
                 </div>
@@ -196,15 +196,15 @@ const UserInfoCard = () => {
               <ul className="list-unstyled">
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Nombre: </span>
-                  <span>{selectedUser.Name}</span>
+                  <span>{selectedUser.name}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Apellido: </span>
-                  <span>{selectedUser.Surname}</span>
+                  <span>{selectedUser.surname}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">DNI: </span>
-                  <span>{selectedUser.DNI}</span>
+                  <span>{selectedUser.dni}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Email: </span>
@@ -212,7 +212,7 @@ const UserInfoCard = () => {
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Ciclo: </span>
-                  <span>{selectedUser.Cycle}</span>
+                  <span>{selectedUser.cycle}</span>
                 </li>
               </ul>
             ) : null}
@@ -260,18 +260,18 @@ const UserInfoCard = () => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className='form-label' for='Surname'>
+                <Label className='form-label' for='surname'>
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.Surname}
+                  defaultValue={selectedUser.surname}
                   control={control}
-                  id='Surname'
-                  name='Surname'
+                  id='surname'
+                  name='surname'
                   render={({ field }) => (
                     <Input 
                       {...field} 
-                      id='Surname' 
+                      id='surname' 
                       placeholder='Doe' 
                       invalid={errors.lastName && true}
                       />
@@ -299,25 +299,25 @@ const UserInfoCard = () => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="DNI">
+                <Label className="form-label" for="dni">
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.DNI}
+                  defaultValue={selectedUser.dni}
                   control={control}
-                  id="DNI"
-                  name="DNI"
+                  id="dni"
+                  name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="DNI" placeholder="31000000C" />
+                    <Input {...field} id="dni" placeholder="31000000C" />
                   )}
                 />
               </Col>
               <Col xs={12}>
-              <Label className="form-label" for="Cycle">
+              <Label className="form-label" for="cycle">
             Ciclo <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="Cycle"
+            name="cycle"
             control={control}
             render={({ field }) => (
               <Select
@@ -325,9 +325,9 @@ const UserInfoCard = () => {
                 theme={selectThemeColors}
                 className='react-select'
                 classNamePrefix='select'
-                id="Cycle"
+                id="cycle"
                 placeholder="Elige tu ciclo"
-                invalid={errors.Cycle && true}
+                invalid={errors.cycle && true}
                 {...field}
               />
 

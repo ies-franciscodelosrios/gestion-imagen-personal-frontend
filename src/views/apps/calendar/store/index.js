@@ -13,9 +13,9 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (pa
   if ((response === null || response.data.appointment.length <= 0 ) && params.q == '') {
      Object.assign(response, await getAllAppointments().then(response => {return response})) 
   }
-  response.data.users = sort_data(params, response.data.users);
-  console.log(response.data.users);
-  return response.data.users;
+  response.data.data = sort_data(params, response.data.data);
+  console.log(response.data.data);
+  return response.data.data;
 })
 
 

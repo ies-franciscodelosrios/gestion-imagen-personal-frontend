@@ -46,7 +46,7 @@ const Calendar = props => {
 
   const fetchAppointmentData = async () => {
     const response = await getAllAppointments();
-    const appointments = response.data.users.map((event) => ({
+    const appointments = response.data.data.map((event) => ({
       id: event.id,
       start: event.Date,
       title: event.Protocol,

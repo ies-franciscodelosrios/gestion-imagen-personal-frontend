@@ -75,7 +75,7 @@ const ToastContent = ({ t, name, role }) => {
 
 const defaultValues = {
   password: 'root',
-  loginEmail: 'admin@iestablero',
+  loginemail: 'admin@iestablero',
 };
 
 const Login = () => {
@@ -100,7 +100,7 @@ const Login = () => {
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
 
-        ApiLogin(data.loginEmail, data.password)
+        ApiLogin(data.loginemail, data.password)
           .then((response) => {
             setToken(response.data.token);
             ability.update([{"action": "manage","subject": "all"}]);
@@ -108,21 +108,22 @@ const Login = () => {
             /**
              * UserData Request to login
              */
-            getAllUserData(data.loginEmail).then((promis) => {
+            getAllUserData(data.loginemail).then((promis) => {
               const data = {
-                ...promis.data.users,
+                ...promis.data.data,
                 token: getToken(),
                 ability : [{"action": "manage","subject": "all"}],
-                rol : getrol(promis.data.users.Rol),
-                fullName : ''.concat(promis.data.users.Name,' ', promis.data.users.Surname)
+                rol : getrol(promis.data.data.rol),
+                fullname : ''.concat(promis.data.data.name,' ', promis.data.data.surname)
               };
+              console.log(promis.data);
               dispatch(handleLogin(data));
-              navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol));
+              navigate(getHomeRouteForLoggedInUser(promis.data.data.rol));
               toast((t) => (
                 <ToastContent
                   t={t}
                   role={data.rol || 'admin'}
-                  name={data.fullName || data.username || 'Sonia Torres'}
+                  name={data.fullname || 'Sonia Torres'}
                 />
               ));
             });
@@ -221,21 +222,21 @@ const Login = () => {
                   Usuario / Email
                 </Label>
                 <Controller
-                  id="loginEmail"
-                  name="loginEmail"
+                  id="loginemail"
+                  name="loginemail"
                   control={control}
                   render={({ field }) => (
                     <Input
                       autoFocus
                       type="email"
                       placeholder="john@example.com"
-                      invalid={errors.loginEmail && true}
+                      invalid={errors.loginemail && true}
                       {...field}
                     />
                   )}
                 />
-                {errors.loginEmail && (
-                  <FormFeedback>{errors.loginEmail.message}</FormFeedback>
+                {errors.loginemail && (
+                  <FormFeedback>{errors.loginemail.message}</FormFeedback>
                 )}
               </div>
               <div className="mb-1">

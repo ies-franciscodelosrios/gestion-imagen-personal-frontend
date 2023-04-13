@@ -25,7 +25,7 @@ const renderStudent = row => {
         initials
         className='me-1'
         color={'light-primary'}
-        content={row.Name || 'John Doe'}
+        content={row.name || 'John Doe'}
       />
     )
   }
@@ -79,7 +79,7 @@ export const columns = [
     sortable: true,
     minWidth: '300px',
     sortField: 'Name',
-    selector: row => row.Name,
+    selector: row => row.name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
         {renderStudent(row)}
@@ -89,7 +89,7 @@ export const columns = [
             className='user_name text-truncate text-body'
             onClick={() => store.dispatch(getUser(row.id))}
           >
-            <span className='fw-bolder'>{row.Name.concat(' ',row.Surname)}</span>
+            <span className='fw-bolder'>{row.name.concat(' ',row.surname)}</span>
           </Link>
           <small className='text-truncate text-muted mb-0'>{row.email}</small>
         </div>
@@ -97,26 +97,26 @@ export const columns = [
     )
   },
   {
-    name: 'DNI',
+    name: 'dni',
     sortable: true,
     minWidth: '40px',
     sortField: 'id',
-    selector: row => row.DNI,
-    cell: row => <span className='text-capitalize'>{row.DNI}</span>
+    selector: row => row.dni,
+    cell: row => <span className='text-capitalize'>{row.dni}</span>
   },
   {
     name: 'Ciclo',
     sortable: true,
     minWidth: '400px',
-    sortField: 'Cycle',
-    selector: row => row.Cycle,
-    cell: row => <span>{row.Cycle}</span>
+    sortField: 'cycle',
+    selector: row => row.cycle,
+    cell: row => <span>{row.cycle}</span>
   },
   {
-    name: 'Email',
+    name: 'email',
     sortable: true,
     minWidth: '100px',
-    sortField: 'Email',
+    sortField: 'email',
     selector: row => row.email,
     cell: row => <span>{row.email}</span>
   },

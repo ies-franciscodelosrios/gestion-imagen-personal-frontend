@@ -79,7 +79,7 @@ const SidebarLeft = props => {
             >
               <Avatar img={item.avatar} imgHeight='42' imgWidth='42' status={item.status} />
               <div className='chat-info flex-grow-1'>
-                <h5 className='mb-0'>{item.fullName}</h5>
+                <h5 className='mb-0'>{item.fullname}</h5>
                 <CardText className='text-truncate'>
                   {item.chat.lastMessage ? item.chat.lastMessage.message : chats[chats.length - 1].message}
                 </CardText>
@@ -114,10 +114,10 @@ const SidebarLeft = props => {
         const arrToMap = query.length && filteredContacts.length ? filteredContacts : contacts
         return arrToMap.map(item => {
           return (
-            <li key={item.fullName} onClick={() => handleUserClick(item.id)}>
+            <li key={item.fullname} onClick={() => handleUserClick(item.id)}>
               <Avatar img={item.avatar} imgHeight='42' imgWidth='42' />
               <div className='chat-info flex-grow-1'>
-                <h5 className='mb-0'>{item.fullName}</h5>
+                <h5 className='mb-0'>{item.fullname}</h5>
                 <CardText className='text-truncate'>{item.about}</CardText>
               </div>
             </li>
@@ -132,7 +132,7 @@ const SidebarLeft = props => {
   // ** Handles Filter
   const handleFilter = e => {
     setQuery(e.target.value)
-    const searchFilterFunction = contact => contact.fullName.toLowerCase().includes(e.target.value.toLowerCase())
+    const searchFilterFunction = contact => contact.fullname.toLowerCase().includes(e.target.value.toLowerCase())
     const filteredChatsArr = chats.filter(searchFilterFunction)
     const filteredContactssArr = contacts.filter(searchFilterFunction)
     setFilteredChat([...filteredChatsArr])
@@ -161,7 +161,7 @@ const SidebarLeft = props => {
             </div>
             <div className='header-profile-sidebar'>
               <Avatar className='box-shadow-1 avatar-border' img={userProfile.avatar} status={status} size='xl' />
-              <h4 className='chat-user-name'>{userProfile.fullName}</h4>
+              <h4 className='chat-user-name'>{userProfile.fullname}</h4>
               <span className='user-post'>{userProfile.role}</span>
             </div>
           </header>

@@ -174,7 +174,7 @@ const ChatLog = props => {
                   className='avatar-border user-profile-toggle m-0 me-1'
                   onClick={() => handleAvatarClick(selectedUser.contact)}
                 />
-                <h6 className='mb-0'>{selectedUser.contact.fullName}</h6>
+                <h6 className='mb-0'>{selectedUser.contact.fullname}</h6>
               </div>
               <div className='d-flex align-items-center'>
                 <PhoneCall size={18} className='cursor-pointer d-sm-block d-none me-1' />

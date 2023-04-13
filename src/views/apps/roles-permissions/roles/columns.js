@@ -23,7 +23,7 @@ const renderClient = row => {
       <Avatar
         initials
         className='me-1'
-        content={row.fullName || 'John Doe'}
+        content={row.fullname || 'John Doe'}
         color={row.avatarColor || 'light-primary'}
       />
     )
@@ -76,8 +76,8 @@ export const columns = [
     name: 'Name',
     sortable: true,
     minWidth: '297px',
-    sortField: 'fullName',
-    selector: row => row.fullName,
+    sortField: 'fullname',
+    selector: row => row.fullname,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
         {renderClient(row)}
@@ -87,7 +87,7 @@ export const columns = [
             className='user_name text-truncate text-body'
             onClick={() => store.dispatch(getUser(row.id))}
           >
-            <span className='fw-bold'>{row.fullName}</span>
+            <span className='fw-bold'>{row.fullname}</span>
           </Link>
           <small className='text-truncate text-muted mb-0'>{row.email}</small>
         </div>

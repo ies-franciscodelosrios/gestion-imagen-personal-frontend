@@ -44,13 +44,13 @@ const CalendarComponent = () => {
 
   const fetchAppointmentData = async () => {
     const response = await getAllAppointments();
-    const appointments = response.data.users.map((event) => ({
+    const appointments = response.data.data.map((event) => ({
       Id: event.id,
       Date: event.Date,
       Treatment: event.Treatment,
       Protocol: event.Protocol,
-      DNI_client: event.DNI_client,
-      DNI_Student: event.DNI_Student,
+      dni_client: event.dni_client,
+      dni_Student: event.dni_Student,
       Consultancy: event.Consultancy,
       created_at: event.created_at,
     }));

@@ -95,16 +95,16 @@ const AddEventSidebar = props => {
   const fetchData = async () => {
     const response = await getAllStudentsData();
     const response2 = await getAllClientsData();
-    const data = response.data.users.map((alumno) => ({
-      value: `${alumno.Name} ${alumno.Surname}`,
-      label: `${alumno.Name} ${alumno.Surname}`,
-      dni: alumno.DNI,
+    const data = response.data.data.map((alumno) => ({
+      value: `${alumno.name} ${alumno.surname}`,
+      label: `${alumno.name} ${alumno.surname}`,
+      dni: alumno.dni,
       avatar: img5
     }));
-    const data2 = response2.data.users.map((cliente) => ({
-      value: `${cliente.Name} ${cliente.Surname}`,
-      label: `${cliente.Name} ${cliente.Surname}`,
-      dni: cliente.DNI,
+    const data2 = response2.data.data.map((cliente) => ({
+      value: `${cliente.name} ${cliente.surname}`,
+      label: `${cliente.name} ${cliente.surname}`,
+      dni: cliente.dni,
       avatar: img5
     }));
     setAlumnos(data);

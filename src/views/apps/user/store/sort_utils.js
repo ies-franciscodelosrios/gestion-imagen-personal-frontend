@@ -30,11 +30,11 @@ export function sort_data(params, response) {
         return response.sort(compareById);
       case 'Name':
         return response.sort(compareByName);
-      case 'DNI':
-        return response.sort(compareByDNI);
-      case 'Email':
+      case 'dni':
+        return response.sort(compareBydni);
+      case 'email':
         return response.sort(compareByEmail);
-      case 'Cycle':
+      case 'cycle':
         return response.sort(compareByCycle);
       default:
         return response;
@@ -45,11 +45,11 @@ export function sort_data(params, response) {
         return response.sort(descompareById);
       case 'Name':
         return response.sort(descompareByName);
-      case 'DNI':
-        return response.sort(descompareByDNI);
-      case 'Email':
+      case 'dni':
+        return response.sort(descompareBydni);
+      case 'email':
         return response.sort(descompareByEmail);
-      case 'Cycle':
+      case 'cycle':
         return response.sort(descompareByCycle);
       default:
         return response;
@@ -67,22 +67,22 @@ function descompareById(a, b) {
   return b.id - a.id;
 }
 //----------------------------------------------------------------------
-// Ordenar por DNI
+// Ordenar por dni
 //----------------------------------------------------------------------
-function compareByDNI(a, b) {
-  if (a.DNI < b.DNI) {
+function compareBydni(a, b) {
+  if (a.dni < b.dni) {
     return -1;
   }
-  if (a.DNI > b.DNI) {
+  if (a.dni > b.dni) {
     return 1;
   }
   return 0;
 }
-function descompareByDNI(a, b) {
-  if (b.DNI < a.DNI) {
+function descompareBydni(a, b) {
+  if (b.dni < a.dni) {
     return -1;
   }
-  if (b.DNI > a.DNI) {
+  if (b.dni > a.dni) {
     return 1;
   }
   return 0;
@@ -92,19 +92,19 @@ function descompareByDNI(a, b) {
 // Ordenar por Nombre
 //----------------------------------------------------------------------
 function compareByName(a, b) {
-  if (a.Name < b.Name) {
+  if (a.name < b.name) {
     return -1;
   }
-  if (a.Name > b.Name) {
+  if (a.name > b.name) {
     return 1;
   }
   return 0;
 }
 function descompareByName(a, b) {
-  if (b.Name < a.Name) {
+  if (b.name < a.name) {
     return -1;
   }
-  if (b.Name > a.Name) {
+  if (b.name > a.name) {
     return 1;
   }
   return 0;
@@ -114,20 +114,20 @@ function descompareByName(a, b) {
 // Ordenar por Apellido
 //----------------------------------------------------------------------
 function compareBySurname(a, b) {
-  if (a.Surname < b.Surname) {
+  if (a.surname < b.surname) {
     return -1;
   }
-  if (a.Surname > b.Surname) {
+  if (a.surname > b.surname) {
     return 1;
   }
   return 0;
 }
 
 function descompareBySurname(a, b) {
-  if (b.Surname < a.Surname) {
+  if (b.surname < a.surname) {
     return -1;
   }
-  if (b.Surname > a.Surname) {
+  if (b.surname > a.surname) {
     return 1;
   }
   return 0;
@@ -137,19 +137,19 @@ function descompareBySurname(a, b) {
 // Ordenar por Fecha de Nacimiento
 //----------------------------------------------------------------------
 function compareByCycle(a, b) {
-  if (a.Cycle < b.Cycle) {
+  if (a.cycle < b.cycle) {
     return -1;
   }
-  if (a.Cycle > b.Cycle) {
+  if (a.cycle > b.cycle) {
     return 1;
   }
   return 0;
 }
 function descompareByCycle(a, b) {
-  if (b.Cycle < a.Cycle) {
+  if (b.cycle < a.cycle) {
     return -1;
   }
-  if (b.Cycle > a.Cycle) {
+  if (b.cycle > a.cycle) {
     return 1;
   }
   return 0;
