@@ -53,7 +53,7 @@ export const formatDateToMonthShort = (value, toTimeForCurrentDay = true) => {
 export const isUserLoggedIn = () => localStorage.getItem('userData')
 export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
 export function getRol() {
-  return JSON.parse(localStorage.getItem('userData')).Rol
+  return JSON.parse(localStorage.getItem('userData')).rol
 }
 
 /**

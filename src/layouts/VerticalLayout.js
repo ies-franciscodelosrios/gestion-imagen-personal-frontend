@@ -17,7 +17,7 @@ const VerticalLayout = props => {
   //   axios.get(URL).then(response => setMenuData(response.data))
   // }, [])
   const userdata = JSON.parse(localStorage.getItem('userData'));
-if (userdata.Rol >= 2) { 
+if (userdata.rol >= 2) { 
   return (
     <Layout menuData={studentnavigation} {...props}>
       <Outlet />

@@ -23,12 +23,12 @@ import { addClient } from '../store';
 import { useDispatch } from 'react-redux';
 
 const defaultValues = {
-  DNI: '',
-  Name: '',
-  Surname: '',
-  Email: '',
-  Phone: '',
-  BirthDate: ''
+  dni: '',
+  name: '',
+  surname: '',
+  email: '',
+  phone: '',
+  birth_date: ''
 };
 
 const cycleOptions = [
@@ -65,25 +65,25 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
   // ** Function to handle form submit
   const onSubmit = (data) => {
     data.BirthDate = BirthPicker.toISOString().split('T')[0];
-    //data.Cycle = data.Cycle.value;
+    //data.cycle = data.cycle.value;
     setData(data);
     if (checkIsValid(data)) {
       toggleSidebar();
       console.log(data);
       dispatch(
         addClient({
-          DNI: data.DNI,
-          Name: data.Name,
-          Surname: data.Surname,
-          Email: data.Email,
-          Phone: data.Phone,
-          BirthDate: data.BirthDate,
-          More_Info: '',
-          Life_Style: '',
-          Background_Health: '',
-          Background_Aesthetic: '',
-          Asthetic_Routine: '',
-          Hairdressing_Routine: ''
+          dni: data.dni,
+          name: data.name,
+          surname: data.surname,
+          email: data.email,
+          phone: data.phone,
+          birth_date: data.birth_date,
+          more_info: '',
+          life_style: '',
+          background_health: '',
+          background_aesthetic: '',
+          asthetic_routine: '',
+          hairdressing_routine: ''
         })
       );
     } else {
@@ -117,17 +117,17 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-1">
-          <Label className="form-label" for="DNI">
+          <Label className="form-label" for="dni">
             DNI <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="DNI"
+            name="dni"
             control={control}
             render={({ field }) => (
               <Input
-                id="DNI"
+                id="dni"
                 placeholder="31000000Y"
-                invalid={errors.Name && true}
+                invalid={errors.dni && true}
                 {...field}
               />
             )}
@@ -144,42 +144,42 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
               <Input
                 id="Name"
                 placeholder="Pedro"
-                invalid={errors.Name && true}
+                invalid={errors.name && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="Surname">
+          <Label className="form-label" for="surname">
             Apellido <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="Surname"
+            name="surname"
             control={control}
             render={({ field }) => (
               <Input
-                id="Surname"
+                id="surname"
                 placeholder="Torres"
-                invalid={errors.Surname && true}
+                invalid={errors.surname && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="Email">
-            Email <span className="text-danger">*</span>
+          <Label className="form-label" for="email">
+            email <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="Email"
+            name="email"
             control={control}
             render={({ field }) => (
               <Input
                 type="email"
-                id="Email"
+                id="email"
                 placeholder="nombre@gmail.com"
-                invalid={errors.Email && true}
+                invalid={errors.email && true}
                 {...field}
               />
             )}
@@ -190,18 +190,18 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
         </div>
 
         <div className="mb-1">
-          <Label className="form-label" for="Phone">
+          <Label className="form-label" for="phone">
             Teléfono <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="Phone"
+            name="phone"
             control={control}
             render={({ field }) => (
               <Input
-                id="Phone"
+                id="phone"
                 type='number'
                 placeholder="681 681 681"
-                invalid={errors.Phone && true}
+                invalid={errors.phone && true}
                 {...field}
               />
             )}

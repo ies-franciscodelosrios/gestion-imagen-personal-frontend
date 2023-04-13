@@ -90,7 +90,7 @@ const iconOptions = [
     ]
   },
   {
-    label: 'Others',
+    label: 'others',
     options: [
       { value: 'figma', label: 'Figma', icon: Figma },
       { value: 'chrome', label: 'Chrome', icon: Chrome },
