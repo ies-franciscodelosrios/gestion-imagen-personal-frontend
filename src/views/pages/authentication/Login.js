@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin';
-import { ApiLogin } from '../../../services/api';
+import { ApiLogin, getStadistics } from '../../../services/api';
 import { setToken, getToken } from '../../../services/UseToken';
 import { getAllUserData } from '../../../services/api';
 // ** Third Party Components
@@ -116,7 +116,6 @@ const Login = () => {
                 rol : getrol(promis.data.data.rol),
                 fullname : ''.concat(promis.data.data.name,' ', promis.data.data.surname)
               };
-              console.log(promis.data);
               dispatch(handleLogin(data));
               navigate(getHomeRouteForLoggedInUser(promis.data.data.rol));
               toast((t) => (
@@ -126,6 +125,10 @@ const Login = () => {
                   name={data.fullname || 'Sonia Torres'}
                 />
               ));
+            });
+            getStadistics().then(data => {
+              data.data.data.date = Date.now();
+              localStorage.setItem('stadistics', JSON.stringify(data.data.data));
             });
           })
           .catch((err) => {
