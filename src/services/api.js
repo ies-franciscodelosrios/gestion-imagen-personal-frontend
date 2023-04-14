@@ -36,6 +36,20 @@ export async function ApiLogout(email, password) {
   });
 }
 
+/**
+ * Http Request to get stadistics from database
+ * @returns list with all stadistics
+ */
+export const getStadistics = async () => {
+  return await ApiConnect.get('client/stats', {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
 /* Clients */
 /* ----------------------------------------------------------------------------------------------------------------------------------------- */
 /**
