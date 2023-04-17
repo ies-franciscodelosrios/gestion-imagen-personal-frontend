@@ -40,9 +40,9 @@ export const updateClient = createAsyncThunk('appClients/updateClient', async up
   return updatedClient
 })
 
-export const addClient = createAsyncThunk('appClients/addClient', async (user, { dispatch, getState }) => {
-  await AddClient(user)
-  const response = await getAllClientsData().then(result => {toast.success('Correctamente Guardado!');return result.data.data}).catch(toast.error('Error al añadir cliente!')); 
+export const addClient = createAsyncThunk('appClients/addClient', async (user) => {
+  await AddClient(user).then(() => {toast.success('Correctamente Guardado!')})
+  const response = await getAllClientsData().then(result => {return result.data.data}).catch(); 
   return response
 })
 

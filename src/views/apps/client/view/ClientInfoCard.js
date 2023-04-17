@@ -104,7 +104,7 @@ const ClientInfoCard = () => {
     updatedClient.name = data.name;
     updatedClient.surname = data.surname;
     updatedClient.email = data.email;
-    updatedClient.DNI = data.DNI;
+    updatedClient.dni = data.dni;
     updatedClient.phone = data.phone;
     if (Object.values(data).every((field) => field.toString().length > 0)) {
       console.log(updatedClient.id);
@@ -191,7 +191,7 @@ const ClientInfoCard = () => {
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">DNI: </span>
-                  <span>{selectedClient.DNI}</span>
+                  <span>{selectedClient.dni}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Email: </span>
@@ -297,16 +297,16 @@ const ClientInfoCard = () => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="DNI">
+                <Label className="form-label" for="dni">
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.DNI}
+                  defaultValue={selectedClient.dni}
                   control={control}
-                  id="DNI"
-                  name="DNI"
+                  id="dni"
+                  name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="DNI" placeholder="31000000C" />
+                    <Input {...field} id="dni" placeholder="31000000C" />
                   )}
                 />
               </Col>

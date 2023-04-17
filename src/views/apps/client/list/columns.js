@@ -66,7 +66,7 @@ export const columns = [
     )
   },
   {
-    name: 'DNI',
+    name: 'dni',
     sortable: true,
     minWidth: '80px',
     sortField: 'dni',

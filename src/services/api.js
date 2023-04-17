@@ -107,20 +107,7 @@ export const updateClientBy = async (user) => {
 export const AddClient = async (user) => {
   return await ApiConnect.post(
     `client`,
-    {
-      dni: user.dni,
-      name: user.name,
-      surname: user.surname,
-      birth_date: user.BirthDate,
-      phone: user.phone,
-      email: user.eamil,
-      more_info: ' ',
-      life_style: ' ',
-      background_health: ' ',
-      background_aesthetic: ' ',
-      asthetic_routine: ' ',
-      hairdressing_routine: ' ',
-    },
+    {...user },
     {
       headers: {
         'Content-Type': 'application/json',
