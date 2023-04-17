@@ -64,12 +64,11 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
 
   // ** Function to handle form submit
   const onSubmit = (data) => {
-    data.BirthDate = BirthPicker.toISOString().split('T')[0];
+    data.birth_date = BirthPicker.toISOString().split('T')[0];
     //data.cycle = data.cycle.value;
     setData(data);
     if (checkIsValid(data)) {
       toggleSidebar();
-      console.log(data);
       dispatch(
         addClient({
           dni: data.dni,
@@ -78,16 +77,15 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
           email: data.email,
           phone: data.phone,
           birth_date: data.birth_date,
-          more_info: '',
-          life_style: '',
-          background_health: '',
-          background_aesthetic: '',
-          asthetic_routine: '',
-          hairdressing_routine: ''
+          more_info: ' ',
+          life_style: ' ',
+          background_health: ' ',
+          background_aesthetic: ' ',
+          asthetic_routine: ' ',
+          hairdressing_routine: ' '
         })
       );
     } else {
-      console.log('not correct');
       for (const key in data) {
         if (data[key] === null) {
           setError('country', {
@@ -96,7 +94,6 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
         }
       }
     }
-    console.log(onSubmit)
   };
 
   const handleSidebarClosed = () => {
@@ -138,11 +135,11 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
             Nombre <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="Name"
+            name="name"
             control={control}
             render={({ field }) => (
               <Input
-                id="Name"
+                id="name"
                 placeholder="Pedro"
                 invalid={errors.name && true}
                 {...field}
@@ -169,7 +166,7 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="email">
-            email <span className="text-danger">*</span>
+            Email <span className="text-danger">*</span>
           </Label>
           <Controller
             name="email"
@@ -208,14 +205,14 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="BirthDate">
+          <Label className="form-label" for="birth_date">
             Fecha de Nacimiento
           </Label>
           <Flatpickr
             required
             locale="es"
-            id="BirthDate"
-            name="BirthDate"
+            id="birth_date"
+            name="birth_date"
             className="form-control"
             onChange={(date) => setBirthPicker(date[0])}
             value={BirthPicker}

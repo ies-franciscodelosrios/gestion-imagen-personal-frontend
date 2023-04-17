@@ -111,7 +111,7 @@ const Import = (props) => {
           dataArr.map((user) => {
             return {
             dni: user["DNI/Pasaporte"],
-            Name: user["Alumno/a"].split(',')[1],
+            name: user["Alumno/a"].split(',')[1],
             surname: user["Alumno/a"].split(',')[0],
             email: user["Correo electrónico personal alumno/a"],
             phone: user["Teléfono personal alumno/a"],

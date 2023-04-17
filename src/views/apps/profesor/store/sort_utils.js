@@ -200,11 +200,11 @@ export function sort_appointments(params, response) {
     switch (params.sortColumn) {
       case 'id':
         return response.sort(compareByIdApo);
-      case 'Date':
+      case 'date':
         return response.sort(compareByFecha);
       case 'dni_client':
         return response.sort(compareByDNI_Cliente);
-      case 'Dni_Student':
+      case 'dni_Student':
         return response.sort(compareByDNI_Alumno);
       case 'Treatment':
         return response.sort(compareByTratamiento);
@@ -229,7 +229,7 @@ export function sort_appointments(params, response) {
         return response.sort(descompareByFecha);
       case 'dni_client':
         return response.sort(descompareByDNI_Cliente);
-      case 'Dni_Student':
+      case 'dni_Student':
         return response.sort(descompareByDNI_Alumno);
       case 'Treatment':
         return response.sort(descompareByTratamiento);
@@ -315,20 +315,20 @@ export function sort_appointments(params, response) {
   // Ordenar por dni de alumno
   //----------------------------------------------------------------------
   function compareByDNI_Alumno(a, b) {
-    if (a.Dni_Student < b.Dni_Student) {
+    if (a.dni_Student < b.dni_Student) {
       return -1;
     }
-    if (a.Dni_Student > b.Dni_Student) {
+    if (a.dni_Student > b.dni_Student) {
       return 1;
     }
     return 0;
   }
 
   function descompareByDNI_Alumno(a, b) {
-    if (b.Dni_Student < a.Dni_Student) {
+    if (b.dni_Student < a.dni_Student) {
       return -1;
     }
-    if (b.Dni_Student > a.Dni_Student) {
+    if (b.dni_Student > a.dni_Student) {
       return 1;
     }
     return 0;

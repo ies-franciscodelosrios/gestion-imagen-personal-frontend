@@ -112,15 +112,15 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-1">
-          <Label className="form-label" for="DNI">
+          <Label className="form-label" for="dni">
             DNI <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="DNI"
+            name="dni"
             control={control}
             render={({ field }) => (
               <Input
-                id="DNI"
+                id="dni"
                 placeholder="31000000Y"
                 invalid={errors.name && true}
                 {...field}

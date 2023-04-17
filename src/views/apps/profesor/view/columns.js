@@ -62,7 +62,7 @@ export const columns = [
     minWidth: '200px',
     name: 'Dni estudiante',
     sortable: true,
-    sortField: 'Dni_Student',
+    sortField: 'dni_Student',
     selector: row => row.dni_Student,
     cell: row => row.dni_Student
   },
