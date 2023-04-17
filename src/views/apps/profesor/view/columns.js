@@ -55,16 +55,16 @@ export const columns = [
     minWidth: '200px',
     name: 'Dni cliente',
     sortable: true,
-    sortField: 'DNI_client',
-    selector: row => row.DNI_client,
-    cell: row => row.DNI_client
+    sortField: 'dni_client',
+    selector: row => row.dni_client,
+    cell: row => row.dni_client
   }, {
     minWidth: '200px',
     name: 'Dni estudiante',
     sortable: true,
-    sortField: 'Dni_Student',
-    selector: row => row.DNI_Student,
-    cell: row => row.DNI_Student
+    sortField: 'dni_Student',
+    selector: row => row.dni_Student,
+    cell: row => row.dni_Student
   },
   {
     minWidth: '200px',

@@ -97,28 +97,6 @@ export const updateEvent = createAsyncThunk(
   }
 );
 
-// export const updateFilter = createAsyncThunk(
-//   'appCalendar/updateFilter',
-
-//   async (filter, { dispatch, getState }) => {
-//     if (getState().calendar.selectedCalendars.includes(filter)) {
-
-//       await dispatch(
-//         fetchEvents(
-//           getState().calendar.selectedCalendars.filter((i) => i !== filter)
-//         )
-//       );
-//     } else {
-
-//       await dispatch(
-//         fetchEvents([...getState().calendar.selectedCalendars, filter])
-//       );
-//     }
-//     return filter;
-//   }
-// );
-
-
 
 export const updateFilter = createAsyncThunk(
   'appCalendar/updateFilter',

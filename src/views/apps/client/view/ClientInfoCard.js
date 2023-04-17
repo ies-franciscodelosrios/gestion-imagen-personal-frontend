@@ -69,11 +69,11 @@ const ClientInfoCard = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      Name: selectedClient.Name,
-      Surname: selectedClient.Surname,
-      Email: selectedClient.Email,
-      DNI: selectedClient.DNI,
-      Phone: selectedClient.Phone,
+      name: selectedClient.name,
+      surname: selectedClient.surname,
+      email: selectedClient.email,
+      dni: selectedClient.dni,
+      phone: selectedClient.phone,
     },
   });
 
@@ -84,7 +84,7 @@ const ClientInfoCard = () => {
         initials
         color={'light-primary'}
         className="rounded mt-3 mb-2"
-        content={selectedClient.Name}
+        content={selectedClient.name}
         contentStyles={{
           borderRadius: 0,
           fontSize: 'calc(48px)',
@@ -101,11 +101,11 @@ const ClientInfoCard = () => {
 
   const onSubmit = (data) => {
     const updatedClient = {...store.selectedClient};
-    updatedClient.Name = data.Name;
-    updatedClient.Surname = data.Surname;
-    updatedClient.Email = data.Email;
-    updatedClient.DNI = data.DNI;
-    updatedClient.Phone = data.Phone;
+    updatedClient.name = data.name;
+    updatedClient.surname = data.surname;
+    updatedClient.email = data.email;
+    updatedClient.dni = data.dni;
+    updatedClient.phone = data.phone;
     if (Object.values(data).every((field) => field.toString().length > 0)) {
       console.log(updatedClient.id);
       dispatch(updateClient(updatedClient));
@@ -123,11 +123,11 @@ const ClientInfoCard = () => {
 
   const handleReset = () => {
     reset({
-      Name: selectedClient.Name,
-      Surname: selectedClient.Surname,
-      Email: selectedClient.Email,
-      DNI: selectedClient.DNI,
-      Phone: selectedClient.Phone,
+      name: selectedClient.name,
+      surname: selectedClient.surname,
+      email: selectedClient.email,
+      dni: selectedClient.dni,
+      phone: selectedClient.phone,
     });
   };
 
@@ -142,15 +142,15 @@ const ClientInfoCard = () => {
                 <div className="user-info">
                   <h4>
                     {selectedClient !== null
-                      ? selectedClient.Name.concat(' ' + selectedClient.Surname)
+                      ? selectedClient.name.concat(' ' + selectedClient.surname)
                       : 'Eleanor Aguilar'}
                   </h4>
                   {selectedClient !== null ? (
                     <Badge
-                      color={roleColors[selectedClient.Rol]}
+                      color={roleColors[selectedClient.rol]}
                       className="text-capitalize"
                     >
-                      {selectedClient.Rol}
+                      {selectedClient.rol}
                     </Badge>
                   ) : null}
                 </div>
@@ -183,23 +183,23 @@ const ClientInfoCard = () => {
               <ul className="list-unstyled">
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Nombre: </span>
-                  <span>{selectedClient.Name}</span>
+                  <span>{selectedClient.name}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Apellido: </span>
-                  <span>{selectedClient.Surname}</span>
+                  <span>{selectedClient.surname}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">DNI: </span>
-                  <span>{selectedClient.DNI}</span>
+                  <span>{selectedClient.dni}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Email: </span>
-                  <span>{selectedClient.Email}</span>
+                  <span>{selectedClient.email}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Año Nacimiento: </span>
-                  <span>{selectedClient.Birth_Date}</span>
+                  <span>{selectedClient.birth_date}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Telefono: </span>
@@ -207,7 +207,7 @@ const ClientInfoCard = () => {
                     className="text-capitalize"
                     color={statusColors['active']}
                   >
-                    {selectedClient.Phone}
+                    {selectedClient.phone}
                   </Badge>
                 </li>
               </ul>
@@ -243,7 +243,7 @@ const ClientInfoCard = () => {
                   Nombre
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.Name}
+                  defaultValue={selectedClient.name}
                   control={control}
                   id="Name"
                   name="Name"
@@ -258,18 +258,18 @@ const ClientInfoCard = () => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="Surname">
+                <Label className="form-label" for="surname">
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.Surname}
+                  defaultValue={selectedClient.surname}
                   control={control}
-                  id="Surname"
-                  name="Surname"
+                  id="surname"
+                  name="surname"
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id="Surname"
+                      id="surname"
                       placeholder="Torres"
                       invalid={errors.lastName && true}
                     />
@@ -277,54 +277,54 @@ const ClientInfoCard = () => {
                 />
               </Col>
               <Col xs={12}>
-                <Label className="form-label" for="Email">
+                <Label className="form-label" for="email">
                   Email
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.Email}
+                  defaultValue={selectedClient.email}
                   control={control}
-                  id="Email"
-                  name="Email"
+                  id="email"
+                  name="email"
                   render={({ field }) => (
                     <Input
                       {...field}
                       type="email"
-                      id="Email"
+                      id="email"
                       placeholder="nombre@gmail.com"
-                      invalid={errors.Email && true}
+                      invalid={errors.email && true}
                     />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="DNI">
+                <Label className="form-label" for="dni">
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.DNI}
+                  defaultValue={selectedClient.dni}
                   control={control}
-                  id="DNI"
-                  name="DNI"
+                  id="dni"
+                  name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="DNI" placeholder="31000000C" />
+                    <Input {...field} id="dni" placeholder="31000000C" />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="Phone">
+                <Label className="form-label" for="phone">
                   Teléfono
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.Phone}
+                  defaultValue={selectedClient.phone}
                   control={control}
                   type='number'
-                  id="Phone"
-                  name="Phone"
+                  id="phone"
+                  name="phone"
                   render={({ field }) => (
                     <Input
                       {...field}
                       type="number"
-                      id="Phone"
+                      id="phone"
                       placeholder="609 933 442"
                     />
                   )}

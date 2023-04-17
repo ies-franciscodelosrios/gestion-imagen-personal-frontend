@@ -110,18 +110,18 @@ const Import = (props) => {
         Object.assign(dataArrApi,
           dataArr.map((user) => {
             return {
-            DNI: user["DNI/Pasaporte"],
-            Name: user["Alumno/a"].split(',')[1],
-            Surname: user["Alumno/a"].split(',')[0],
-            Email: user["Correo electrónico personal alumno/a"],
-            Phone: user["Teléfono personal alumno/a"],
-            BirthDate: '2000-01-01',
-            More_Info: ' ',
-            Life_Style: ' ',
-            Background_Health: ' ',
-            Background_Aesthetic: ' ',
-            Asthetic_Routine: ' ',
-            Hairdressing_Routine: ' '
+            dni: user["DNI/Pasaporte"],
+            name: user["Alumno/a"].split(',')[1],
+            surname: user["Alumno/a"].split(',')[0],
+            email: user["Correo electrónico personal alumno/a"],
+            phone: user["Teléfono personal alumno/a"],
+            birth_date: '2000-01-01',
+            more_info: ' ',
+            life_style: ' ',
+            background_health: ' ',
+            background_aesthetic: ' ',
+            asthetic_routine: ' ',
+            hairdressing_routine: ' '
           };
         }));  
         break;
