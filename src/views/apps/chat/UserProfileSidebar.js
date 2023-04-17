@@ -27,7 +27,7 @@ const UserProfileSidebar = props => {
             imgHeight='70'
             imgWidth='70'
           />
-          <h4 className='chat-user-name'>{user.fullName}</h4>
+          <h4 className='chat-user-name'>{user.fullname}</h4>
           <span className='user-post'>{user.role}</span>
         </div>
       </header>

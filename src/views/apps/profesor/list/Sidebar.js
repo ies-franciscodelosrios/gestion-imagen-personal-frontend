@@ -23,11 +23,11 @@ import { addProfesor } from '../store'
 import { useDispatch } from 'react-redux'
 
 const defaultValues = {
-  DNI: '',
+  dni: '',
   Name: '',
-  Surname: '',
+  surname: '',
   email: '',
-  Cycle: ''
+  cycle: ''
 }
 
 const cycleOptions = [
@@ -62,24 +62,24 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
 
   // ** Function to handle form submit
   const onSubmit = (data) => {
-    data.Course_year = BirthPicker.toISOString().split('T')[0];
-    //data.Cycle = data.Cycle.value;
-     console.log(data.Course_year)
+    data.course_year = BirthPicker.toISOString().split('T')[0];
+    //data.cycle = data.cycle.value;
+     console.log(data.course_year)
     setData(data)
     if (checkIsValid(data)) {
       toggleSidebar()
       console.log(data);
       dispatch(
         addProfesor({
-          DNI: data.DNI,
-          Rol: data.Rol,
-          Course_year: data.Course_year,
-          Cycle: data.Cycle.label,
-          Name: data.Name,
-          Surname: data.Surname,
+          dni: data.dni,
+          rol: data.rol,
+          course_year: data.course_year,
+          cycle: data.cycle.label,
+          name: data.name,
+          surname: data.surname,
           email: data.email,
           password: data.password,
-          Others: ' '
+          others: ' '
         })
       );
     } else {
@@ -112,17 +112,17 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-1">
-          <Label className="form-label" for="DNI">
+          <Label className="form-label" for="dni">
             DNI <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="DNI"
+            name="dni"
             control={control}
             render={({ field }) => (
               <Input
-                id="DNI"
+                id="dni"
                 placeholder="31000000Y"
-                invalid={errors.Name && true}
+                invalid={errors.name && true}
                 {...field}
               />
             )}
@@ -139,35 +139,35 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
               <Input
                 id="Name"
                 placeholder="Pedro"
-                invalid={errors.Name && true}
+                invalid={errors.name && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="Surname">
+          <Label className="form-label" for="surname">
             Apellido <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="Surname"
+            name="surname"
             control={control}
             render={({ field }) => (
               <Input
-                id="Surname"
+                id="surname"
                 placeholder="Torres"
-                invalid={errors.Surname && true}
+                invalid={errors.surname && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="Cycle">
+          <Label className="form-label" for="cycle">
             Ciclo <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="Cycle"
+            name="cycle"
             control={control}
             render={({ field }) => (
               <Select
@@ -175,9 +175,9 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
                 theme={selectThemeColors}
                 className='react-select'
                 classNamePrefix='select'
-                id="Cycle"
+                id="cycle"
                 placeholder="Elige tu ciclo"
-                invalid={errors.Cycle && true}
+                invalid={errors.cycle && true}
                 {...field}
               />
 

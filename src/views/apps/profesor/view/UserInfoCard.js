@@ -68,10 +68,10 @@ const UserInfoCard = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      Name: selectedUser.Name,
-      Surname: selectedUser.Surname,
+      name: selectedUser.name,
+      surname: selectedUser.surname,
       email: selectedUser.email,
-      DNI: selectedUser.DNI,
+      dni: selectedUser.dni,
     },
   });
 
@@ -82,7 +82,7 @@ const UserInfoCard = () => {
         initials
         color={'light-primary'}
         className="rounded mt-3 mb-2"
-        content={selectedUser.Name}
+        content={selectedUser.name}
         contentStyles={{
           borderRadius: 0,
           fontSize: 'calc(48px)',
@@ -103,12 +103,12 @@ const UserInfoCard = () => {
 
     const updatedTeacher = {...store.selectedProfesor};
     console.log(updatedTeacher)
-    updatedTeacher.Name = data.Name;
-    updatedTeacher.Surname = data.Surname;
+    updatedTeacher.name = data.name;
+    updatedTeacher.surname = data.surname;
     updatedTeacher.email = data.email;
-    updatedTeacher.DNI = data.DNI;
-    updatedTeacher.Course_year = data.Course_year;
-    updatedTeacher.Cycle = data.Cycle;
+    updatedTeacher.dni = data.dni;
+    updatedTeacher.course_year = data.course_year;
+    updatedTeacher.cycle = data.cycle;
 
 
     if (Object.values(updatedTeacher).every((field) => field.toString().length > 0)) {
@@ -128,12 +128,12 @@ const UserInfoCard = () => {
 
   const handleReset = () => {
     reset({
-      Name: selectedUser.Name,
-      Surname: selectedUser.Surname,
+      name: selectedUser.name,
+      surname: selectedUser.surname,
       email: selectedUser.email,
-      DNI: selectedUser.DNI,
-      Cycle:selectedUser.Cycle,
-      Course_year:selectedUser.Course_year,
+      dni: selectedUser.dni,
+      cycle:selectedUser.cycle,
+      course_year:selectedUser.course_year,
     });
   };
 
@@ -148,15 +148,15 @@ const UserInfoCard = () => {
                 <div className="user-info">
                   <h4>
                     {selectedUser !== null
-                      ? selectedUser.Name.concat(' ' + selectedUser.Surname)
+                      ? selectedUser.name.concat(' ' + selectedUser.surname)
                       : 'Eleanor Aguilar'}
                   </h4>
                 {/*   {selectedUser !== null ? (
                     <Badge
-                      color={roleColors[selectedUser.Rol]}
+                      color={roleColors[selectedUser.rol]}
                       className="text-capitalize"
                     >
-                      {rolChanger( selectedUser.Rol)}
+                      {rolChanger( selectedUser.rol)}
                     </Badge>
                   ) : null} */}
                 </div>
@@ -181,15 +181,15 @@ const UserInfoCard = () => {
               <ul className="list-unstyled">
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Nombre: </span>
-                  <span>{selectedUser.Name}</span>
+                  <span>{selectedUser.name}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Apellido: </span>
-                  <span>{selectedUser.Surname}</span>
+                  <span>{selectedUser.surname}</span>
                 </li>
                 <li className="mb-75">
-                  <span className="fw-bolder me-25">DNI: </span>
-                  <span>{selectedUser.DNI}</span>
+                  <span className="fw-bolder me-25">dni: </span>
+                  <span>{selectedUser.dni}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">email: </span>
@@ -197,7 +197,7 @@ const UserInfoCard = () => {
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Curso: </span>
-                  <span>{selectedUser.Course_year}</span>
+                  <span>{selectedUser.course_year}</span>
                 </li>
                
               </ul>
@@ -246,18 +246,18 @@ const UserInfoCard = () => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="Surname">
+                <Label className="form-label" for="surname">
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.Surname}
+                  defaultValue={selectedUser.surname}
                   control={control}
-                  id="Surname"
-                  name="Surname"
+                  id="surname"
+                  name="surname"
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id="Surname"
+                      id="surname"
                       placeholder="Torres"
                       invalid={errors.lastName && true}
                     />
@@ -285,31 +285,31 @@ const UserInfoCard = () => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="DNI">
+                <Label className="form-label" for="dni">
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.DNI}
+                  defaultValue={selectedUser.dni}
                   control={control}
-                  id="DNI"
-                  name="DNI"
+                  id="dni"
+                  name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="DNI" placeholder="31000000C" />
+                    <Input {...field} id="dni" placeholder="31000000C" />
                   )}
                 />
               </Col>
          
               <Col md={6} xs={12}>
-                <Label className="form-label" for="Course_year">
+                <Label className="form-label" for="course_year">
                   Curso
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.Course_year}
+                  defaultValue={selectedUser.course_year}
                   control={control}
-                  id="Course_year"
-                  name="Course_year"
+                  id="course_year"
+                  name="course_year"
                   render={({ field }) => (
-                    <Input {...field} id="Course_year" placeholder="2023-02-23" />
+                    <Input {...field} id="course_year" placeholder="2023-02-23" />
                   )}
                 />
               </Col>

@@ -9,6 +9,12 @@ const ApiConnect = Axios.create({
   },
 });
 
+/**
+ * Http Request to login.
+ * @param {*} email the email for the query.
+ * @param {*} password the password for the query.
+ * @returns return the token for the request.
+ */
 export async function ApiLogin(email, password) {
   return await ApiConnect.post('login', {
     email,
@@ -17,8 +23,25 @@ export async function ApiLogin(email, password) {
   });
 }
 
-export const getAllUserData = async (loginEmail) => {
-  return await ApiConnect.get(`userByCorreo/${loginEmail}`, {
+/**
+ * Http Request to logout
+ * @param {*} email the email for the query.
+ * @param {*} password the password for the query.
+ * @returns return response 200.
+ */
+export async function ApiLogout(email, password) {
+  return await ApiConnect.get('logout', {
+    email,
+    password
+  });
+}
+
+/**
+ * Http Request to get stadistics from database
+ * @returns list with all stadistics
+ */
+export const getStadistics = async () => {
+  return await ApiConnect.get('client/stats', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -26,15 +49,6 @@ export const getAllUserData = async (loginEmail) => {
     },
   });
 };
-export async function ApiGetUser() {
-  return await ApiConnect.get('users', {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-}
 
 /* Clients */
 /* ----------------------------------------------------------------------------------------------------------------------------------------- */
@@ -58,7 +72,8 @@ export const getAllClientsData = async () => {
  * @returns user data
  */
 export const getClientById = async (id) => {
-  return await ApiConnect.get(`client/id/${id}`, {
+  return await ApiConnect.get(`client/id`, {
+    params:{id: id},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -95,7 +110,7 @@ export const getClientByData = async (id) => {
  */
 export const updateClientBy = async (user) => {
   return await ApiConnect.put(
-    `client/${user.id}`,user,
+    `client`,user,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -113,20 +128,7 @@ export const updateClientBy = async (user) => {
 export const AddClient = async (user) => {
   return await ApiConnect.post(
     `client`,
-    {
-      DNI: user.DNI,
-      Name: user.Name,
-      Surname: user.Surname,
-      Birth_Date: user.BirthDate,
-      Phone: user.Phone,
-      Email: user.Email,
-      More_Info: ' ',
-      Life_Style: ' ',
-      Background_Health: ' ',
-      Background_Aesthetic: ' ',
-      Asthetic_Routine: ' ',
-      Hairdressing_Routine: ' ',
-    },
+    {...user },
     {
       headers: {
         'Content-Type': 'application/json',
@@ -143,7 +145,8 @@ export const AddClient = async (user) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const ApiDelClient = async (id) => {
-  return await ApiConnect.delete(`client/${id}`, {
+  return await ApiConnect.delete(`client/id`, {
+    params:{id: id},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -152,15 +155,7 @@ export const ApiDelClient = async (id) => {
   });
 };
 
-export async function ApiGetFaq() {
-  return await ApiConnect.get('questions', {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-}
+
 
 /* 
     Teacher
@@ -178,10 +173,41 @@ export const getAllProfesorData = async () => {
 
 
 
-/* Students */
+/* USERS */
 /* ----------------------------------------------------------------------------------------------------------------------------------------- */
+
 /**
- * Http Request to get all students from database
+ * Http Request to get a user by the email.
+ * @param {*} logineamil email to search the user.
+ * @returns usuario con todos los datos.
+ */
+export const getAllUserData = async (logineamil) => {
+  return await ApiConnect.get(`userbyemail`, {
+    params: {email: logineamil},
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to get all Users from database
+ * @returns list with all users
+ */
+export async function ApiGetUser() {
+  return await ApiConnect.get('users', {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+}
+
+/**
+ * Http Request to get all Users from database
  * @returns list with all students
  */
 export const getAllStudentsData = async () => {
@@ -195,12 +221,13 @@ export const getAllStudentsData = async () => {
 };
 
 /**
- * Http Request to get a student by id
- * @param {*} id to identify the student
+ * Http Request to get a Users by id
+ * @param {*} id to identify the Users
  * @returns user data
  */
-export const getUserById= async (id) => {
-  return await ApiConnect.get(`user/${id}`, {
+export const getUserById = async (id) => {
+  return await ApiConnect.get(`user/id`, {
+    params:{id: id},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -230,7 +257,7 @@ export const getUserByDNI= async (id) => {
  */
 export const updateUserBy = async (user) => {
   return await ApiConnect.put(
-    `user/${user.id}`,user,
+    `user`,user,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -249,15 +276,15 @@ export const AddStudent = async (user) => {
   return await ApiConnect.post(
     `user/addstudent`,
     {
-      DNI: user.DNI,
-      Rol: user.Rol,
-      Course_year: user.Course_year,
-      Cycle: user.Cycle,
-      Name: user.Name,
-      Surname: user.Surname,
+      dni: user.dni,
+      rol: user.rol,
+      course_year: user.course_year,
+      cycle: user.cycle,
+      name: user.name,
+      surname: user.surname,
       email: user.email,
       password: user.password,
-      Others: ' ',
+      others: ' ',
     },
     {
       headers: {
@@ -269,19 +296,23 @@ export const AddStudent = async (user) => {
   );
 };
 
+/**
+ * Http Request to add a new teacher
+ * @returns response 200 if ok
+ */
 export const AddProfesor = async (user) => {
   return await ApiConnect.post(
     `user/addprofessor`,
     {
-      DNI: user.DNI,
-      Rol: user.Rol,
-      Course_year: user.Course_year,
-      Cycle: user.Cycle,
-      Name: user.Name,
-      Surname: user.Surname,
+      dni: user.dni,
+      rol: user.rol,
+      course_year: user.course_year,
+      cycle: user.cycle,
+      name: user.name,
+      surname: user.surname,
       email: user.email,
       password: user.password,
-      Others: ' ',
+      others: ' ',
     },
     {
       headers: {
@@ -298,7 +329,8 @@ export const AddProfesor = async (user) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const ApiDelUser = async (id) => {
-  return await ApiConnect.delete(`user/${id}`, {
+  return await ApiConnect.delete(`user/id`, {
+    params:{id: id},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -321,8 +353,8 @@ export const AddAppointment = async (event) => {
       Date: event.dateappo,
       Treatment: event.calendar,
       Protocol: event.title,
-      DNI_client: event.dnicliente,
-      DNI_Student: event.dnialumno,
+      dni_client: event.dnicliente,
+      dni_Student: event.dnialumno,
       Consultancy: event.desc,
     },
     {
@@ -355,7 +387,8 @@ export const getAllAppointments = async () => {
  * @returns appointment data
  */
 export const getAppointmentbyId = async (id) => {
-  return await ApiConnect.get(`appointment/${id}`, {
+  return await ApiConnect.get(`appointment/id`, {
+    params:{id: id},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',

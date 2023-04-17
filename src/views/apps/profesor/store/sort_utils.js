@@ -30,11 +30,11 @@ export function sort_data(params, response) {
         return response.sort(compareById);
       case 'Name':
         return response.sort(compareByName);
-      case 'DNI':
+      case 'dni':
         return response.sort(compareByDNI);
-      case 'Email':
+      case 'email':
         return response.sort(compareByEmail);
-      case 'Cycle':
+      case 'cycle':
         return response.sort(compareByCycle);
       default:
         return response;
@@ -45,11 +45,11 @@ export function sort_data(params, response) {
         return response.sort(descompareById);
       case 'Name':
         return response.sort(descompareByName);
-      case 'DNI':
+      case 'dni':
         return response.sort(descompareByDNI);
-      case 'Email':
+      case 'email':
         return response.sort(descompareByEmail);
-      case 'Cycle':
+      case 'cycle':
         return response.sort(descompareByCycle);
       default:
         return response;
@@ -70,19 +70,19 @@ function descompareById(a, b) {
 // Ordenar por DNI
 //----------------------------------------------------------------------
 function compareByDNI(a, b) {
-  if (a.DNI < b.DNI) {
+  if (a.dni < b.dni) {
     return -1;
   }
-  if (a.DNI > b.DNI) {
+  if (a.dni > b.dni) {
     return 1;
   }
   return 0;
 }
 function descompareByDNI(a, b) {
-  if (b.DNI < a.DNI) {
+  if (b.dni < a.dni) {
     return -1;
   }
-  if (b.DNI > a.DNI) {
+  if (b.dni > a.dni) {
     return 1;
   }
   return 0;
@@ -92,19 +92,19 @@ function descompareByDNI(a, b) {
 // Ordenar por Nombre
 //----------------------------------------------------------------------
 function compareByName(a, b) {
-  if (a.Name < b.Name) {
+  if (a.name < b.name) {
     return -1;
   }
-  if (a.Name > b.Name) {
+  if (a.name > b.name) {
     return 1;
   }
   return 0;
 }
 function descompareByName(a, b) {
-  if (b.Name < a.Name) {
+  if (b.name < a.name) {
     return -1;
   }
-  if (b.Name > a.Name) {
+  if (b.name > a.name) {
     return 1;
   }
   return 0;
@@ -114,20 +114,20 @@ function descompareByName(a, b) {
 // Ordenar por Apellido
 //----------------------------------------------------------------------
 function compareBySurname(a, b) {
-  if (a.Surname < b.Surname) {
+  if (a.surname < b.surname) {
     return -1;
   }
-  if (a.Surname > b.Surname) {
+  if (a.surname > b.surname) {
     return 1;
   }
   return 0;
 }
 
 function descompareBySurname(a, b) {
-  if (b.Surname < a.Surname) {
+  if (b.surname < a.surname) {
     return -1;
   }
-  if (b.Surname > a.Surname) {
+  if (b.surname > a.surname) {
     return 1;
   }
   return 0;
@@ -137,19 +137,19 @@ function descompareBySurname(a, b) {
 // Ordenar por Fecha de Nacimiento
 //----------------------------------------------------------------------
 function compareByCycle(a, b) {
-  if (a.Cycle < b.Cycle) {
+  if (a.cycle < b.cycle) {
     return -1;
   }
-  if (a.Cycle > b.Cycle) {
+  if (a.cycle > b.cycle) {
     return 1;
   }
   return 0;
 }
 function descompareByCycle(a, b) {
-  if (b.Cycle < a.Cycle) {
+  if (b.cycle < a.cycle) {
     return -1;
   }
-  if (b.Cycle > a.Cycle) {
+  if (b.cycle > a.cycle) {
     return 1;
   }
   return 0;
@@ -203,11 +203,11 @@ export function sort_appointments(params, response) {
     switch (params.sortColumn) {
       case 'id':
         return response.sort(compareByIdApo);
-      case 'Date':
+      case 'date':
         return response.sort(compareByFecha);
-      case 'DNI_client':
+      case 'dni_client':
         return response.sort(compareByDNI_Cliente);
-      case 'Dni_Student':
+      case 'dni_Student':
         return response.sort(compareByDNI_Alumno);
       case 'Treatment':
         return response.sort(compareByTratamiento);
@@ -230,9 +230,9 @@ export function sort_appointments(params, response) {
         return response.sort(descompareByIdApo);
       case 'Date':
         return response.sort(descompareByFecha);
-      case 'DNI_client':
+      case 'dni_client':
         return response.sort(descompareByDNI_Cliente);
-      case 'Dni_Student':
+      case 'dni_Student':
         return response.sort(descompareByDNI_Alumno);
       case 'Treatment':
         return response.sort(descompareByTratamiento);
@@ -296,20 +296,20 @@ export function sort_appointments(params, response) {
   // Ordenar por dni de cliente
   //----------------------------------------------------------------------
   function compareByDNI_Cliente(a, b) {
-    if (a.DNI_client < b.DNI_client) {
+    if (a.dni_client < b.dni_client) {
       return -1;
     }
-    if (a.DNI_client > b.DNI_client) {
+    if (a.dni_client > b.dni_client) {
       return 1;
     }
     return 0;
   }
 
-  function descompareByDNI_Cliente(a, b) {
-    if (b.DNI_client < a.DNI_client) {
+  function descompareBydni_Cliente(a, b) {
+    if (b.dni_client < a.dni_client) {
       return -1;
     }
-    if (b.DNI_client > a.DNI_client) {
+    if (b.dni_client > a.dni_client) {
       return 1;
     }
     return 0;
@@ -318,20 +318,20 @@ export function sort_appointments(params, response) {
   // Ordenar por dni de alumno
   //----------------------------------------------------------------------
   function compareByDNI_Alumno(a, b) {
-    if (a.Dni_Student < b.Dni_Student) {
+    if (a.dni_Student < b.dni_Student) {
       return -1;
     }
-    if (a.Dni_Student > b.Dni_Student) {
+    if (a.dni_Student > b.dni_Student) {
       return 1;
     }
     return 0;
   }
 
   function descompareByDNI_Alumno(a, b) {
-    if (b.Dni_Student < a.Dni_Student) {
+    if (b.dni_Student < a.dni_Student) {
       return -1;
     }
-    if (b.Dni_Student > a.Dni_Student) {
+    if (b.dni_Student > a.dni_Student) {
       return 1;
     }
     return 0;
