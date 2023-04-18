@@ -24,7 +24,7 @@ import { useDispatch } from 'react-redux'
 
 const defaultValues = {
   dni: '',
-  Name: '',
+  name: '',
   surname: '',
   email: '',
   cycle: ''
@@ -129,15 +129,15 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="Name">
+          <Label className="form-label" for="name">
             Nombre <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="Name"
+            name="name"
             control={control}
             render={({ field }) => (
               <Input
-                id="Name"
+                id="name"
                 placeholder="Pedro"
                 invalid={errors.name && true}
                 {...field}

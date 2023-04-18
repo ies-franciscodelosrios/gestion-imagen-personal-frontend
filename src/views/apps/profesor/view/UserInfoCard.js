@@ -227,20 +227,20 @@ const UserInfoCard = () => {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className="gy-1 pt-75">
               <Col md={6} xs={12}>
-                <Label className="form-label" for="Name">
+                <Label className="form-label" for="name">
                   Nombre
                 </Label>
                 <Controller
                   defaultValue=''
                   control={control}
-                  id="Name"
-                  name="Name"
+                  id="name"
+                  name="name"
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id="Name"
+                      id="name"
                       placeholder="Marta"
-                      invalid={errors.firstName && true}
+                      invalid={errors.name && true}
                     />
                   )}
                 />
