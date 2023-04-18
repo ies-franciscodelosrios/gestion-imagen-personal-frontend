@@ -8,8 +8,11 @@ import Avatar from '@components/avatar'
 // ** Reactstrap Imports
 import { Card, CardHeader, CardTitle, CardBody, CardText, Row, Col } from 'reactstrap'
 import { getStadistics } from '../../../../services/api'
+import { useNavigate } from 'react-router-dom'
 
 const StatsCard = ({ cols, stats }) => {
+  const navigate = useNavigate()
+
   const data = [
     {
       title: stats.students ? stats.students : '0',
@@ -72,21 +75,21 @@ const StatsCard = ({ cols, stats }) => {
       </CardBody>
     </Card>
   )
-}
-
-function reloadData(){
-  getStadistics().then(data => {
-    data.data.data.date = Date.now();
-    localStorage.setItem('stadistics', JSON.stringify(data.data.data));
-  })
+  
+  function reloadData(){
+    getStadistics().then(data => {
+      data.data.data.date = Date.now();
+      localStorage.setItem('stadistics', JSON.stringify(data.data.data));
+    });
+    navigate('/dashboard/ecommerce');
 }
 
 function timeSince(date) {
-
+  
   var seconds = Math.floor((new Date() - date) / 1000);
-
+  
   var interval = seconds / 31536000;
-
+  
   if (interval > 1) {
     return Math.floor(interval) + " years";
   }
@@ -107,6 +110,7 @@ function timeSince(date) {
     return Math.floor(interval) + " minutes";
   }
   return Math.floor(seconds) + " seconds";
+}
 }
 
 export default StatsCard
