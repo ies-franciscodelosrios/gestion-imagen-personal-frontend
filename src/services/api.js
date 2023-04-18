@@ -3,6 +3,7 @@ import { getToken } from './UseToken';
 
 const ApiConnect = Axios.create({
   baseURL: 'http://localhost:8000/api/',
+  //baseURL: 'http://iestablero.duckdns.org:8000/api/',
   headers: {
     'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*',
