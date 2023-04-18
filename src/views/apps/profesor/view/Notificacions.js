@@ -56,19 +56,19 @@ const data = [
   {
 
     name: 'Examen Peluqueria',
-    Date: '04/3/2023',
+    date: '04/3/2023',
 
   },
   {
 
 
     name: 'Charla sobre practicas laborales',
-    Date: '10/03/2023',
+    date: '10/03/2023',
   },
   {
 
     name: 'Reunion de profesorado',
-    Date: '08/04/2023',
+    date: '08/04/2023',
   }
 ]
 
@@ -150,7 +150,7 @@ const PaymentMethods = () => {
                     </div>
                     <div className='d-flex flex-column text-start text-lg-end'>
 
-                      <span >Fecha del evento: {card.Date}</span>
+                      <span >Fecha del evento: {card.date}</span>
                     </div>
                   </div>
                 </div>

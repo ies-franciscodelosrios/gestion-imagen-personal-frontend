@@ -77,7 +77,7 @@ export const updateProfesor = createAsyncThunk('appProfesors/updateUser', async 
 
 export const deleteProfesor = createAsyncThunk('appProfesors/deleteUser', async (id, { dispatch, getState }) => {
   (await handleConfirmCancel())? await ApiDelUser(id) :'';
-  const response = await getAllProfesorData().then(result => {return result.data.users}) 
+  const response = await getAllProfesorData().then(result => {return result.data.data}) 
   return response
   /* await ApiDelUser(id) 
   await dispatch(getData(getState().users.params))
