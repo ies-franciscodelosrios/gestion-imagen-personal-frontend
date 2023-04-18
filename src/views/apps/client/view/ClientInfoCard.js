@@ -213,13 +213,11 @@ const ClientInfoCard = () => {
               </ul>
             ) : null}
           </div>
-          {getRol() <= 1 ? 
           <div className="d-flex justify-content-center pt-2">
             <Button color="primary" onClick={() => {handleReset(); setShow(true)}}>
               Editar
             </Button>
           </div>
-          : null}
         </CardBody>
       </Card>
       <Modal
