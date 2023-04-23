@@ -318,7 +318,7 @@ export const AddAppointment = async (event) => {
   return await ApiConnect.post(
     `appointment`,
     {
-      Date: event.dateappo,
+      Date: event.start,
       Treatment: event.calendar,
       Protocol: event.title,
       DNI_client: event.dnicliente,
@@ -371,7 +371,7 @@ export const getAppointmentbyId = async (id) => {
 export const updateAppointment = async (event) => {
 
   return await ApiConnect.put(`appointment/${event.id}`, {
-    Date: event.dateappo,
+    Date: event.start,
     Treatment: event.calendar,
     Protocol: event.title,
     DNI_client: event.dnicliente,

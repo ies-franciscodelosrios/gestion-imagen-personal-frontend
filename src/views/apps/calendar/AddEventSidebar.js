@@ -89,9 +89,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   const [calendarLabel, setCalendarLabel] = useState([
     { value: 'Peluquería', label: 'Peluquería', color: 'primary' },
   ]);
-  console.log(store);
-  console.log(startPicker);
-  console.log(selectedEvent.start);
+
   const fetchData = async () => {
     setAlumnos(store.users);
     setClientes(store.clients);
@@ -100,17 +98,6 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   useEffect(() => {
     fetchData();
     handleSubmit();
-    console.log(store.events);
-    // if (!isObjEmpty(selectedEvent)) {
-    //   console.log(store.selectedEvent);
-    //   selectedEvent.extendedProps.alumno.then((data) => {
-    //     setUser(data.label || user);
-    //   });
-
-    //   selectedEvent.extendedProps.cliente.then((data) => {
-    //     setClient(data.label || client);
-    //   });
-    // }
   }, [store, handleSubmit, selectedEvent, client, user]);
 
   // ** Select Options
@@ -141,11 +128,12 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
 
   // ** Adds New Event
   const handleAddEvent = () => {
+    const startDate = new Date(startPicker);
+    const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
 
     const obj = {
       title: getValues('title'),
-      dateappo: startPicker.toISOString().split('T')[0],
-      start: startPicker,
+      start: formattedStartDate,
       dnialumno: dnialumno,
       dnicliente: dnicliente,
       display: 'block',
@@ -159,7 +147,9 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       },
     };
 
-    console.log(obj.calendar);
+
+
+
     if ((obj.calendar == 'Peluquería')) {obj.calendar = 0;}
     else {obj.calendar = 1;}
 
@@ -191,39 +181,12 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   const handleSelectedEvent = () => {
     if (!isObjEmpty(selectedEvent)) {
 
-      console.log(selectedEvent.length);
-
-
+      setStartPicker(selectedEvent.start);
 
       if (selectedEvent.title==='') {
-        console.log("hola");
+
         return { label: 'Peluquería', value: 'Peluquería', color: 'danger' }
       }
-      
-      console.log(selectedEvent);
-      console.log(store);
-      console.log("hey");
-
-      // if (selectedEvent.extendedProps.alumno instanceof Promise) {
-      //   selectedEvent.extendedProps.alumno
-      //     .then((data) => {
-      //       setUser(data.label || user);
-      //       console.log(data.label);
-      //     })
-      //     .catch((error) => {
-      //       console.error('Error while resolving alumno Promise:', error);
-      //     });
-      // }
-      
-      // if (selectedEvent.extendedProps.cliente instanceof Promise) {
-      //   selectedEvent.extendedProps.cliente
-      //     .then((data) => {
-      //       setClient(data.label || client);
-      //     })
-      //     .catch((error) => {
-      //       console.error('Error while resolving cliente Promise:', error);
-      //     });
-      // }
       
 
       setGuests(selectedEvent.extendedProps.cliente.label == "undefined undefined" ? "" : {
@@ -238,7 +201,6 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       avatar: '',})
       setValue('title', selectedEvent.title || getValues('title'));
       setUser(selectedEvent.extendedProps.alumno.label == "undefined" ?  "" : selectedEvent.extendedProps.alumno.label);
-      console.log(alumnos)
       setClient(selectedEvent.extendedProps.cliente.label == "undefined" ? "" : selectedEvent.extendedProps.cliente.label);
       if (
         selectedEvent.extendedProps.calendarLabel == 0 ||
@@ -246,37 +208,12 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       ) {
         setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: '#FFB6B9' }]);
       } else {
-        console.log('esto es estética');
+
         setCalendarLabel([{ value: 'Estética', label: 'Estética', color: '#A6E4D9' }]);
       }
-      console.log(selectedEvent.extendedProps.calendarLabel);
-      // setAllDay(selectedEvent.allDay || allDay)
-      // setUrl(selectedEvent.url || url)
-      // setLocation(selectedEvent.extendedProps.location || location)
       setDesc(selectedEvent.extendedProps.description || desc);
-      // setGuests(selectedEvent.extendedProps.guests || guests)
-      // setPupils(obtenerAlumno() || 'hola')
-      // selectedEvent.extendedProps.alumno.then(data => {
-
-      // //   setPupils(data);
-      //   setUser(data.label);
-      // //   console.log(pupils);
-      // //   console.log(alumnos);
-      // //   console.log(data);
-      // //   fetchData();
-
-      // });
-
-      setStartPicker(new Date(selectedEvent.extendedProps.created_at==null ? '': selectedEvent.extendedProps.created_at));
-      console.log(selectedEvent.start);
-      // setEndPicker(selectedEvent.allDay ? new Date(selectedEvent.start) : new Date(selectedEvent.end))
-      // setCalendarLabel([resolveLabel()])
     }
   };        
-  console.log(calendarLabel);
-  console.log(startPicker);
-  console.log(pupils.dni);
-  console.log(guests.dni);
 
   // ** (UI) updateEventInCalendar
   const updateEventInCalendar = (
@@ -320,12 +257,13 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   // ** Updates Event in Store
   const handleUpdateEvent = () => {
     if (getValues('title').length) {
-      console.log("dentro");
+      const startDate = new Date(startPicker);
+      const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+  
       const eventToUpdate = {
         id: selectedEvent.id,
         title: getValues('title'),
-        dateappo: startPicker.toISOString().slice(0, 10),
-        start: startPicker.toISOString(),
+        start: formattedStartDate,
         dnialumno: pupils.dni,
         dnicliente: guests.dni,
         display: 'block',
@@ -342,7 +280,6 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       if ((eventToUpdate.calendar == 'Peluquería')) {eventToUpdate.calendar = 0;}
       else {eventToUpdate.calendar = 1;}
 
-      console.log(eventToUpdate);
       const propsToUpdate = ['id', 'title', 'url', 'alumnos', 'desc'];
       const extendedPropsToUpdate = [
         'calendar',
@@ -352,7 +289,6 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
         'location',
         'description',
       ];
-     console.log(eventToUpdate);
      dispatch(updateEvent(eventToUpdate))
       // updateEventInCalendar(
       //   eventToUpdate,
@@ -516,9 +452,9 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
                 onChange={(date) => setStartPicker(date[0])}
                 value={startPicker}
                 options={{
-                  enableTime: true,
+                  enableTime: false,
                   time_24hr: true,
-                  dateFormat: 'Y-m-dTH:i',
+                  dateFormat: 'd-m-Y',
                   timeZone: 'UTC+1',
                 }}
               />
@@ -583,12 +519,10 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
                   theme={selectThemeColors}
                   value={guests}
                   onChange={(data) => {
-                    console.log(data);
                     setGuests([data]);
                     if (data) {
                       const selectedDnis = data.dni;
                       setDniCliente(selectedDnis);
-                      console.log(dnicliente);
                     }
                   }}
                   components={{
@@ -615,12 +549,10 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
                   theme={selectThemeColors}
                   value={pupils}
                   onChange={(data) => {
-                    console.log(data);
                     setPupils([data]);
                     if (data) {
                       const selectedDnis = data.dni;
                       setDniAlumno(selectedDnis);
-                      console.log(dnialumno);
                     }
                   }}
                   components={{
