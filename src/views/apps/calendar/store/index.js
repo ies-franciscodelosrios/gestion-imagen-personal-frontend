@@ -81,6 +81,7 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
 export const addEvent = createAsyncThunk(
   'appCalendar/addEvent',
   async (event, { dispatch, getState }) => {
+    console.log("hola");
     await AddAppointment(event);
     await dispatch( fetchEvents({events: [], users: [], clients: []}));
     return event;
