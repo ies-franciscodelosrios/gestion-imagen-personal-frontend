@@ -1,7 +1,5 @@
 // ** Custom Components
-import Avatar from '@components/avatar'
 import Timeline from '@components/timeline'
-import AvatarGroup from '@components/avatar-group'
 
 // ** Icons Imports
 import { List, MoreVertical } from 'react-feather'
@@ -20,7 +18,7 @@ const data = [
     metaClassName: 'me-1'
   },
   {
-    title: 'Asesoramiento Estético',
+    title: 'viejoAsesoramiento Estético',
     content: 'Indicaciones para el cuidado estético.',
     color: 'danger',
     meta: '2 Febrero 2023',

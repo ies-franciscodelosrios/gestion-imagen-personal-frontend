@@ -11,7 +11,7 @@ import studentnavigation from '@src/navigation/studentvertical'
 
 const VerticalLayout = props => {
   const userdata = JSON.parse(localStorage.getItem('userData'));
-if (userdata.rol == 'Alumno') { 
+if (userdata && userdata?.rol == 'Alumno') { 
   return (
     <Layout menuData={studentnavigation} {...props}>
       <Outlet />

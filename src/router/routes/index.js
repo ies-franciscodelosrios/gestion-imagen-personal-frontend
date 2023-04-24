@@ -6,7 +6,6 @@ import AppRoutes from './Apps'
 import FormRoutes from './Forms'
 import PagesRoutes from './Pages'
 import TablesRoutes from './Tables'
-import ChartsRoutes from './Charts'
 import DashboardRoutes from './Dashboards'
 import UiElementRoutes from './UiElements'
 import ExtensionsRoutes from './Extensions'
@@ -33,7 +32,7 @@ const getLayout = {
 }
 
 // ** Document title
-const TemplateTitle = '%s - Pericles React Admin Template'
+const TemplateTitle = '%s - IesTablero React Admin Template'
 
 // ** Default Route
 const DefaultRoute = '/dashboard/ecommerce'
@@ -48,8 +47,7 @@ const Routes = [
   ...ExtensionsRoutes,
   ...PageLayoutsRoutes,
   ...FormRoutes,
-  ...TablesRoutes,
-  ...ChartsRoutes
+  ...TablesRoutes
 ]
 
 const getRouteMeta = route => {

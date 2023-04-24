@@ -54,10 +54,6 @@ const UserDropdown = () => {
         </DropdownItem>
 
         <DropdownItem divider />
-        <DropdownItem tag={Link} to='/pages/account-settings'>
-          <Settings size={14} className='me-75' />
-          <span className='align-middle'>Ajustes</span>
-        </DropdownItem>
 
         <DropdownItem tag={Link} to='/pages/faq'>
           <HelpCircle size={14} className='me-75' />

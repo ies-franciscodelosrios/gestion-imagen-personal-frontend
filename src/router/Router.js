@@ -39,7 +39,7 @@ const Router = () => {
     {
       path: '/',
       index: true,
-      element: <Navigate replace to={getHomeRoute()} />
+      element: <Navigate replace to={getHomeRoute(0)} />
     },
     {
       path: '/login',
