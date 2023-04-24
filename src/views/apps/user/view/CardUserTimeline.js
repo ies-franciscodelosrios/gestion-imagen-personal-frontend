@@ -44,8 +44,8 @@ const data = [
     metaClassName: 'me-1'
   },
   {
-    title: 'Asesoramiento Estético',
-    content: 'Indicaciones para el cuidado estético.',
+    title: 'nuevo Asesoramiento Estético',
+    content: ' para el cuidado estético.',
     color: 'danger',
     meta: '2 Febrero 2023',
     metaClassName: 'me-1'
