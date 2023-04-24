@@ -84,7 +84,6 @@ export const getClientById = async (id) => {
 };
 
 /**
-<<<<<<< HEAD
  * Http Request to get a client by data
  * @param {*} id to identify the client
  * @returns user data
@@ -103,9 +102,6 @@ export const getClientByData = async (id) => {
 
 /**
  * Http Request to get a client by id
-=======
- * Http Request to update a client by id
->>>>>>> main
  * @param {*} id to identify the client
  * @returns user data
  */
@@ -374,6 +370,22 @@ export const AddAppointment = async (event) => {
  */
 export const getAllAppointments = async () => {
   return await ApiConnect.get('appointments', {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to get a appointment by id
+ * @param {*} id to identify the appointment
+ * @returns appointment data
+ */
+export const getAppointmentPaged = async (params) => {
+  return await ApiConnect.get(`appointments/paged`, {
+    params:{...params},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
