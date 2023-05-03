@@ -26,7 +26,6 @@ useEffect(() => {
   
 }, [])
 
-console.log(appointments)
 
   return (
     <Card className='card-user-timeline'>
