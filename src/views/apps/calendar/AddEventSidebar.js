@@ -66,17 +66,14 @@ const AddEventSidebar = (props) => {
   const [dnialumno, setDniAlumno] = useState('');
   const [dnicliente, setDniCliente] = useState('');
   const [clientes, setClientes] = useState('');
-  const [selectedGuest, setSelectedGuest] = useState(null);
   const [url, setUrl] = useState('');
   const [desc, setDesc] = useState('');
   const [user, setUser] = useState('');
   const [client, setClient] = useState('');
   const [guests, setGuests] = useState({});
   const [pupils, setPupils] = useState({});
-  const [allDay, setAllDay] = useState(false);
-  const [location, setLocation] = useState('');
-  const [endPicker, setEndPicker] = useState(new Date());
   const now = new Date();
+
 const year = now.getFullYear();
 const month = now.getMonth() + 1;
 const day = now.getDate();
@@ -164,9 +161,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   const handleResetInputValues = () => {
     dispatch(selectEvent({}));
     setValue('title', '');
-    setAllDay(false);
     setUrl('');
-    setLocation('');
     setDesc('');
     setGuests({});
     setPupils({});
@@ -174,7 +169,6 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       { value: 'Peluquería', label: 'Peluquería', color: 'danger' },
     ]);
     setStartPicker(new Date());
-    setEndPicker(new Date());
   };
 
   // ** Set sidebar fields
