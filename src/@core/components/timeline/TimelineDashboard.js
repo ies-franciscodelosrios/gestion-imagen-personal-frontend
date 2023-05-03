@@ -9,7 +9,7 @@ const TimelineDashboard = props => {
   // ** Custom Tagg
   const Tag = tag ? tag : 'ul'
 
-  if (!data || data ===[]) {
+  if (!data || data == []) {
     return (<></>)
   }
   return (

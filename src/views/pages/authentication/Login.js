@@ -75,8 +75,8 @@ const ToastContent = ({ t, name, role }) => {
 };
 
 const defaultValues = {
-  password: 'root',
-  loginemail: 'admin@iestablero',
+  password: '',
+  loginemail: '',
 };
 
 const Login = () => {
@@ -216,7 +216,7 @@ const Login = () => {
                     <Input
                       autoFocus
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="iestablero@gmail.com"
                       invalid={errors.loginemail && true}
                       {...field}
                     />
