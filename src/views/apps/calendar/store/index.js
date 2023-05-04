@@ -16,12 +16,17 @@ import {
 import { findUser } from './sort_utils';
 
 export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (calendars) => {
-    const appointmentList = calendars.events;
-    console.log(appointmentList);
+
+  const appointmentList = calendars.events;
+  console.log(appointmentList),
+
+    console.log(calendars);
     const studentList = calendars.users;
     const clientList = calendars.clients;
     const filtros = calendars.calendarLabel;
-    if (calendars.events === null || calendars.events.length <= 0 || calendars.events.calendarLabel==filtros) {
+    console.log(calendars.events.calendarLabel==filtros);
+    if (calendars.events === null || calendars.events.length <= 0) {
+
       const students = await getAllStudentsData().then(result => {return result}).catch(() =>{console.log('error all student')});
       const clients = await getAllClientsData().then(result => {return result}).catch(() =>{console.log('error all client')});
       Object.assign(studentList, students.data.users.map((alumno) => ({
@@ -70,21 +75,31 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
         };
       }) )
     }
-    return {
-      events: appointmentList,
-      users: studentList,
-      clients: clientList
-    };
+    
+      // Filtrar las citas según el valor de calendarLabel
+  const filteredAppointments = appointmentList.filter(
+    (event) => calendars.calendarLabel.includes(event.calendarLabel)
+  );
+
+  return {
+    events: filteredAppointments,
+    filteredEvents: filteredAppointments,
+    users: studentList,
+    clients: clientList,
+    calendarLabel: calendars.calendarLabel,
+  };  
   }
 );
+
 
 export const addEvent = createAsyncThunk(
   'appCalendar/addEvent',
   async (event, { dispatch, getState }) => {
-    console.log("hola");
-    await AddAppointment(event);
-    await dispatch( fetchEvents({events: [], users: [], clients: []}));
-    return event;
+    console.log(event);
+    const newEvent = await AddAppointment(event);
+    const currentFilters = getState().calendar.calendarLabel;
+    await dispatch(fetchEvents({ events: [], users: [], clients: [], calendarLabel: currentFilters }));
+    return newEvent;
   }
 );
 
@@ -93,7 +108,8 @@ export const updateEvent = createAsyncThunk(
   async (event, { dispatch, getState }) => {
     console.log(event);
     await updateAppointment(event);
-    await dispatch(fetchEvents({events: [], users: [], clients: []}));
+    const currentFilters = getState().calendar.calendarLabel;
+    await dispatch(fetchEvents({ events: [], users: [], clients: [], calendarLabel: currentFilters }));
     return event;
   }
 );
@@ -106,23 +122,21 @@ export const updateFilter = createAsyncThunk(
   async (filter, { dispatch, getState }) => {
     const state = getState();
     const selectedCalendars = state.calendar.selectedCalendars;
-    console.log(state.calendar.selectedCalendars);
-        if (selectedCalendars.includes(filter)) {
-          console.log("ESTOY DENTRO");
-
-      await dispatch(
-        fetchEvents(
-          getState().calendar.selectedCalendars.filter((i) => i !== filter)
-        )
-      );
+    
+    let updatedSelectedCalendars;
+    
+    if (selectedCalendars.includes(filter)) {
+      updatedSelectedCalendars = selectedCalendars.filter((i) => i !== filter);
     } else {
-      await dispatch(
-        fetchEvents([...getState().calendar.selectedCalendars, filter])
-      );
+      updatedSelectedCalendars = [...selectedCalendars, filter];
     }
-    return filter;
+    console.log(updatedSelectedCalendars);
+    await dispatch(fetchEvents({ events: [], users: [], clients: [], calendarLabel: updatedSelectedCalendars }));
+    return { updatedSelectedCalendars };
   }
 );
+
+
 
 
 export const updateAllFilters = createAsyncThunk(
@@ -130,23 +144,29 @@ export const updateAllFilters = createAsyncThunk(
   async (value, { dispatch }) => {
     if (value === true) {
       await dispatch(
-        fetchEvents(['Peluquería', 'Estética'])
+        fetchEvents({ events: [], users: [], clients: [], calendarLabel: [0, 1] })
       );
     } else {
-      await dispatch(fetchEvents([]));
+      await dispatch(fetchEvents({ events: [], users: [], clients: [], calendarLabel: [] }));
     }
     return value;
   }
 );
 
+
+
 export const removeEvent = createAsyncThunk(
   'appCalendar/removeEvent',
   async (id, { dispatch, getState }) => {
     await deleteAppointment(id);
-    await dispatch(fetchEvents({events: [], users: [], clients: []}));
+    const currentFilters = getState().calendar.calendarLabel;
+    await dispatch(fetchEvents({ events: [], users: [], clients: [], calendarLabel: currentFilters }));
+    
     return id;
   }
 );
+
+
 
 export const appCalendarSlice = createSlice({
   name: 'appCalendar',
@@ -154,10 +174,12 @@ export const appCalendarSlice = createSlice({
     users: [],
     clients: [],
     events: [],
+    filteredEvents: [],
     selectedEvent: {},
-    selectedCalendars: ['Peluquería', 'Estética'],
-    calendarLabel:['Peluquería', 'Estética']
+    selectedCalendars: [0, 1],
+    calendarLabel:[0, 1]
   },
+  
   reducers: {
     selectEvent: (state, action) => {
       state.selectedEvent = action.payload;
@@ -165,32 +187,42 @@ export const appCalendarSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchEvents.fulfilled, (state, action) => {
-        state.events = action.payload.events;
-        state.users = action.payload.users;
-        state.clients = action.payload.clients;
-        state.calendarLabel = action.payload.calendarLabel;
-      })
-      .addCase(updateFilter.fulfilled, (state, action) => {
-        if (state.selectedCalendars.includes(action.payload)) {
-          state.selectedCalendars.splice(
-            state.selectedCalendars.indexOf(action.payload),
-            1
-          );
-        } else {
-          state.selectedCalendars.push(action.payload);
-        }
-      })
-      .addCase(updateAllFilters.fulfilled, (state, action) => {
-        const value = action.payload;
-        let selected = [];
-        if (value === true) {
-          selected = ['Peluquería', 'Estética'];
-        } else {
-          selected = [];
-        }
-        state.selectedCalendars = selected;
-      });
+    .addCase(addEvent.fulfilled, (state, action) => {
+      state.events.push(action.payload);
+    })
+    .addCase(updateEvent.fulfilled, (state, action) => {
+      const updatedEventIndex = state.events.findIndex(event => event.id === action.payload.id);
+      if (updatedEventIndex !== -1) {
+        state.events[updatedEventIndex] = action.payload;
+      }
+    })
+    .addCase(removeEvent.fulfilled, (state, action) => {
+      const removeEventIndex = state.events.findIndex(event => event.id === action.payload);
+      if (removeEventIndex !== -1) {
+        state.events.splice(removeEventIndex, 1);
+      }
+    })            
+    .addCase(fetchEvents.fulfilled, (state, action) => {
+      state.events = action.payload.events;
+      state.filteredEvents = action.payload.filteredEvents;
+      state.users = action.payload.users;
+      state.clients = action.payload.clients;
+      state.calendarLabel = action.payload.calendarLabel;
+    })
+    
+  .addCase(updateFilter.fulfilled, (state, action) => {
+    state.selectedCalendars = action.payload.updatedSelectedCalendars;
+  })
+  .addCase(updateAllFilters.fulfilled, (state, action) => {
+    const value = action.payload;
+    let selected = [];
+    if (value === true) {
+      selected = [0, 1];
+    } else {
+      selected = [];
+    }
+    state.selectedCalendars = selected;
+  });
   },
 });
 
