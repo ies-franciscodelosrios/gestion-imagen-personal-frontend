@@ -182,7 +182,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
         return { label: 'Peluquería', value: 'Peluquería', color: 'danger' }
       }
       
-
+      console.log(selectedEvent);
       setGuests(selectedEvent.extendedProps.cliente.label == "undefined undefined" ? "" : {
       value: selectedEvent.extendedProps.cliente.value,
       label: selectedEvent.extendedProps.cliente.label,
@@ -194,8 +194,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       dni: selectedEvent.extendedProps.alumno.dni,
       avatar: '',})
       setValue('title', selectedEvent.title || getValues('title'));
-      setUser(selectedEvent.extendedProps.alumno.label == "undefined" ?  "" : selectedEvent.extendedProps.alumno.label);
-      setClient(selectedEvent.extendedProps.cliente.label == "undefined" ? "" : selectedEvent.extendedProps.cliente.label);
+
       if (
         selectedEvent.extendedProps.calendarLabel == 0 ||
         selectedEvent.extendedProps.calendarLabel == null
@@ -253,22 +252,17 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
     if (getValues('title').length) {
       const startDate = new Date(startPicker);
       const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-  
+      console.log(guests);
+      console.log(pupils);
       const eventToUpdate = {
         id: selectedEvent.id,
         title: getValues('title'),
         start: formattedStartDate,
-        dnialumno: pupils.dni,
-        dnicliente: guests.dni,
+        dnialumno: pupils[0]?.dni || selectedEvent.extendedProps.alumno.dni || undefined,
+        dnicliente: guests[0]?.dni || selectedEvent.extendedProps.cliente.dni || undefined,
         display: 'block',
         desc: desc.length ? desc : undefined,
         calendar: calendarLabel[0].label,
-        extendedProps: {
-          url: url.length ? url : undefined,
-          guests: guests.length ? guests : undefined,
-          pupils: pupils.length ? pupils : undefined,
-          // location: location.length ? location : undefined,
-        },
       };
 
       if ((eventToUpdate.calendar == 'Peluquería')) {eventToUpdate.calendar = 0;}

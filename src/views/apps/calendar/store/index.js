@@ -17,6 +17,7 @@ import { findUser } from './sort_utils';
 
 export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (calendars) => {
     const appointmentList = calendars.events;
+    console.log(appointmentList);
     const studentList = calendars.users;
     const clientList = calendars.clients;
     const filtros = calendars.calendarLabel;
@@ -35,9 +36,8 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
         dni: cliente.DNI,
         avatar: 'img5',
       })));
-      
-      const appointments = await getAllAppointments().then(result => {return result}).catch(() => {console.log('error all apointments')});
 
+      const appointments = await getAllAppointments().then(result => {return result}).catch(() => {console.log('error all apointments')});
       Object.assign(appointmentList, await appointments.data.users.map(event => {
         const alumnoPromise = {};
         Object.assign(alumnoPromise, findUser(event.DNI_Student, students.data.users));
@@ -98,26 +98,6 @@ export const updateEvent = createAsyncThunk(
   }
 );
 
-// export const updateFilter = createAsyncThunk(
-//   'appCalendar/updateFilter',
-
-//   async (filter, { dispatch, getState }) => {
-//     if (getState().calendar.selectedCalendars.includes(filter)) {
-
-//       await dispatch(
-//         fetchEvents(
-//           getState().calendar.selectedCalendars.filter((i) => i !== filter)
-//         )
-//       );
-//     } else {
-
-//       await dispatch(
-//         fetchEvents([...getState().calendar.selectedCalendars, filter])
-//       );
-//     }
-//     return filter;
-//   }
-// );
 
 
 

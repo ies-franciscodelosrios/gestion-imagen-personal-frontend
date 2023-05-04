@@ -369,7 +369,7 @@ export const getAppointmentbyId = async (id) => {
  * @returns appointments data
  */
 export const updateAppointment = async (event) => {
-
+       
   return await ApiConnect.put(`appointment/${event.id}`, {
     Date: event.start,
     Treatment: event.calendar,
