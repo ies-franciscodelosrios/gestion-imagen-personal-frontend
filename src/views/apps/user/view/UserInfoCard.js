@@ -4,19 +4,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../store';
 
 // ** Reactstrap Imports
-import { 
-  Row, 
-  Col, 
-  Card, 
-  Form, 
-  CardBody, 
-  Button, 
-  Badge, 
-  Modal, 
-  Input, 
-  Label, 
-  ModalBody, 
-  ModalHeader 
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  CardBody,
+  Button,
+  Badge,
+  Modal,
+  Input,
+  Label,
+  ModalBody,
+  ModalHeader
 } from 'reactstrap'
 
 // ** Third Party Components
@@ -43,31 +43,15 @@ const cycleOptions = [
   { label: 'Grado Superior - Estilismo y dirección de peluquería', value: 'Grado Superior - Estilismo y dirección de peluquería' },
 ];
 
-const roleColors = {
-  editor: 'light-info',
-  admin: 'light-danger',
-  author: 'light-warning',
-  maintainer: 'light-success',
-  subscriber: 'light-primary'
-}
-
-const statusColors = {
-  active: 'light-success',
-  pending: 'light-warning',
-  inactive: 'light-secondary'
-}
-
-
-const MySwal = withReactContent(Swal)
 
 const UserInfoCard = () => {
   // ** Store Vars
   const dispatch = useDispatch();
   const store = useSelector(state => state.users)
 
-  const selectedUser = store.selectedUser;
 
   // ** State
+  const selectedUser = store.selectedUser;
   const [show, setShow] = useState(false)
 
   // ** Hook
@@ -79,7 +63,7 @@ const UserInfoCard = () => {
     formState: { errors }
   } = useForm({
     defaultValues: {
-      Name: '',
+      name: '',
       surname: '',
       email: '',
       dni: '',
@@ -89,36 +73,35 @@ const UserInfoCard = () => {
 
   // ** render user img
   const renderUserImg = () => {
-      return (
-        <Avatar
-          initials
-          color={'light-primary'}
-          className='rounded mt-3 mb-2'
-          content={selectedUser.name}
-          contentStyles={{
-            borderRadius: 0,
-            fontSize: 'calc(48px)',
-            width: '100%',
-            height: '100%'
-          }}
-          style={{
-            height: '110px',
-            width: '110px'
-          }}
-        />
-      )
-    }
+    return (
+      <Avatar
+        initials
+        color={'light-primary'}
+        className='rounded mt-3 mb-2'
+        content={selectedUser.name}
+        contentStyles={{
+          borderRadius: 0,
+          fontSize: 'calc(48px)',
+          width: '100%',
+          height: '100%'
+        }}
+        style={{
+          height: '110px',
+          width: '110px'
+        }}
+      />
+    )
+  }
 
   const onSubmit = (data) => {
-    const updatedUser = {...store.selectedUser};
+    const updatedUser = { ...store.selectedUser };
     updatedUser.name = data.name;
     updatedUser.surname = data.surname;
     updatedUser.email = data.email;
     updatedUser.dni = data.dni;
     updatedUser.cycle = data.cycle.label;
-    console.log(data);
 
-    if (Object.values(data).every(field => typeof field !== "object" || Object.values(field).every(value => value.length > 0))){
+    if (Object.values(data).every(field => typeof field !== "object" || Object.values(field).every(value => value.length > 0))) {
       console.log(updatedUser.id);
       dispatch(updateUser(updatedUser));
       setShow(false)
@@ -128,7 +111,7 @@ const UserInfoCard = () => {
           setError(key, {
             type: 'manual'
           })
-          
+
         }
       }
     }
@@ -147,25 +130,18 @@ const UserInfoCard = () => {
   return (
     <Fragment>
       <Card>
-      <CardBody>
+        <CardBody>
           <div className="user-avatar-section">
             <div className="d-flex align-items-center flex-column">
               {renderUserImg()}
               <div className="d-flex flex-column align-items-center text-center">
-                <div className="user-info">
+                <div className="user-info mb-3">
                   <h4>
                     {selectedUser !== null
                       ? selectedUser.name.concat(' ' + selectedUser.surname)
                       : 'Eleanor Aguilar'}
                   </h4>
-                  {selectedUser !== null ? (
-                    <Badge
-                      color={roleColors[selectedUser.rol]}
-                      className="text-capitalize"
-                    >
-                      {selectedUser.rol}
-                    </Badge>
-                  ) : null}
+
                 </div>
               </div>
             </div>
@@ -218,19 +194,19 @@ const UserInfoCard = () => {
             ) : null}
           </div>
           <div className="d-flex justify-content-center pt-2">
-            <Button color="primary" onClick={() => {handleReset(); setShow(true)}}>
+            <Button color="primary" onClick={() => { handleReset(); setShow(true) }}>
               Editar
             </Button>
           </div>
         </CardBody>
       </Card>
-      <Modal 
-        isOpen={show} 
-        toggle={() => setShow(!show)} 
+      <Modal
+        isOpen={show}
+        toggle={() => setShow(!show)}
         className='modal-dialog-centered modal-lg'
       >
-        <ModalHeader 
-          className='bg-transparent' 
+        <ModalHeader
+          className='bg-transparent'
           toggle={() => setShow(!show)}
         ></ModalHeader>
         <ModalBody className='px-sm-5 pt-50 pb-5'>
@@ -241,21 +217,21 @@ const UserInfoCard = () => {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className='gy-1 pt-75'>
               <Col md={6} xs={12}>
-                <Label className='form-label' for='Name'>
+                <Label className='form-label' for='name'>
                   Nombre
                 </Label>
                 <Controller
-                  defaultValue=''
+                  defaultValue={selectedUser.name}
                   control={control}
-                  id='Name'
-                  name='Name'
+                  id='name'
+                  name='name'
                   render={({ field }) => (
-                    <Input 
-                      {...field} 
-                      id='Name' 
-                      placeholder='John' 
-                      invalid={errors.firstName && true} 
-                      />
+                    <Input
+                      {...field}
+                      id='name'
+                      placeholder='Laura'
+                      invalid={errors.name && true}
+                    />
                   )}
                 />
               </Col>
@@ -269,12 +245,12 @@ const UserInfoCard = () => {
                   id='surname'
                   name='surname'
                   render={({ field }) => (
-                    <Input 
-                      {...field} 
-                      id='surname' 
-                      placeholder='Doe' 
+                    <Input
+                      {...field}
+                      id='surname'
+                      placeholder='Doe'
                       invalid={errors.lastName && true}
-                      />
+                    />
                   )}
                 />
               </Col>
@@ -313,29 +289,31 @@ const UserInfoCard = () => {
                 />
               </Col>
               <Col xs={12}>
-              <Label className="form-label" for="cycle">
-            Ciclo <span className="text-danger">*</span>
-          </Label>
-          <Controller
-            name="cycle"
-            control={control}
-            render={({ field }) => (
-              <Select
-                options={cycleOptions}
-                theme={selectThemeColors}
-                className='react-select'
-                classNamePrefix='select'
-                id="cycle"
-                placeholder="Elige tu ciclo"
-                invalid={errors.cycle && true}
-                {...field}
-              />
-
-            )}
-          />
+                <Label className="form-label" for="cycle">
+                  Ciclo <span className="text-danger">*</span>
+                </Label>
+                <Controller
+                  defaultValue={{label:selectedUser.cycle, value:selectedUser.cycle}} // Set the default value to the first option in the array
+                  control={control}
+                  id="cycle"
+                  name="cycle"
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={cycleOptions}
+                      theme={selectThemeColors}
+                      className='react-select'
+                      classNamePrefix='select'
+                      id="cycle"
+                      name='cycle'
+                      placeholder="Elige tu ciclo"
+                      invalid={errors.cycle && true}
+                    />
+                  )}
+                />
               </Col>
               <Col xs={12} className='text-center mt-2 pt-50'>
-              <Button type="submit" className="me-1" color="primary" onClick={()=> toast.success('Correctamente Guardado!')}>
+                <Button type="submit" className="me-1" color="primary" onClick={() => toast.success('Correctamente Guardado!')}>
                   Guardar
                 </Button>
                 <Button
@@ -359,5 +337,5 @@ const UserInfoCard = () => {
   );
 
 }
-  
+
 export default UserInfoCard

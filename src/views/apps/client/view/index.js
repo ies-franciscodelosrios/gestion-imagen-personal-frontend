@@ -11,7 +11,6 @@ import { Row, Col, Alert } from 'reactstrap'
 
 // ** User View Components
 import UserTabs from './Tabs'
-import PlanCard from './PlanCard'
 import ClientInfoCard from './ClientInfoCard'
 import illustration from '@src/assets/images/pages/ilustracion-perfil.png';
 

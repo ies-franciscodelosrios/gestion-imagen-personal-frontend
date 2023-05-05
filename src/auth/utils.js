@@ -4,8 +4,8 @@
  * e.g. If you are using cookies to store the application please update this function
  */
 // eslint-disable-next-line arrow-body-style
-export const isUserLoggedIn = () => {
-  return localStorage.getItem('userData') && localStorage.getItem('accessToken')
+export const isUserLoggedIn = async() => {
+  return await localStorage.getItem('userData') && localStorage.getItem('accessToken')
 }
 
 export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
