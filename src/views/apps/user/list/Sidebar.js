@@ -21,10 +21,11 @@ import { Button, Label, FormText, Form, Input } from 'reactstrap'
 // ** Store & Actions
 import { addUser } from '../store'
 import { useDispatch } from 'react-redux'
+import { toast } from 'react-hot-toast'
 
 const defaultValues = {
   dni: '',
-  Name: '',
+  name: '',
   surname: '',
   email: '',
   cycle: ''
@@ -63,12 +64,9 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
   // ** Function to handle form submit
   const onSubmit = (data) => {
     data.course_year = BirthPicker.toISOString().split('T')[0];
-    //data.cycle = data.cycle.value;
-     console.log(data.course_year)
     setData(data)
     if (checkIsValid(data)) {
       toggleSidebar()
-      console.log(data);
       dispatch(
         addUser({
           dni: data.dni,
@@ -83,7 +81,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
         })
       );
     } else {
-      console.log('not correct');
+      toast.error('Introduce todos los campos obligatorios')
       for (const key in data) {
         if (data[key] === null) {
           setError('country', {
@@ -129,15 +127,15 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="Name">
+          <Label className="form-label" for="name">
             Nombre <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="Name"
+            name="name"
             control={control}
             render={({ field }) => (
               <Input
-                id="Name"
+                id="name"
                 placeholder="Pedro"
                 invalid={errors.name && true}
                 {...field}

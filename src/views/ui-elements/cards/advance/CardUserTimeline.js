@@ -1,55 +1,32 @@
 // ** Custom Components
-import Avatar from '@components/avatar'
 import Timeline from '@components/timeline'
-import AvatarGroup from '@components/avatar-group'
+import TimelineDashboard from '../../../../@core/components/timeline/TimelineDashboard'
 
 // ** Icons Imports
 import { List, MoreVertical } from 'react-feather'
 
 // ** Reactstrap Imports
-import { Card, CardHeader, CardTitle, CardBody } from 'reactstrap'
+import { Card, CardHeader, CardTitle, CardBody, CardFooter } from 'reactstrap'
+import { useEffect, useState } from 'react'
+import { getAppointmentPaged } from '../../../../services/api'
 
-
-
-
-const data = [
-  {
-    title: 'Corte de Pelo',
-    content: 'Degradado mid-fadde y barba.',
-    meta: '3 Febrero 2023',
-    metaClassName: 'me-1'
-  },
-  {
-    title: 'Asesoramiento Estético',
-    content: 'Indicaciones para el cuidado estético.',
-    color: 'danger',
-    meta: '2 Febrero 2023',
-    metaClassName: 'me-1'
-  },
-  {
-    title: 'Masaje anticontracturas',
-    content: 'Masaje para la recuperación de contracturas.',
-    meta: '2 Febrero 2023',
-    metaClassName: 'me-1',
-    color: 'warning',
-  },
-  {
-    title: 'Corte de Pelo',
-    content: 'Realización de mechas californianas.',
-    color: 'info',
-    meta: '1 Febrero 2023',
-    metaClassName: 'me-1',
-  },
-  {
-    title: 'Tratamiento Estético',
-    content: 'Masaje exfoliante de poros.',
-    color: 'danger',
-    meta: '30 Enero 2023',
-    metaClassName: 'me-1'
-  }
-]
 
 const UserTimeline = () => {
+  const [appointments, setappointments] = useState(null);
+
+useEffect(() => {
+  getAppointmentPaged({
+    "page": 1,
+    "perpage": 5,
+    "searchtext": "",
+    "dni_student": JSON.parse(localStorage.getItem('userData')).dni
+  }).then((e)=>{
+    setappointments(e.data.data);
+  });
+  
+}, [])
+
+
   return (
     <Card className='card-user-timeline'>
       <CardHeader>
@@ -57,11 +34,11 @@ const UserTimeline = () => {
           <List className='user-timeline-title-icon' />
           <CardTitle tag='h4'>Ultimas Citas</CardTitle>
         </div>
-        <MoreVertical size={18} className='cursor-pointer' />
       </CardHeader>
       <CardBody>
-        <Timeline className='ms-50 mb-0' data={data} />
+        <TimelineDashboard className='ms-50 mb-0' data={appointments} />
       </CardBody>
+      {appointments == null || appointments.length<=0 ? <CardFooter>No se ha encontrado ninguna cita</CardFooter>:<></>}
     </Card>
   )
 }

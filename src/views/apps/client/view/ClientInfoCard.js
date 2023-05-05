@@ -32,7 +32,6 @@ import Avatar from '@components/avatar';
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
 import { toast } from 'react-hot-toast';
-import { getRol } from '../../../../utility/Utils';
 
 const roleColors = {
   editor: 'light-info',

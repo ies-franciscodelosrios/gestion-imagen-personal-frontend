@@ -1,5 +1,5 @@
 // ** React Imports
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // ** Custom Hooks
@@ -48,6 +48,7 @@ import logo from '@src/assets/images/logo/pericles.svg';
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss';
+import { getUserRol, isUserLoggedIn } from '../../../utility/Utils';
 
 const ToastContent = ({ t, name, role }) => {
   return (
@@ -74,8 +75,8 @@ const ToastContent = ({ t, name, role }) => {
 };
 
 const defaultValues = {
-  password: 'root',
-  loginemail: 'admin@iestablero',
+  password: '',
+  loginemail: '',
 };
 
 const Login = () => {
@@ -96,6 +97,14 @@ const Login = () => {
   function getrol(params) {
     return params >= 2 ? 'Alumno' : 'Profesor';
   }
+
+  console.log(localStorage.getItem('userData'))
+  useEffect(() => {
+    if (localStorage.getItem('userData') !== null) {
+      console.log('hola')
+      navigate(getHomeRouteForLoggedInUser(0));
+    }
+  }, [])
 
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
@@ -207,7 +216,7 @@ const Login = () => {
                     <Input
                       autoFocus
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="iestablero@gmail.com"
                       invalid={errors.loginemail && true}
                       {...field}
                     />
