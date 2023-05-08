@@ -172,7 +172,6 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
             render={({ field }) => (
               <Select
                 options={cycleOptions}
-                theme={selectThemeColors}
                 className='react-select'
                 classNamePrefix='select'
                 id="cycle"
