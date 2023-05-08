@@ -5,6 +5,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // ** Axios Imports
 import {getAllStudentsData, getUserById, updateUserBy, ApiDelUser, AddStudent, getAllAppointments  } from '../../../../services/api'
 import { handleConfirmCancel, sort_appointments, sort_data } from './sort_utils'
+import '@styles/react/libs/react-select/_react-select.scss'
+import { toast } from 'react-hot-toast'
 
 
 export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
@@ -44,13 +46,12 @@ export const getAppointments = createAsyncThunk('appAppointments/getAppointments
 })
 
 export const updateUser = createAsyncThunk('appUsers/updateUser', async updatedUser => {
-  await updateUserBy(updatedUser);
+  await updateUserBy(updatedUser).then(e => toast.error('Datos Guardados')).catch(e=>toast.error('Error al editar'));
   return updatedUser
 })
 
 export const addUser = createAsyncThunk('appUsers/addUser', async (user, { dispatch, getState }) => {
   await AddStudent(user)
-  console.log(user)
   const response = await getAllStudentsData().then(result => {return result.data.data})
   return response
 })

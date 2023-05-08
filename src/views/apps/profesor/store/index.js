@@ -7,6 +7,7 @@ import axios from 'axios'
 
 import { getAllProfesorData, getUserById, updateUserBy, ApiDelUser,AddProfesor, getAllAppointments } from '../../../../services/api'
 import {handleConfirmCancel, sort_appointments, sort_data } from './sort_utils'
+import { toast } from 'react-hot-toast'
 
 
 
@@ -70,7 +71,7 @@ export const addProfesor = createAsyncThunk('appProfesors/addUserProfesor', asyn
 })
 /* UPDATE PROFESOR */
 export const updateProfesor = createAsyncThunk('appProfesors/updateUser', async updatedUser => {
-  await updateUserBy(updatedUser);
+  await updateUserBy(updatedUser).then(e => toast.error('Datos Guardados')).catch(e=>toast.error('Error al editar'));
   return updatedUser
 })
 /* DELETE PROFESOR BY ID */

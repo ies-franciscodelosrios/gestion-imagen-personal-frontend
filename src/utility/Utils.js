@@ -1,4 +1,6 @@
 import { DefaultRoute } from '../router/routes'
+import '@styles/react/libs/react-select/_react-select.scss'
+import { toast } from 'react-hot-toast';
 
 // ** Checks if an object is empty (returns boolean)
 export const isObjEmpty = obj => Object.keys(obj).length === 0
@@ -83,3 +85,44 @@ export const selectThemeColors = theme => ({
     neutral30: '#ededed' // for input hover border-color
   }
 })
+
+export function validateDNI(dni) {
+  const letras = "TRWAGMYFPDXBNJZSQVHLCKE"; // Letras del DNI en orden
+  const dniRegex = /^\d{8}[A-Z]$/; // Expresión regular para validar el formato del DNI
+  
+  if (!dniRegex.test(dni)) { // Validar el formato del DNI
+    return false;
+  }
+  
+  const letra = dni.charAt(8).toUpperCase(); // Obtener la letra del DNI y convertirla a mayúsculas
+  const numeros = dni.substr(0, 8); // Obtener los números del DNI
+  
+  const letraCalculada = letras[numeros % 23]; // Calcular la letra correspondiente a los números del DNI
+  
+  return letra === letraCalculada; // Comparar la letra del DNI con la letra calculada
+}
+
+export function validateUserData(data) {
+  const requiredFields = ["name", "surname", "email", "dni", "cycle"];
+  const values = Object.values(data);
+  console.log(data)
+  
+  if (data.password.length !== 0 || data.repassword.length !== 0) {
+    if (data.password !== data.repassword) {
+      toast.error("Las contraseñas deben coincidir");
+      return false;
+    }
+  }
+
+  const filledValues = values.every(input => {
+    return input !== null && input !== undefined && !requiredFields.includes(input);
+  });
+  
+  if (!filledValues || !validateDNI(data.dni) ) {
+    toast.error("Por favor, complete todos los campos requeridos");
+    return false;
+  }
+
+  
+  return true;
+}
