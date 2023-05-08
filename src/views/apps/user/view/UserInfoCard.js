@@ -35,6 +35,7 @@ import { selectThemeColors } from '@utils'
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import { toast } from 'react-hot-toast';
+import { validateDNI, validateUserData } from '../../../../utility/Utils';
 
 const cycleOptions = [
   { label: 'Grado Medio - Peluquería y cosmética capilar', value: 'Grado Medio - Peluquería y cosmética capilar' },
@@ -67,7 +68,10 @@ const UserInfoCard = () => {
       surname: '',
       email: '',
       dni: '',
-      cycle: ''
+      cycle: '',
+      course_year: '',
+      password: '',
+      repassword: '',
     }
   })
 
@@ -100,18 +104,20 @@ const UserInfoCard = () => {
     updatedUser.email = data.email;
     updatedUser.dni = data.dni;
     updatedUser.cycle = data.cycle.label;
-
-    if (Object.values(data).every(field => typeof field !== "object" || Object.values(field).every(value => value.length > 0))) {
-      console.log(updatedUser.id);
+    updatedUser.course_year = data.course_year;
+    updatedUser.password = data.password;
+    updatedUser.repassword = data.repassword;
+    
+    if (validateUserData(data)) {
       dispatch(updateUser(updatedUser));
-      setShow(false)
+      setShow(false);
     } else {
       for (const key in data) {
-        if (data[key].length === 0) {
+        if (!validateDNI(data.dni))setError('dni',{})
+        if (data[key].length === 0 && !key.includes('pass')) {
           setError(key, {
             type: 'manual'
           })
-
         }
       }
     }
@@ -124,6 +130,9 @@ const UserInfoCard = () => {
       email: selectedUser.email,
       dni: selectedUser.dni,
       cycle: selectedUser.cycle.label,
+      course_year:selectedUser.course_year,
+      password: '',
+      repassword: '',
     })
   }
 
@@ -146,26 +155,7 @@ const UserInfoCard = () => {
               </div>
             </div>
           </div>
-          <div className="d-flex justify-content-around my-2 pt-75">
-            <div className="d-flex align-items-start me-2">
-              <Badge color="light-primary" className="rounded p-75">
-                <Check className="font-medium-2" />
-              </Badge>
-              <div className="ms-75">
-                <h4 className="mb-0">123</h4>
-                <small>Tratamientos</small>
-              </div>
-            </div>
-            {/* <div className="d-flex align-items-start">
-              <Badge color="light-primary" className="rounded p-75">
-                <Briefcase className="font-medium-2" />
-              </Badge>
-              <div className="ms-75">
-                <h4 className="mb-0">568</h4>
-                <small>Projects Done</small>
-              </div>
-            </div> */}
-          </div>
+
           <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
           <div className="info-container">
             {selectedUser !== null ? (
@@ -248,8 +238,8 @@ const UserInfoCard = () => {
                     <Input
                       {...field}
                       id='surname'
-                      placeholder='Doe'
-                      invalid={errors.lastName && true}
+                      placeholder='Torres'
+                      invalid={errors.surname && true}
                     />
                   )}
                 />
@@ -284,7 +274,7 @@ const UserInfoCard = () => {
                   id="dni"
                   name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="dni" placeholder="31000000C" />
+                    <Input {...field} id="dni" placeholder="31000000C" invalid={errors.dni && true}/>
                   )}
                 />
               </Col>
@@ -312,8 +302,44 @@ const UserInfoCard = () => {
                   )}
                 />
               </Col>
+              <Col md={6} xs={12}>
+                <Label className='form-label' for='password'>
+                  Contraseña
+                </Label>
+                <Controller
+                  control={control}
+                  id='password'
+                  name='password'
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id='password'
+                      placeholder='Contraseña...'
+                      invalid={errors.password && true}
+                    />
+                  )}
+                />
+              </Col>              
+              <Col md={6} xs={12}>
+                <Label className='form-label' for='repassword'>
+                  Repite Contraseña
+                </Label>
+                <Controller
+                  control={control}
+                  id='repassword'
+                  name='repassword'
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id='repassword'
+                      placeholder='Repite Contraseña...'
+                      invalid={errors.repassword && true}
+                    />
+                  )}
+                />
+              </Col>
               <Col xs={12} className='text-center mt-2 pt-50'>
-                <Button type="submit" className="me-1" color="primary" onClick={() => toast.success('Correctamente Guardado!')}>
+                <Button type="submit" className="me-1" color="primary">
                   Guardar
                 </Button>
                 <Button
@@ -323,7 +349,7 @@ const UserInfoCard = () => {
                   onClick={() => {
                     handleReset()
                     setShow(false)
-                    toast.error('Borrado de datos no guardados')
+                    toast.error('Datos no guardados')
                   }}
                 >
                   Cancelar

@@ -40,7 +40,7 @@ const Router = () => {
     {
       path: '/',
       index: true,
-      element: <Website />,
+      element: <Login />
     },
     {
       path: '/login',
