@@ -66,17 +66,14 @@ const AddEventSidebar = (props) => {
   const [dnialumno, setDniAlumno] = useState('');
   const [dnicliente, setDniCliente] = useState('');
   const [clientes, setClientes] = useState('');
-  const [selectedGuest, setSelectedGuest] = useState(null);
   const [url, setUrl] = useState('');
   const [desc, setDesc] = useState('');
   const [user, setUser] = useState('');
   const [client, setClient] = useState('');
   const [guests, setGuests] = useState({});
   const [pupils, setPupils] = useState({});
-  const [allDay, setAllDay] = useState(false);
-  const [location, setLocation] = useState('');
-  const [endPicker, setEndPicker] = useState(new Date());
   const now = new Date();
+
 const year = now.getFullYear();
 const month = now.getMonth() + 1;
 const day = now.getDate();
@@ -98,17 +95,6 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   useEffect(() => {
     fetchData();
     handleSubmit();
-
-    // if (!isObjEmpty(selectedEvent)) {
-    //   store.selectedEvent);
-    //   selectedEvent.extendedProps.alumno.then((data) => {
-    //     setUser(data.label || user);
-    //   });
-
-    //   selectedEvent.extendedProps.cliente.then((data) => {
-    //     setClient(data.label || client);
-    //   });
-    // }
   }, [store, handleSubmit, selectedEvent, client, user]);
 
   // ** Select Options
@@ -139,11 +125,12 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
 
   // ** Adds New Event
   const handleAddEvent = () => {
-    const startPickerDate = new Date(Date.parse(startPicker));
+    const startDate = new Date(startPicker);
+    const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+
     const obj = {
       title: getValues('title'),
-      dateappo: startPickerDate.toISOString().split('T')[0],
-      start: startPickerDate,
+      start: formattedStartDate,
       dnialumno: dnialumno,
       dnicliente: dnicliente,
       display: 'block',
@@ -171,9 +158,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   const handleResetInputValues = () => {
     dispatch(selectEvent({}));
     setValue('title', '');
-    setAllDay(false);
     setUrl('');
-    setLocation('');
     setDesc('');
     setGuests({});
     setPupils({});
@@ -181,124 +166,44 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       { value: 'Peluquería', label: 'Peluquería', color: 'danger' },
     ]);
     setStartPicker(new Date());
-    setEndPicker(new Date());
   };
 
   // ** Set sidebar fields
   const handleSelectedEvent = () => {
     if (!isObjEmpty(selectedEvent)) {
 
+      setStartPicker(selectedEvent.start);
 
       if (selectedEvent.title==='') {
 
         return { label: 'Peluquería', value: 'Peluquería', color: 'danger' }
       }
       
-
-
-      // if (selectedEvent.extendedProps.alumno instanceof Promise) {
-      //   selectedEvent.extendedProps.alumno
-      //     .then((data) => {
-      //       setUser(data.label || user);
-      //       data.label);
-      //     })
-      //     .catch((error) => {
-      //       console.error('Error while resolving alumno Promise:', error);
-      //     });
-      // }
-      
-      // if (selectedEvent.extendedProps.cliente instanceof Promise) {
-      //   selectedEvent.extendedProps.cliente
-      //     .then((data) => {
-      //       setClient(data.label || client);
-      //     })
-      //     .catch((error) => {
-      //       console.error('Error while resolving cliente Promise:', error);
-      //     });
-      // }
-
-
-      if(!isObjEmpty(selectedEvent.extendedProps.cliente)){
-        setGuests([{
-          value: selectedEvent.extendedProps.cliente.value,
-          label: selectedEvent.extendedProps.cliente.label,
-          dni: selectedEvent.extendedProps.cliente.dni,
-          avatar: '',
-        }]);
-      }
-      else{
-
-      setGuests(
-        selectedEvent.extendedProps.cliente.value==="undefined undefined" || selectedEvent.extendedProps.cliente.label === "undefined undefined"
-          ? ""
-          : {
-              value: selectedEvent.extendedProps.cliente.value,
-              label: selectedEvent.extendedProps.cliente.label,
-              dni: selectedEvent.extendedProps.cliente.dni,
-              avatar: '',
-            }
-      );
-    }
-
-
-    if(!isObjEmpty(selectedEvent.extendedProps.alumno)){
-      setPupils([{
-        value: selectedEvent.extendedProps.alumno.value,
-        label: selectedEvent.extendedProps.alumno.label,
-        dni: selectedEvent.extendedProps.alumno.dni,
-        avatar: '',
-      }]);
-    }
-    else{
-      setPupils(
-        selectedEvent.extendedProps.alumno.value === "undefined undefined" || selectedEvent.extendedProps.alumno.label === "undefined undefined"
-          ? selectedEvent.extendedProps.alumno
-          : {
-              value: selectedEvent.extendedProps.alumno.value,
-              label: selectedEvent.extendedProps.alumno.label,
-              dni: selectedEvent.extendedProps.alumno.dni,
-              avatar: '',
-            }
-      );
-    }
-
+      console.log(selectedEvent);
+      setGuests(selectedEvent.extendedProps.cliente.label == "undefined undefined" ? "" : {
+      value: selectedEvent.extendedProps.cliente.value,
+      label: selectedEvent.extendedProps.cliente.label,
+      dni: selectedEvent.extendedProps.cliente.dni,
+      avatar: '',})
+      setPupils(selectedEvent.extendedProps.alumno.label == "undefined undefined" ? "" : {
+      value: selectedEvent.extendedProps.alumno.value,
+      label: selectedEvent.extendedProps.alumno.label,
+      dni: selectedEvent.extendedProps.alumno.dni,
+      avatar: '',})
       setValue('title', selectedEvent.title || getValues('title'));
-      // setUser(selectedEvent.extendedProps.alumno.label == "undefined" ?  "" : selectedEvent.extendedProps.alumno.label);
-      setStartPicker(selectedEvent.start);
-      // setClient(selectedEvent.extendedProps.cliente.label == "undefined" ? "" : selectedEvent.extendedProps.cliente.label);
+
       if (
         selectedEvent.extendedProps.calendarLabel == 0 ||
         selectedEvent.extendedProps.calendarLabel == null
       ) {
         setCalendarLabel([{ value: 'Peluquería', label: 'Peluquería', color: '#FFB6B9' }]);
       } else {
+
         setCalendarLabel([{ value: 'Estética', label: 'Estética', color: '#A6E4D9' }]);
       }
-
-      // setAllDay(selectedEvent.allDay || allDay)
-      // setUrl(selectedEvent.url || url)
-      // setLocation(selectedEvent.extendedProps.location || location)
       setDesc(selectedEvent.extendedProps.description || desc);
-  // setGuests(selectedEvent.extendedProps.guests || guests)
-      // setPupils(obtenerAlumno() || 'hola')
-      // selectedEvent.extendedProps.alumno.then(data => {
-
-      // //   setPupils(data);
-      //   setUser(data.label);
-      // //   pupils);
-      // //   alumnos);
-      // //   data);
-      // //   fetchData();
-
-      // });
-
-      // setStartPicker(new Date(selectedEvent.extendedProps.created_at==null ? '': selectedEvent.extendedProps.created_at));
-
-      // setEndPicker(selectedEvent.allDay ? new Date(selectedEvent.start) : new Date(selectedEvent.end))
-      // setCalendarLabel([resolveLabel()])
     }
   };        
-
 
   // ** (UI) updateEventInCalendar
   const updateEventInCalendar = (
@@ -343,25 +248,21 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   const handleUpdateEvent = () => {
 
     if (getValues('title').length) {
-
+      const startDate = new Date(startPicker);
+      const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+      console.log(guests);
+      console.log(pupils);
       const eventToUpdate = {
 
 
         id: selectedEvent.id,
         title: getValues('title'),
-        dateappo: startPicker.toISOString().slice(0, 10),
-        start: startPicker.toISOString(),
-        dnialumno: pupils[0]?.dni,
-        dnicliente: guests[0]?.dni,
+        start: formattedStartDate,
+        dnialumno: pupils[0]?.dni || selectedEvent.extendedProps.alumno.dni || undefined,
+        dnicliente: guests[0]?.dni || selectedEvent.extendedProps.cliente.dni || undefined,
         display: 'block',
         desc: desc.length ? desc : undefined,
         calendar: calendarLabel[0].label,
-        extendedProps: {
-          url: url.length ? url : undefined,
-          guests: guests.length ? guests : undefined,
-          pupils: pupils.length ? pupils : undefined,
-          // location: location.length ? location : undefined,
-        },
       };
 
       if ((eventToUpdate.calendar == 'Peluquería')) {eventToUpdate.calendar = 0;}
@@ -539,9 +440,9 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
                 onChange={(date) => setStartPicker(date[0])}
                 value={startPicker}
                 options={{
-                  enableTime: true,
+                  enableTime: false,
                   time_24hr: true,
-                  dateFormat: 'Y-m-dTH:i',
+                  dateFormat: 'd-m-Y',
                   timeZone: 'UTC+1',
                 }}
               />
