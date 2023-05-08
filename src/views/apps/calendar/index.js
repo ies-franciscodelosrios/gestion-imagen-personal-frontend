@@ -55,7 +55,7 @@ const CalendarComponent = () => {
     const data = {
       events: appointments,
       selectedEvent: {},
-      selectedCalendars: ['Peluquería', 'Estética']
+      selectedCalendars: [0, 1]
     };
     console.log(data);
     setEventos(data);
