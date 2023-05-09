@@ -23,11 +23,11 @@ import { addProfesor } from '../store'
 import { useDispatch } from 'react-redux'
 
 const defaultValues = {
-  dni: '',
-  name: '',
-  surname: '',
+  DNI: '',
+  Name: '',
+  Surname: '',
   email: '',
-  cycle: ''
+  Cycle: ''
 }
 
 const cycleOptions = [
@@ -62,24 +62,24 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
 
   // ** Function to handle form submit
   const onSubmit = (data) => {
-    data.course_year = BirthPicker.toISOString().split('T')[0];
-    //data.cycle = data.cycle.value;
-     console.log(data.course_year)
+    data.Course_year = BirthPicker.toISOString().split('T')[0];
+    //data.Cycle = data.Cycle.value;
+     console.log(data.Course_year)
     setData(data)
     if (checkIsValid(data)) {
       toggleSidebar()
       console.log(data);
       dispatch(
         addProfesor({
-          dni: data.dni,
-          rol: data.rol,
-          course_year: data.course_year,
-          cycle: data.cycle.label,
-          name: data.name,
-          surname: data.surname,
+          DNI: data.DNI,
+          Rol: data.Rol,
+          Course_year: data.Course_year,
+          Cycle: data.Cycle.label,
+          Name: data.Name,
+          Surname: data.Surname,
           email: data.email,
           password: data.password,
-          others: ' '
+          Others: ' '
         })
       );
     } else {
@@ -112,71 +112,72 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-1">
-          <Label className="form-label" for="dni">
+          <Label className="form-label" for="DNI">
             DNI <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="dni"
+            name="DNI"
             control={control}
             render={({ field }) => (
               <Input
-                id="dni"
+                id="DNI"
                 placeholder="31000000Y"
-                invalid={errors.name && true}
+                invalid={errors.Name && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="name">
+          <Label className="form-label" for="Name">
             Nombre <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="name"
+            name="Name"
             control={control}
             render={({ field }) => (
               <Input
-                id="name"
+                id="Name"
                 placeholder="Pedro"
-                invalid={errors.name && true}
+                invalid={errors.Name && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="surname">
+          <Label className="form-label" for="Surname">
             Apellido <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="surname"
+            name="Surname"
             control={control}
             render={({ field }) => (
               <Input
-                id="surname"
+                id="Surname"
                 placeholder="Torres"
-                invalid={errors.surname && true}
+                invalid={errors.Surname && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="cycle">
+          <Label className="form-label" for="Cycle">
             Ciclo <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="cycle"
+            name="Cycle"
             control={control}
             render={({ field }) => (
               <Select
                 options={cycleOptions}
+                theme={selectThemeColors}
                 className='react-select'
                 classNamePrefix='select'
-                id="cycle"
+                id="Cycle"
                 placeholder="Elige tu ciclo"
-                invalid={errors.cycle && true}
+                invalid={errors.Cycle && true}
                 {...field}
               />
 

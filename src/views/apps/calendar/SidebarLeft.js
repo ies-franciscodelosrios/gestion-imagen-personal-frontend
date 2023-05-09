@@ -13,8 +13,8 @@ import { fetchEvents } from './store'
 
 // ** Filters Checkbox Array
 const filters = [
-  { label: 'Peluquería',  className: 'form-check-danger mb-1', value:0 },
-  { label: 'Estética', className: 'form-check-warning mb-1',value:1 },
+  { label: 'Peluquería', color: 'danger', className: 'form-check-danger mb-1' },
+  { label: 'Estética', color: '#A6E4D9', className: 'form-check-warning mb-1' },
 ]
 
 
@@ -29,9 +29,7 @@ const SidebarLeft = props => {
     toggleSidebar(false)
     handleAddEventSidebar()
   }
-  console.log(filters.length);
-  console.log(store.selectedCalendars);
-  
+
   return (
     <Fragment>
       <Card className='sidebar-wrapper shadow-none'>
@@ -75,9 +73,9 @@ const SidebarLeft = props => {
                       label={filter.label}
                       className='input-filter'
                       id={`${filter.label}-event`}
-                      checked={store.selectedCalendars.includes(filter.value)}
+                      checked={store.selectedCalendars.includes(filter.label)}
                       onChange={() => {
-                        dispatch(updateFilter(filter.value))
+                        dispatch(updateFilter(filter.label))
                         console.log(store);
                         dispatch(fetchEvents(store))
                       }}

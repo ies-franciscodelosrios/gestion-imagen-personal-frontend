@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 
 const Faq = lazy(() => import('../../views/pages/faq'))
 const ApiKey = lazy(() => import('../../views/pages/api-key'))
-const Profile = lazy(() => import('../../views/apps/profile'))
+const Profile = lazy(() => import('../../views/pages/profile'))
 const Pricing = lazy(() => import('../../views/pages/pricing'))
 const License = lazy(() => import('../../views/pages/license'))
 const Error = lazy(() => import('../../views/pages/misc/Error'))

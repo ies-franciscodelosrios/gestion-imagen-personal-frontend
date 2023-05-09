@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 
 // ** User View Components
+import PlanCard from './PlanCard';
 import UserInfoCard from './UserInfoCard';
 import illustration from '@src/assets/images/users/Barber-rafiki.png';
 import UserTabs from './Tabs';

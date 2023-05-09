@@ -1,10 +1,10 @@
 // ** React Imports
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin';
-import { ApiLogin, getStadistics } from '../../../services/api';
+import { ApiLogin } from '../../../services/api';
 import { setToken, getToken } from '../../../services/UseToken';
 import { getAllUserData } from '../../../services/api';
 // ** Third Party Components
@@ -48,7 +48,6 @@ import logo from '@src/assets/images/logo/pericles.svg';
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss';
-import { getUserRol, isUserLoggedIn } from '../../../utility/Utils';
 
 const ToastContent = ({ t, name, role }) => {
   return (
@@ -75,8 +74,8 @@ const ToastContent = ({ t, name, role }) => {
 };
 
 const defaultValues = {
-  password: '',
-  loginemail: '',
+  password: 'root',
+  loginEmail: 'admin@iestablero',
 };
 
 const Login = () => {
@@ -98,18 +97,10 @@ const Login = () => {
     return params >= 2 ? 'Alumno' : 'Profesor';
   }
 
-  console.log(localStorage.getItem('userData'))
-  useEffect(() => {
-    if (localStorage.getItem('userData') !== null) {
-      console.log('hola')
-      navigate(getHomeRouteForLoggedInUser(0));
-    }
-  }, [])
-
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
 
-        ApiLogin(data.loginemail, data.password)
+        ApiLogin(data.loginEmail, data.password)
           .then((response) => {
             setToken(response.data.token);
             ability.update([{"action": "manage","subject": "all"}]);
@@ -117,27 +108,23 @@ const Login = () => {
             /**
              * UserData Request to login
              */
-            getAllUserData(data.loginemail).then((promis) => {
+            getAllUserData(data.loginEmail).then((promis) => {
               const data = {
-                ...promis.data.data,
+                ...promis.data.users,
                 token: getToken(),
                 ability : [{"action": "manage","subject": "all"}],
-                rol : getrol(promis.data.data.rol),
-                fullname : ''.concat(promis.data.data.name,' ', promis.data.data.surname)
+                rol : getrol(promis.data.users.Rol),
+                fullName : ''.concat(promis.data.users.Name,' ', promis.data.users.Surname)
               };
               dispatch(handleLogin(data));
-              navigate(getHomeRouteForLoggedInUser(promis.data.data.rol));
+              navigate(getHomeRouteForLoggedInUser(promis.data.users.Rol));
               toast((t) => (
                 <ToastContent
                   t={t}
                   role={data.rol || 'admin'}
-                  name={data.fullname || 'Sonia Torres'}
+                  name={data.fullName || data.username || 'Sonia Torres'}
                 />
               ));
-            });
-            getStadistics().then(data => {
-              data.data.data.date = Date.now();
-              localStorage.setItem('stadistics', JSON.stringify(data.data.data));
             });
           })
           .catch((err) => {
@@ -209,21 +196,21 @@ const Login = () => {
                   Usuario / Email
                 </Label>
                 <Controller
-                  id="loginemail"
-                  name="loginemail"
+                  id="loginEmail"
+                  name="loginEmail"
                   control={control}
                   render={({ field }) => (
                     <Input
                       autoFocus
                       type="email"
-                      placeholder="iestablero@gmail.com"
-                      invalid={errors.loginemail && true}
+                      placeholder="john@example.com"
+                      invalid={errors.loginEmail && true}
                       {...field}
                     />
                   )}
                 />
-                {errors.loginemail && (
-                  <FormFeedback>{errors.loginemail.message}</FormFeedback>
+                {errors.loginEmail && (
+                  <FormFeedback>{errors.loginEmail.message}</FormFeedback>
                 )}
               </div>
               <div className="mb-1">

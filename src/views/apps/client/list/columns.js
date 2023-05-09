@@ -25,7 +25,7 @@ const renderClient = row => {
         initials
         className='me-1'
         color={'light-primary'}
-        content={row.name || 'John Doe'}
+        content={row.Name || 'John Doe'}
       />
     )
   }
@@ -47,8 +47,8 @@ export const columns = [
     name: 'Nombre Completo',
     sortable: true,
     minWidth: '300px',
-    sortField: 'name',
-    selector: row => row.name,
+    sortField: 'Name',
+    selector: row => row.Name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
         {renderClient(row)}
@@ -58,44 +58,44 @@ export const columns = [
             className='user_name text-truncate text-body'
             onClick={() => store.dispatch(getClient(row.id))}
           >
-            <span className='fw-bolder'>{row.name.concat(' ',row.surname)}</span>
+            <span className='fw-bolder'>{row.Name.concat(' ',row.Surname)}</span>
           </Link>
-          <small className='text-truncate text-muted mb-0'>{row.email}</small>
+          <small className='text-truncate text-muted mb-0'>{row.Email}</small>
         </div>
       </div>
     )
   },
   {
-    name: 'dni',
+    name: 'DNI',
     sortable: true,
     minWidth: '80px',
-    sortField: 'dni',
-    selector: row => row.dni,
-    cell: row => <span className='text-capitalize'>{row.dni}</span>
+    sortField: 'DNI',
+    selector: row => row.DNI,
+    cell: row => <span className='text-capitalize'>{row.DNI}</span>
   },
   {
     name: 'Email',
     sortable: true,
     minWidth: '200px',
-    sortField: 'email',
-    selector: row => row.email,
-    cell: row => <span className='text-capitalize'>{row.email}</span>
+    sortField: 'Email',
+    selector: row => row.Email,
+    cell: row => <span className='text-capitalize'>{row.Email}</span>
   },
   {
     name: 'Fecha de Nacimiento',
     minWidth: '200px',
     sortable: true,
-    sortField: 'birth_date',
-    selector: row => row.birth_date,
-    cell: row => <span className='text-capitalize'>{row.birth_date}</span>
+    sortField: 'Birth_Date',
+    selector: row => row.Birth_Date,
+    cell: row => <span className='text-capitalize'>{row.Birth_Date}</span>
   },
   {
     name: 'Teléfono',
     minWidth: '170px',
     sortable: true,
-    sortField: 'phone',
-    selector: row => row.phone,
-    cell: row => <span className='text-capitalize'>{row.phone}</span>
+    sortField: 'Phone',
+    selector: row => row.Phone,
+    cell: row => <span className='text-capitalize'>{row.Phone}</span>
   },
  
   {

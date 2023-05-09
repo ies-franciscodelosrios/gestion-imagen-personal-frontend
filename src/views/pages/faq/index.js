@@ -14,6 +14,7 @@ import Breadcrumbs from '@components/breadcrumbs'
 
 // ** Styles
 import '@styles/base/pages/page-faq.scss'
+import { ApiGetFaq } from '../../../services/api'
 
 const inputs = {
   /* Dashboard´s FAQS */

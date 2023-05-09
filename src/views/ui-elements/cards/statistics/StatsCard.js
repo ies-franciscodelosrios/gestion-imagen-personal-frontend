@@ -7,36 +7,32 @@ import Avatar from '@components/avatar'
 
 // ** Reactstrap Imports
 import { Card, CardHeader, CardTitle, CardBody, CardText, Row, Col } from 'reactstrap'
-import { getStadistics } from '../../../../services/api'
-import { useNavigate } from 'react-router-dom'
 
-const StatsCard = ({ cols, stats }) => {
-  const navigate = useNavigate()
-
+const StatsCard = ({ cols }) => {
   const data = [
     {
-      title: stats.students ? stats.students : '0',
+      title: '2138',
       subtitle: 'Alumnos',
       color: 'light-primary',
-      icon: <Users size={24} onDoubleClick={() => {reloadData()}}/>
+      icon: <Users size={24} />
     },
     {
-      title: stats.teachers ? stats.teachers : '0',
-      subtitle: 'Profesores',
+      title: '56.4%',
+      subtitle: 'Peluqueria',
       color: 'light-secondary',
-      icon: <Scissors size={24} onDoubleClick={() => {reloadData()}}/>
+      icon: <Scissors size={24} />
     },
     {
-      title: stats.clients ? stats.clients : '0',
-      subtitle: 'Clientes',
+      title: '44.6%',
+      subtitle: 'Estética',
       color: 'light-danger',
-      icon: <PenTool size={24} onDoubleClick={() => {reloadData()}}/>
+      icon: <PenTool size={24} />
     },
     {
-      title: stats.appointments ? stats.appointments : '0',
+      title: '210',
       subtitle: 'Citas',
       color: 'light-success',
-      icon: <Calendar size={24} onDoubleClick={() => {reloadData()}}/>
+      icon: <Calendar size={24} />
     }
   ]
 
@@ -55,8 +51,8 @@ const StatsCard = ({ cols, stats }) => {
           <div className='d-flex align-items-center'>
             <Avatar color={item.color} icon={item.icon} className='me-2' />
             <div className='my-auto'>
-              <h3 className='fw-bolder mb-0'>{item.title}</h3>
-              <CardText className='font-small-4 mb-0'>{item.subtitle}</CardText>
+              <h4 className='fw-bolder mb-0'>{item.title}</h4>
+              <CardText className='font-small-3 mb-0'>{item.subtitle}</CardText>
             </div>
           </div>
         </Col>
@@ -67,50 +63,14 @@ const StatsCard = ({ cols, stats }) => {
   return (
     <Card className='card-statistics'>
       <CardHeader>
-        <CardTitle tag='h4' >Estadisticas</CardTitle>
-        <CardText className='card-text font-small-2 me-25 mb-0'>{timeSince(stats.date)}</CardText>
+        <CardTitle tag='h4'>Estadisticas</CardTitle>
+        <CardText className='card-text font-small-2 me-25 mb-0'>Actualizado hace 1 semana</CardText>
       </CardHeader>
       <CardBody className='statistics-body'>
         <Row>{renderData()}</Row>
       </CardBody>
     </Card>
   )
-  
-  function reloadData(){
-    getStadistics().then(data => {
-      data.data.data.date = Date.now();
-      localStorage.setItem('stadistics', JSON.stringify(data.data.data));
-    });
-    navigate('/dashboard/ecommerce');
-}
-
-function timeSince(date) {
-  
-  var seconds = Math.floor((new Date() - date) / 1000);
-  
-  var interval = seconds / 31536000;
-  
-  if (interval > 1) {
-    return Math.floor(interval) + " years";
-  }
-  interval = seconds / 2592000;
-  if (interval > 1) {
-    return Math.floor(interval) + " months";
-  }
-  interval = seconds / 86400;
-  if (interval > 1) {
-    return Math.floor(interval) + " days";
-  }
-  interval = seconds / 3600;
-  if (interval > 1) {
-    return Math.floor(interval) + " hours";
-  }
-  interval = seconds / 60;
-  if (interval > 1) {
-    return Math.floor(interval) + " minutes";
-  }
-  return Math.floor(seconds) + " seconds";
-}
 }
 
 export default StatsCard

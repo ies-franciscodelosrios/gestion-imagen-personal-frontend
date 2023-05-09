@@ -49,36 +49,36 @@ export const columns = [
     name: 'Fecha',
     sortable: true,
     sortField: 'date',
-    selector: row => row.date,
-    cell: row => row.date
+    selector: row => row.Date,
+    cell: row => row.Date
   }, {
     minWidth: '200px',
     name: 'Dni cliente',
     sortable: true,
-    sortField: 'dni_client',
-    selector: row => row.dni_client,
-    cell: row => row.dni_client
+    sortField: 'DNI_client',
+    selector: row => row.DNI_client,
+    cell: row => row.DNI_client
   }, {
     minWidth: '200px',
     name: 'Dni estudiante',
     sortable: true,
-    sortField: 'dni_Student',
-    selector: row => row.dni_student,
-    cell: row => row.dni_student
+    sortField: 'Dni_Student',
+    selector: row => row.DNI_Student,
+    cell: row => row.DNI_Student
   },
   {
     minWidth: '200px',
     name: 'Tratamiento',
     sortable: true,
-    sortField: 'treatment',
-    selector: row => row.treatment,
-    cell: row => row.treatment
+    sortField: 'Treatment',
+    selector: row => row.Treatment,
+    cell: row => row.Treatment
   },{
     name: "Protocolo",
     minWidth: '200px',
     sortable: true,
-    sortField: 'protocol',
-    selector: row => row.protocol,
+    sortField: 'Protocol',
+    selector: row => row.Protocol,
     cell: row => {
       const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
         Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Edit
@@ -96,8 +96,8 @@ export const columns = [
     name: "Consultas",
     minWidth: '200px',
     sortable: true,
-    sortField: 'consultancy',
-    selector: row => row.consultancy,
+    sortField: 'Consultancy',
+    selector: row => row.Consultancy,
     cell: row => {
       const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
         Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Clipboard
@@ -115,8 +115,8 @@ export const columns = [
     name: "Seguimiento",
     minWidth: '200px',
     sortable: true,
-    sortField: 'tracking',
-    selector: row => row.tracking,
+    sortField: 'Tracking',
+    selector: row => row.Tracking,
     cell: row => {
       const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
         Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : ChevronsRight
@@ -134,8 +134,8 @@ export const columns = [
     name: "Encuesta",
     minWidth: '200px',
     sortable: true,
-    sortField: 'survey',
-    selector: row => row.survey,
+    sortField: 'Survey',
+    selector: row => row.Survey,
     cell: row => {
       const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
         Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : BookOpen

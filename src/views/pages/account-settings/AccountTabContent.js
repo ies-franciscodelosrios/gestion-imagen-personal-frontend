@@ -70,7 +70,7 @@ const AccountTabs = ({ data }) => {
   // ** Hooks
   const defaultValues = {
     lastName: '',
-    firstName: data.fullname.split(' ')[0]
+    firstName: data.fullName.split(' ')[0]
   }
   const {
     control,

@@ -23,12 +23,12 @@ import { addClient } from '../store';
 import { useDispatch } from 'react-redux';
 
 const defaultValues = {
-  dni: '',
-  name: '',
-  surname: '',
-  email: '',
-  phone: '',
-  birth_date: ''
+  DNI: '',
+  Name: '',
+  Surname: '',
+  Email: '',
+  Phone: '',
+  BirthDate: ''
 };
 
 const cycleOptions = [
@@ -64,28 +64,30 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
 
   // ** Function to handle form submit
   const onSubmit = (data) => {
-    data.birth_date = BirthPicker.toISOString().split('T')[0];
-    //data.cycle = data.cycle.value;
+    data.BirthDate = BirthPicker.toISOString().split('T')[0];
+    //data.Cycle = data.Cycle.value;
     setData(data);
     if (checkIsValid(data)) {
       toggleSidebar();
+      console.log(data);
       dispatch(
         addClient({
-          dni: data.dni,
-          name: data.name,
-          surname: data.surname,
-          email: data.email,
-          phone: data.phone,
-          birth_date: data.birth_date,
-          more_info: ' ',
-          life_style: ' ',
-          background_health: ' ',
-          background_aesthetic: ' ',
-          asthetic_routine: ' ',
-          hairdressing_routine: ' '
+          DNI: data.DNI,
+          Name: data.Name,
+          Surname: data.Surname,
+          Email: data.Email,
+          Phone: data.Phone,
+          BirthDate: data.BirthDate,
+          More_Info: '',
+          Life_Style: '',
+          Background_Health: '',
+          Background_Aesthetic: '',
+          Asthetic_Routine: '',
+          Hairdressing_Routine: ''
         })
       );
     } else {
+      console.log('not correct');
       for (const key in data) {
         if (data[key] === null) {
           setError('country', {
@@ -94,6 +96,7 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
         }
       }
     }
+    console.log(onSubmit)
   };
 
   const handleSidebarClosed = () => {
@@ -114,17 +117,17 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-1">
-          <Label className="form-label" for="dni">
+          <Label className="form-label" for="DNI">
             DNI <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="dni"
+            name="DNI"
             control={control}
             render={({ field }) => (
               <Input
-                id="dni"
+                id="DNI"
                 placeholder="31000000Y"
-                invalid={errors.dni && true}
+                invalid={errors.Name && true}
                 {...field}
               />
             )}
@@ -135,48 +138,48 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
             Nombre <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="name"
+            name="Name"
             control={control}
             render={({ field }) => (
               <Input
-                id="name"
+                id="Name"
                 placeholder="Pedro"
-                invalid={errors.name && true}
+                invalid={errors.Name && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="surname">
+          <Label className="form-label" for="Surname">
             Apellido <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="surname"
+            name="Surname"
             control={control}
             render={({ field }) => (
               <Input
-                id="surname"
+                id="Surname"
                 placeholder="Torres"
-                invalid={errors.surname && true}
+                invalid={errors.Surname && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="email">
+          <Label className="form-label" for="Email">
             Email <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="email"
+            name="Email"
             control={control}
             render={({ field }) => (
               <Input
                 type="email"
-                id="email"
+                id="Email"
                 placeholder="nombre@gmail.com"
-                invalid={errors.email && true}
+                invalid={errors.Email && true}
                 {...field}
               />
             )}
@@ -187,32 +190,32 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
         </div>
 
         <div className="mb-1">
-          <Label className="form-label" for="phone">
+          <Label className="form-label" for="Phone">
             Teléfono <span className="text-danger">*</span>
           </Label>
           <Controller
-            name="phone"
+            name="Phone"
             control={control}
             render={({ field }) => (
               <Input
-                id="phone"
+                id="Phone"
                 type='number'
                 placeholder="681 681 681"
-                invalid={errors.phone && true}
+                invalid={errors.Phone && true}
                 {...field}
               />
             )}
           />
         </div>
         <div className="mb-1">
-          <Label className="form-label" for="birth_date">
+          <Label className="form-label" for="BirthDate">
             Fecha de Nacimiento
           </Label>
           <Flatpickr
             required
             locale="es"
-            id="birth_date"
-            name="birth_date"
+            id="BirthDate"
+            name="BirthDate"
             className="form-control"
             onChange={(date) => setBirthPicker(date[0])}
             value={BirthPicker}

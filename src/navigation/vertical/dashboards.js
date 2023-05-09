@@ -7,7 +7,7 @@ export default [
     title: 'Dashboard',
     icon: <Home size={20} />,
     badge: 'light-warning',
-    badgeText: '',
+    badgeText: '2',
     navLink: '/dashboard/ecommerce',
   }
 ]

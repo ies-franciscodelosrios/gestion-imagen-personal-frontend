@@ -37,8 +37,8 @@ const SheetTabs = () => {
   const store = useSelector((state) => state.clients);
 
   const [datatab1, setDatatab1] = useState(
-    store.selectedClient.life_style.length > 20
-      ? JSON.parse(store.selectedClient.life_style)
+    store.selectedClient.Life_Style.length > 20
+      ? JSON.parse(store.selectedClient.Life_Style)
       : {}
   );
 
@@ -355,7 +355,7 @@ const SheetTabs = () => {
     const updatedClient = { ...store.selectedClient };
     await setDatatab1(data);
 
-    updatedClient.life_style = JSON.stringify(data);
+    updatedClient.Life_Style = JSON.stringify(data);
     dispatch(updateClient(updatedClient));
   };
 
@@ -429,7 +429,7 @@ const SheetTabs = () => {
   // ** Get data on mount
   useEffect(() => {
     try {
-      setDatatab1(JSON.parse(store.selectedClient.life_style));
+      setDatatab1(JSON.parse(store.selectedClient.Life_Style));
     } catch (error) {
       setDatatab1({});
     }

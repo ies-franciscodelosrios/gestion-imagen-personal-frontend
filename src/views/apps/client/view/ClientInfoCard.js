@@ -32,6 +32,7 @@ import Avatar from '@components/avatar';
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
 import { toast } from 'react-hot-toast';
+import { getRol } from '../../../../utility/Utils';
 
 const roleColors = {
   editor: 'light-info',
@@ -68,11 +69,11 @@ const ClientInfoCard = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: selectedClient.name,
-      surname: selectedClient.surname,
-      email: selectedClient.email,
-      dni: selectedClient.dni,
-      phone: selectedClient.phone,
+      Name: selectedClient.Name,
+      Surname: selectedClient.Surname,
+      Email: selectedClient.Email,
+      DNI: selectedClient.DNI,
+      Phone: selectedClient.Phone,
     },
   });
 
@@ -83,7 +84,7 @@ const ClientInfoCard = () => {
         initials
         color={'light-primary'}
         className="rounded mt-3 mb-2"
-        content={selectedClient.name}
+        content={selectedClient.Name}
         contentStyles={{
           borderRadius: 0,
           fontSize: 'calc(48px)',
@@ -100,11 +101,11 @@ const ClientInfoCard = () => {
 
   const onSubmit = (data) => {
     const updatedClient = {...store.selectedClient};
-    updatedClient.name = data.name;
-    updatedClient.surname = data.surname;
-    updatedClient.email = data.email;
-    updatedClient.dni = data.dni;
-    updatedClient.phone = data.phone;
+    updatedClient.Name = data.Name;
+    updatedClient.Surname = data.Surname;
+    updatedClient.Email = data.Email;
+    updatedClient.DNI = data.DNI;
+    updatedClient.Phone = data.Phone;
     if (Object.values(data).every((field) => field.toString().length > 0)) {
       console.log(updatedClient.id);
       dispatch(updateClient(updatedClient));
@@ -122,11 +123,11 @@ const ClientInfoCard = () => {
 
   const handleReset = () => {
     reset({
-      name: selectedClient.name,
-      surname: selectedClient.surname,
-      email: selectedClient.email,
-      dni: selectedClient.dni,
-      phone: selectedClient.phone,
+      Name: selectedClient.Name,
+      Surname: selectedClient.Surname,
+      Email: selectedClient.Email,
+      DNI: selectedClient.DNI,
+      Phone: selectedClient.Phone,
     });
   };
 
@@ -141,15 +142,15 @@ const ClientInfoCard = () => {
                 <div className="user-info">
                   <h4>
                     {selectedClient !== null
-                      ? selectedClient.name.concat(' ' + selectedClient.surname)
+                      ? selectedClient.Name.concat(' ' + selectedClient.Surname)
                       : 'Eleanor Aguilar'}
                   </h4>
                   {selectedClient !== null ? (
                     <Badge
-                      color={roleColors[selectedClient.rol]}
+                      color={roleColors[selectedClient.Rol]}
                       className="text-capitalize"
                     >
-                      {selectedClient.rol}
+                      {selectedClient.Rol}
                     </Badge>
                   ) : null}
                 </div>
@@ -182,23 +183,23 @@ const ClientInfoCard = () => {
               <ul className="list-unstyled">
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Nombre: </span>
-                  <span>{selectedClient.name}</span>
+                  <span>{selectedClient.Name}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Apellido: </span>
-                  <span>{selectedClient.surname}</span>
+                  <span>{selectedClient.Surname}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">DNI: </span>
-                  <span>{selectedClient.dni}</span>
+                  <span>{selectedClient.DNI}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Email: </span>
-                  <span>{selectedClient.email}</span>
+                  <span>{selectedClient.Email}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Año Nacimiento: </span>
-                  <span>{selectedClient.birth_date}</span>
+                  <span>{selectedClient.Birth_Date}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Telefono: </span>
@@ -206,17 +207,19 @@ const ClientInfoCard = () => {
                     className="text-capitalize"
                     color={statusColors['active']}
                   >
-                    {selectedClient.phone}
+                    {selectedClient.Phone}
                   </Badge>
                 </li>
               </ul>
             ) : null}
           </div>
+          {getRol() <= 1 ? 
           <div className="d-flex justify-content-center pt-2">
             <Button color="primary" onClick={() => {handleReset(); setShow(true)}}>
               Editar
             </Button>
           </div>
+          : null}
         </CardBody>
       </Card>
       <Modal
@@ -240,7 +243,7 @@ const ClientInfoCard = () => {
                   Nombre
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.name}
+                  defaultValue={selectedClient.Name}
                   control={control}
                   id="Name"
                   name="Name"
@@ -255,18 +258,18 @@ const ClientInfoCard = () => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="surname">
+                <Label className="form-label" for="Surname">
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.surname}
+                  defaultValue={selectedClient.Surname}
                   control={control}
-                  id="surname"
-                  name="surname"
+                  id="Surname"
+                  name="Surname"
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id="surname"
+                      id="Surname"
                       placeholder="Torres"
                       invalid={errors.lastName && true}
                     />
@@ -274,54 +277,54 @@ const ClientInfoCard = () => {
                 />
               </Col>
               <Col xs={12}>
-                <Label className="form-label" for="email">
+                <Label className="form-label" for="Email">
                   Email
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.email}
+                  defaultValue={selectedClient.Email}
                   control={control}
-                  id="email"
-                  name="email"
+                  id="Email"
+                  name="Email"
                   render={({ field }) => (
                     <Input
                       {...field}
                       type="email"
-                      id="email"
+                      id="Email"
                       placeholder="nombre@gmail.com"
-                      invalid={errors.email && true}
+                      invalid={errors.Email && true}
                     />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="dni">
+                <Label className="form-label" for="DNI">
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.dni}
+                  defaultValue={selectedClient.DNI}
                   control={control}
-                  id="dni"
-                  name="dni"
+                  id="DNI"
+                  name="DNI"
                   render={({ field }) => (
-                    <Input {...field} id="dni" placeholder="31000000C" />
+                    <Input {...field} id="DNI" placeholder="31000000C" />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="phone">
+                <Label className="form-label" for="Phone">
                   Teléfono
                 </Label>
                 <Controller
-                  defaultValue={selectedClient.phone}
+                  defaultValue={selectedClient.Phone}
                   control={control}
                   type='number'
-                  id="phone"
-                  name="phone"
+                  id="Phone"
+                  name="Phone"
                   render={({ field }) => (
                     <Input
                       {...field}
                       type="number"
-                      id="phone"
+                      id="Phone"
                       placeholder="609 933 442"
                     />
                   )}

@@ -11,6 +11,7 @@ import { Row, Col, Alert } from 'reactstrap'
 
 // ** User View Components
 import UserTabs from './Tabs'
+import PlanCard from './PlanCard'
 import UserInfoCard from './UserInfoCard'
 
 // ** Styles

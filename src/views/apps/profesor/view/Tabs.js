@@ -2,15 +2,16 @@
 import { Fragment } from 'react'
 
 // ** Reactstrap Imports
-import { Nav, NavItem, TabContent, TabPane } from 'reactstrap'
+import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 
 // ** Icons Imports
-import { Book } from 'react-feather'
+import { User, Bookmark, Edit3, Book } from 'react-feather'
 
 // ** User Components
 
 
 import Tratamientos from './Tratamientos'
+import Notificaciones from './Notificacions'
 
 const UserTabs = ({ active, toggleTab }) => {
   return (
