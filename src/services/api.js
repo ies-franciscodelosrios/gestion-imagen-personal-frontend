@@ -239,7 +239,8 @@ export const getUserById = async (id) => {
  * @returns user data
  */
 export const getUserByDNI= async (id) => {
-  return await ApiConnect.get(`userByDni/${id}`, {
+  return await ApiConnect.get(`userByDni/id`, {
+    params:{id: id},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -347,12 +348,12 @@ export const AddAppointment = async (event) => {
   return await ApiConnect.post(
     `appointment`,
     {
-      Date: event.dateappo,
-      Treatment: event.calendar,
-      Protocol: event.title,
+      date: event.start,
+      treatment: event.calendar,
+      protocol: event.title,
       dni_client: event.dnicliente,
-      dni_Student: event.dnialumno,
-      Consultancy: event.desc,
+      dni_student: event.dnialumno,
+      consultancy: event.desc,
     },
     {
       headers: {
@@ -415,14 +416,14 @@ export const getAppointmentbyId = async (id) => {
  * @returns appointments data
  */
 export const updateAppointment = async (event) => {
-
-  return await ApiConnect.put(`appointment/${event.id}`, {
-    Date: event.dateappo,
-    Treatment: event.calendar,
-    Protocol: event.title,
-    DNI_client: event.dnicliente,
-    DNI_Student: event.dnialumno,
-    Consultancy: event.desc,
+  return await ApiConnect.put(`appointment`, {
+    id: event.id,
+    date: event.start,
+    treatment: event.calendar,
+    protocol: event.title,
+    dni_client: event.dnicliente,
+    dni_student: event.dnialumno,
+    consultancy: event.desc,
   }, {
     headers: {
       'Content-Type': 'application/json',
@@ -438,7 +439,8 @@ export const updateAppointment = async (event) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const deleteAppointment = async (id) => {
-  return await ApiConnect.delete(`appointment/${id}`, {
+  return await ApiConnect.delete(`appointment/id`, {
+    params:{id: id},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
