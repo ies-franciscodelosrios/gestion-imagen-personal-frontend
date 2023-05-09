@@ -42,25 +42,37 @@ const CalendarComponent = () => {
   const [eventos, setEventos] = useState()
 
 
-  const fetchAppointmentData = async () => {
-    const response = await getAllAppointments();
-    const appointments = response.data.users.map((event) => ({
-      id: event.id,
-      start: event.Date,
-      title: event.Protocol,
-      allDay: true,
-      editable:true
-    }));
-
-    const data = {
-      events: appointments,
-      selectedEvent: {},
-      selectedCalendars: ['Peluquería', 'Estética']
-    };
-    console.log(data);
-    setEventos(data);
-    console.log(eventos);
-  };
+  // const fetchAppointmentData = async () => {
+  //   const response = await getAllAppointments();
+  //   const appointments = response.data.data.map((event) => ({
+  //     id: event.id,
+  //     start: event.date,
+  //     title: event.protocol,
+  //     alumno: {
+  //       value: `${alumnoPromise.name} ${alumnoPromise.surname}`,
+  //       label: `${alumnoPromise.name} ${alumnoPromise.surname}`,
+  //       dni: alumnoPromise.dni,
+  //       avatar: '',
+  //     },
+  //     cliente: {
+  //       value: `${clientePromise.name} ${clientePromise.surname}`,
+  //       label: `${clientePromise.name} ${clientePromise.surname}`,
+  //       dni: clientePromise.dni,
+  //       avatar: '',
+  //     },
+  //     allDay: true,
+  //     editable:true
+  //   }));
+  //   console.log(appointments);
+  //   const data = {
+  //     events: appointments,
+  //     selectedEvent: {},
+  //     selectedCalendars: [0, 1]
+  //   };
+  //   console.log(data);
+  //   setEventos(data);
+  //   console.log(eventos);
+  // };
 
   // ** Hooks
   const [isRtl] = useRTL()
@@ -80,7 +92,8 @@ const CalendarComponent = () => {
     url: '',
     extendedProps: {
       calendar: '',
-      guests: [],
+      alumno: [],
+      cliente: [],
       location: '',
       description: ''
     }
