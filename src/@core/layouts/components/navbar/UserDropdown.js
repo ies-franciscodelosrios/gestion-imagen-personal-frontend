@@ -42,10 +42,10 @@ const UserDropdown = () => {
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
         <div className='user-nav d-sm-flex d-none'>
-          <span className='user-name fw-bold'>{(userData && userData['fullName']) || 'Usuario'}</span>
+          <span className='user-name fw-bold'>{(userData && userData['fullname']) || 'Usuario'}</span>
           <span className='user-status'>{ (userData && userData['rol'])|| 'Admin'}</span>
         </div>
-        <Avatar initials content={JSON.parse(localStorage.getItem('userData')).Name || 'Usuario'} imgHeight='50' imgWidth='50' status='online' className='me-1' color={'light-primary'}/>
+        <Avatar initials content={JSON.parse(localStorage.getItem('userData')).name || 'Usuario'} imgHeight='50' imgWidth='50' status='online' className='me-1' color={'light-primary'}/>
       </DropdownToggle>
       <DropdownMenu end>
         <DropdownItem tag={Link} to='/pages/profile'>
@@ -54,10 +54,6 @@ const UserDropdown = () => {
         </DropdownItem>
 
         <DropdownItem divider />
-        <DropdownItem tag={Link} to='/pages/account-settings'>
-          <Settings size={14} className='me-75' />
-          <span className='align-middle'>Ajustes</span>
-        </DropdownItem>
 
         <DropdownItem tag={Link} to='/pages/faq'>
           <HelpCircle size={14} className='me-75' />

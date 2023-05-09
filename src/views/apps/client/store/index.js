@@ -9,29 +9,29 @@ import { handleConfirmCancel, sort_data } from './sort_utils'
 
 // Preguntar mañana de donde viene appClients
 export const getAllData = createAsyncThunk('appClients/getAllData', async (params) => {
-  const response = {"data": {"users": params.data}} 
-  if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
+  const response = {"data": {"data": params.data}} 
+  if ((response === null || response.data.data.length <= 0 ) && params.q == '') {
     Object.assign(response, await getAllClientsData().then(result => {return result})) 
   }
-  return response.data.users
+  return response.data.data
 })
 
 export const getData = createAsyncThunk('appClients/getData', async params => {
-  const response = {"data": {"users": params.data}};
-  if ((response === null || response.data.users.length <= 0 ) && params.q == '') {
+  const response = {"data": {"data": params.data}};
+  if ((response === null || response.data.data.length <= 0 ) && params.q == '') {
      Object.assign(response, await getAllClientsData().then(result => {return result})) 
   }
   Object.assign(response, sort_data(params, response));
   return {
     params,
-    data: response.data.users,
+    data: response.data.data,
     totalPages: response.data.total
   }
 })
 
 export const getClient = createAsyncThunk('appClients/getClient', async id => {
   const response = await getClientById(id).then(result => {return result})
-  return response.data.users
+  return response.data.data
 })
 
 export const updateClient = createAsyncThunk('appClients/updateClient', async updatedClient => {
@@ -40,17 +40,17 @@ export const updateClient = createAsyncThunk('appClients/updateClient', async up
   return updatedClient
 })
 
-export const addClient = createAsyncThunk('appClients/addClient', async (user, { dispatch, getState }) => {
-  await AddClient(user)
-  const response = await getAllClientsData().then(result => {toast.success('Correctamente Guardado!');return result.data.users}).catch(toast.error('Error al añadir cliente!')); 
+export const addClient = createAsyncThunk('appClients/addClient', async (user) => {
+  await AddClient(user).then(() => {toast.success('Correctamente Guardado!')})
+  const response = await getAllClientsData().then(result => {return result.data.data}).catch(); 
   return response
 })
 
-export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient', async (users) => {
+export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient', async (data) => {
   let response = null;
   const loading = toast.loading('Cargando Datos');
   try {
-        await users.map( async(user) =>{
+        await data.map( async(user) =>{
           await AddClient(user);
         })
   } catch (error) {
@@ -58,7 +58,7 @@ export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient
       id: loading,
     });
   }finally{
-    response = await getAllClientsData().then(result => { return result.data.users}).catch(); 
+    response = await getAllClientsData().then(result => { return result.data.data}).catch(); 
     toast.success('Correctamente Importados', {
       id: loading,
     });
@@ -70,7 +70,7 @@ export const addMultipleClients = createAsyncThunk('appClients/addMultipleClient
 export const deleteClient = createAsyncThunk('appClients/deleteClient', async (id, { dispatch, getState }) => {
   (await handleConfirmCancel())? await ApiDelClient(id) :'';
 
-  const response = await getAllClientsData().then(result => {return result.data.users}) 
+  const response = await getAllClientsData().then(result => {return result.data.data}) 
   return response
 })
 

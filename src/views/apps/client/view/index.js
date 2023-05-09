@@ -11,7 +11,6 @@ import { Row, Col, Alert } from 'reactstrap'
 
 // ** User View Components
 import UserTabs from './Tabs'
-import PlanCard from './PlanCard'
 import ClientInfoCard from './ClientInfoCard'
 import illustration from '@src/assets/images/pages/ilustracion-perfil.png';
 
@@ -44,13 +43,13 @@ const ClientView = () => {
   return store.selectedClient !== null && store.selectedClient !== undefined ? (
     <div className='app-user-view'>
       <Row>
-        <Col xl='4' lg='5' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+        <Col xl='4' lg='5' xs={{ order: 0 }} md={{ order: 0, size: 5 }}>
           <ClientInfoCard selectedClient={store.selectedClient}/>
           <div className="mt-auto">
             <img className="img-fluid" src={illustration} alt="illustration" />
           </div>
         </Col>
-        <Col xl='8' lg='7' xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
+        <Col xl='8' lg='7' xs={{ order: 1 }} md={{ order: 1, size: 7 }}>
           <UserTabs  active={active} toggleTab={toggleTab} selectedClient={store.selectedClient} />
         </Col>
       </Row>

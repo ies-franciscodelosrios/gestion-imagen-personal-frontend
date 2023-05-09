@@ -7,32 +7,33 @@ import axios from 'axios'
 
 import { getAllProfesorData, getUserById, updateUserBy, ApiDelUser,AddProfesor, getAllAppointments } from '../../../../services/api'
 import {handleConfirmCancel, sort_appointments, sort_data } from './sort_utils'
+import { toast } from 'react-hot-toast'
 
 
 
 /* ALL PROFESOR */
 
  export const getAllData = createAsyncThunk('appProfesors/getAllData', async (params) => {
-  const response = { "data": { "users": params.data } }
-  if ((response === null || response.data.users.length <= 0) && params.q == '') {
+  const response = { "data": { "data": params.data } }
+  if ((response === null || response.data.data.length <= 0) && params.q == '') {
     Object.assign(response, await getAllProfesorData().then(result => { return result }))
   }
 
-  return response.data.users
+  return response.data.data
   
 }) 
 
 /*  */
 
 export const getData = createAsyncThunk('appProfesors/getData', async params => {
-  const response = { "data": { "users": params.data } };
-  if ((response === null || response.data.users.length <= 0) && params.q == '') {
+  const response = { "data": { "data": params.data } };
+  if ((response === null || response.data.data.length <= 0) && params.q == '') {
     Object.assign(response, await getAllProfesorData().then(result => { return result }))
   }
-  response.data.users = sort_data(params, response.data.users);
+  response.data.data = sort_data(params, response.data.data);
   return {
     params,
-    data: response.data.users,
+    data: response.data.data,
     totalPages: response.data.total
   }
 })
@@ -42,9 +43,9 @@ export const getData = createAsyncThunk('appProfesors/getData', async params => 
 export const getProfesor = createAsyncThunk('appProfesors/getUser', async id => {
   const response = await getUserById(id).then(result => { return result })
   console.log(response)
-  console.log(response.data.users)
+  console.log(response.data.data)
 
-  return response.data.users
+  return response.data.data
 })
 
 /* GET ALL APPOINTMENTS */
@@ -52,9 +53,9 @@ export const getProfesor = createAsyncThunk('appProfesors/getUser', async id => 
 export const getAppointments = createAsyncThunk('appAppointments/getAppointments', async (params) => {
   const response = await getAllAppointments().then(result => { return result })
   console.log(response)
-  response.data.users = sort_appointments(params, response.data.users);
+  response.data.data = sort_appointments(params, response.data.data);
 
-  return response.data.users
+  return response.data.data
 })
 
 /* */
@@ -65,19 +66,19 @@ export const getAppointments = createAsyncThunk('appAppointments/getAppointments
 export const addProfesor = createAsyncThunk('appProfesors/addUserProfesor', async (user, { dispatch, getState }) => {
   await AddProfesor(user)
   console.log(user)
-  const response = await getAllProfesorData().then(result => { return result.data.users })
+  const response = await getAllProfesorData().then(result => { return result.data.data })
   return response
 })
 /* UPDATE PROFESOR */
 export const updateProfesor = createAsyncThunk('appProfesors/updateUser', async updatedUser => {
-  await updateUserBy(updatedUser);
+  await updateUserBy(updatedUser).then(e => toast.error('Datos Guardados')).catch(e=>toast.error('Error al editar'));
   return updatedUser
 })
 /* DELETE PROFESOR BY ID */
 
 export const deleteProfesor = createAsyncThunk('appProfesors/deleteUser', async (id, { dispatch, getState }) => {
   (await handleConfirmCancel())? await ApiDelUser(id) :'';
-  const response = await getAllProfesorData().then(result => {return result.data.users}) 
+  const response = await getAllProfesorData().then(result => {return result.data.data}) 
   return response
   /* await ApiDelUser(id) 
   await dispatch(getData(getState().users.params))

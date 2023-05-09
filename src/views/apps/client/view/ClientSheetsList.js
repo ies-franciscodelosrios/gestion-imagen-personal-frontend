@@ -28,7 +28,7 @@ const ClientSheetsList = () => {
   // ** Store Vars
   const dispatch = useDispatch();
   const store = useSelector((state) => state.clients);
-  const inputs = {    
+  const initialValues = {    
     Alergias: '',
   Patologias: '',
   Intervenciones: '',
@@ -55,14 +55,15 @@ const ClientSheetsList = () => {
   Otros_esteticos: '',
 }
 
-  const [data, setData] = useState(    store.selectedClient.More_Info.length > 10 ? JSON.parse(store.selectedClient.More_Info) : inputs );
+  const [data, setData] = useState(    store.selectedClient.more_info.length > 10 ? JSON.parse(store.selectedClient.more_info) : initialValues );
 
-  const { reset, handleSubmit, control } = useForm({ inputs });
+  const { reset, handleSubmit, control } = useForm({ initialValues });
   
   // ** Get data on mount
   useEffect(() => {
+ 
     try {
-      setData(JSON.parse(store.selectedClient.More_Info));
+      setData(JSON.parse(store.selectedClient.more_info));
     } catch (error) {
       setData({});
     }
@@ -76,36 +77,36 @@ const ClientSheetsList = () => {
   const onSubmit = async (data) => {
     await setData(data);
     const updatedClient = { ...store.selectedClient };
-    updatedClient.More_Info = JSON.stringify(data);
+    updatedClient.more_info = JSON.stringify(data);
     dispatch(updateClient(updatedClient));
   };
 
   const handleReset = () => {
     reset({
-      Alergias: data.Alergias,
-      Patologias: data.Patologias,
-      Intervenciones: data.Intervenciones,
-      Medicamento: data.Medicamento,
-      Protesis: data.Protesis,
-      Otros_antecedentes: data.Otros_antecedentes,
-      Fuma: data.Fuma,
-      Frecuencia_fuma: data.Frecuencia_fuma,
-      alcohol: data.alcohol,
-      Frecuencia_alcohol: data.Frecuencia_alcohol,
-      agua: data.agua,
-      Frecuencia_agua: data.Frecuencia_agua,
-      deporte: data.deporte,
-      Frecuencia_deporte: data.Frecuencia_deporte,
-      tipo_vida: data.tipo_vida,
-      tolerancia_solar: data.tolerancia_solar,
-      Cicatricacion: data.Cicatricacion,
-      Alimentacion: data.Alimentacion,
-      tratamientos: data.tratamientos,
-      Problema: data.Problema,
-      Problema_tiempo: data.Problema_tiempo,
-      Problema_relacion: data.Problema_relacion,
-      Cosmeticos: data.Cosmeticos,
-      Otros_esteticos: data.Otros_esteticos,
+      Alergias: data.Alergias || '',
+      Patologias: data.Patologias || '',
+      Intervenciones: data.Intervenciones || '',
+      Medicamento: data.Medicamento || '',
+      Protesis: data.Protesis || '',
+      Otros_antecedentes: data.Otros_antecedentes || '',
+      Fuma: data.Fuma || '',
+      Frecuencia_fuma: data.Frecuencia_fuma || '',
+      alcohol: data.alcohol || '',
+      Frecuencia_alcohol: data.Frecuencia_alcohol || '',
+      agua: data.agua || '',
+      Frecuencia_agua: data.Frecuencia_agua || '',
+      deporte: data.deporte || '',
+      Frecuencia_deporte: data.Frecuencia_deporte || '',
+      tipo_vida: data.tipo_vida || '',
+      tolerancia_solar: data.tolerancia_solar || '',
+      Cicatricacion: data.Cicatricacion || '',
+      Alimentacion: data.Alimentacion || '',
+      tratamientos: data.tratamientos || '',
+      Problema: data.Problema || '',
+      Problema_tiempo: data.Problema_tiempo || '',
+      Problema_relacion: data.Problema_relacion || '',
+      Cosmeticos: data.Cosmeticos || '',
+      Otros_esteticos: data.Otros_esteticos || '',
     });
   };
 
@@ -116,7 +117,7 @@ const ClientSheetsList = () => {
       </CardHeader>
 
       <CardBody>
-        <Form onSubmit={handleSubmit(onSubmit)} id="More_Info">
+        <Form onSubmit={handleSubmit(onSubmit)} id="more_info">
           <Row>
             <Col md="6" sm="12" className="mb-1">
               <Label className="form-label" for="Alergias">
@@ -506,7 +507,7 @@ const ClientSheetsList = () => {
                   color="secondary"
                   onClick={() => {
                     handleReset();
-                    toast.error('Borrado de datos no guardados')
+                    toast.success('Datos no guardado')
                   }}
                 >
                   Cancelar

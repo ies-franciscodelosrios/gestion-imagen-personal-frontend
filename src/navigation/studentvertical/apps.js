@@ -1,5 +1,5 @@
 // ** Icons Import
-import { Mail, MessageSquare, CheckSquare, Calendar, FileText, Circle, ShoppingCart, Users } from 'react-feather'
+import { Calendar, Users } from 'react-feather'
 
 export default [
   {

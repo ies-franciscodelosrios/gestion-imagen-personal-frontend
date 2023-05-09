@@ -10,14 +10,8 @@ import navigation from '@src/navigation/vertical'
 import studentnavigation from '@src/navigation/studentvertical'
 
 const VerticalLayout = props => {
-  // const [menuData, setMenuData] = useState([])
-
-  // ** For ServerSide navigation
-  // useEffect(() => {
-  //   axios.get(URL).then(response => setMenuData(response.data))
-  // }, [])
   const userdata = JSON.parse(localStorage.getItem('userData'));
-if (userdata.Rol >= 2) { 
+if (userdata && userdata?.rol == 'Alumno') { 
   return (
     <Layout menuData={studentnavigation} {...props}>
       <Outlet />

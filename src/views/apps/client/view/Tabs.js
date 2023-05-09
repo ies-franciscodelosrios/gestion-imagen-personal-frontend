@@ -8,7 +8,6 @@ import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { User, Lock, Bookmark, Bell, Link } from 'react-feather'
 
 // ** User Components
-import SecurityTab from './SecurityTab'
 import ClientSheetsList from './ClientSheetsList'
 
 const UserTabs = ({ active, toggleTab, client }) => {
@@ -32,9 +31,9 @@ const UserTabs = ({ active, toggleTab, client }) => {
         <TabPane tabId='1'>
           <ClientSheetsList client={client}/>
         </TabPane>
-        <TabPane tabId='2'>
-          <SecurityTab />
-        </TabPane>
+        {/* <TabPane tabId='2'>
+          <></>
+        </TabPane> */}
       </TabContent>
     </Fragment>
   )
