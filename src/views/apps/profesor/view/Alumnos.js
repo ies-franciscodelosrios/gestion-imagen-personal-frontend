@@ -5,10 +5,10 @@ import { Fragment, useState, useEffect } from 'react'
 
 
 // ** Table Columns
-import { columns } from './columnsTreatments'
+import { columns } from './columnsStudents'
 
 // ** Store & Actions
-import { getAllData, getAppointments, getData } from '../store'
+import { /*getAllData, getAppointments, getData,*/ getAllStudents } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -41,7 +41,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
 
     const columnDelimiter = ','
     const lineDelimiter = '\n'
-    const keys = Object.keys(store.appoitments[0])
+    const keys = Object.keys(store.students[0])
 
     result = ''
     result += keys.join(columnDelimiter)
@@ -81,7 +81,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
               <option value='25'>25</option>
               <option value='50'>50</option>
             </Input>
-            <label htmlFor='rows-per-page'>Tratamientos por pagina</label>
+            <label htmlFor='rows-per-page'>Alumnos por pagina</label>
           </div>
           
         </Col>
@@ -115,7 +115,7 @@ const UsersList = () => {
   // ** Get data on mount
   useEffect(() => {
     dispatch(
-      getAppointments({
+      getAllStudents({
         sort,
         sortColumn,
         q: searchTerm,
@@ -133,7 +133,7 @@ const UsersList = () => {
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
-      getAppointments({
+      getAllStudents({
         sort,
         sortColumn,
         q: searchTerm,
@@ -150,7 +150,7 @@ const UsersList = () => {
   const handlePerPage = e => {
     const value = parseInt(e.currentTarget.value)
     dispatch(
-      getAppointments({
+      getAllStudents({
         sort,
         sortColumn,
         q: searchTerm,
@@ -168,7 +168,7 @@ const UsersList = () => {
   const handleFilter = val => {
     setSearchTerm(val)
     dispatch(
-      getAppointments({
+      getAllStudents({
         sort,
         sortColumn,
         q: searchTerm,
@@ -182,7 +182,7 @@ const UsersList = () => {
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(store.appoitments.length / rowsPerPage))
+    const count = Number(Math.ceil(store.students.length / rowsPerPage))
     console.log(count )
     return (
       <ReactPaginate
@@ -214,19 +214,19 @@ const UsersList = () => {
       return filters[k].length > 0
     })
 
-    if (store.appoitments !== undefined && store.appoitments.length > 0) {
-      return store.appoitments
-    } else if (store.appoitments === undefined || store.appoitments.length === 0 && isFiltered) {
+    if (store.students !== undefined && store.students.length > 0) {
+      return store.students
+    } else if (store.students === undefined || store.students.length === 0 && isFiltered) {
       return []
     } else {
-      return store.appoitments.slice(0, rowsPerPage)
+      return store.students.slice(0, rowsPerPage)
     }
   }
   const handleSort = (column, sortDirection) => {
     setSort(sortDirection)
     setSortColumn(column.sortField)
     dispatch(
-      getAppointments({
+      getAllStudents({
         sort,
         sortColumn,
         q: searchTerm,
