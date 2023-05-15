@@ -24,54 +24,53 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
     const studentList = calendars.users;
     const clientList = calendars.clients;
     const filtros = calendars.calendarLabel;
-    console.log(calendars.events.calendarLabel==filtros);
+    console.log(studentList);
     if (calendars.events === null || calendars.events.length <= 0) {
 
       const students = await getAllStudentsData().then(result => {return result}).catch(() =>{console.log('error all student')});
       const clients = await getAllClientsData().then(result => {return result}).catch(() =>{console.log('error all client')});
-      Object.assign(studentList, students.data.users.map((alumno) => ({
-        value: `${alumno.Name} ${alumno.Surname}`,
-        label: `${alumno.Name} ${alumno.Surname}`,
-        dni: alumno.DNI,
+      Object.assign(studentList, students.data.data.map((alumno) => ({
+        value: `${alumno.name} ${alumno.surname}`,
+        label: `${alumno.name} ${alumno.surname}`,
+        dni: alumno.dni,
         avatar: 'img5',
       })));
-      Object.assign(clientList ,clients.data.users.map((cliente) => ({
-        value: `${cliente.Name} ${cliente.Surname}`,
-        label: `${cliente.Name} ${cliente.Surname}`,
-        dni: cliente.DNI,
+      Object.assign(clientList ,clients.data.data.map((cliente) => ({
+        value: `${cliente.name} ${cliente.surname}`,
+        label: `${cliente.name} ${cliente.surname}`,
+        dni: cliente.dni,
         avatar: 'img5',
       })));
 
       const appointments = await getAllAppointments().then(result => {return result}).catch(() => {console.log('error all apointments')});
-      Object.assign(appointmentList, await appointments.data.users.map(event => {
+      Object.assign(appointmentList, await appointments.data.data.map(event => {
         const alumnoPromise = {};
-        Object.assign(alumnoPromise, findUser(event.DNI_Student, students.data.users));
+        Object.assign(alumnoPromise, findUser(event.dni_student, students.data.data));
         const clientePromise = {};
-        Object.assign(clientePromise, findUser(event.DNI_client, clients.data.users));
-
+        Object.assign(clientePromise, findUser(event.dni_client, clients.data.data));
         return {
           id: event.id,
-          start: event.Date,
-          title: event.Protocol,
-          calendarLabel: event.Treatment,
+          start: event.date,
+          title: event.protocol,
+          calendarLabel: event.treatment,
           created_at: event.created_at,
           allDay: true,
-          color: event.Treatment == 0?'#FFB6B9':'#A6E4D9',
+          color: event.treatment == 0?'#FFB6B9':'#A6E4D9',
           editable: true,
-          description: event.Consultancy,
+          description: event.consultancy,
           alumno: {
-            value: `${alumnoPromise.Name} ${alumnoPromise.Surname}`,
-            label: `${alumnoPromise.Name} ${alumnoPromise.Surname}`,
-            dni: alumnoPromise.DNI,
+            value: `${alumnoPromise.name} ${alumnoPromise.surname}`,
+            label: `${alumnoPromise.name} ${alumnoPromise.surname}`,
+            dni: alumnoPromise.dni,
             avatar: '',
           },
           cliente: {
-            value: `${clientePromise.Name} ${clientePromise.Surname}`,
-            label: `${clientePromise.Name} ${clientePromise.Surname}`,
-            dni: clientePromise.DNI,
+            value: `${clientePromise.name} ${clientePromise.surname}`,
+            label: `${clientePromise.name} ${clientePromise.surname}`,
+            dni: clientePromise.dni,
             avatar: '',
           },
-          backgroundColor: event.Treatment == 0? '#FFB6B9':'#A6E4D9',
+          backgroundColor: event.treatment == 0? '#FFB6B9':'#A6E4D9',
         };
       }) )
     }
@@ -113,6 +112,8 @@ export const updateEvent = createAsyncThunk(
     return event;
   }
 );
+
+
 
 
 export const updateFilter = createAsyncThunk(
