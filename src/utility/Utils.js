@@ -119,7 +119,7 @@ export function validateUserData(data) {
   });
   
   if (!filledValues || !validateDNI(data.dni) ) {
-    toast.error("Por favor, complete todos los campos requeridos");
+    toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)");
     return false;
   }
 

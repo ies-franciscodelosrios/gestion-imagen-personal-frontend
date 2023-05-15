@@ -1,71 +1,77 @@
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
 
-// ** Third Party Components
-import axios from 'axios'
+// ** React Imports
+import { useParams, Link } from 'react-router-dom';
 
-// ** Custom Components
-import UILoader from '@components/ui-loader'
-import Breadcrumbs from '@components/breadcrumbs'
+// ** Store & Actions
+import { useSelector, useDispatch } from 'react-redux';
 
 // ** Reactstrap Imports
-import { Row, Col, Button } from 'reactstrap'
+import { Row, Col, Alert } from 'reactstrap';
 
-// ** Demo Components
-import ProfilePoll from './ProfilePolls'
-import ProfileAbout from './ProfileAbout'
-import ProfilePosts from './ProfilePosts'
-import ProfileHeader from './ProfileHeader'
-import ProfileLatestPhotos from './ProfileLatestPhotos'
-import ProfileSuggestedPages from './ProfileSuggestedPages'
-import ProfileFriendsSuggestions from './ProfileFriendsSuggestions'
+// ** User View Components
+import UserInfoCard from './UserInfoCard';
+import illustration from '@src/assets/images/users/Barber-rafiki.png';
+import UserTabs from './Tabs';
+
+// ** Custom Components
+import Breadcrumbs from '@components/breadcrumbs'
+import { getUser } from '../user/store';
+
+
 
 // ** Styles
 import '@styles/react/pages/page-profile.scss'
 
 const Profile = () => {
-  // ** States
-  const [data, setData] = useState('')
-  const [block, setBlock] = useState(false)
+  // ** Store Vars
+  const store = useSelector((state) => state.users);
+  const dispatch = useDispatch();
 
-  const handleBlock = () => {
-    setBlock(true)
-    setTimeout(() => {
-      setBlock(false)
-    }, 2000)
-  }
+  // ** Hooks
+  const { id } = useParams();
 
+  console.log(JSON.parse(localStorage.getItem('userData')).id)
+  // ** Get suer on mount
   useEffect(() => {
-    //axios.get('/profile/data').then(response => setData(response.data))
-  }, [])
+    dispatch(getUser(parseInt(JSON.parse(localStorage.getItem('userData')).id)));
+  }, [dispatch]);
+
+  const [active, setActive] = useState('1');
+
+  const toggleTab = (tab) => {
+    if (active !== tab) {
+      setActive(tab);
+    }
+  };
+
   return (
     <Fragment>
       <Breadcrumbs title='Perfil' data={[{ title: 'Pages' }, { title: 'Profile' }]} />
-      {data !== null ? (
-        <div id='user-profile'>
-          {/* <Row>
-            <Col sm='12'>
-              <ProfileHeader data={data.header} />
+      {(store.selectedUser !== null && store.selectedUser !== undefined) ? (
+        <div className="app-user-view">
+          <Row>
+            <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+              <UserInfoCard selectedUser={store.selectedUser} />
+              <div className="mt-auto">
+                <img className="img-fluid" src={illustration} alt="illustration" />
+              </div>
             </Col>
-          </Row> */}
-          <section id='profile-info'>
-            {/* <Row>
-              <Col lg={{ size: 3, order: 1 }} sm={{ size: 12 }} xs={{ order: 2 }}>
-                <ProfileAbout data={data.userAbout} />
-                <ProfileSuggestedPages data={data.suggestedPages} />
-              </Col>
-              <Col lg={{ size: 6, order: 2 }} sm={{ size: 12 }} xs={{ order: 1 }}>
-                <ProfilePosts data={data.post} />
-              </Col>
-              <Col lg={{ size: 3, order: 3 }} sm={{ size: 12 }} xs={{ order: 3 }}>
-                <ProfileLatestPhotos data={data.latestPhotos} />
-                <ProfileFriendsSuggestions data={data.suggestions} />
-                <ProfilePoll data={data.polls} />
-              </Col>
-            </Row> */}
-          </section>
+            <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
+              <UserTabs active={active} toggleTab={toggleTab} selectedUser={store.selectedUser} />
+            </Col>
+          </Row>
         </div>
-      ) : null}
+      ) : (
+        <Alert color="danger">
+          <h4 className="alert-heading">Alumno no encontrado</h4>
+          <div className="alert-body">
+            Alumno con id: {id} no existe. Comprueba la lista de usuarios:{' '}
+            <Link to="/apps/user/list">Lista de Alumnos</Link>
+          </div>
+        </Alert>
+      )}
     </Fragment>
   )
 }

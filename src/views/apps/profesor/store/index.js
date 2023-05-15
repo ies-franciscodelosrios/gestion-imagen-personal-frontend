@@ -71,7 +71,7 @@ export const addProfesor = createAsyncThunk('appProfesors/addUserProfesor', asyn
 })
 /* UPDATE PROFESOR */
 export const updateProfesor = createAsyncThunk('appProfesors/updateUser', async updatedUser => {
-  await updateUserBy(updatedUser).then(e => toast.error('Datos Guardados')).catch(e=>toast.error('Error al editar'));
+  await updateUserBy(updatedUser).then(e => toast.success('Datos Guardados')).catch(e=>toast.error('Error al editar'));
   return updatedUser
 })
 /* DELETE PROFESOR BY ID */
