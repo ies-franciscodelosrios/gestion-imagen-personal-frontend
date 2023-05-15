@@ -91,6 +91,7 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
     setAlumnos(store.users);
     setClientes(store.clients);
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -145,8 +146,11 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
     };
 
 
+
+
     if ((obj.calendar == 'Peluquería')) {obj.calendar = 0;}
     else {obj.calendar = 1;}
+
     dispatch(addEvent(obj));
     refetchEvents();
     fetchData();
@@ -246,15 +250,12 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
 
   // ** Updates Event in Store
   const handleUpdateEvent = () => {
-
     if (getValues('title').length) {
       const startDate = new Date(startPicker);
       const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
       console.log(guests);
       console.log(pupils);
       const eventToUpdate = {
-
-
         id: selectedEvent.id,
         title: getValues('title'),
         start: formattedStartDate,

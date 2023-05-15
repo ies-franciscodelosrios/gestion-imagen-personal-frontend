@@ -50,7 +50,8 @@ const Calendar = (props) => {
   useEffect(() => {
     (appointmentList.length<=0)?dispatch(fetchEvents({ events: appointmentList, users: [], clients: [], calendarLabel: [0, 1] })):null;
     setappointmentList(store.events);
-    
+    console.log(store.events);
+    console.log(store.users);
   }, [store.events]);
 
   // ** calendarOptions(Props)
@@ -107,6 +108,7 @@ const Calendar = (props) => {
     },
 
     eventClick({ event: clickedEvent }) {
+      console.log(clickedEvent);
       dispatch(selectEvent(clickedEvent));
       handleAddEventSidebar();
 
@@ -128,6 +130,7 @@ const Calendar = (props) => {
     },
 
     dateClick(info) {
+      console.log("holaaa");
       const ev = blankEvent;
       ev.start = info.date;
       ev.end = info.date;
@@ -143,7 +146,11 @@ const Calendar = (props) => {
     eventDrop({ event: droppedEvent }) {
       const startDate = new Date(droppedEvent.start);
       const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+<<<<<<< HEAD
 
+=======
+      console.log("hola");
+>>>>>>> main-docker
       const obj = {
         id: droppedEvent.id,
         title: droppedEvent.title,
