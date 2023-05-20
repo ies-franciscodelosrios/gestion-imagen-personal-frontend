@@ -42,27 +42,6 @@ const CalendarComponent = () => {
   const [eventos, setEventos] = useState()
 
 
-<<<<<<< HEAD
-  const fetchAppointmentData = async () => {
-    const response = await getAllAppointments();
-    const appointments = response.data.users.map((event) => ({
-      id: event.id,
-      start: event.Date,
-      title: event.Protocol,
-      allDay: true,
-      editable:true
-    }));
-
-    const data = {
-      events: appointments,
-      selectedEvent: {},
-      selectedCalendars: [0, 1]
-    };
-    console.log(data);
-    setEventos(data);
-    console.log(eventos);
-  };
-=======
   // const fetchAppointmentData = async () => {
   //   const response = await getAllAppointments();
   //   const appointments = response.data.data.map((event) => ({
@@ -94,7 +73,6 @@ const CalendarComponent = () => {
   //   setEventos(data);
   //   console.log(eventos);
   // };
->>>>>>> main-docker
 
   // ** Hooks
   const [isRtl] = useRTL()
