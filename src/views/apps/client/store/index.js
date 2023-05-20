@@ -16,7 +16,7 @@ export const getAllData = createAsyncThunk('appClients/getAllData', async (param
   return response.data.data
 })
 
-export const getData = createAsyncThunk('appClients/getData', async params => {
+export const getData = createAsyncThunk('appClients/getData',  async params => {
   const response = {"data": {"data": params.data}};
   if ((response === null || response.data.data.length <= 0 ) && params.q == '') {
      Object.assign(response, await getAllClientsData().then(result => {return result})) 

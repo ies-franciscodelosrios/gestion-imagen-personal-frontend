@@ -1,6 +1,7 @@
 import { DefaultRoute } from '../router/routes'
 import '@styles/react/libs/react-select/_react-select.scss'
 import { toast } from 'react-hot-toast';
+import { AppointmentTreatment } from './Constants';
 
 // ** Checks if an object is empty (returns boolean)
 export const isObjEmpty = obj => Object.keys(obj).length === 0
@@ -52,7 +53,7 @@ export const formatDateToMonthShort = (value, toTimeForCurrentDay = true) => {
  ** This is completely up to you and how you want to store the token in your frontend application
  *  ? e.g. If you are using cookies to store the application please update this function
  */
-export const isUserLoggedIn = () => localStorage.getItem('userData')!= null
+export const isUserLoggedIn = () => localStorage.getItem('userData') != null
 export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
 export function getUserRol() {
   return JSON.parse(localStorage.getItem('userData')).rol
@@ -67,7 +68,7 @@ export function getUserRol() {
  * @param {String} userRole Role of user
  */
 export const getHomeRouteForLoggedInUser = userRole => {
-  if (userRole === 0 ) return DefaultRoute
+  if (userRole === 0) return DefaultRoute
   if (userRole === 1) return DefaultRoute
   if (userRole === 2) return DefaultRoute
   return '/login'
@@ -77,7 +78,7 @@ export const getHomeRouteForLoggedInUser = userRole => {
 export const selectThemeColors = theme => ({
   ...theme,
   colors: {
-    ...theme.colors, 
+    ...theme.colors,
     primary25: '#61c0bf', // for option hover bg-color
     primary: '#61c0bf', // for selected option bg-color
     neutral10: '#61c0bf', // for tags bg-color
@@ -89,16 +90,16 @@ export const selectThemeColors = theme => ({
 export function validateDNI(dni) {
   const letras = "TRWAGMYFPDXBNJZSQVHLCKE"; // Letras del DNI en orden
   const dniRegex = /^\d{8}[A-Z]$/; // Expresión regular para validar el formato del DNI
-  
+
   if (!dniRegex.test(dni)) { // Validar el formato del DNI
     return false;
   }
-  
+
   const letra = dni.charAt(8).toUpperCase(); // Obtener la letra del DNI y convertirla a mayúsculas
   const numeros = dni.substr(0, 8); // Obtener los números del DNI
-  
+
   const letraCalculada = letras[numeros % 23]; // Calcular la letra correspondiente a los números del DNI
-  
+
   return letra === letraCalculada; // Comparar la letra del DNI con la letra calculada
 }
 
@@ -106,7 +107,7 @@ export function validateUserData(data) {
   const requiredFields = ["name", "surname", "email", "dni", "cycle"];
   const values = Object.values(data);
   console.log(data)
-  
+
   if (data.password.length !== 0 || data.repassword.length !== 0) {
     if (data.password !== data.repassword) {
       toast.error("Las contraseñas deben coincidir");
@@ -115,14 +116,32 @@ export function validateUserData(data) {
   }
 
   const filledValues = values.every(input => {
-    return input !== null && input !== undefined && !requiredFields.includes(input);
+    return input !== null && input !== undefined && input !== '' && !requiredFields.includes(input);
   });
-  
-  if (!filledValues || !validateDNI(data.dni) ) {
-    toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)");
-    return false;
-  }
 
-  
+  if (!filledValues) { toast.error("Rellena todos los campos"); return false; }
+  if (!validateDNI(data.dni)) { toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)"); return false; }
+
+
   return true;
 }
+
+export function validateClientData(data) {
+  const requiredFields = ["name", "surname", "email", "dni", "phone"];
+  const values = Object.values(data);
+
+  const filledValues = values.every(input => {
+    return input !== null && input !== undefined && input !== '' && !requiredFields.includes(input);
+  });
+console.log('hola')
+  if (!filledValues) { toast.error("Rellena todos los campos"); return false; }
+  if (!validateDNI(data.dni)) { toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)"); return false; }
+
+
+  return true;
+}
+
+export const getLabelFromAppointmentTreatment = (value) => {
+  const appointment = AppointmentTreatment.find(item => item.value === value);
+  return appointment ? appointment.label : '';
+};
