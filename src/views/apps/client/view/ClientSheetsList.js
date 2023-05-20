@@ -2,7 +2,6 @@
 import {
   Card,
   CardHeader,
-  Progress,
   Row,
   Col,
   Form,
@@ -20,14 +19,10 @@ import Avatar from '@components/avatar';
 import '@styles/react/libs/tables/react-dataTable-component.scss';
 import { Controller, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateClient } from '../store';
 import { toast } from 'react-hot-toast';
+import { updateClientBy } from '../../../../services/api';
 
-const ClientSheetsList = () => {
-  // ** Store Vars
-  const dispatch = useDispatch();
-  const store = useSelector((state) => state.clients);
+const ClientSheetsList = ({entity, setEntity}) => {
   const initialValues = {    
     Alergias: '',
   Patologias: '',
@@ -55,7 +50,7 @@ const ClientSheetsList = () => {
   Otros_esteticos: '',
 }
 
-  const [data, setData] = useState(    store.selectedClient.more_info.length > 10 ? JSON.parse(store.selectedClient.more_info) : initialValues );
+  const [data, setData] = useState( entity.more_info.length > 10 ? JSON.parse(entity.more_info) : initialValues );
 
   const { reset, handleSubmit, control } = useForm({ initialValues });
   
@@ -63,12 +58,12 @@ const ClientSheetsList = () => {
   useEffect(() => {
  
     try {
-      setData(JSON.parse(store.selectedClient.more_info));
+      setData(JSON.parse(entity.more_info));
     } catch (error) {
       setData({});
     }
     handleReset();
-  }, [dispatch, store.selectedClient]);
+  }, [entity]);
   
   /**
    * Funcition that excute the save button
@@ -76,9 +71,8 @@ const ClientSheetsList = () => {
    */
   const onSubmit = async (data) => {
     await setData(data);
-    const updatedClient = { ...store.selectedClient };
-    updatedClient.more_info = JSON.stringify(data);
-    dispatch(updateClient(updatedClient));
+    entity.more_info = JSON.stringify(data);
+    await updateClientBy({ ...entity }).then(e => { setEntity(e.data); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
   };
 
   const handleReset = () => {
@@ -507,7 +501,7 @@ const ClientSheetsList = () => {
                   color="secondary"
                   onClick={() => {
                     handleReset();
-                    toast.success('Datos no guardado')
+                    toast.error('Datos no guardado')
                   }}
                 >
                   Cancelar

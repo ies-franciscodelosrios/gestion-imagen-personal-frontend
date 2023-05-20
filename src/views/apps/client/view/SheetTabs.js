@@ -1,11 +1,10 @@
 // ** React Imports
-import { Fragment, useState } from 'react';
-import classnames from 'classnames';
+import { useState } from 'react';
 
 import { selectThemeColors } from '@utils';
 
 // ** Icons Imports
-import { Home, Settings, EyeOff, User, Trello } from 'react-feather';
+import { Trello } from 'react-feather';
 import {
   Row,
   Col,
@@ -14,8 +13,6 @@ import {
   Form,
   CardBody,
   Button,
-  Badge,
-  Modal,
   Input,
   Label,
   CardTitle,
@@ -27,18 +24,19 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss';
 import { Controller, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateClient } from '../store';
 import { useEffect } from 'react';
 import { toast } from 'react-hot-toast';
-const SheetTabs = () => {
+import { updateClientBy } from '../../../../services/api';
+
+const SheetTabs = ({entity, setEntity}) => {
   // ** Store Vars
   const dispatch = useDispatch();
-  const store = useSelector((state) => state.clients);
 
   const [datatab1, setDatatab1] = useState(
-    store.selectedClient.life_style.length > 20
-      ? JSON.parse(store.selectedClient.life_style)
+    entity.life_style.length > 20
+      ? JSON.parse(entity.life_style)
       : {}
   );
 
@@ -352,11 +350,9 @@ const SheetTabs = () => {
    * @param {*} data to save into client
    */
   const onSubmit = async (data) => {
-    const updatedClient = { ...store.selectedClient };
+    entity.life_style = JSON.stringify(data);
+    await updateClientBy({ ...entity }).then(e => { setEntity(e.data); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
     await setDatatab1(data);
-
-    updatedClient.life_style = JSON.stringify(data);
-    dispatch(updateClient(updatedClient));
   };
 
 
@@ -429,12 +425,12 @@ const SheetTabs = () => {
   // ** Get data on mount
   useEffect(() => {
     try {
-      setDatatab1(JSON.parse(store.selectedClient.life_style));
+      setDatatab1(JSON.parse(entity.life_style));
     } catch (error) {
       setDatatab1({});
     }
     handleReset();
-  }, [dispatch, store.selectedClient]);
+  }, [dispatch, entity]);
 
   return (
     <Card>
@@ -585,7 +581,7 @@ const SheetTabs = () => {
                       color="secondary"
                       onClick={async() => {
                         handleReset();
-                        toast.error('Borrado de datos no guardados')
+                        toast.error('Datos no guardados')
                       }}
                     >
                       Cancelar
