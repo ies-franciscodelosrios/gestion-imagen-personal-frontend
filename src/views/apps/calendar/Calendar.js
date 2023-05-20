@@ -146,11 +146,6 @@ const Calendar = (props) => {
     eventDrop({ event: droppedEvent }) {
       const startDate = new Date(droppedEvent.start);
       const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-<<<<<<< HEAD
-
-=======
-      console.log("hola");
->>>>>>> main-docker
       const obj = {
         id: droppedEvent.id,
         title: droppedEvent.title,

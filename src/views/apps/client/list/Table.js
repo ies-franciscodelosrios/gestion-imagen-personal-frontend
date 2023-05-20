@@ -190,18 +190,16 @@ const ClientList = () => {
 
   // ** States
   const [sort, setSort] = useState('desc')
+  const [sortColumn, setSortColumn] = useState('id')
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [sortColumn, setSortColumn] = useState('id')
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
-
+  const [clientList, SetClientList] = useState([])
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-  const QUOTE_REQUESTED = "QUOTE_REQUESTED";
-  // ** Get data on mount
+
   useEffect(() => {
     dispatch(getAllData({
       sort,
@@ -209,7 +207,6 @@ const ClientList = () => {
       q: searchTerm,
       page: currentPage,
       perPage: rowsPerPage,
-      status: currentStatus.value,
       data: store.allData
     }))
     dispatch(
@@ -219,11 +216,10 @@ const ClientList = () => {
         q: searchTerm,
         page: currentPage,
         perPage: rowsPerPage,
-        status: currentStatus.value,
         data: store.allData
       })
     )
-  }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
+  }, [dispatch, store.allData.length, sort, sortColumn, currentPage, rowsPerPage])
 
 
   // ** Function in get data on page change
@@ -235,7 +231,6 @@ const ClientList = () => {
         q: searchTerm,
         perPage: rowsPerPage,
         page: page.selected + 1,
-        status: currentStatus.value,
         data: store.allData
       })
     )
@@ -252,7 +247,6 @@ const ClientList = () => {
         q: searchTerm,
         perPage: value,
         page: currentPage,
-        status: currentStatus.value,
         data: store.allData
       })
     )
@@ -269,7 +263,6 @@ const ClientList = () => {
         sortColumn,
         page: currentPage,
         perPage: rowsPerPage,
-        status: currentStatus.value,
         data: store.allData
       })
     )
@@ -301,7 +294,6 @@ const ClientList = () => {
   // ** Table data to render
   const dataToRender = () => {
     const filters = {
-      status: currentStatus.value,
       q: searchTerm
     }
 
@@ -328,7 +320,6 @@ const ClientList = () => {
         q: searchTerm,
         page: currentPage,
         perPage: rowsPerPage,
-        status: currentStatus.value,
         data: store.allData
       })
     )
