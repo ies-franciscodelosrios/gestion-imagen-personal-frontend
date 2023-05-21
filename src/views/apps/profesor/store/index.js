@@ -36,6 +36,9 @@ export const getAllStudents = createAsyncThunk('appProfesors/get', async (params
 
 })
 
+
+
+
 /*  */
 
 export const getData = createAsyncThunk('appProfesors/getData', async params => {
@@ -55,8 +58,8 @@ export const getData = createAsyncThunk('appProfesors/getData', async params => 
 
 export const getProfesor = createAsyncThunk('appProfesors/getUser', async id => {
   const response = await getUserById(id).then(result => { return result })
-  console.log(response)
-  console.log(response.data.data)
+  //console.log(response)
+  //console.log(response.data.data)
 
   return response.data.data
 })
@@ -66,7 +69,7 @@ export const getProfesor = createAsyncThunk('appProfesors/getUser', async id => 
 
 export const getAppointments = createAsyncThunk('appAppointments/getAppointments', async (params) => {
   const response = await getAllAppointments().then(result => { return result })
-  console.log(response)
+  //console.log(response)
   response.data.data = sort_appointments(params, response.data.data);
 
   return response.data.data
@@ -117,6 +120,7 @@ export const appProfesorsSlice = createSlice({
       .addCase(getAllData.fulfilled, (state, action) => {
         state.allData = action.payload
       })
+      
       .addCase(getData.fulfilled, (state, action) => {
         state.data = action.payload.data
         state.params = action.payload.params

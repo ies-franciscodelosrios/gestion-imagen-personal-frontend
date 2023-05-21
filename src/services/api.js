@@ -218,6 +218,23 @@ export const getAllStudentsData = async () => {
 };
 
 /**
+ * Http Request to get all Users from database
+ * @param {*} cycle to identify the Users
+ * @returns list with all students of x cycke
+ */
+export const getAllStudentsFromCycle = async (cycle) => {
+  return await ApiConnect.get('/user/student/cycle', {
+    params:{...cycle},
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+
+/**
  * Http Request to get a Users by id
  * @param {*} id to identify the Users
  * @returns user data

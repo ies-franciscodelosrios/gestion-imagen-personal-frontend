@@ -25,16 +25,13 @@ import {
 } from 'react-feather'
 import { getProfesor } from '../store'
 
-// ** Vars
-const invoiceStatusObj = {
-  Sent: { color: 'light-secondary', icon: Send },
-  Paid: { color: 'light-success', icon: CheckCircle },
-  Draft: { color: 'light-primary', icon: Save },
-  Downloaded: { color: 'light-info', icon: ArrowDownCircle },
-  'Past Due': { color: 'light-danger', icon: Info },
-  'Partial Payment': { color: 'light-warning', icon: PieChart }
-}
 
+
+const statusObj = {
+  pending: 'light-warning',
+  active: 'light-success',
+  inactive: 'light-secondary'
+}
 // ** Table columns
 export const columns = [
   {
