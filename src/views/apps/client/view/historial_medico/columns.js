@@ -4,6 +4,21 @@ import { getLabelFromAppointmentTreatment } from "../../../../../utility/Utils";
 export const columns = [
   {
     minWidth: '200px',
+    name: 'Cita',
+    sortable: true,
+    sortField: 'protocol',
+    selector: row => row.protocol,
+    cell: row =>  (
+      <>
+      <button
+        onClick={() => setSelectedRow(row)}>
+        {row.protocol}
+      </button>
+      </>
+    )
+  },
+  {
+    minWidth: '200px',
     name: 'Cliente',
     sortable: true,
     sortField: 'dni_client',

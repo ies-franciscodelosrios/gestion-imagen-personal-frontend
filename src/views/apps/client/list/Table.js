@@ -8,17 +8,18 @@ import Sidebar from './Sidebar'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { addMultipleClients, getAllData, getData } from '../store'
+import { addMultipleClients } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
-import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy } from 'react-feather'
+import { ChevronDown, Share, FileText } from 'react-feather'
+import { getClientsPaged } from '../../../../services/api'
 
-// ** Utils
-import { selectThemeColors } from '@utils'
+// Toast styles
+import { toast } from 'react-hot-toast';
+import '@styles/react/libs/react-select/_react-select.scss';
 
 // ** Reactstrap Imports
 import {
@@ -26,11 +27,7 @@ import {
   Col,
   Card,
   Input,
-  Label,
   Button,
-  CardBody,
-  CardTitle,
-  CardHeader,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
@@ -46,7 +43,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss'
 import Import from '../../../extensions/import-export/Import'
 
 // ** Table Header
-const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
+const CustomHeader = ({ clientList, toggleSidebar, handlePerPage, rowsPerPage, handleFilter }) => {
   // ** Store Vars
   const dispatch = useDispatch()
 
@@ -59,7 +56,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
 
     const columnDelimiter = ','
     const lineDelimiter = '\n'
-    const keys = Object.keys(store.data[0])
+    const keys = Object.keys(clientList[0])
 
     result = ''
     result += keys.join(columnDelimiter)
@@ -115,9 +112,9 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
               onChange={handlePerPage}
               style={{ width: '5rem' }}
             >
-              <option value='10'>10</option>
-              <option value='25'>25</option>
-              <option value='50'>50</option>
+              <option value='10'>5</option>
+              <option value='25'>10</option>
+              <option value='50'>25</option>
             </Input>
             <label htmlFor='rows-per-page'>Registros</label>
           </div>
@@ -134,7 +131,6 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
               id='search-invoice'
               className='ms-50 w-100'
               type='text'
-              value={searchTerm}
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
@@ -150,7 +146,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
                   <FileText className='font-small-4 me-50' />
                   <span className='align-middle'>Importar</span>
                 </DropdownItem>
-                <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
+                <DropdownItem className='w-100' onClick={() => downloadCSV(clientList)}>
                   <FileText className='font-small-4 me-50' />
                   <span className='align-middle'>Exportar</span>
                 </DropdownItem>
@@ -185,98 +181,79 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
 
 const ClientList = () => {
   // ** Store Vars
-  const dispatch = useDispatch()
+  const [typingTimeout, setTypingTimeout] = useState(null);
   const store = useSelector(state => state.clients)
 
   // ** States
   const [sort, setSort] = useState('desc')
   const [sortColumn, setSortColumn] = useState('id')
   const [searchTerm, setSearchTerm] = useState('')
+  const [pagesNumber, setpagesNumber] = useState(1);
   const [currentPage, setCurrentPage] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [clientList, SetClientList] = useState([])
+  const [clientList, setClientList] = useState([])
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
 
   useEffect(() => {
-    dispatch(getAllData({
-      sort,
-      sortColumn,
-      q: searchTerm,
-      page: currentPage,
-      perPage: rowsPerPage,
-      data: store.allData
-    }))
-    dispatch(
-      getData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        page: currentPage,
-        perPage: rowsPerPage,
-        data: store.allData
-      })
-    )
-  }, [dispatch, store.allData.length, sort, sortColumn, currentPage, rowsPerPage])
+    fetchClients();
+  }, [sort, sortColumn, currentPage, rowsPerPage, searchTerm])
 
+
+    // ** Get data on mount
+    const fetchClients = async () => {
+      try {
+        await getClientsPaged({
+          "sort": sort,
+          "sortcolumn": sortColumn,
+          "page": currentPage,
+          "perpage": rowsPerPage,
+          "searchtext": searchTerm
+        }).then((e) => {
+          setpagesNumber(e.data.data.last_page);
+          setClientList(e.data.data.data);
+        }).catch(e => {
+          toast.error('Error al traer datos');
+        });
+      } catch (error) {
+        console.error('Error al obtener los clientes:', error);
+      }
+    };
 
   // ** Function in get data on page change
   const handlePagination = page => {
-    dispatch(
-      getData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        perPage: rowsPerPage,
-        page: page.selected + 1,
-        data: store.allData
-      })
-    )
     setCurrentPage(page.selected + 1)
   }
 
   // ** Function in get data on rows per page
   const handlePerPage = e => {
     const value = parseInt(e.currentTarget.value)
-    dispatch(
-      getData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        perPage: value,
-        page: currentPage,
-        data: store.allData
-      })
-    )
     setRowsPerPage(value)
   }
 
   // ** Function in get data on search query change
   const handleFilter = val => {
-    setSearchTerm(val)
-    dispatch(
-      getData({
-        sort,
-        q: val,
-        sortColumn,
-        page: currentPage,
-        perPage: rowsPerPage,
-        data: store.allData
-      })
-    )
+    console.log(val);
+
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+
+    setTypingTimeout(setTimeout(() => {
+      setSearchTerm(val);
+    }, 1000));
   }
+
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(store.total / rowsPerPage))
-
     return (
       <ReactPaginate
         previousLabel={''}
         nextLabel={''}
-        pageCount={count || 1}
+        pageCount={pagesNumber}
         activeClassName='active'
         forcePage={currentPage !== 0 ? currentPage - 1 : 0}
         onPageChange={page => handlePagination(page)}
@@ -293,36 +270,16 @@ const ClientList = () => {
 
   // ** Table data to render
   const dataToRender = () => {
-    const filters = {
-      q: searchTerm
-    }
-
-    const isFiltered = Object.keys(filters).some(function (k) {
-      return filters[k].length > 0
-    })
-
-    if (store.data.length > 0) {
-      return store.data
-    } else if (store.data.length === 0 && isFiltered) {
-      return []
+    if (clientList !== undefined && clientList.length > 0) {
+      return clientList
     } else {
-      return store.allData.slice(0, rowsPerPage)
+      return clientList.slice(0, rowsPerPage)
     }
   }
 
   const handleSort = (column, sortDirection) => {
     setSort(sortDirection)
     setSortColumn(column.sortField)
-    dispatch(
-      getData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        page: currentPage,
-        perPage: rowsPerPage,
-        data: store.allData
-      })
-    )
   }
 
   return (
@@ -346,7 +303,7 @@ const ClientList = () => {
             data={dataToRender()}
             subHeaderComponent={
               <CustomHeader
-                store={store}
+                clientList={clientList}
                 searchTerm={searchTerm}
                 rowsPerPage={rowsPerPage}
                 handleFilter={handleFilter}
