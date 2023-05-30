@@ -133,7 +133,22 @@ export function validateClientData(data) {
   const filledValues = values.every(input => {
     return input !== null && input !== undefined && input !== '' && !requiredFields.includes(input);
   });
-console.log('hola')
+
+  if (!filledValues) { toast.error("Rellena todos los campos"); return false; }
+  if (!validateDNI(data.dni)) { toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)"); return false; }
+
+
+  return true;
+}
+
+export function validateAppointmentData(data) {
+  const requiredFields = ["protocol", "email"];
+  const values = Object.values(data);
+
+  const filledValues = values.every(input => {
+    return input !== null && input !== undefined && input !== '' && !requiredFields.includes(input);
+  });
+
   if (!filledValues) { toast.error("Rellena todos los campos"); return false; }
   if (!validateDNI(data.dni)) { toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)"); return false; }
 

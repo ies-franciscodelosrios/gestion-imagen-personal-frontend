@@ -7,10 +7,6 @@ import { getAppointmentPaged } from '../../../../../services/api'
 // ** Table Columns
 import { columns } from './columns'
 
-// ** Store & Actions
-//import { getAppointments } from '../../store'
-import { useDispatch, useSelector } from 'react-redux'
-
 // ** Third Party Components
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
@@ -26,6 +22,7 @@ import {
   Card,
   Input,
 } from 'reactstrap'
+import AppointmentCard from '../AppointmentCard'
 
 
 
@@ -73,14 +70,16 @@ const CustomHeader = ({ handlePerPage, rowsPerPage, handleFilter }) => {
 const HistorialTratamientos = ({entity}) => {
   // ** Store Vars
   const [typingTimeout, setTypingTimeout] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
 
   // ** States
   const [sort, setSort] = useState('asc');
   const [sortColumn, setSortColumn] = useState('id');
   const [searchTerm, setSearchTerm] = useState('');
+  const [pagesNumber, setpagesNumber] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [pagesNumber, setpagesNumber] = useState(1);
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
@@ -122,7 +121,6 @@ const HistorialTratamientos = ({entity}) => {
 
   // ** Function in get data on search query change
   const handleFilter = val => {
-    console.log(val);
 
     if (typingTimeout) {
       clearTimeout(typingTimeout);
@@ -139,7 +137,7 @@ const HistorialTratamientos = ({entity}) => {
       <ReactPaginate
         previousLabel={''}
         nextLabel={''}
-        pageCount={pagesNumber || 1}
+        pageCount={pagesNumber}
         activeClassName='active'
         forcePage={currentPage !== 0 ? currentPage - 1 : 0}
         onPageChange={page => handlePagination(page)}
@@ -169,6 +167,21 @@ const HistorialTratamientos = ({entity}) => {
     setSortColumn(column.sortField)
   }
 
+  const modifiedColumns = [...columns];
+  modifiedColumns[0] = {
+    ...modifiedColumns[0],
+    cell: row => (
+      <div type='button' onClick={() => {setSelectedRow(row); setShowModal(true);}}>
+        {row.protocol}
+      </div>
+    )
+  };
+
+  const handleClose = (value) => {
+    setShowModal(value);
+    fetchAppointments();
+  };
+
   return (
     <Fragment>
       <Card className='overflow-hidden'>
@@ -180,7 +193,7 @@ const HistorialTratamientos = ({entity}) => {
             pagination
             responsive
             paginationServer
-            columns={columns}
+            columns={modifiedColumns}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
             className='react-dataTable'
@@ -197,8 +210,7 @@ const HistorialTratamientos = ({entity}) => {
           />
         </div>
       </Card>
-
-
+      {selectedRow && showModal ? <AppointmentCard shows={showModal} entity={selectedRow}  onClose={handleClose}></AppointmentCard> : <></>}
     </Fragment>
   )
 }
