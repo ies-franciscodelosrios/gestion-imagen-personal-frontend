@@ -113,6 +113,9 @@
   .header-navbar-shadow {
     background: linear-gradient(180deg, rgba(22, 29, 49, 0.9) 44%, rgba(22, 29, 49, 0.43) 73%, rgba(22, 29, 49, 0));
   }
+  header{
+    background-color: $theme-dark-table-header-bg;
+  }
 
   // main header navbar dark style
 
@@ -639,6 +642,37 @@
       background-color: $theme-dark-card-bg;
       border-color: $theme-dark-border-color;
     }
+  }
+
+  .scrollbar
+  {
+    margin-left: 30px;
+    float: left;
+    height: 300px;
+    width: 65px;
+    background: $theme-dark-table-header-bg;
+    overflow-y: scroll;
+    margin-bottom: 25px;
+  }
+
+  ::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: $theme-dark-table-header-bg;
+  }
+
+  ::-webkit-scrollbar
+  {
+    width: 12px;
+    background-color: $theme-dark-table-header-bg;
+  }
+
+  ::-webkit-scrollbar-thumb
+  {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: $primary;
   }
 
   /* Close btn */
@@ -1302,7 +1336,7 @@
 
     thead.table-dark th {
       color: $dark;
-      background-color: $white;
+      background-color: $theme-dark-table-header-bg;
     }
 
     // if table not light/dark and thead not have dark class
@@ -1313,7 +1347,7 @@
 
     // table-dark style
     &.table-dark {
-      background-color: $white;
+      background-color: $theme-dark-table-header-bg;
       &.table-striped tbody tr:nth-of-type(odd) {
         --bs-table-accent-bg: #{rgba($dark, 0.05)};
       }
@@ -1321,7 +1355,7 @@
       th {
         border-color: #f8f9fa !important;
         // color: $dark !important;
-        background-color: $white;
+        background-color: $theme-dark-table-header-bg;
         .text-white {
           color: $dark !important;
         }
@@ -2229,6 +2263,7 @@
       background-color: $theme-dark-card-bg;
     }
   }
+
 
   /********** HORIZONTAL LAYOUT **********/
   .horizontal-layout {

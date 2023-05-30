@@ -68,6 +68,22 @@ export const getAllClientsData = async () => {
 };
 
 /**
+ * Http Request to get all clients from database
+ * @returns list with all clients
+ */
+export const getClientsPaged = async (params) => {
+  return await ApiConnect.get('clients/paged', {
+    params: params,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+
+/**
  * Http Request to get a client by id
  * @param {*} id to identify the client
  * @returns user data
@@ -434,6 +450,22 @@ export const updateAppointment = async (event) => {
 };
 
 /**
+ * Http Request to get all appointments
+ * @returns appointments data
+ */
+export const updateAppointment2 = async (event) => {
+  return await ApiConnect.put(`appointment`, {
+    ...event
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
  * Http Request to delete a appointment by id
  * @param {*} id to identify the client
  * @returns response 200 for ok OR 401 for not found
@@ -441,6 +473,55 @@ export const updateAppointment = async (event) => {
 export const deleteAppointment = async (id) => {
   return await ApiConnect.delete(`appointment/id`, {
     params:{id: id},
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to get a images from cloudinary
+ * @param {*} id to identify the image
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const getAppointmentCloudinary = async (data) => {
+  return await ApiConnect.get(`appointment/get-photos`, {
+    params:{...data},
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to add a imagen from cloudinary
+ * @param {*} id to identify the image
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const addAppointmentCloudinary = async (data) => {
+  return await ApiConnect.post(`appointment/add-photo-url`,
+  {...data},
+  {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to delete a imagen from cloudinary
+ * @param {*} id to identify the image
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const deleteAppointmentCloudinary = async (data) => {
+  return await ApiConnect.delete(`appointment/delete-photo-url`, {
+    params:{...data},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
