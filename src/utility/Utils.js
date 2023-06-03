@@ -2,6 +2,8 @@ import { DefaultRoute } from '../router/routes'
 import '@styles/react/libs/react-select/_react-select.scss'
 import { toast } from 'react-hot-toast';
 import { AppointmentTreatment } from './Constants';
+import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
 
 // ** Checks if an object is empty (returns boolean)
 export const isObjEmpty = obj => Object.keys(obj).length === 0
@@ -160,3 +162,37 @@ export const getLabelFromAppointmentTreatment = (value) => {
   const appointment = AppointmentTreatment.find(item => item.value === value);
   return appointment ? appointment.label : '';
 };
+
+// ** Renders Role Columns
+const MySwal = withReactContent(Swal);
+
+export async function handleConfirmCancel() {
+  return MySwal.fire({
+    title: 'Estas seguro?',
+    text: " ¡Los cambios no serán revertibles!",
+    icon: 'warning',
+    showCancelButton: true,
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Si, bórralo!',
+    customClass: {
+      confirmButton: 'btn btn-primary',
+      cancelButton: 'btn btn-danger ms-1'
+    },
+    buttonsStyling: false
+  }).then((result) => {
+    if (result.value) {
+      MySwal.fire({
+        icon: 'success',
+        title: 'Exitoso!',
+        text: 'Los datos han sido borrados.',
+        customClass: {
+          confirmButton: 'btn btn-success'
+        }
+      })
+      return result.isConfirmed;
+    } else {
+      
+      return result.isConfirmed;
+    }
+  })
+}

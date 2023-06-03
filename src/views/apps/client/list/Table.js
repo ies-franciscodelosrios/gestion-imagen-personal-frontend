@@ -14,8 +14,8 @@ import { useDispatch, useSelector } from 'react-redux'
 // ** Third Party Components
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, FileText } from 'react-feather'
-import { getClientsPaged } from '../../../../services/api'
+import { ChevronDown, Share, FileText, MoreVertical, Trash2 } from 'react-feather'
+import { ApiDelClient, getClientsPaged } from '../../../../services/api'
 
 // Toast styles
 import { toast } from 'react-hot-toast';
@@ -41,6 +41,8 @@ import {
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 import Import from '../../../extensions/import-export/Import'
+import { Link } from 'react-router-dom'
+import { handleConfirmCancel } from '../../../../utility/Utils'
 
 // ** Table Header
 const CustomHeader = ({ clientList, toggleSidebar, handlePerPage, rowsPerPage, handleFilter }) => {
@@ -77,7 +79,7 @@ const CustomHeader = ({ clientList, toggleSidebar, handlePerPage, rowsPerPage, h
     return result
   }
 
-  function showImport(data){
+  function showImport(data) {
     dispatch(addMultipleClients(data));
     setShow(false);
   }
@@ -202,25 +204,25 @@ const ClientList = () => {
   }, [sort, sortColumn, currentPage, rowsPerPage, searchTerm])
 
 
-    // ** Get data on mount
-    const fetchClients = async () => {
-      try {
-        await getClientsPaged({
-          "sort": sort,
-          "sortcolumn": sortColumn,
-          "page": currentPage,
-          "perpage": rowsPerPage,
-          "searchtext": searchTerm
-        }).then((e) => {
-          setpagesNumber(e.data.data.last_page);
-          setClientList(e.data.data.data);
-        }).catch(e => {
-          toast.error('Error al traer datos');
-        });
-      } catch (error) {
-        console.error('Error al obtener los clientes:', error);
-      }
-    };
+  // ** Get data on mount
+  const fetchClients = async () => {
+    try {
+      await getClientsPaged({
+        "sort": sort,
+        "sortcolumn": sortColumn,
+        "page": currentPage,
+        "perpage": rowsPerPage,
+        "searchtext": searchTerm
+      }).then((e) => {
+        setpagesNumber(e.data.data.last_page);
+        setClientList(e.data.data.data);
+      }).catch(e => {
+        toast.error('Error al traer datos');
+      });
+    } catch (error) {
+      console.error('Error al obtener los clientes:', error);
+    }
+  };
 
   // ** Function in get data on page change
   const handlePagination = page => {
@@ -245,6 +247,42 @@ const ClientList = () => {
       setSearchTerm(val);
     }, 1000));
   }
+
+  const modifiedColumns = [...columns];
+  modifiedColumns[5] = {
+    ...modifiedColumns[5],
+    cell: row => (
+      <div className='column-action'>
+        <UncontrolledDropdown>
+          <DropdownToggle tag='div' className='btn btn-sm'>
+            <MoreVertical size={14} className='cursor-pointer' />
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem
+              tag={Link}
+              className='w-100'
+              to={`/apps/client/view/${row.id}`}
+            >
+              <FileText size={14} className='me-50' />
+              <span className='align-middle'>Detalles</span>
+            </DropdownItem>
+            <DropdownItem
+              tag='a'
+              className='w-100'
+              onClick={async e => {
+                (await handleConfirmCancel())? await ApiDelClient(row.id) :'';
+                fetchClients();
+              }}
+            >
+              <Trash2 size={14} className='me-50' />
+              <span className='align-middle'>Eliminar</span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </div>
+
+    )
+  };
 
 
   // ** Custom Pagination
@@ -295,7 +333,7 @@ const ClientList = () => {
             responsive
             noDataComponent={'No se encontraron datos a mostar'}
             paginationServer
-            columns={columns}
+            columns={modifiedColumns}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
             className='react-dataTable'
@@ -315,7 +353,7 @@ const ClientList = () => {
         </div>
       </Card>
 
-      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} reload={fetchClients} />
     </Fragment>
   )
 }
