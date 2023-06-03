@@ -231,9 +231,6 @@ const Login = () => {
                   <Label className="form-label" for="password">
                     Contraseña
                   </Label>
-                  <Link to="/forgot-password">
-                    <small>Olvidaste la Contraseña?</small>
-                  </Link>
                 </div>
                 <Controller
                   id="password"
