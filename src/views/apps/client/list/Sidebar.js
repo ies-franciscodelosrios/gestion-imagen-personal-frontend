@@ -6,13 +6,11 @@ import Sidebar from '@components/sidebar';
 import Flatpickr from 'react-flatpickr';
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-
-// ** Utils
-import { selectThemeColors } from '@utils';
+// Toast styles
+import { toast } from 'react-hot-toast';
+import '@styles/react/libs/react-select/_react-select.scss';
 
 // ** Third Party Components
-import Select from 'react-select';
-import classnames from 'classnames';
 import { useForm, Controller } from 'react-hook-form';
 
 // ** Reactstrap Imports
@@ -21,6 +19,7 @@ import { Button, Label, FormText, Form, Input } from 'reactstrap';
 // ** Store & Actions
 import { addClient } from '../store';
 import { useDispatch } from 'react-redux';
+import { AddClient } from '../../../../services/api';
 
 const defaultValues = {
   dni: '',
@@ -44,7 +43,7 @@ const checkIsValid = (data) => {
   );
 };
 
-const SidebarNewClients = ({ open, toggleSidebar }) => {
+const SidebarNewClients = ({ open, toggleSidebar, reload }) => {
   // ** States
   const [data, setData] = useState(null);
   const [BirthPicker, setBirthPicker] = useState(new Date());
@@ -63,14 +62,14 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
   } = useForm({ defaultValues });
 
   // ** Function to handle form submit
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     data.birth_date = BirthPicker.toISOString().split('T')[0];
     //data.cycle = data.cycle.value;
     setData(data);
     if (checkIsValid(data)) {
       toggleSidebar();
-      dispatch(
-        addClient({
+      await AddClient(
+        {
           dni: data.dni,
           name: data.name,
           surname: data.surname,
@@ -83,8 +82,16 @@ const SidebarNewClients = ({ open, toggleSidebar }) => {
           background_aesthetic: ' ',
           asthetic_routine: ' ',
           hairdressing_routine: ' '
-        })
-      );
+        }
+      ).then(() => {
+        toast.success('Correctamente Guardado!');
+      }).catch(()=>{
+        toast.error('Error al guardar cliente!');
+      })
+      reload(true);
+      // dispatch(
+      //   addClient()
+      // );
     } else {
       for (const key in data) {
         if (data[key] === null) {
