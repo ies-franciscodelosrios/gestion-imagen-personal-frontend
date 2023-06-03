@@ -30,7 +30,7 @@ import { useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { updateClientBy } from '../../../../services/api';
 
-const SheetTabs = ({entity, setEntity}) => {
+const SheetTabs = ({ entity, setEntity }) => {
   // ** Store Vars
   const dispatch = useDispatch();
 
@@ -46,33 +46,35 @@ const SheetTabs = ({entity, setEntity}) => {
 
 
   const facial_fields = {
-        1: {
-      Coloracion: {label:'Coloracion', identifier:'Coloracion'},
-      Grosor_piel: {label:'Grosor piel', identifier:'Grosor_piel'},
-      Tacto: {label:'Tacto', identifier:'Tacto'},
-      Brillo_piel: {label:'Brillo piel', identifier:'Brillo_piel'},
-      Aspecto_poro: {label:'Aspecto poro', identifier:'Aspecto_poro'},
-      Grado_hidratacion: {label:'Grado hidratacion', identifier:'Grado_hidratacion'},
-      Secreciones_sebaceas: {label:'Secreciones sebaceas', identifier:'Secreciones_sebaceas'},
-      Alteraciones_secrecion: {label:'Alteraciones secrecion', identifier:'Alteraciones_secrecion'},
-      Alteracion_pigmento: {label:'Alteracion pigmento', identifier:'Alteracion_pigmento'},
-      Alteracion_vacular: {label:'Alteracion vacular', identifier:'Alteracion_vacular'},
-      Alteracion_vello: {label:'Alteracion vello', identifier:'Alteracion_vello'},
-      Tono_muscular: {label:'Tono muscular', identifier:'Tono_muscular'},
-      Descamacion: {label:'Descamacion', identifier:'Descamacion'},
-      Arrugas: {label:'Arrugas', identifier:'Arrugas'},
-      Flacidez: {label:'Flacidez', identifier:'Flacidez'},
-      Bosas_palpebrales: {label:'Bosas palpebrales', identifier:'Bosas_palpebrales'},
-      Otras_alteraciones: {label:'Otras alteraciones', identifier:'Otras_alteraciones'},
-  },
-  2: {
-      Lupa: {label:'Lupa', identifier:'Lupa'}, 
-      Medidor_de_hidratacion: {label:'Medidor de hidratacion', identifier:'Medidor_de_hidratacion'}, 
-      Luz_de_Wood: {label:'Luz de Wood', identifier:'Luz_de_Wood'}, 
-      Otros_medios: {label:'Otros medios', identifier:'Otros_medios'}},
-  3: {
-    Tipo: {label:'Tipo', identifier:'Tipo'}, 
-    Alteraciones: {label:'Alteraciones', identifier:'Alteraciones'}},
+    1: {
+      Coloracion: { label: 'Coloracion', identifier: 'Coloracion' },
+      Grosor_piel: { label: 'Grosor piel', identifier: 'Grosor_piel' },
+      Tacto: { label: 'Tacto', identifier: 'Tacto' },
+      Brillo_piel: { label: 'Brillo piel', identifier: 'Brillo_piel' },
+      Aspecto_poro: { label: 'Aspecto poro', identifier: 'Aspecto_poro' },
+      Grado_hidratacion: { label: 'Grado hidratacion', identifier: 'Grado_hidratacion' },
+      Secreciones_sebaceas: { label: 'Secreciones sebaceas', identifier: 'Secreciones_sebaceas' },
+      Alteraciones_secrecion: { label: 'Alteraciones secrecion', identifier: 'Alteraciones_secrecion' },
+      Alteracion_pigmento: { label: 'Alteracion pigmento', identifier: 'Alteracion_pigmento' },
+      Alteracion_vacular: { label: 'Alteracion vacular', identifier: 'Alteracion_vacular' },
+      Alteracion_vello: { label: 'Alteracion vello', identifier: 'Alteracion_vello' },
+      Tono_muscular: { label: 'Tono muscular', identifier: 'Tono_muscular' },
+      Descamacion: { label: 'Descamacion', identifier: 'Descamacion' },
+      Arrugas: { label: 'Arrugas', identifier: 'Arrugas' },
+      Flacidez: { label: 'Flacidez', identifier: 'Flacidez' },
+      Bosas_palpebrales: { label: 'Bosas palpebrales', identifier: 'Bosas_palpebrales' },
+      Otras_alteraciones: { label: 'Otras alteraciones', identifier: 'Otras_alteraciones' },
+    },
+    2: {
+      Lupa: { label: 'Lupa', identifier: 'Lupa' },
+      Medidor_de_hidratacion: { label: 'Medidor de hidratacion', identifier: 'Medidor_de_hidratacion' },
+      Luz_de_Wood: { label: 'Luz de Wood', identifier: 'Luz_de_Wood' },
+      Otros_medios: { label: 'Otros medios', identifier: 'Otros_medios' }
+    },
+    3: {
+      Tipo: { label: 'Tipo', identifier: 'Tipo' },
+      Alteraciones: { label: 'Alteraciones', identifier: 'Alteraciones' }
+    },
   };
   var facial_options = {
     1: [
@@ -199,32 +201,32 @@ const SheetTabs = ({entity, setEntity}) => {
 
   const capilar_fields = {
     1: {
-      t2Coloracion: {label:'Coloracion', identifier:'t2Coloracion'},
-      t2Tacto: {label:'Tacto', identifier:'t2Tacto'},
-      t2Brillo_piel: {label:'Brillo piel', identifier:'t2Brillo_piel'},
-      t2Grado_hidratacion: {label:'Grado hidratacion', identifier:'t2Grado_hidratacion'},
-      t2Secreciones_sebaceas: {label:'Secreciones sebaceas', identifier:'t2Secreciones_sebaceas'},
-      t2Alteracion_vacular: {label:'Alteracion vacular', identifier:'t2Alteracion_vacular'},
-      t2Alteracion_Tallo_Capilar: {label:'Alteracion Tallo Capilar', identifier:'t2Alteracion_Tallo_Capilar'},
-      t2Descamacion: {label:'Descamacion', identifier:'t2Descamacion'},
-      t2Otras_alteraciones: {label:'Otras alteraciones', identifier:'t2Otras_alteraciones'},
+      t2Coloracion: { label: 'Coloracion', identifier: 't2Coloracion' },
+      t2Tacto: { label: 'Tacto', identifier: 't2Tacto' },
+      t2Brillo_piel: { label: 'Brillo piel', identifier: 't2Brillo_piel' },
+      t2Grado_hidratacion: { label: 'Grado hidratacion', identifier: 't2Grado_hidratacion' },
+      t2Secreciones_sebaceas: { label: 'Secreciones sebaceas', identifier: 't2Secreciones_sebaceas' },
+      t2Alteracion_vacular: { label: 'Alteracion vacular', identifier: 't2Alteracion_vacular' },
+      t2Alteracion_Tallo_Capilar: { label: 'Alteracion Tallo Capilar', identifier: 't2Alteracion_Tallo_Capilar' },
+      t2Descamacion: { label: 'Descamacion', identifier: 't2Descamacion' },
+      t2Otras_alteraciones: { label: 'Otras alteraciones', identifier: 't2Otras_alteraciones' },
     },
     2: {
-      t2Microcamara: {label:'Microcámara', identifier:'t2Microcamara'}, 
-      t2Otros_medios: {label:'Otros medios', identifier:'t2Otros_medios'}
+      t2Microcamara: { label: 'Microcámara', identifier: 't2Microcamara' },
+      t2Otros_medios: { label: 'Otros medios', identifier: 't2Otros_medios' }
     },
     3: {
-      t2Frecuencia_lavado: {label:'Frecuencia de lavado', identifier:'t2Frecuencia_lavado'}, 
-      t2Comsmeticos_habituales: {label:'Cosméticos habituales', identifier:'t2Comsmeticos_habituales'},
-      t2Frecuencia_secador: {label:'Frecuencia de secador', identifier:'t2Frecuencia_secador'}, 
-      t2Frecuencia_plancha: {label:'Frecuencia de plancha', identifier:'t2Frecuencia_plancha'},
-      t2Uso_utensilios_peluqueria: {label:'Uso de otros utensilios de peluqueria', identifier:'t2Uso_utensilios_peluqueria'}, 
-      t2Frecuencia_asis_peluqueria: {label:'Frecuencia asistencia peluqueria', identifier:'t2Frecuencia_asis_peluqueria'},
-      t2Servicios_peluqueria: {label:'Servicios peluqueria realizados', identifier:'t2Servicios_peluqueria'}, 
+      t2Frecuencia_lavado: { label: 'Frecuencia de lavado', identifier: 't2Frecuencia_lavado' },
+      t2Comsmeticos_habituales: { label: 'Cosméticos habituales', identifier: 't2Comsmeticos_habituales' },
+      t2Frecuencia_secador: { label: 'Frecuencia de secador', identifier: 't2Frecuencia_secador' },
+      t2Frecuencia_plancha: { label: 'Frecuencia de plancha', identifier: 't2Frecuencia_plancha' },
+      t2Uso_utensilios_peluqueria: { label: 'Uso de otros utensilios de peluqueria', identifier: 't2Uso_utensilios_peluqueria' },
+      t2Frecuencia_asis_peluqueria: { label: 'Frecuencia asistencia peluqueria', identifier: 't2Frecuencia_asis_peluqueria' },
+      t2Servicios_peluqueria: { label: 'Servicios peluqueria realizados', identifier: 't2Servicios_peluqueria' },
     },
     4: {
-      t2Tipo: {label:'Tipo', identifier:'t2Tipo'}, 
-      t2Alteraciones: {label:'Alteraciones', identifier:'t2Alteraciones'}
+      t2Tipo: { label: 'Tipo', identifier: 't2Tipo' },
+      t2Alteraciones: { label: 'Alteraciones', identifier: 't2Alteraciones' }
     },
   };
   var capilar_options = {
@@ -271,7 +273,7 @@ const SheetTabs = ({entity, setEntity}) => {
         { value: 'Baja', label: 'Baja' },
         { value: 'Nula', label: 'Nula' },
       ],
-      [ ],
+      [],
       [
         { value: 'Párpados', label: 'Párpados' },
         { value: 'Mentón', label: 'Mentón' },
@@ -289,44 +291,45 @@ const SheetTabs = ({entity, setEntity}) => {
         { value: 'Picor/sudoración', label: 'Picor/sudoración' },
       ],
     ],
-    2: ['',''],
+    2: ['', ''],
     3: [
-    [
-      { value: 'Diario', label: 'Diario' },
-      { value: 'Cada dos días', label: 'Cada dos días' },
-      { value: 'Más', label: 'Más' },
-    ],[
-      { value: 'Champú', label: 'Champú' },
-      { value: 'Mascarilla', label: 'Mascarilla' },
-      { value: 'Acomdicionador', label: 'Acomdicionador' },
-    ],[
-      { value: 'Diario', label: 'Diario' },
-      { value: 'Cada dos días', label: 'Cada dos días' },
-      { value: 'Más', label: 'Más' },
-    ],[
-      { value: 'Diario', label: 'Diario' },
-      { value: 'Cada dos días', label: 'Cada dos días' },
-      { value: 'Más', label: 'Más' },
-    ],[],[
-      { value: 'Semanal', label: 'Semanal' },
-      { value: 'Mensual', label: 'Mensual' },
-      { value: 'Más', label: 'Más' },
-    ],[
-      { value: 'Coloración', label: 'Coloración' },
-      { value: 'Permanente', label: 'Permanente' },
-    ]
+      [
+        { value: 'Diario', label: 'Diario' },
+        { value: 'Cada dos días', label: 'Cada dos días' },
+        { value: 'Más', label: 'Más' },
+      ], [
+        { value: 'Champú', label: 'Champú' },
+        { value: 'Mascarilla', label: 'Mascarilla' },
+        { value: 'Acomdicionador', label: 'Acomdicionador' },
+      ], [
+        { value: 'Diario', label: 'Diario' },
+        { value: 'Cada dos días', label: 'Cada dos días' },
+        { value: 'Más', label: 'Más' },
+      ], [
+        { value: 'Diario', label: 'Diario' },
+        { value: 'Cada dos días', label: 'Cada dos días' },
+        { value: 'Más', label: 'Más' },
+      ], [], [
+        { value: 'Semanal', label: 'Semanal' },
+        { value: 'Mensual', label: 'Mensual' },
+        { value: 'Más', label: 'Más' },
+      ], [
+        { value: 'Coloración', label: 'Coloración' },
+        { value: 'Permanente', label: 'Permanente' },
+      ]
     ],
-    4: ['','']
+    4: ['', '']
   };
 
   const color_fields = {
     1: {
-      t3Cabello: {label:'Cabello', identifier:'t3Cabello'},
-      t3Altura_Tono: {label:'Altura de tono', identifier:'t3Altura_Tono'},
-      t3Reflejo: {label:' Reflejo', identifier:'t3Reflejo'},
-      t3Intensidad: {label:'Intensidad', identifier:'t3Intensidad'},
-      t3Porcetaje_canas: {label:'Porcentaje de canas', identifier:'t3Porcetaje_canas'},
-      t3Color_deseado: {label:' Color deseado', identifier:'t3Color_deseado'},
+      t3Cabello: { label: 'Cabello', identifier: 't3Cabello' },
+      t3Altura_Tono: { label: 'Altura de tono', identifier: 't3Altura_Tono' },
+      t3Reflejo: { label: ' Reflejo', identifier: 't3Reflejo' },
+      t3Intensidad: { label: 'Intensidad', identifier: 't3Intensidad' },
+      t3Porcetaje_canas: { label: 'Porcentaje de canas', identifier: 't3Porcetaje_canas' },
+      t3Color_deseado: { label: ' Color deseado', identifier: 't3Color_deseado' },
+      t3Formula: { label: 'Formula', identifier: 't3Formula' },
     }
   };
   var color_options = {
@@ -339,7 +342,7 @@ const SheetTabs = ({entity, setEntity}) => {
         { value: 'Fino', label: 'Fino' },
         { value: 'Poroso', label: 'Poroso' },
         { value: 'No Poroso', label: 'No Poroso' },
-      ],[],[],[],[],[]
+      ], [], [], [], [], [], []
     ]
   };
 
@@ -401,16 +404,16 @@ const SheetTabs = ({entity, setEntity}) => {
       t2Alteracion_Tallo_Capilar: datatab1['t2Alteracion_Tallo_Capilar'] || '',
       t2Descamacion: datatab1['t2Descamacion'] || '',
       t2Otras_alteraciones: datatab1['t2Otras_alteraciones'] || '',
-      t2Microcamara: datatab1['t2Microcamara'] || '', 
+      t2Microcamara: datatab1['t2Microcamara'] || '',
       t2Otros_medios: datatab1['t2Otros_medios'] || '',
-      t2Frecuencia_lavado: datatab1['t2Frecuencia_lavado'] || '', 
+      t2Frecuencia_lavado: datatab1['t2Frecuencia_lavado'] || '',
       t2Comsmeticos_habituales: datatab1['t2Comsmeticos_habituales'] || '',
-      t2Frecuencia_secador: datatab1['t2Frecuencia_secador'] || '', 
+      t2Frecuencia_secador: datatab1['t2Frecuencia_secador'] || '',
       t2Frecuencia_plancha: datatab1['t2Frecuencia_plancha'] || '',
-      t2Uso_utensilios_peluqueria: datatab1['t2Uso_utensilios_peluqueria'] || '', 
+      t2Uso_utensilios_peluqueria: datatab1['t2Uso_utensilios_peluqueria'] || '',
       t2Frecuencia_asis_peluqueria: datatab1['t2Frecuencia_asis_peluqueria'] || '',
-      t2Servicios_peluqueria: datatab1['t2Servicios_peluqueria'] || '', 
-      t2Tipo: datatab1['t2Tipo'] || '', 
+      t2Servicios_peluqueria: datatab1['t2Servicios_peluqueria'] || '',
+      t2Tipo: datatab1['t2Tipo'] || '',
       t2Alteraciones: datatab1['t2Alteraciones'] || '',
       //TAB 3
       t3Altura_Tono: datatab1['t3Altura_Tono'] || '',
@@ -418,6 +421,7 @@ const SheetTabs = ({entity, setEntity}) => {
       t3Intensidad: datatab1['t3Intensidad'] || '',
       t3Porcetaje_canas: datatab1['t3Porcetaje_canas'] || '',
       t3Color_deseado: datatab1['t3Color_deseado'] || '',
+      t3Formula: datatab1['t3Formula'] || '',
       t3Cabello: datatab1['t3Cabello'] || '',
     });
   };
@@ -467,7 +471,7 @@ const SheetTabs = ({entity, setEntity}) => {
             }}
           >
             <Trello size={14} />
-            <span className="align-middle">Color Pelo</span>
+            <span className="align-middle">Coloración</span>
           </NavLink>
         </NavItem>
       </Nav>
@@ -579,7 +583,7 @@ const SheetTabs = ({entity, setEntity}) => {
                     <Button
                       className="me-1"
                       color="secondary"
-                      onClick={async() => {
+                      onClick={async () => {
                         handleReset();
                         toast.error('Datos no guardados')
                       }}
@@ -594,9 +598,9 @@ const SheetTabs = ({entity, setEntity}) => {
         </TabPane>
         <TabPane tabId="2">
           <CardBody>
-          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)}>
               <Row>
-              <CardHeader>
+                <CardHeader>
                   <CardTitle tag="h4">Observación,Tacto y Palpación</CardTitle>
                 </CardHeader>
                 {Object.values(capilar_fields[1]).map((data, index) => {
@@ -649,7 +653,7 @@ const SheetTabs = ({entity, setEntity}) => {
                           <Input
                             {...field}
                             type="textarea"
-                            placeholder= 'Escribe...'
+                            placeholder='Escribe...'
                           />
                         )}
                       />
@@ -709,7 +713,7 @@ const SheetTabs = ({entity, setEntity}) => {
                           <Input
                             {...field}
                             type="textarea"
-                            placeholder= 'Escribe...'
+                            placeholder='Escribe...'
                           />
                         )}
                       />
@@ -728,7 +732,7 @@ const SheetTabs = ({entity, setEntity}) => {
                     <Button
                       className="me-1"
                       color="secondary"
-                      onClick={async() => {
+                      onClick={async () => {
                         handleReset();
                         toast.error('Borrado de datos no guardados')
                       }}
@@ -743,12 +747,12 @@ const SheetTabs = ({entity, setEntity}) => {
         </TabPane>
         <TabPane tabId="3">
           <CardBody>
-          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)}>
               <Row>
                 <CardHeader>
                   <CardTitle tag="h4">Datos de Color Peluqueria</CardTitle>
                 </CardHeader>
-                {Object.values(color_fields[1]).map((data, index) => {
+                {Object.values(color_fields[1]).slice(0, 1).map((data, index) => {
                   return (
                     <Col md="6" sm="12" className="mb-1" key={data.identifier}>
                       <Label className="form-label" for={data.identifier}>
@@ -780,9 +784,53 @@ const SheetTabs = ({entity, setEntity}) => {
                     </Col>
                   );
                 })}
+                {Object.values(color_fields[1]).slice(1, 6).map((dato, index) => {
+                  return (
+                    <Col md="6" sm="12" className="mb-1" key={dato.identifier}>
+                      <Label className="form-label" for={dato.identifier}>
+                        {dato.label}
+                      </Label>
+                      <Controller
+                        control={control}
+                        id={dato.identifier}
+                        name={dato.identifier}
+                        defaultValue={color_fields[1][index]}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            type="textarea"
+                            placeholder='Escribe...'
+                          />
+                        )}
+                      />
+                    </Col>
+                  );
+                })}
+                {Object.values(color_fields[1]).slice(6, 7).map((dato, index) => {
+                  return (
+                    <Col md="12" sm="12" className="mb-1" key={dato.identifier}>
+                      <Label className="form-label" for={dato.identifier}>
+                        {dato.label}
+                      </Label>
+                      <Controller
+                        control={control}
+                        id={dato.identifier}
+                        name={dato.identifier}
+                        defaultValue={color_fields[1][index]}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            type="textarea"
+                            placeholder='Escribe...'
+                          />
+                        )}
+                      />
+                    </Col>
+                  );
+                })}
                 <Col sm="12">
                   <div className="d-flex">
-                  <Button
+                    <Button
                       className="me-1"
                       color="primary"
                       type="submit"
@@ -792,7 +840,7 @@ const SheetTabs = ({entity, setEntity}) => {
                     <Button
                       className="me-1"
                       color="secondary"
-                      onClick={async() => {
+                      onClick={async () => {
                         handleReset();
                         toast.error('Borrado de datos no guardados')
                       }}

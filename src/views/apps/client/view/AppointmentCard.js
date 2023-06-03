@@ -51,6 +51,7 @@ import SwiperCore, {
 } from 'swiper'
 import { deleteAppointmentCloudinary, getAppointmentCloudinary, updateAppointment, updateAppointment2 } from '../../../../services/api';
 import ImageUploader from '../../../../services/CloudiaryUploader';
+import { handleConfirmCancel } from '../../../../utility/Utils';
 // ** Init Swiper Functions
 SwiperCore.use([Navigation, Grid, Pagination, EffectFade, EffectCube, EffectCoverflow, Autoplay, Lazy, Virtual])
 
@@ -203,7 +204,12 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                 id="birth_date"
                 name="birth_date"
                 className="form-control"
-                onChange={(newdate) => updatedEntity.date = (newdate[0]?.toISOString())}
+                onChange={(newdate) => {
+                  const selectedDate = new Date(newdate[0]);
+                  selectedDate.setDate(selectedDate.getDate() + 1);
+                  updatedEntity.date = selectedDate.toISOString().split("T")[0];
+                  console.log(updatedEntity.date);
+                }}
                 value={new Date(updatedEntity?.date ?? '2023-01-01')}
                 options={{
                   enableTime: false,
@@ -267,8 +273,10 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                 className="react-select"
                 classNamePrefix="select"
                 isClearable={false}
-                onChange={(data) => console.log(data)}
-                value={AppointmentTreatment[selectEntity?.treatment] ?? AppointmentTreatment[selectEntity?.treatment]}
+                onChange={(data) => {
+                  updatedEntity.treatment = data.value;
+                }}
+                defaultValue={AppointmentTreatment[selectEntity?.treatment] ?? AppointmentTreatment[selectEntity?.treatment]}
               />
             </Col>
             <Col md={6} xs={12}>
@@ -319,7 +327,7 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                   {photos.map((item, index) => (
                     <SwiperSlide key={index}>
                       <img src={item.url} alt={`swiper ${index + 1}`} id={item.id} className='img-fluid' />
-                      <button type="button" className="btn btn-danger btn-sm delete-button w-100" onClick={() => removeSlide(item)}>Borrar</button>
+                      <button type="button" className="btn btn-danger btn-sm delete-button w-100" onClick={async () => {(await handleConfirmCancel())? await removeSlide(item) :'';}}>Borrar</button>
                     </SwiperSlide>
                   ))}
                 </Swiper> : <span>Sin Resultados...</span>}
