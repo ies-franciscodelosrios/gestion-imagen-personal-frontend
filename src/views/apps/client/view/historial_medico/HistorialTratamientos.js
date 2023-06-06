@@ -10,7 +10,7 @@ import { columns } from './columns'
 // ** Third Party Components
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown } from 'react-feather'
+import { ChevronDown, Edit } from 'react-feather'
 
 // Toast styles
 import { toast } from 'react-hot-toast';
@@ -172,8 +172,9 @@ const HistorialTratamientos = ({entity}) => {
     ...modifiedColumns[0],
     cell: row => (
       <div type='button' onClick={() => {setSelectedRow(row); setShowModal(true);}}>
-        {row.protocol}
+        {row.protocol} &nbsp; <Edit size={14} className='me-50' />
       </div>
+
     )
   };
 
