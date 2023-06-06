@@ -42,7 +42,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
     const columnDelimiter = ','
     const lineDelimiter = '\n'
     const keys = Object.keys(store.appoitments[0])
-
+    
     result = ''
     result += keys.join(columnDelimiter)
     result += lineDelimiter
@@ -68,6 +68,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
       <Row>
         <Col xl='12' className='d-flex align-items-center p-0'>
           <div className='d-flex align-items-center w-100'>
+   
             <label htmlFor='rows-per-page'>Ver</label>
             <Input
               className='mx-50'
@@ -82,7 +83,10 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
               <option value='50'>50</option>
             </Input>
             <label htmlFor='rows-per-page'>Tratamientos por pagina</label>
+
+           
           </div>
+          
           
         </Col>
 
