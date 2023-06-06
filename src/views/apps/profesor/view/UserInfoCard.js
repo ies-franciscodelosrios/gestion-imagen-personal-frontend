@@ -102,7 +102,7 @@ const UserInfoCard = () => {
     selectedUser.email = data.email;
     selectedUser.dni = data.dni;
     selectedUser.course_year = data.course_year;
-    selectedUser.cycle = data.cycle.value;
+    selectedUser.cycle = data.cycle.value;  
     selectedUser.password = data.password;
     selectedUser.repassword = data.repassword;
 

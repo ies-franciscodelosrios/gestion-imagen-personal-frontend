@@ -428,6 +428,24 @@ export const getAppointmentbyId = async (id) => {
 };
 
 /**
+ * Http Request to get a appointment by id
+ * @param {*} dni_Student to identify the appointment
+ * @returns appointment data
+ */
+export const getAppointmentbyDniStudent = async (dni_Student) => {
+  return await ApiConnect.get(`/appointment/dni/student`, {
+    params:{dni_Student: dni_Student},
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+
+
+/**
  * Http Request to get all appointments
  * @returns appointments data
  */
