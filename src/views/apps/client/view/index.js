@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getClient } from '../store'
-import { useSelector, useDispatch } from 'react-redux'
 import { getClientById } from '../../../../services/api'
 
 // ** Reactstrap Imports
@@ -19,7 +17,6 @@ import illustration from '@src/assets/images/pages/ilustracion-perfil.png';
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 import SheetTabs from './SheetTabs'
-import { Spinner } from 'react-bootstrap'
 
 const ClientView = () => {
   // ** Hooks

@@ -192,7 +192,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
         ></ModalHeader>
         <ModalBody className="px-sm-5 pt-50 pb-5">
           <div className="text-center mb-2">
-            <h1 className="mb-1">Importar Clientes</h1>
+            <h1 className="mb-1">Importar Estudiantes</h1>
           </div>
           <Import type={'student'} handleImportData={showImport}></Import>
         </ModalBody>

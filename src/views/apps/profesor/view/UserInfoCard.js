@@ -33,6 +33,7 @@ import Avatar from '@components/avatar';
 import '@styles/react/libs/react-select/_react-select.scss';
 import { toast } from 'react-hot-toast';
 import { validateDNI, validateUserData } from '../../../../utility/Utils';
+import { updateUserBy } from '../../../../services/api';
 
 
 const cycleOptions = [
@@ -44,13 +45,7 @@ const cycleOptions = [
 
 const MySwal = withReactContent(Swal);
 
-const UserInfoCard = () => {
-  // ** Store Vars
-  const dispatch = useDispatch();
-  const store = useSelector(state => state.profesor)
-
-  const selectedUser = store.selectedProfesor;
-
+const UserInfoCard = ({entity, setEntity}) => {
   // ** State
   const [show, setShow] = useState(false);
 
@@ -63,11 +58,11 @@ const UserInfoCard = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: selectedUser.name,
-      surname: selectedUser.surname,
-      email: selectedUser.email,
-      dni: selectedUser.dni,
-      course_year: selectedUser.course_year,
+      name: entity.name,
+      surname: entity.surname,
+      email: entity.email,
+      dni: entity.dni,
+      course_year: entity.course_year,
       password: '',
       repassword: '',
     },
@@ -80,7 +75,7 @@ const UserInfoCard = () => {
         initials
         color={'light-primary'}
         className="rounded mt-3 mb-2"
-        content={selectedUser.name}
+        content={entity.name}
         contentStyles={{
           borderRadius: 0,
           fontSize: 'calc(48px)',
@@ -95,19 +90,10 @@ const UserInfoCard = () => {
     );
   };
 
-  const onSubmit = (data) => {
-    const selectedUser = {...store.selectedProfesor};
-    selectedUser.name = data.name;
-    selectedUser.surname = data.surname;
-    selectedUser.email = data.email;
-    selectedUser.dni = data.dni;
-    selectedUser.course_year = data.course_year;
-    selectedUser.cycle = data.cycle.value;  
-    selectedUser.password = data.password;
-    selectedUser.repassword = data.repassword;
-
+  const onSubmit = async (data) => {
+    console.log(data);
     if (validateUserData(data)) {
-      dispatch(updateProfesor(selectedUser));
+      await updateUserBy({ ...entity, ...data }).then(e => { setEntity(e.data); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
       setShow(false);
     } else {
       for (const key in data) {
@@ -123,16 +109,7 @@ const UserInfoCard = () => {
   }
 
   const handleReset = () => {
-    reset({
-      name: selectedUser.name,
-      surname: selectedUser.surname,
-      email: selectedUser.email,
-      dni: selectedUser.dni,
-      cycle:selectedUser.cycle,
-      course_year:selectedUser.course_year,
-      password: '',
-      repassword: '',
-    });
+    reset({...entity});
   };
 
   return (
@@ -145,8 +122,8 @@ const UserInfoCard = () => {
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info">
                   <h4>
-                    {selectedUser !== null
-                      ? selectedUser.name.concat(' ' + selectedUser.surname)
+                    {entity !== null
+                      ? entity.name.concat(' ' + entity.surname)
                       : 'Eleanor Aguilar'}
                   </h4>
                 </div>
@@ -155,27 +132,27 @@ const UserInfoCard = () => {
           </div>
           <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
           <div className="info-container">
-            {selectedUser !== null ? (
+            {entity !== null ? (
               <ul className="list-unstyled">
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Nombre: </span>
-                  <span>{selectedUser.name}</span>
+                  <span>{entity.name}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Apellido: </span>
-                  <span>{selectedUser.surname}</span>
+                  <span>{entity.surname}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">dni: </span>
-                  <span>{selectedUser.dni}</span>
+                  <span>{entity.dni}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">email: </span>
-                  <span>{selectedUser.email}</span>
+                  <span>{entity.email}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Curso: </span>
-                  <span>{selectedUser.course_year}</span>
+                  <span>{entity.course_year}</span>
                 </li>
                
               </ul>
@@ -209,7 +186,7 @@ const UserInfoCard = () => {
                   Nombre
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.name}
+                  defaultValue={entity.name}
                   control={control}
                   id='name'
                   name='name'
@@ -228,7 +205,7 @@ const UserInfoCard = () => {
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.surname}
+                  defaultValue={entity.surname}
                   control={control}
                   id='surname'
                   name='surname'
@@ -247,7 +224,7 @@ const UserInfoCard = () => {
                   Email
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.email}
+                  defaultValue={entity.email}
                   control={control}
                   id="email"
                   name="email"
@@ -267,12 +244,12 @@ const UserInfoCard = () => {
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.dni}
+                  defaultValue={entity.dni}
                   control={control}
                   id="dni"
                   name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="dni" placeholder={selectedUser.dni} invalid={errors.dni && true}/>
+                    <Input {...field} id="dni" placeholder={entity.dni} invalid={errors.dni && true}/>
                   )}
                 />
               </Col>
@@ -281,7 +258,7 @@ const UserInfoCard = () => {
                   Ciclo <span className="text-danger">*</span>
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.cycle} // Set the default value to the first option in the array
+                  defaultValue={entity.cycle} // Set the default value to the first option in the array
                   control={control}
                   id="cycle"
                   name="cycle"
@@ -293,7 +270,7 @@ const UserInfoCard = () => {
                       classNamePrefix='select'
                       id="cycle"
                       name='cycle'
-                      placeholder={selectedUser.cycle}
+                      placeholder={entity.cycle}
                       invalid={errors.cycle && true}
                     />
                   )}
