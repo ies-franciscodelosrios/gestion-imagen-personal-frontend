@@ -280,7 +280,6 @@ const ProfesorList = () => {
     const isFiltered = Object.keys(filters).some(function (k) {
       return filters[k].length > 0
     })
-
     if (store.data.length > 0) {
       return store.data
     } else if (store.data.length === 0 && isFiltered) {

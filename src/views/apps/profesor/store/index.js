@@ -5,23 +5,39 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // ** Axios Imports
 import axios from 'axios'
 
-import { getAllProfesorData, getUserById, updateUserBy, ApiDelUser,AddProfesor, getAllAppointments } from '../../../../services/api'
-import {handleConfirmCancel, sort_appointments, sort_data } from './sort_utils'
+import { getAllProfesorData, getUserById, updateUserBy, ApiDelUser, AddProfesor, getAllAppointments, getAllStudentsData } from '../../../../services/api'
+import { handleConfirmCancel, sort_appointments, sort_data } from './sort_utils'
 import { toast } from 'react-hot-toast'
 
 
 
 /* ALL PROFESOR */
 
- export const getAllData = createAsyncThunk('appProfesors/getAllData', async (params) => {
+export const getAllData = createAsyncThunk('appProfesors/getAllData', async (params) => {
   const response = { "data": { "data": params.data } }
   if ((response === null || response.data.data.length <= 0) && params.q == '') {
     Object.assign(response, await getAllProfesorData().then(result => { return result }))
   }
 
   return response.data.data
-  
-}) 
+
+})
+
+
+/* ALL Users */
+
+export const getAllStudents = createAsyncThunk('appProfesors/get', async (params) => {
+  const response = { "data": { "data": params.data } }
+  if ((response === null || response.data.data.length <= 0) && params.q == '') {
+    Object.assign(response, await getAllStudentsData().then(result => { return result }))
+  }
+
+  return response.data.data
+
+})
+
+
+
 
 /*  */
 
@@ -42,21 +58,24 @@ export const getData = createAsyncThunk('appProfesors/getData', async params => 
 
 export const getProfesor = createAsyncThunk('appProfesors/getUser', async id => {
   const response = await getUserById(id).then(result => { return result })
-  console.log(response)
-  console.log(response.data.data)
+  //console.log(response)
+  //console.log(response.data.data)
 
   return response.data.data
 })
+
 
 /* GET ALL APPOINTMENTS */
 
 export const getAppointments = createAsyncThunk('appAppointments/getAppointments', async (params) => {
   const response = await getAllAppointments().then(result => { return result })
-  console.log(response)
+  //console.log(response)
   response.data.data = sort_appointments(params, response.data.data);
 
   return response.data.data
 })
+
+
 
 /* */
 
@@ -77,8 +96,8 @@ export const updateProfesor = createAsyncThunk('appProfesors/updateUser', async 
 /* DELETE PROFESOR BY ID */
 
 export const deleteProfesor = createAsyncThunk('appProfesors/deleteUser', async (id, { dispatch, getState }) => {
-  (await handleConfirmCancel())? await ApiDelUser(id) :'';
-  const response = await getAllProfesorData().then(result => {return result.data.data}) 
+  (await handleConfirmCancel()) ? await ApiDelUser(id) : '';
+  const response = await getAllProfesorData().then(result => { return result.data.data })
   return response
   /* await ApiDelUser(id) 
   await dispatch(getData(getState().users.params))
@@ -94,6 +113,7 @@ export const appProfesorsSlice = createSlice({
     params: {},
     allData: [],
     appoitments: [],
+    students: [],
     selectedProfesor: null
   },
   reducers: {},
@@ -102,6 +122,7 @@ export const appProfesorsSlice = createSlice({
       .addCase(getAllData.fulfilled, (state, action) => {
         state.allData = action.payload
       })
+      
       .addCase(getData.fulfilled, (state, action) => {
         state.data = action.payload.data
         state.params = action.payload.params
@@ -110,6 +131,7 @@ export const appProfesorsSlice = createSlice({
       .addCase(getProfesor.fulfilled, (state, action) => {
         state.selectedProfesor = action.payload
       })
+  
       .addCase(updateProfesor.fulfilled, (state, action) => {
         state.selectedProfesor = action.payload
       })
@@ -121,6 +143,9 @@ export const appProfesorsSlice = createSlice({
       })
       .addCase(getAppointments.fulfilled, (state, action) => {
         state.appoitments = action.payload
+      })
+      .addCase(getAllStudents.fulfilled, (state, action) => {
+        state.students = action.payload
       })
   }
 })
