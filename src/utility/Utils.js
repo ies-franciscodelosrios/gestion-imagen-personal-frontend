@@ -108,8 +108,7 @@ export function validateDNI(dni) {
 export function validateUserData(data) {
   const requiredFields = ["name", "surname", "email", "dni", "cycle"];
   let filledValues = false;
-
-  if (data.password.length !== 0 || data.repassword.length !== 0) {
+  if (data.password === undefined || data.repassword === undefined || data.password.length !== 0 || data.repassword.length !== 0) {
     if (data.password !== data.repassword) {
       toast.error("Las contraseñas deben coincidir");
       return false;

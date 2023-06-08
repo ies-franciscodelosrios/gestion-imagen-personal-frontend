@@ -148,7 +148,7 @@ const Import = (props) => {
             return {
             dni: user["DNI/Pasaporte"],
             rol: 1,
-            course_year: new Date.now(),
+            course_year: "".concat(new Date().getFullYear()+'/'+(new Date().getFullYear()+1)),
             cycle: "ninguno",
             name: user["Alumno/a"].split(',')[1],
             surname: user["Alumno/a"].split(',')[0],

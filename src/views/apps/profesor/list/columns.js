@@ -66,12 +66,6 @@ const renderRole = row => {
   )
 }
 
-const statusObj = {
-  pending: 'light-warning',
-  active: 'light-success',
-  inactive: 'light-secondary'
-}
-
 export const columns = [
 
   {

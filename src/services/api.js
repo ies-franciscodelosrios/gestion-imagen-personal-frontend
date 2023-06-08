@@ -206,6 +206,22 @@ export const getAllUserData = async (logineamil) => {
   });
 };
 
+
+/**
+ * Http Request to get all users from database
+ * @returns list with all users
+ */
+export const getUsersPaged = async (params) => {
+  return await ApiConnect.get('users/paged', {
+    params: params,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
 /**
  * Http Request to get all Users from database
  * @returns list with all users
