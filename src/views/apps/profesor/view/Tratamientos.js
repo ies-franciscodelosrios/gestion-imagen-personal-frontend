@@ -5,7 +5,7 @@ import { Fragment, useState, useEffect } from 'react'
 
 
 // ** Table Columns
-import { columns } from './columns'
+import { columns } from './columnsTreatments'
 
 // ** Store & Actions
 import { getAllData, getAppointments, getData } from '../store'
@@ -42,7 +42,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
     const columnDelimiter = ','
     const lineDelimiter = '\n'
     const keys = Object.keys(store.appoitments[0])
-
+    
     result = ''
     result += keys.join(columnDelimiter)
     result += lineDelimiter
@@ -68,6 +68,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
       <Row>
         <Col xl='12' className='d-flex align-items-center p-0'>
           <div className='d-flex align-items-center w-100'>
+   
             <label htmlFor='rows-per-page'>Ver</label>
             <Input
               className='mx-50'
@@ -81,20 +82,12 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
               <option value='25'>25</option>
               <option value='50'>50</option>
             </Input>
-            <label htmlFor='rows-per-page'>Tratamientos</label>
+            <label htmlFor='rows-per-page'>Tratamientos por pagina</label>
+
+           
           </div>
-          {/*  <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
-            <label className='mb-0' htmlFor='search-invoice'>
-              Buscar:
-            </label>
-            <Input
-              id='search-invoice'
-              className='ms-50 w-100'
-              type='text'
-              value={searchTerm}
-              onChange={e => handleFilter(e.target.value)}
-            />
-          </div> */}
+          
+          
         </Col>
 
       </Row>
@@ -194,7 +187,6 @@ const UsersList = () => {
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = Number(Math.ceil(store.appoitments.length / rowsPerPage))
-    console.log(count )
     return (
       <ReactPaginate
         previousLabel={''}

@@ -117,7 +117,6 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
   });
 
   const onSubmit = async () => {
-    console.log(updatedEntity);
     if (true) {
       await updateAppointment2(updatedEntity).then(e => { toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
       closeModal();
@@ -208,7 +207,6 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                   const selectedDate = new Date(newdate[0]);
                   selectedDate.setDate(selectedDate.getDate() + 1);
                   updatedEntity.date = selectedDate.toISOString().split("T")[0];
-                  console.log(updatedEntity.date);
                 }}
                 value={new Date(updatedEntity?.date ?? '2023-01-01')}
                 options={{

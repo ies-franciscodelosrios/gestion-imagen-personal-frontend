@@ -102,7 +102,7 @@ const UserInfoCard = () => {
     selectedUser.email = data.email;
     selectedUser.dni = data.dni;
     selectedUser.course_year = data.course_year;
-    selectedUser.cycle = data.cycle;
+    selectedUser.cycle = data.cycle.value;  
     selectedUser.password = data.password;
     selectedUser.repassword = data.repassword;
 
@@ -272,7 +272,7 @@ const UserInfoCard = () => {
                   id="dni"
                   name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="dni" placeholder="31000000C" invalid={errors.dni && true}/>
+                    <Input {...field} id="dni" placeholder={selectedUser.dni} invalid={errors.dni && true}/>
                   )}
                 />
               </Col>
@@ -281,7 +281,7 @@ const UserInfoCard = () => {
                   Ciclo <span className="text-danger">*</span>
                 </Label>
                 <Controller
-                  defaultValue={{label:selectedUser.cycle, value:selectedUser.cycle}} // Set the default value to the first option in the array
+                  defaultValue={selectedUser.cycle} // Set the default value to the first option in the array
                   control={control}
                   id="cycle"
                   name="cycle"
@@ -293,7 +293,7 @@ const UserInfoCard = () => {
                       classNamePrefix='select'
                       id="cycle"
                       name='cycle'
-                      placeholder="Elige tu ciclo"
+                      placeholder={selectedUser.cycle}
                       invalid={errors.cycle && true}
                     />
                   )}

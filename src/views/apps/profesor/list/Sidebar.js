@@ -63,12 +63,9 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
   // ** Function to handle form submit
   const onSubmit = (data) => {
     data.course_year = BirthPicker.toISOString().split('T')[0];
-    //data.cycle = data.cycle.value;
-     console.log(data.course_year)
     setData(data)
     if (checkIsValid(data)) {
       toggleSidebar()
-      console.log(data);
       dispatch(
         addProfesor({
           dni: data.dni,
@@ -83,7 +80,6 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
         })
       );
     } else {
-      console.log('not correct');
       for (const key in data) {
         if (data[key] === null) {
           setError('country', {

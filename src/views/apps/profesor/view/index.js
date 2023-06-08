@@ -16,6 +16,7 @@ import UserInfoCard from './UserInfoCard'
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 
+
 const TeacherView = () => {
   // ** Store Vars
   const store = useSelector(state => state.profesor)
@@ -23,6 +24,7 @@ const TeacherView = () => {
 
   // ** Hooks
   const { id } = useParams()
+  const { cycle } = useParams()
 
   // ** Get suer on mount
   useEffect(() => {
@@ -45,7 +47,7 @@ const TeacherView = () => {
           <UserInfoCard selectedProfesor={store.selectedProfesor} />
         </Col>
         <Col xl='8' lg='7' xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          <UserTabs active={active} toggleTab={toggleTab} selectedProfesor={store.selectedProfesor} />
+          <UserTabs active={active} toggleTab={toggleTab} selectedProfesor={store.selectedProfesor} getAllStudentsbyCycle={store.selectedProfesor.cycle} />
         </Col>
       </Row>
     </div>

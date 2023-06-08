@@ -63,15 +63,12 @@ const CalendarComponent = () => {
   //     allDay: true,
   //     editable:true
   //   }));
-  //   console.log(appointments);
   //   const data = {
   //     events: appointments,
   //     selectedEvent: {},
   //     selectedCalendars: [0, 1]
   //   };
-  //   console.log(data);
   //   setEventos(data);
-  //   console.log(eventos);
   // };
 
   // ** Hooks
