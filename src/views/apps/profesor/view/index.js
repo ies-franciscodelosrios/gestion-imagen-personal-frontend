@@ -28,7 +28,6 @@ const TeacherView = () => {
 
   // ** Get suer on mount
   useEffect(() => {
-    console.log(store)
     dispatch(getProfesor(parseInt(id)))
     dispatch(getAppointments())
   }, [dispatch])

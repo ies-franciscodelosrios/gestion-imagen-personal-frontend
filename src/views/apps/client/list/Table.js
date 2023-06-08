@@ -237,7 +237,6 @@ const ClientList = () => {
 
   // ** Function in get data on search query change
   const handleFilter = val => {
-    console.log(val);
 
     if (typingTimeout) {
       clearTimeout(typingTimeout);

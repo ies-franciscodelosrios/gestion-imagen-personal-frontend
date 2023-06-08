@@ -134,11 +134,8 @@ const UsersList = () => {
 
   }
 
-  console.log(store.appoitments)
 
   const filteredAppointments = filterAppointmentsByDNI(store.appoitments, store.selectedUser);
-  // filteredAppointments();
-  console.log(filteredAppointments);
 
 
   // ** Get data on mount
@@ -214,7 +211,6 @@ const UsersList = () => {
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = Number(Math.ceil(filteredAppointments.length / rowsPerPage))
-    console.log(count )
     return (
       <ReactPaginate
         previousLabel={''}

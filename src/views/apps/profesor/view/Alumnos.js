@@ -133,20 +133,13 @@ const UsersList = () => {
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
   const QUOTE_REQUESTED = "QUOTE_REQUESTED";
   
-  // ** Get data on mount
- /* useEffect(() => {
-     setStudents( getAllStudentsFromCycle({
-        cycle:store.selectedProfesor.cycle
-      }).then(e => {console.log(e.data.data);}
-      ))
-       
-  }, [dispatch, store.allData.length, sort, sortColumn, currentPage])*/
+
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await getAllStudentsFromCycle({
         cycle: store.selectedProfesor.cycle
-      }).then(e =>{ console.log(e), setStudents(e.data.data)});
+      }).then(e =>{ setStudents(e.data.data)});
       
     };
 
@@ -187,7 +180,6 @@ const UsersList = () => {
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = Number(Math.ceil(store.students.length / rowsPerPage))
-    console.log(count)
     return (
       <ReactPaginate
         previousLabel={''}
