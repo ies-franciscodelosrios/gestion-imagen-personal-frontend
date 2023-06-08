@@ -4,15 +4,6 @@ import { Link } from 'react-router-dom'
 // ** Custom Components
 import Avatar from '@components/avatar'
 
-// ** Store & Actions
-import { store } from '@store/store'
-import { getClient, deleteClient } from '../store'
-
-// ** Icons Imports
-import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
-
-// ** Reactstrap Imports
-import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 // ** Renders Client Columns
 
@@ -33,14 +24,6 @@ const renderClient = row => {
 
 
 
-
-
-const statusObj = {
-  pending: 'light-warning',
-  active: 'light-success',
-  inactive: 'light-secondary'
-}
-
 export const columns = [
 
   {
@@ -56,7 +39,6 @@ export const columns = [
           <Link
             to={`/apps/client/view/${row.id}`}
             className='user_name text-truncate text-body'
-            onClick={() => store.dispatch(getClient(row.id))}
           >
             <span className='fw-bolder'>{row.name.concat(' ',row.surname)}</span>
           </Link>
@@ -103,35 +85,6 @@ export const columns = [
     minWidth: '100px',
     cell: row => (
       <div className='column-action'>
-        <UncontrolledDropdown>
-          <DropdownToggle tag='div' className='btn btn-sm'>
-            <MoreVertical size={14} className='cursor-pointer' />
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem
-              tag={Link}
-              className='w-100'
-              to={`/apps/client/view/${row.id}`}
-              onClick={() => store.dispatch(getClient(row.id))}
-            >
-              <FileText size={14} className='me-50' />
-              <span className='align-middle'>Detalles</span>
-            </DropdownItem>
-            <DropdownItem
-              tag='a'
-              href='/'
-              className='w-100'
-              onClick={e => {
-                e.preventDefault()
-                store.dispatch(deleteClient(row.id));
-                
-              }}
-            >
-              <Trash2 size={14} className='me-50' />
-              <span className='align-middle'>Eliminar</span>
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
       </div>
     )
   }
