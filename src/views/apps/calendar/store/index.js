@@ -18,13 +18,9 @@ import { findUser } from './sort_utils';
 export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (calendars) => {
 
   const appointmentList = calendars.events;
-  console.log(appointmentList),
-
-    console.log(calendars);
     const studentList = calendars.users;
     const clientList = calendars.clients;
     const filtros = calendars.calendarLabel;
-    console.log(studentList);
     if (calendars.events === null || calendars.events.length <= 0) {
 
       const students = await getAllStudentsData().then(result => {return result}).catch(() =>{console.log('error all student')});
@@ -51,6 +47,8 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
         return {
           id: event.id,
           start: event.date,
+          start_time: event.start_time,
+          end_time: event.end_time,
           title: event.protocol,
           calendarLabel: event.treatment,
           created_at: event.created_at,
@@ -74,7 +72,7 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
         };
       }) )
     }
-    
+
       // Filtrar las citas según el valor de calendarLabel
   const filteredAppointments = appointmentList.filter(
     (event) => calendars.calendarLabel.includes(event.calendarLabel)
@@ -94,7 +92,6 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
 export const addEvent = createAsyncThunk(
   'appCalendar/addEvent',
   async (event, { dispatch, getState }) => {
-    console.log(event);
     const newEvent = await AddAppointment(event);
     const currentFilters = getState().calendar.calendarLabel;
     await dispatch(fetchEvents({ events: [], users: [], clients: [], calendarLabel: currentFilters }));
@@ -105,7 +102,6 @@ export const addEvent = createAsyncThunk(
 export const updateEvent = createAsyncThunk(
   'appCalendar/updateEvent',
   async (event, { dispatch, getState }) => {
-    console.log(event);
     await updateAppointment(event);
     const currentFilters = getState().calendar.calendarLabel;
     await dispatch(fetchEvents({ events: [], users: [], clients: [], calendarLabel: currentFilters }));
@@ -129,7 +125,6 @@ export const updateFilter = createAsyncThunk(
     } else {
       updatedSelectedCalendars = [...selectedCalendars, filter];
     }
-    console.log(updatedSelectedCalendars);
     await dispatch(fetchEvents({ events: [], users: [], clients: [], calendarLabel: updatedSelectedCalendars }));
     return { updatedSelectedCalendars };
   }

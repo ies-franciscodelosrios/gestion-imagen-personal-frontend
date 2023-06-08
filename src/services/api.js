@@ -2,9 +2,10 @@ import Axios from 'axios';
 import { getToken } from './UseToken';
 
 const ApiConnect = Axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  //baseURL: 'http://localhost:8000/api/',
   //baseURL: 'http://iestablero.duckdns.org:8000/api/',
-  //baseURL: 'http://asilgar118.duckdns.org:8000/api/',
+  baseURL: 'http://asilgar118.duckdns.org:8000/api/',
+
   headers: {
     'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -366,6 +367,8 @@ export const AddAppointment = async (event) => {
     `appointment`,
     {
       date: event.start,
+      start_time: event.start_time,
+      end_time: event.end_time,
       treatment: event.calendar,
       protocol: event.title,
       dni_client: event.dnicliente,
@@ -436,6 +439,8 @@ export const updateAppointment = async (event) => {
   return await ApiConnect.put(`appointment`, {
     id: event.id,
     date: event.start,
+    start_time: event.start_time,
+    end_time: event.end_time,
     treatment: event.calendar,
     protocol: event.title,
     dni_client: event.dnicliente,
