@@ -81,6 +81,8 @@ const hours = now.getHours();
 const minutes = now.getMinutes();
 
 const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
+const [startTime, setStartTime] = useState(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
+const [endTime, setEndTime]   = useState(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
 
 
   const [calendarLabel, setCalendarLabel] = useState([
@@ -128,10 +130,11 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
   const handleAddEvent = () => {
     const startDate = new Date(startPicker);
     const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-
     const obj = {
       title: getValues('title'),
       start: formattedStartDate,
+      start_time: startTime,
+      end_time: endTime,
       dnialumno: dnialumno,
       dnicliente: dnicliente,
       display: 'block',
@@ -150,7 +153,6 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
 
     if ((obj.calendar == 'Peluquería')) {obj.calendar = 0;}
     else {obj.calendar = 1;}
-
     dispatch(addEvent(obj));
     refetchEvents();
     fetchData();
@@ -170,6 +172,10 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
       { value: 'Peluquería', label: 'Peluquería', color: 'danger' },
     ]);
     setStartPicker(new Date());
+    // Reiniciar el estado de startTime
+    const initialStartTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    setStartTime(initialStartTime);
+    setEndTime(initialStartTime);
   };
 
   // ** Set sidebar fields
@@ -177,13 +183,13 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
     if (!isObjEmpty(selectedEvent)) {
 
       setStartPicker(selectedEvent.start);
-
+      setStartTime(selectedEvent.extendedProps.start_time);
+      setEndTime(selectedEvent.extendedProps.end_time);
       if (selectedEvent.title==='') {
 
         return { label: 'Peluquería', value: 'Peluquería', color: 'danger' }
       }
       
-      console.log(selectedEvent);
       setGuests(selectedEvent.extendedProps.cliente.label == "undefined undefined" ? "" : {
       value: selectedEvent.extendedProps.cliente.value,
       label: selectedEvent.extendedProps.cliente.label,
@@ -253,12 +259,12 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
     if (getValues('title').length) {
       const startDate = new Date(startPicker);
       const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-      console.log(guests);
-      console.log(pupils);
       const eventToUpdate = {
         id: selectedEvent.id,
         title: getValues('title'),
         start: formattedStartDate,
+        start_time: startTime,
+        end_time: endTime,
         dnialumno: pupils[0]?.dni || selectedEvent.extendedProps.alumno.dni || undefined,
         dnicliente: guests[0]?.dni || selectedEvent.extendedProps.cliente.dni || undefined,
         display: 'block',
@@ -448,7 +454,56 @@ const [startPicker, setStartPicker]   = useState(`${year}-${month.toString().pad
                 }}
               />
             </div>
-
+            <div className="mb-1">
+              <Label className="form-label" for="startDate">
+                Hora de Inicio
+              </Label>
+              <Flatpickr
+                required
+                id="startTime"
+                name="startTime"
+                className="form-control"
+                onChange={(date) => {
+                  const selectedTime = new Date(date[0]);
+                  const hours = selectedTime.getHours();
+                  const minutes = selectedTime.getMinutes();
+                  const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                  setStartTime(formattedTime);
+                }}
+                value={startTime}
+                options={{
+                  enableTime: true,
+                  noCalendar: true,
+                  time_24hr: true,
+                  timeZone: 'UTC+1',
+                }}
+              />
+            </div>
+            <div className="mb-1">
+              <Label className="form-label" for="startDate">
+                Hora de Fin
+              </Label>
+              <Flatpickr
+                required
+                id="endTime"
+                name="endTime"
+                className="form-control"
+                onChange={(date) => {
+                  const selectedTime = new Date(date[0]);
+                  const hours = selectedTime.getHours();
+                  const minutes = selectedTime.getMinutes();
+                  const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                  setEndTime(formattedTime);
+                }}
+                value={endTime}
+                options={{
+                  enableTime: true,
+                  noCalendar: true,
+                  time_24hr: true,
+                  timeZone: 'UTC+1',
+                }}
+              />
+            </div>
             {/* {isObjEmpty(selectedEvent) ? null : (
               <Col md="6" sm="12" className="mb-1">
                 <Label className="form-label" for="Cosmeticos">

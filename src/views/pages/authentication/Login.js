@@ -98,10 +98,8 @@ const Login = () => {
     return params >= 2 ? 'Alumno' : 'Profesor';
   }
 
-  console.log(localStorage.getItem('userData'))
   useEffect(() => {
     if (localStorage.getItem('userData') !== null) {
-      console.log('hola')
       navigate(getHomeRouteForLoggedInUser(0));
     }
   }, [])

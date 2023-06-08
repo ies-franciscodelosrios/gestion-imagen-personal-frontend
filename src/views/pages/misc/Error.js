@@ -78,7 +78,7 @@ const Error = () => {
           <h2 className='mb-1'>PAGINA NO ENCONTRADA 🕵🏻‍♀️</h2>
           <p className='mb-2'>Oops! 😖 La URL que busca no se ha encontrado en nuestros registros.</p>
           <Button tag={Link} to='/' color='primary' className='btn-sm-block mb-2'>
-            Volver la inicio
+            Volver al inicio
           </Button>
           <img className='img-fluid' src={source} alt='Not authorized page' />
         </div>
