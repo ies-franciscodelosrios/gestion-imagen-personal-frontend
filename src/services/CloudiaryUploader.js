@@ -22,7 +22,6 @@ const ImageUploader = ({ id, update }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log({ "id": id, "url": data.secure_url });
         addAppointmentCloudinary(
           { "id": id, "url": data.secure_url }
         ).then(e => {

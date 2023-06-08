@@ -451,7 +451,6 @@ export function sort_appointments(params, response) {
   const MySwal = withReactContent(Swal)
 // ** Renders Role Columns
 export async function handleConfirmCancel() {
-  console.log("OK")
   return MySwal.fire({
     title: 'Estas seguro?',
     text: " ¡Los cambios no serán revertibles!",
