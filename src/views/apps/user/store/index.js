@@ -46,7 +46,7 @@ export const getAppointments = createAsyncThunk('appAppointments/getAppointments
 })
 
 export const updateUser = createAsyncThunk('appUsers/updateUser', async updatedUser => {
-  await updateUserBy(updatedUser).then(e => toast.error('Datos Guardados')).catch(e=>toast.error('Error al editar'));
+  await updateUserBy(updatedUser).then(e => toast.success('Datos Guardados')).catch(e=>{console.log(e); toast.error('Error al editar')});
   return updatedUser
 })
 

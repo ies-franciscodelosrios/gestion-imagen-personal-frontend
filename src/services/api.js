@@ -2,8 +2,10 @@ import Axios from 'axios';
 import { getToken } from './UseToken';
 
 const ApiConnect = Axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  //baseURL: 'http://localhost:8000/api/',
   //baseURL: 'http://iestablero.duckdns.org:8000/api/',
+  baseURL: 'http://asilgar118.duckdns.org:8000/api/',
+
   headers: {
     'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -66,6 +68,22 @@ export const getAllClientsData = async () => {
     },
   });
 };
+
+/**
+ * Http Request to get all clients from database
+ * @returns list with all clients
+ */
+export const getClientsPaged = async (params) => {
+  return await ApiConnect.get('clients/paged', {
+    params: params,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
 
 /**
  * Http Request to get a client by id
@@ -256,7 +274,8 @@ export const getUserById = async (id) => {
  * @returns user data
  */
 export const getUserByDNI= async (id) => {
-  return await ApiConnect.get(`userByDni/${id}`, {
+  return await ApiConnect.get(`userByDni/id`, {
+    params:{id: id},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -364,12 +383,14 @@ export const AddAppointment = async (event) => {
   return await ApiConnect.post(
     `appointment`,
     {
-      Date: event.dateappo,
-      Treatment: event.calendar,
-      Protocol: event.title,
+      date: event.start,
+      start_time: event.start_time,
+      end_time: event.end_time,
+      treatment: event.calendar,
+      protocol: event.title,
       dni_client: event.dnicliente,
-      dni_Student: event.dnialumno,
-      Consultancy: event.desc,
+      dni_student: event.dnialumno,
+      consultancy: event.desc,
     },
     {
       headers: {
@@ -450,14 +471,32 @@ export const getAppointmentbyDniStudent = async (dni_Student) => {
  * @returns appointments data
  */
 export const updateAppointment = async (event) => {
+  return await ApiConnect.put(`appointment`, {
+    id: event.id,
+    date: event.start,
+    start_time: event.start_time,
+    end_time: event.end_time,
+    treatment: event.calendar,
+    protocol: event.title,
+    dni_client: event.dnicliente,
+    dni_student: event.dnialumno,
+    consultancy: event.desc,
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
 
-  return await ApiConnect.put(`appointment/${event.id}`, {
-    Date: event.dateappo,
-    Treatment: event.calendar,
-    Protocol: event.title,
-    DNI_client: event.dnicliente,
-    DNI_Student: event.dnialumno,
-    Consultancy: event.desc,
+/**
+ * Http Request to get all appointments
+ * @returns appointments data
+ */
+export const updateAppointment2 = async (event) => {
+  return await ApiConnect.put(`appointment`, {
+    ...event
   }, {
     headers: {
       'Content-Type': 'application/json',
@@ -473,7 +512,57 @@ export const updateAppointment = async (event) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const deleteAppointment = async (id) => {
-  return await ApiConnect.delete(`appointment/${id}`, {
+  return await ApiConnect.delete(`appointment/id`, {
+    params:{id: id},
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to get a images from cloudinary
+ * @param {*} id to identify the image
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const getAppointmentCloudinary = async (data) => {
+  return await ApiConnect.get(`appointment/get-photos`, {
+    params:{...data},
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to add a imagen from cloudinary
+ * @param {*} id to identify the image
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const addAppointmentCloudinary = async (data) => {
+  return await ApiConnect.post(`appointment/add-photo-url`,
+  {...data},
+  {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+/**
+ * Http Request to delete a imagen from cloudinary
+ * @param {*} id to identify the image
+ * @returns response 200 for ok OR 401 for not found
+ */
+export const deleteAppointmentCloudinary = async (data) => {
+  return await ApiConnect.delete(`appointment/delete-photo-url`, {
+    params:{...data},
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',

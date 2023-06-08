@@ -5,12 +5,13 @@ import { Fragment } from 'react'
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link } from 'react-feather'
+import { User, Lock } from 'react-feather'
 
 // ** User Components
 import ClientSheetsList from './ClientSheetsList'
+import HistorialTratamientos from './historial_medico/HistorialTratamientos'
 
-const UserTabs = ({ active, toggleTab, client }) => {
+const ClientTabs = ({ active, toggleTab, entity, setEntity }) => {
   return (
     <Fragment>
       <Nav pills className='mb-2'>
@@ -20,22 +21,22 @@ const UserTabs = ({ active, toggleTab, client }) => {
             <span className='fw-bold'>Cuenta</span>
           </NavLink>
         </NavItem>
-        {/* <NavItem>
+        <NavItem>
           <NavLink active={active === '2'} onClick={() => toggleTab('2')}>
             <Lock className='font-medium-3 me-50' />
             <span className='fw-bold'>Historial de Tratamientos</span>
           </NavLink>
-        </NavItem> */}
+        </NavItem>
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId='1'>
-          <ClientSheetsList client={client}/>
+          <ClientSheetsList entity={entity} setEntity={setEntity}/>
         </TabPane>
-        {/* <TabPane tabId='2'>
-          <></>
-        </TabPane> */}
+        <TabPane tabId='2'>
+          <HistorialTratamientos entity={entity}></HistorialTratamientos>
+        </TabPane>
       </TabContent>
     </Fragment>
   )
 }
-export default UserTabs
+export default ClientTabs
