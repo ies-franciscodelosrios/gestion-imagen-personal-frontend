@@ -1,12 +1,22 @@
 // ** React Imports
-import { Fragment } from 'react'
+import { useState, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-
 // ** Custom Components
 import Avatar from '@components/avatar'
 
 // ** Reactstrap Imports
-import { UncontrolledTooltip } from 'reactstrap'
+import {
+  UncontrolledTooltip,
+  Row,
+  Col,
+  Form,
+  Button,
+  Modal,
+  Input,
+  Label,
+  ModalBody,
+  ModalHeader,
+} from 'reactstrap';
 
 // ** Third Party Components
 import {
@@ -24,9 +34,17 @@ import {
   BookOpen,
   ChevronsRight
 } from 'react-feather'
+/*const [show, setShow] = useState(false);
+
+const treatmentList = () => {
+  // ... lógica de tratamiento
+  setShow(false);
+}*/
+
 
 // ** Vars
 const invoiceStatusObj = {
+
   Sent: { color: 'light-secondary', icon: Send },
   Paid: { color: 'light-success', icon: CheckCircle },
   Draft: { color: 'light-primary', icon: Save },
@@ -35,16 +53,10 @@ const invoiceStatusObj = {
   'Partial Payment': { color: 'light-warning', icon: PieChart }
 }
 
+
 // ** Table columns
 export const columns = [
-  {
-    minWidth: '30px',
-    name: 'ID',
-    sortable: true,
-    sortField: 'id',
-    selector: row => row.id,
-    cell: row => row.id
-  }, {
+{
     minWidth: '200px',
     name: 'Fecha',
     sortable: true,
@@ -73,7 +85,7 @@ export const columns = [
     sortField: 'treatment',
     selector: row => row.treatment,
     cell: row => row.treatment
-  },{
+  }, {
     name: "Protocolo",
     minWidth: '200px',
     sortable: true,
@@ -81,18 +93,24 @@ export const columns = [
     selector: row => row.protocol,
     cell: row => {
       const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
-        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Edit
+        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Clipboard
       return (
         <Fragment>
           <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
           <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
             <br />
-            {row.Protocol}
+          <p>
+           {row.protocol}
+            
+          </p>
           </UncontrolledTooltip>
         </Fragment>
       )
     }
-  },{
+  },
+
+
+  {
     name: "Consultas",
     minWidth: '200px',
     sortable: true,
@@ -106,12 +124,16 @@ export const columns = [
           <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
           <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
             <br />
-            {row.Consultancy}
+          <p>
+           {row.consultancy}
+            
+          </p>
           </UncontrolledTooltip>
         </Fragment>
       )
     }
-  },{
+  },
+  {
     name: "Seguimiento",
     minWidth: '200px',
     sortable: true,
@@ -119,35 +141,43 @@ export const columns = [
     selector: row => row.tracking,
     cell: row => {
       const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
-        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : ChevronsRight
+        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Clipboard
       return (
         <Fragment>
           <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
           <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
             <br />
-            {row.Tracking}
+          <p>
+           {row.tracking}
+            
+          </p>
           </UncontrolledTooltip>
         </Fragment>
       )
     }
-  },{
+  },
+  {
     name: "Encuesta",
     minWidth: '200px',
     sortable: true,
-    sortField: 'survey',
+    sortField: 'consultancy',
     selector: row => row.survey,
     cell: row => {
       const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
-        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : BookOpen
+        Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Clipboard
       return (
         <Fragment>
           <Avatar color={color} icon={<Icon size={14} />} id={`av-tooltip-${row.id}`} />
           <UncontrolledTooltip placement='top' target={`av-tooltip-${row.id}`}>
             <br />
-            {row.Survey}
+          <p>
+           {row.survey}
+            
+          </p>
           </UncontrolledTooltip>
         </Fragment>
       )
     }
   }
 ]
+//  export default treatmentList
