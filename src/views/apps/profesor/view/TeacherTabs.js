@@ -33,7 +33,7 @@ const TeacherTabs = ({ active, toggleTab, entity, setEntity }) => {
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId='1'>
-          {/* <Alumnos entity={entity}/> */}
+          <Alumnos entity={entity}/>
         </TabPane >
         <TabPane tabId='2'>
           <Tratamientos />

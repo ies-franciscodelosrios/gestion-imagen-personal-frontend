@@ -6,7 +6,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { columns } from './columnsStudents'
 
 // ** Store & Actions
-import { getAllStudentsFromCycle } from '../../../../services/api'
+import { getUsersPaged } from '../../../../services/api'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -83,18 +83,25 @@ const UsersList = ({ entity }) => {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    fetchAppointments();
+    fetchStudents();
   }, [rowsPerPage, currentPage, searchTerm]);
 
   // ** Get data on mount
-  const fetchAppointments = async () => {
+  const fetchStudents = async () => {
+    console.log(entity.cycle);
     try {
-      await getAllStudentsFromCycle({
-        "cycle": entity.cycle
+      await getUsersPaged({
+        "sort": sort,
+        "sortcolumn": sortColumn,
+        "page": currentPage,
+        "perpage": rowsPerPage,
+        "searchtext": searchTerm,
+        "cycle": ''.concat(entity.cycle),
+        "rol": 2
       }).then((e) => {
         console.log(e);
-        setpagesNumber(e.data.last_page);
-        setStudents(e.data.data);
+        setpagesNumber(e.data.data.last_page);
+        setStudents(e.data.data.data);
       }).catch(e => {
         toast.error('Error al traer datos');
       });
@@ -102,7 +109,6 @@ const UsersList = ({ entity }) => {
       console.error('Error al obtener los datos:', error);
     }
   };
-
 
   // ** Function in get data on page change
   const handlePagination = page => {
