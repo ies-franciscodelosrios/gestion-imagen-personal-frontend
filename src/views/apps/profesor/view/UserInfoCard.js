@@ -1,7 +1,5 @@
 // ** React Imports
 import { useState, Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { updateProfesor } from '../store';
 
 // ** Reactstrap Imports
 import {
@@ -11,7 +9,6 @@ import {
   Form,
   CardBody,
   Button,
-  Badge,
   Modal,
   Input,
   Label,
@@ -22,7 +19,6 @@ import {
 // ** Third Party Components
 import Swal from 'sweetalert2';
 import Select from 'react-select';
-import { Check, Briefcase, X } from 'react-feather';
 import { useForm, Controller } from 'react-hook-form';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -34,18 +30,12 @@ import '@styles/react/libs/react-select/_react-select.scss';
 import { toast } from 'react-hot-toast';
 import { validateDNI, validateUserData } from '../../../../utility/Utils';
 import { updateUserBy } from '../../../../services/api';
+import { cyclesOptions } from '../../../../utility/Constants';
 
-
-const cycleOptions = [
-  { label: 'Grado Medio - Peluquería y cosmética capilar', value: 'Grado Medio - Peluquería y cosmética capilar' },
-  { label: 'Grado Medio - Estética y belleza', value: 'Grado Medio - Estética y belleza' },
-  { label: 'Grado Superior - Estética integral y bienestar', value: 'Grado Superior - Estética integral y bienestar' },
-  { label: 'Grado Superior - Estilismo y dirección de peluquería', value: 'Grado Superior - Estilismo y dirección de peluquería' },
-];
 
 const MySwal = withReactContent(Swal);
 
-const UserInfoCard = ({entity, setEntity}) => {
+const UserInfoCard = ({ entity, setEntity }) => {
   // ** State
   const [show, setShow] = useState(false);
 
@@ -63,6 +53,7 @@ const UserInfoCard = ({entity, setEntity}) => {
       email: entity.email,
       dni: entity.dni,
       course_year: entity.course_year,
+      cycle: entity.cycle,
       password: '',
       repassword: '',
     },
@@ -91,14 +82,13 @@ const UserInfoCard = ({entity, setEntity}) => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
     if (validateUserData(data)) {
-      await updateUserBy({ ...entity, ...data }).then(e => { setEntity(e.data); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
+      await updateUserBy({ ...entity, ...data }).then(e => { setEntity(e.data); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar: ' + e) });
       setShow(false);
     } else {
       for (const key in data) {
-        if (!validateDNI(data.dni))setError('dni',{})
-        if (data.password.length!=0 || data.repassword.length!=0){setError('password',{}); setError('repassword',{});}
+        if (!validateDNI(data.dni)) setError('dni', {})
+        if (data.password.length != 0 || data.repassword.length != 0) { setError('password', {}); setError('repassword', {}); }
         if (data[key].length === 0 && !key.includes('pass')) {
           setError(key, {
             type: 'manual'
@@ -109,7 +99,7 @@ const UserInfoCard = ({entity, setEntity}) => {
   }
 
   const handleReset = () => {
-    reset({...entity});
+    reset({ ...entity });
   };
 
   return (
@@ -154,7 +144,7 @@ const UserInfoCard = ({entity, setEntity}) => {
                   <span className="fw-bolder me-25">Curso: </span>
                   <span>{entity.course_year}</span>
                 </li>
-               
+
               </ul>
             ) : null}
           </div>
@@ -249,7 +239,7 @@ const UserInfoCard = ({entity, setEntity}) => {
                   id="dni"
                   name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="dni" placeholder={entity.dni} invalid={errors.dni && true}/>
+                    <Input {...field} id="dni" placeholder={entity.dni} invalid={errors.dni && true} />
                   )}
                 />
               </Col>
@@ -258,23 +248,25 @@ const UserInfoCard = ({entity, setEntity}) => {
                   Ciclo <span className="text-danger">*</span>
                 </Label>
                 <Controller
-                  defaultValue={entity.cycle} // Set the default value to the first option in the array
+                  defaultValue={entity.cycle}
                   control={control}
                   id="cycle"
                   name="cycle"
-                  render={({ field }) => (
+                  render={({ field: { onChange, value } }) => (
                     <Select
-                      {...field}
-                      options={cycleOptions}
+                      options={cyclesOptions}
                       className='react-select'
                       classNamePrefix='select'
                       id="cycle"
-                      name='cycle'
+                      name="cycle"
                       placeholder={entity.cycle}
                       invalid={errors.cycle && true}
+                      onChange={(selectedOption) => onChange(selectedOption.value)}
+                      defaultValue={value}
                     />
                   )}
                 />
+
               </Col>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='password'>
@@ -293,7 +285,7 @@ const UserInfoCard = ({entity, setEntity}) => {
                     />
                   )}
                 />
-              </Col>              
+              </Col>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='repassword'>
                   Repite Contraseña
