@@ -48,7 +48,7 @@ const Import = (props) => {
         toast.error(
           () => (
             <p className='mb-0'>
-              You can only upload <span className='fw-bolder'>.xlsx</span>, <span className='fw-bolder'>.xls</span> &{' '}
+              Solo subir archivos con extension <span className='fw-bolder'>.xlsx</span>, <span className='fw-bolder'>.xls</span> &{' '}
               <span className='fw-bolder'>.csv</span> Files!.
             </p>
           ),
@@ -127,11 +127,35 @@ const Import = (props) => {
         break;
 
       case 'student':
-      
+        Object.assign(dataArrApi,
+          dataArr.map((user) => {
+            return {
+            dni: user["DNI/Pasaporte"],
+            rol: 2,
+            course_year: "".concat(new Date().getFullYear()+'/'+(new Date().getFullYear()+1)),
+            cycle: user[ciclo] || "ninguno",
+            name: user["Alumno/a"].split(',')[1],
+            surname: user["Alumno/a"].split(',')[0],
+            email: user["Correo electrónico personal alumno/a"],
+            others: ' '
+          };
+        }));  
       break;
 
       case 'teacher':
-      
+        Object.assign(dataArrApi,
+          dataArr.map((user) => {
+            return {
+            dni: user["DNI/Pasaporte"],
+            rol: 1,
+            course_year: "".concat(new Date().getFullYear()+'/'+(new Date().getFullYear()+1)),
+            cycle: user[ciclo] || "ninguno",
+            name: user["Alumno/a"].split(',')[1],
+            surname: user["Alumno/a"].split(',')[0],
+            email: user["Correo electrónico personal alumno/a"],
+            others: ' '
+          };
+        })); 
       break;
     
       default:
