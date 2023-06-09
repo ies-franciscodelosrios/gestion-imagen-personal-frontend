@@ -8,29 +8,18 @@ import { Fragment, useState, useEffect } from 'react'
 import { columns } from './columnsTreatments'
 
 // ** Store & Actions
-import { getAllData, getAppointments, getData } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
-import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy } from 'react-feather'
+import { ChevronDown } from 'react-feather'
 
 import {
   Row,
   Col,
   Card,
-  Input,
-  Label,
-  Button,
-  CardBody,
-  CardTitle,
-  CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledDropdown
+  Input
 } from 'reactstrap'
 
 

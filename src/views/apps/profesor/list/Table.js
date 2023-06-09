@@ -34,7 +34,7 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 import Import from '../../../extensions/import-export/Import'
-import { ApiDelUser, getUsersPaged } from '../../../../services/api'
+import { AddStudent, ApiDelUser, getUsersPaged } from '../../../../services/api'
 
 
 // Toast styles
@@ -42,7 +42,6 @@ import { toast } from 'react-hot-toast';
 import '@styles/react/libs/react-select/_react-select.scss';
 import { Link } from 'react-router-dom'
 import { handleConfirmCancel } from '../../../../utility/Utils'
-import { addUser } from '../../user/store'
 
 // ** Table Header
 const CustomHeader = ({ teacherList, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, reload }) => {
@@ -54,7 +53,8 @@ const CustomHeader = ({ teacherList, toggleSidebar, handlePerPage, rowsPerPage, 
     const loading = toast.loading('Cargando Datos');
     try {
       await data.map(async (user) => {
-        await addUser(user);
+        await AddStudent(user)
+
       })
     } catch (error) {
       toast.error('Error al Importar', {
@@ -161,7 +161,7 @@ const CustomHeader = ({ teacherList, toggleSidebar, handlePerPage, rowsPerPage, 
                   <FileText className='font-small-4 me-50' />
                   <span className='align-middle'>Importar</span>
                 </DropdownItem>
-                <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
+                <DropdownItem className='w-100' onClick={() => downloadCSV(teacherList)}>
                   <FileText className='font-small-4 me-50' />
                   <span className='align-middle'>Exportar</span>
                 </DropdownItem>
