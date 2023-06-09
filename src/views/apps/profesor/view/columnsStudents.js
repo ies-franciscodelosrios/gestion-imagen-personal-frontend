@@ -1,37 +1,6 @@
 // ** React Imports
-import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
-
-
-// ** Reactstrap Imports
-import { UncontrolledTooltip } from 'reactstrap'
-
-// ** Third Party Components
-import {
-  Eye,
-  Send,
-  Edit,
-  Clipboard,
-  Save,
-  Info,
-  PieChart,
-  Download,
-  TrendingUp,
-  CheckCircle,
-  ArrowDownCircle,
-  BookOpen,
-  ChevronsRight
-} from 'react-feather'
-import { getProfesor } from '../store'
-
-
-
-const statusObj = {
-  pending: 'light-warning',
-  active: 'light-success',
-  inactive: 'light-secondary'
-}
 // ** Table columns
 export const columns = [
   {
@@ -47,7 +16,6 @@ export const columns = [
           <Link
             to={`/apps/user/view/${row.id}`}
             className='user_name text-truncate text-body'
-            onClick={() => store.dispatch(getProfesor(row.id))}
           >
             <span className='fw-bolder'>{row.name.concat(' ',row.surname)}</span>
           </Link>
@@ -68,7 +36,6 @@ export const columns = [
           <Link
             to={`/apps/user/view/Tratamientos/${row.dni}`}
             className='user_name text-truncate text-body'
-            onClick={() => store.dispatch(getAppointmentbyDniStudent(row.dni))}
           >
             <span className='fw-bolder'>{row.name.concat(' ',row.surname)}</span>
           </Link>

@@ -184,7 +184,6 @@ const CustomHeader = ({ clientList, toggleSidebar, handlePerPage, rowsPerPage, h
 const ClientList = () => {
   // ** Store Vars
   const [typingTimeout, setTypingTimeout] = useState(null);
-  const store = useSelector(state => state.clients)
 
   // ** States
   const [sort, setSort] = useState('desc')
@@ -321,7 +320,6 @@ const ClientList = () => {
 
   return (
     <Fragment>
-
       <Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <DataTable

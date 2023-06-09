@@ -34,15 +34,48 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  UncontrolledDropdown
+  UncontrolledDropdown,
+  Modal,
+  ModalHeader,
+  ModalBody
 } from 'reactstrap'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import Import from '../../../extensions/import-export/Import'
+
+// Toast styles
+import { toast } from 'react-hot-toast';
+import '@styles/react/libs/react-select/_react-select.scss';
 
 // ** Table Header
-const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
+const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm, reload }) => {
+
+  // **State Modal Import Clients
+  const [show, setShow] = useState(false);
+
+  async function showImport(data) {
+    let response = null;
+    const loading = toast.loading('Cargando Datos');
+    try {
+          await data.map( async(user) =>{
+            await AddClient(user);
+          })
+    } catch (error) {
+      toast.error('Error al Importar', {
+        id: loading,
+      });
+    }finally{
+      reload(true); 
+      toast.success('Correctamente Importados', {
+        id: loading,
+      });
+      
+    }
+    setShow(false);
+  }
+
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {
     let result
@@ -131,7 +164,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
                 <span className='align-middle'>Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem className='w-100' >
+                <DropdownItem className='w-100' onClick={() => setShow(!show)}>
                   <FileText className='font-small-4 me-50' />
                   <span className='align-middle'>Importar</span>
                 </DropdownItem>
@@ -148,6 +181,22 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
           </div>
         </Col>
       </Row>
+      <Modal
+        isOpen={show}
+        toggle={() => setShow(!show)}
+        className="modal-dialog-centered modal-lg"
+      >
+        <ModalHeader
+          className="bg-transparent"
+          toggle={() => setShow(!show)}
+        ></ModalHeader>
+        <ModalBody className="px-sm-5 pt-50 pb-5">
+          <div className="text-center mb-2">
+            <h1 className="mb-1">Importar Estudiantes</h1>
+          </div>
+          <Import type={'student'} handleImportData={showImport}></Import>
+        </ModalBody>
+      </Modal>
     </div>
   )
 }
@@ -170,7 +219,6 @@ const UsersList = () => {
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-  const QUOTE_REQUESTED = "QUOTE_REQUESTED";
   // ** Get data on mount
   useEffect(() => {
     dispatch(getAllData({
@@ -195,6 +243,10 @@ const UsersList = () => {
     )
   }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
 
+
+  const fetchStudents = (data) => {
+    console.log(data);
+  }
 
   // ** Function in get data on page change
   const handlePagination = page => {
@@ -306,94 +358,6 @@ const UsersList = () => {
 
   return (
     <Fragment>
-      {/* <Card>
-        <CardHeader>
-          <CardTitle tag='h4'>Filters</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Row>
-            <Col md='4'>
-              <Label for='role-select'>Role</Label>
-              <Select
-                isClearable={false}
-                value={currentRole}
-                options={roleOptions}
-                className='react-select'
-                classNamePrefix='select'
-                theme={selectThemeColors}
-                onChange={data => {
-                  setCurrentRole(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      role: data.value,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      status: currentStatus.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col className='my-md-0 my-1' md='4'>
-              <Label for='plan-select'>Plan</Label>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={planOptions}
-                value={currentPlan}
-                onChange={data => {
-                  setCurrentPlan(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: data.value,
-                      status: currentStatus.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col md='4'>
-              <Label for='status-select'>Status</Label>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={statusOptions}
-                value={currentStatus}
-                onChange={data => {
-                  setCurrentStatus(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      status: data.value,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-          </Row>
-        </CardBody>
-      </Card> */}
-
       <Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <DataTable
@@ -417,6 +381,7 @@ const UsersList = () => {
                 handleFilter={handleFilter}
                 handlePerPage={handlePerPage}
                 toggleSidebar={toggleSidebar}
+                reload={fetchStudents}
               />
             }
           />

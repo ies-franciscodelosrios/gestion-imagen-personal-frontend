@@ -17,8 +17,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { Button, Label, FormText, Form, Input } from 'reactstrap';
 
 // ** Store & Actions
-import { addClient } from '../store';
-import { useDispatch } from 'react-redux';
 import { AddClient } from '../../../../services/api';
 
 const defaultValues = {
@@ -45,12 +43,7 @@ const checkIsValid = (data) => {
 
 const SidebarNewClients = ({ open, toggleSidebar, reload }) => {
   // ** States
-  const [data, setData] = useState(null);
   const [BirthPicker, setBirthPicker] = useState(new Date());
-
-
-  // ** Store Vars
-  const dispatch = useDispatch();
 
   // ** Vars
   const {
@@ -64,8 +57,6 @@ const SidebarNewClients = ({ open, toggleSidebar, reload }) => {
   // ** Function to handle form submit
   const onSubmit = async (data) => {
     data.birth_date = BirthPicker.toISOString().split('T')[0];
-    //data.cycle = data.cycle.value;
-    setData(data);
     if (checkIsValid(data)) {
       toggleSidebar();
       await AddClient(
@@ -89,9 +80,7 @@ const SidebarNewClients = ({ open, toggleSidebar, reload }) => {
         toast.error('Error al guardar cliente!');
       })
       reload(true);
-      // dispatch(
-      //   addClient()
-      // );
+
     } else {
       for (const key in data) {
         if (data[key] === null) {
@@ -237,7 +226,7 @@ const SidebarNewClients = ({ open, toggleSidebar, reload }) => {
                     'Miércoles',
                     'Jueves',
                     'Viernes',
-                    'Sábado',
+                    'Sábado'
                   ],
                 },
                 months: {
