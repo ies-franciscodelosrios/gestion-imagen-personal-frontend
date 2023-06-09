@@ -184,7 +184,6 @@ const CustomHeader = ({ clientList, toggleSidebar, handlePerPage, rowsPerPage, h
 const ClientList = () => {
   // ** Store Vars
   const [typingTimeout, setTypingTimeout] = useState(null);
-  const store = useSelector(state => state.clients)
 
   // ** States
   const [sort, setSort] = useState('desc')
@@ -237,7 +236,6 @@ const ClientList = () => {
 
   // ** Function in get data on search query change
   const handleFilter = val => {
-    console.log(val);
 
     if (typingTimeout) {
       clearTimeout(typingTimeout);
@@ -322,7 +320,6 @@ const ClientList = () => {
 
   return (
     <Fragment>
-
       <Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <DataTable

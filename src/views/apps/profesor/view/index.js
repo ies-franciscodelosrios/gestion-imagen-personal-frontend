@@ -2,36 +2,34 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-// ** Store & Actions
-import { getProfesor,getAppointments } from '../store'
-import { useSelector, useDispatch } from 'react-redux'
-
 // ** Reactstrap Imports
 import { Row, Col, Alert } from 'reactstrap'
 
 // ** User View Components
-import UserTabs from './Tabs'
+import illustration from '@src/assets/images/users/Barber-rafiki.png';
 import UserInfoCard from './UserInfoCard'
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
+import { getUserById } from '../../../../services/api'
+import TeacherTabs from './TeacherTabs';
 
 
 const TeacherView = () => {
-  // ** Store Vars
-  const store = useSelector(state => state.profesor)
-  const dispatch = useDispatch()
-
   // ** Hooks
   const { id } = useParams()
-  const { cycle } = useParams()
+
+  // ** Store Vars
+  const [entity, setEntity] = useState(null);
+
+  const setNewEntity = (e) => {
+    setEntity(e);
+  };
 
   // ** Get suer on mount
   useEffect(() => {
-    console.log(store)
-    dispatch(getProfesor(parseInt(id)))
-    dispatch(getAppointments())
-  }, [dispatch])
+    getUserById(id).then(e => {setEntity(e.data.data)});
+  }, [])
 
   const [active, setActive] = useState('1')
 
@@ -41,14 +39,17 @@ const TeacherView = () => {
     }
   }
 
-  return store.selectedProfesor !== null && store.selectedProfesor !== undefined ? (
+  return entity !== null && entity !== undefined ? (
     <div className='app-user-view'>
       <Row>
         <Col xl='4' lg='5' xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
-          <UserInfoCard selectedProfesor={store.selectedProfesor} />
+          <UserInfoCard entity={entity} setEntity={setNewEntity} />
+          <div className="mt-auto">
+            <img className="img-fluid" src={illustration} alt="illustration" />
+          </div>
         </Col>
         <Col xl='8' lg='7' xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          <UserTabs active={active} toggleTab={toggleTab} selectedProfesor={store.selectedProfesor} getAllStudentsbyCycle={store.selectedProfesor.cycle} />
+          <TeacherTabs active={active} toggleTab={toggleTab} setEntity={setNewEntity} entity={entity} />
         </Col>
       </Row>
     </div>

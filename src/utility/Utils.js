@@ -107,19 +107,26 @@ export function validateDNI(dni) {
 
 export function validateUserData(data) {
   const requiredFields = ["name", "surname", "email", "dni", "cycle"];
-  const values = Object.values(data);
-  console.log(data)
-
-  if (data.password.length !== 0 || data.repassword.length !== 0) {
-    if (data.password !== data.repassword) {
+  let filledValues = false;
+  if (data.password !== undefined || data.repassword !== undefined ) {
+    if (data.password !== data.repassword ) {
       toast.error("Las contraseñas deben coincidir");
+      return false;
+    }else if (data.password.length <= 8) {
+      toast.error("Las contraseñas deben ser de 8 caracteres minimo");
       return false;
     }
   }
 
-  const filledValues = values.every(input => {
-    return input !== null && input !== undefined && input !== '' && !requiredFields.includes(input);
-  });
+  for (const key in data) {
+    if(requiredFields.includes(key)){
+      if (data[key] !== null && data[key] !== undefined && data[key] !== ''){
+        filledValues = true;
+      }else{
+        filledValues = false;
+      }
+    }
+  }
 
   if (!filledValues) { toast.error("Rellena todos los campos"); return false; }
   if (!validateDNI(data.dni)) { toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)"); return false; }

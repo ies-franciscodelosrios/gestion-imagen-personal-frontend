@@ -2,10 +2,9 @@ import Axios from 'axios';
 import { getToken } from './UseToken';
 
 const ApiConnect = Axios.create({
-  //baseURL: 'http://localhost:8000/api/',
+  baseURL: 'http://localhost:8000/api/',
   //baseURL: 'http://iestablero.duckdns.org:8000/api/',
-  baseURL: 'http://asilgar118.duckdns.org:8000/api/',
-
+  //baseURL: 'http://asilgar118.duckdns.org:8000/api/',
   headers: {
     'Content-type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -199,6 +198,22 @@ export const getAllProfesorData = async () => {
 export const getAllUserData = async (logineamil) => {
   return await ApiConnect.get(`userbyemail`, {
     params: {email: logineamil},
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+};
+
+
+/**
+ * Http Request to get all users from database
+ * @returns list with all users
+ */
+export const getUsersPaged = async (params) => {
+  return await ApiConnect.get('users/paged', {
+    params: params,
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',

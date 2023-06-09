@@ -116,6 +116,14 @@
   header{
     background-color: $theme-dark-table-header-bg;
   }
+  .rdt_TableHeadRow, .rdt_Table, .react-dataTable{
+    color: #b4b7bd;
+    background-color: $theme-dark-table-header-bg;
+  }
+  .rdt_TableRow{
+    color: #b4b7bd;
+    background-color: #283046;
+  }
 
   // main header navbar dark style
 

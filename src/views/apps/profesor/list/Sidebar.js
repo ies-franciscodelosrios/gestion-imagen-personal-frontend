@@ -1,26 +1,20 @@
-// ** React Import
-import { useState } from 'react'
-
 // ** Custom Components
 import Sidebar from '@components/sidebar'
-import Flatpickr from 'react-flatpickr'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
-
-// ** Utils
-import { selectThemeColors } from '@utils'
+// Toast styles
+import { toast } from 'react-hot-toast';
+import '@styles/react/libs/react-select/_react-select.scss';
 
 // ** Third Party Components
 import Select from 'react-select'
-import classnames from 'classnames'
-import { useForm, Controller } from 'react-hook-form'
 
 // ** Reactstrap Imports
 import { Button, Label, FormText, Form, Input } from 'reactstrap'
 
 // ** Store & Actions
-import { addProfesor } from '../store'
-import { useDispatch } from 'react-redux'
+import { AddProfesor } from '../../../../services/api'
+import { Controller, useForm } from 'react-hook-form';
 
 const defaultValues = {
   dni: '',
@@ -42,14 +36,7 @@ const checkIsValid = data => {
     typeof field === 'object' ? field !== null : field.length > 0)
 }
 
-const SidebarNewProfesor = ({ open, toggleSidebar }) => {
-  // ** States
-  const [data, setData] = useState(null);
-  const [BirthPicker, setBirthPicker] = useState(new Date());
-
-
-  // ** Store Vars
-  const dispatch = useDispatch()
+const SidebarNewProfesor = ({ open, toggleSidebar, reload }) => {
 
   // ** Vars
   const {
@@ -61,16 +48,12 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
   } = useForm({ defaultValues })
 
   // ** Function to handle form submit
-  const onSubmit = (data) => {
-    data.course_year = BirthPicker.toISOString().split('T')[0];
-    //data.cycle = data.cycle.value;
-     console.log(data.course_year)
-    setData(data)
+  const onSubmit = async (data) => {
+    data.course_year = new Date().toISOString().split('T')[0];
+    console.log(data);
     if (checkIsValid(data)) {
-      toggleSidebar()
-      console.log(data);
-      dispatch(
-        addProfesor({
+      await AddProfesor(
+        {
           dni: data.dni,
           rol: data.rol,
           course_year: data.course_year,
@@ -80,10 +63,15 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
           email: data.email,
           password: data.password,
           others: ' '
-        })
-      );
+        }
+      ).then(() => {
+        toast.success('Correctamente Guardado!');
+      }).catch(()=>{
+        toast.error('Error al guardar profesor!');
+      })
+      toggleSidebar();
+      reload(true);
     } else {
-      console.log('not correct');
       for (const key in data) {
         if (data[key] === null) {
           setError('country', {

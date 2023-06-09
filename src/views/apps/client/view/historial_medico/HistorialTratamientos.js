@@ -1,4 +1,3 @@
-
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
 
@@ -10,7 +9,7 @@ import { columns } from './columns'
 // ** Third Party Components
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown } from 'react-feather'
+import { ChevronDown, Edit } from 'react-feather'
 
 // Toast styles
 import { toast } from 'react-hot-toast';
@@ -48,7 +47,7 @@ const CustomHeader = ({ handlePerPage, rowsPerPage, handleFilter }) => {
             </Input>
             <label htmlFor='rows-per-page'>Tratamientos</label>
           </div>
-           <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
+          <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
             <label className='mb-0' htmlFor='search-invoice'>
               Buscar:
             </label>
@@ -67,7 +66,7 @@ const CustomHeader = ({ handlePerPage, rowsPerPage, handleFilter }) => {
 }
 
 
-const HistorialTratamientos = ({entity}) => {
+const HistorialTratamientos = ({ entity }) => {
   // ** Store Vars
   const [typingTimeout, setTypingTimeout] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -110,7 +109,7 @@ const HistorialTratamientos = ({entity}) => {
   const handlePagination = page => {
     setCurrentPage(page.selected + 1)
   }
-  
+
 
   // ** Function in get data on rows per page
   const handlePerPage = e => {
@@ -163,17 +162,18 @@ const HistorialTratamientos = ({entity}) => {
 
 
   const handleSort = (column, sortDirection) => {
-    setSort(sortDirection)
-    setSortColumn(column.sortField)
+    setSort(sortDirection);
+    setSortColumn(column.sortField);
   }
 
   const modifiedColumns = [...columns];
   modifiedColumns[0] = {
     ...modifiedColumns[0],
     cell: row => (
-      <div type='button' onClick={() => {setSelectedRow(row); setShowModal(true);}}>
-        {row.protocol}
+      <div type='button' onClick={() => { setSelectedRow(row); setShowModal(true); }}>
+        {row.protocol} &nbsp; <Edit size={14} className='me-50' />
       </div>
+
     )
   };
 
@@ -210,7 +210,7 @@ const HistorialTratamientos = ({entity}) => {
           />
         </div>
       </Card>
-      {selectedRow && showModal ? <AppointmentCard shows={showModal} entity={selectedRow}  onClose={handleClose}></AppointmentCard> : <></>}
+      {selectedRow && showModal ? <AppointmentCard shows={showModal} entity={selectedRow} onClose={handleClose}></AppointmentCard> : <></>}
     </Fragment>
   )
 }
