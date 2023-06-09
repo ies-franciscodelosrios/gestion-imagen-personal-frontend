@@ -132,8 +132,8 @@ const Import = (props) => {
             return {
             dni: user["DNI/Pasaporte"],
             rol: 2,
-            course_year: "".concat(new Date().getFullYear()+'/'+(new Date().getFullYear()+1)),
-            cycle: user[ciclo] || "ninguno",
+            course_year: new Date().toISOString().split('T')[0],
+            cycle: user["ciclo"] || "ninguno",
             name: user["Alumno/a"].split(',')[1],
             surname: user["Alumno/a"].split(',')[0],
             email: user["Correo electrónico personal alumno/a"],
@@ -148,8 +148,8 @@ const Import = (props) => {
             return {
             dni: user["DNI/Pasaporte"],
             rol: 1,
-            course_year: "".concat(new Date().getFullYear()+'/'+(new Date().getFullYear()+1)),
-            cycle: user[ciclo] || "ninguno",
+            course_year: new Date().toISOString().split('T')[0],
+            cycle: user["ciclo"] || "ninguno",
             name: user["Alumno/a"].split(',')[1],
             surname: user["Alumno/a"].split(',')[0],
             email: user["Correo electrónico personal alumno/a"],
