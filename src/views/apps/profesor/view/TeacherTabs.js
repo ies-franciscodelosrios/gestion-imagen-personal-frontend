@@ -36,7 +36,7 @@ const TeacherTabs = ({ active, toggleTab, entity, setEntity }) => {
           {/* <Alumnos entity={entity}/> */}
         </TabPane >
         <TabPane tabId='2'>
-          {/* <Tratamientos /> */}
+          <Tratamientos />
         </TabPane>
       </TabContent>
     </Fragment>
