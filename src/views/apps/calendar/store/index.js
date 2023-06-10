@@ -23,27 +23,33 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
     const filtros = calendars.calendarLabel;
     if (calendars.events === null || calendars.events.length <= 0) {
 
-      const students = await getAllStudentsData().then(result => {return result}).catch(() =>{console.log('error all student')});
-      const clients = await getAllClientsData().then(result => {return result}).catch(() =>{console.log('error all client')});
-      Object.assign(studentList, students.data.data.map((alumno) => ({
-        value: `${alumno.name} ${alumno.surname}`,
-        label: `${alumno.name} ${alumno.surname}`,
-        dni: alumno.dni,
-        avatar: 'img5',
-      })));
-      Object.assign(clientList ,clients.data.data.map((cliente) => ({
-        value: `${cliente.name} ${cliente.surname}`,
-        label: `${cliente.name} ${cliente.surname}`,
-        dni: cliente.dni,
-        avatar: 'img5',
-      })));
+      const students = await getAllStudentsData();
+      const clients = await getAllClientsData();
+      const appointments = await getAllAppointments();
 
-      const appointments = await getAllAppointments().then(result => {return result}).catch(() => {console.log('error all apointments')});
-      Object.assign(appointmentList, await appointments.data.data.map(event => {
-        const alumnoPromise = {};
-        Object.assign(alumnoPromise, findUser(event.dni_student, students.data.data));
-        const clientePromise = {};
-        Object.assign(clientePromise, findUser(event.dni_client, clients.data.data));
+      studentList.push(
+        ...students.data.data.map((alumno) => ({
+          value: `${alumno.name} ${alumno.surname}`,
+          label: `${alumno.name} ${alumno.surname}`,
+          dni: alumno.dni,
+          avatar: 'img5',
+        }))
+      );
+
+      clientList.push(
+        ...clients.data.data.map((cliente) => ({
+          value: `${cliente.name} ${cliente.surname}`,
+          label: `${cliente.name} ${cliente.surname}`,
+          dni: cliente.dni,
+          avatar: 'img5',
+        }))
+      );
+
+      appointmentList.push(
+        ...appointments.data.data.map((event) => {
+          const alumnoPromise = findUser(event.dni_student, students.data.data);
+          const clientePromise = findUser(event.dni_client, clients.data.data);
+
         return {
           id: event.id,
           start: event.date,
