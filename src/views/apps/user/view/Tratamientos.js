@@ -1,276 +1,116 @@
-// ** React Imports
-import { Fragment, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
+import { Row, Col, Card, Input } from 'reactstrap';
+import ReactPaginate from 'react-paginate';
+import DataTable from 'react-data-table-component';
+import { ChevronDown, Edit } from 'react-feather';
+import { getAppointmentPaged } from '../../../../services/api';
+import AppointmentCard from '../../client/view/AppointmentCard';
+import { columns } from '../../client/view/historial_medico/columns';
+
+const UsersList = (props) => {
+  const [typingTimeout, setTypingTimeout] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [sort, setSort] = useState('asc');
+  const [sortColumn, setSortColumn] = useState('id');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [pagesNumber, setPagesNumber] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [appointments, setAppointments] = useState([]);
+  const [dniStudent, setDniStudent] = useState(props.dni);
 
 
-
-// ** Table Columns
-import { columns } from './columns'
-
-// ** Store & Actions
-import { getAllData, getAppointments, getData } from '../store'
-import { useDispatch, useSelector } from 'react-redux'
-
-// ** Third Party Components
-import Select from 'react-select'
-import ReactPaginate from 'react-paginate'
-import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy } from 'react-feather'
-
-import {
-  Row,
-  Col,
-  Card,
-  Input,
-  Label,
-  Button,
-  CardBody,
-  CardTitle,
-  CardHeader,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle,
-  UncontrolledDropdown
-} from 'reactstrap'
-
-
-const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
-  // ** Converts table to CSV
-  function convertArrayOfObjectsToCSV(array) {
-    let result
-
-    const columnDelimiter = ','
-    const lineDelimiter = '\n'
-    const keys = Object.keys(filteredAppointments[0])
-
-    result = ''
-    result += keys.join(columnDelimiter)
-    result += lineDelimiter
-
-    array.forEach(item => {
-      let ctr = 0
-      keys.forEach(key => {
-        if (ctr > 0) result += columnDelimiter
-
-        result += item[key]
-
-        ctr++
-      })
-      result += lineDelimiter
-    })
-
-    return result
-  }
-
-
-  return (
-    <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
-      <Row>
-        <Col xl='12' className='d-flex align-items-center p-0'>
-          <div className='d-flex align-items-center w-100'>
-            <label htmlFor='rows-per-page'>Ver</label>
-            <Input
-              className='mx-50'
-              type='select'
-              id='rows-per-page'
-              value={rowsPerPage}
-              onChange={handlePerPage}
-              style={{ width: '5rem' }}
-            >
-              <option value='10'>10</option>
-              <option value='25'>25</option>
-              <option value='50'>50</option>
-            </Input>
-            <label htmlFor='rows-per-page'>Tratamientos</label>
-          </div>
-          {/*  <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
-            <label className='mb-0' htmlFor='search-invoice'>
-              Buscar:
-            </label>
-            <Input
-              id='search-invoice'
-              className='ms-50 w-100'
-              type='text'
-              value={searchTerm}
-              onChange={e => handleFilter(e.target.value)}
-            />
-          </div> */}
-        </Col>
-
-      </Row>
-    </div>
-  )
-}
-
-
-const UsersList = () => {
-  // ** Store Vars
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
-
-
-
-  // ** States
-
-  const [sort, setSort] = useState('asc')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [sortColumn, setSortColumn] = useState('id')
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
-
-  // ** Function to toggle sidebar
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
-  const QUOTE_REQUESTED = "QUOTE_REQUESTED";
-
-  const filterAppointmentsByDNI = (appointments, selectedUser) => {
-    // Obtener el DNI de selectedUser y de cada objeto en appointments
-    const selectedUserDNI = selectedUser.DNI;
-    
-    // Filtrar los objetos de appointments cuyo DNI sea igual al de selectedUser
-    const appointmentsWithSelectedUserDNI = appointments.filter(appointment => appointment.DNI_Student === selectedUserDNI);
-  
-    return appointmentsWithSelectedUserDNI;
-
-  }
-
-
-  const filteredAppointments = filterAppointmentsByDNI(store.appoitments, store.selectedUser);
-
-
-  // ** Get data on mount
   useEffect(() => {
+    fetchAppointments();
+  }, [rowsPerPage, currentPage, searchTerm]);
 
-  dispatch(
-    getAppointments({
-      sort,
-      sortColumn,
-      q: searchTerm,
-      page: currentPage,
-      perPage: rowsPerPage,
-      status: currentStatus.value,
-      data: store.allData.length
-    })
-    
-  )
-}, [dispatch, store.allData.length, sort, sortColumn, currentPage])
-
-  // ** User filter options
-
-
-  // ** Function in get data on page change
-  const handlePagination = page => {
-    dispatch(
-      getAppointments({
-        sort,
-        sortColumn,
-        q: searchTerm,
+  const fetchAppointments = async () => {
+    try {
+      const response = await getAppointmentPaged({
         page: currentPage,
-        perPage: rowsPerPage,
-        status: currentStatus.value,
-        data: store.allData
-      })
-    )
-    setCurrentPage(page.selected + 1)
-  }
+        perpage: rowsPerPage,
+        searchtext: searchTerm,
+        dni_student: dniStudent, // añade esto
+        dni_client: ''
+      });
+      
+      const { data } = response;
+      setPagesNumber(data.last_page);
+      setAppointments(data.data);
+    } catch (error) {
+      console.error('Error al obtener las citas:', error);
+      toast.error('Error al traer datos');
+    }
+  };
 
-  // ** Function in get data on rows per page
-  const handlePerPage = e => {
-    const value = parseInt(e.currentTarget.value)
-    dispatch(
-      getAppointments({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        page: currentPage,
-        perPage: rowsPerPage,
-        status: currentStatus.value,
-        data: store.allData
-      })
-    )
-    setRowsPerPage(value)
-  }
+  const handlePagination = (page) => {
+    setCurrentPage(page.selected + 1);
+  };
 
+  const handlePerPage = (e) => {
+    const value = parseInt(e.currentTarget.value);
+    setRowsPerPage(value);
+  };
 
-  // ** Function in get data on search query change
-  const handleFilter = val => {
-    setSearchTerm(val)
-    dispatch(
-      getAppointments({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        page: currentPage,
-        perPage: rowsPerPage,
-        status: currentStatus.value,
-        data: store.allData
-      })
-    )
-  }
+  const handleFilter = (val) => {
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+    setTypingTimeout(setTimeout(() => {
+      setSearchTerm(val);
+    }, 1000));
+  };
 
-  // ** Custom Pagination
-  const CustomPagination = () => {
-    const count = Number(Math.ceil(filteredAppointments.length / rowsPerPage))
-    return (
-      <ReactPaginate
-        previousLabel={''}
-        nextLabel={''}
-        pageCount={count || 1}
-        activeClassName='active'
-        forcePage={currentPage !== 0 ? currentPage - 1 : 0}
-        onPageChange={page => handlePagination(page)}
-        pageClassName={'page-item'}
-        nextLinkClassName={'page-link'}
-        nextClassName={'page-item next'}
-        previousClassName={'page-item prev'}
-        previousLinkClassName={'page-link'}
-        pageLinkClassName={'page-link'}
-        containerClassName={'pagination react-paginate justify-content-end my-2 pe-1'}
-      />
-    )
-  }
+  const CustomPagination = () => (
+    <ReactPaginate
+      previousLabel={''}
+      nextLabel={''}
+      pageCount={pagesNumber}
+      activeClassName='active'
+      forcePage={currentPage !== 0 ? currentPage - 1 : 0}
+      onPageChange={handlePagination}
+      pageClassName='page-item'
+      nextLinkClassName='page-link'
+      nextClassName='page-item next'
+      previousClassName='page-item prev'
+      previousLinkClassName='page-link'
+      pageLinkClassName='page-link'
+      containerClassName='pagination react-paginate justify-content-end my-2 pe-1'
+    />
+  );
 
-  // ** Table data to render
   const dataToRender = () => {
-    const filters = {
-      status: currentStatus.value,
-      q: searchTerm
-    }
-
-    const isFiltered = Object.keys(filters).some(function (k) {
-      return filters[k].length > 0
-    })
-
-    if (filteredAppointments !== undefined && filteredAppointments.length > 0) {
-      return filteredAppointments
-    } else if (filteredAppointments === undefined || filteredAppointments.length === 0 && isFiltered) {
-      return []
+    if (appointments !== undefined && appointments.length > 0) {
+      return appointments;
     } else {
-      return filteredAppointments.slice(0, rowsPerPage)
+      return appointments.slice(0, rowsPerPage);
     }
-  }
+  };
+
   const handleSort = (column, sortDirection) => {
-    setSort(sortDirection)
-    setSortColumn(column.sortField)
-    dispatch(
-      getAppointments({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        page: currentPage,
-        perPage: rowsPerPage,
-        status: currentStatus.value,
-        data: store.allData
-      })
+    setSort(sortDirection);
+    setSortColumn(column.sortField);
+  };
+
+  const handleClose = (value) => {
+    setShowModal(value);
+    fetchAppointments();
+  };
+
+  const modifiedColumns = [...columns];
+  modifiedColumns[0] = {
+    ...modifiedColumns[0],
+    cell: (row) => (
+      <div type='button' onClick={() => { setSelectedRow(row); setShowModal(true); }}>
+        {row.protocol} &nbsp; <Edit size={14} className='me-50' />
+      </div>
     )
-  }
+  };
 
   return (
-    <Fragment>
-      {
-
-      }
-
+    <>
       <Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <DataTable
@@ -280,29 +120,53 @@ const UsersList = () => {
             pagination
             responsive
             paginationServer
-            columns={columns}
+            columns={modifiedColumns}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
             className='react-dataTable'
             paginationComponent={CustomPagination}
             data={dataToRender()}
-            subHeaderComponent={
-              <CustomHeader
-                store={store}
-                searchTerm={searchTerm}
-                rowsPerPage={rowsPerPage}
-                handleFilter={handleFilter}
-                handlePerPage={handlePerPage}
-                toggleSidebar={toggleSidebar}
-              />
-            }
+            subHeaderComponent={(
+              <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
+                <Row>
+                  <Col xl='12' className='d-flex align-items-center p-0'>
+                    <div className='d-flex align-items-center w-100'>
+                      <label htmlFor='rows-per-page'>Ver</label>
+                      <Input
+                        className='mx-50'
+                        type='select'
+                        id='rows-per-page'
+                        value={rowsPerPage}
+                        onChange={handlePerPage}
+                        style={{ width: '5rem' }}
+                      >
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='25'>25</option>
+                      </Input>
+                      <label htmlFor='rows-per-page'>Tratamientos</label>
+                    </div>
+                    <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
+                      <label className='mb-0' htmlFor='search-invoice'>
+                        Buscar:
+                      </label>
+                      <Input
+                        id='search-invoice'
+                        className='ms-50 w-100'
+                        type='text'
+                        onChange={(e) => handleFilter(e.target.value)}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+            )}
           />
         </div>
       </Card>
+      {selectedRow && showModal && <AppointmentCard shows={showModal} entity={selectedRow} onClose={handleClose} />}
+    </>
+  );
+};
 
-
-    </Fragment>
-  )
-}
-
-export default UsersList
+export default UsersList;

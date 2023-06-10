@@ -34,7 +34,7 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 import Import from '../../../extensions/import-export/Import'
-import { AddProfesor, AddStudent, ApiDelUser, getUsersPaged } from '../../../../services/api'
+import { AddProfesor, ApiDelUser, getUsersPaged } from '../../../../services/api'
 
 
 // Toast styles
@@ -362,7 +362,6 @@ const ProfesorList = () => {
           />
         </div>
       </Card>
-
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} reload={fetchTeachers} />
     </Fragment>
   )
