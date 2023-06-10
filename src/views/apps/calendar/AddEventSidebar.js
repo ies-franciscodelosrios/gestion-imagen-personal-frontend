@@ -72,6 +72,7 @@ const AddEventSidebar = (props) => {
   const [client, setClient] = useState('');
   const [guests, setGuests] = useState({});
   const [pupils, setPupils] = useState({});
+  const [errorDate, setErrorDate] = useState(""); // Variable de estado para el mensaje de error
   const now = new Date();
 
 const year = now.getFullYear();
@@ -94,6 +95,33 @@ const [endTime, setEndTime]   = useState(`${hours.toString().padStart(2, '0')}:$
     setClientes(store.clients);
   };
   
+  const handleStartTimeChange = (date) => {
+    const selectedTime = new Date(date[0]);
+    const hours = selectedTime.getHours();
+    const minutes = selectedTime.getMinutes();
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    setStartTime(formattedTime);
+  
+    // Verificar si la hora de fin es menor que la hora de inicio
+    if (endTime < formattedTime) {
+      setEndTime(""); // Reiniciar la hora de fin si es incorrecta
+      setErrorDate("La hora de fin no puede estar antes de la hora de inicio");
+    }
+  };
+  
+  const handleEndTimeChange = (date) => {
+    const selectedTime = new Date(date[0]);
+    const hours = selectedTime.getHours();
+    const minutes = selectedTime.getMinutes();
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    setEndTime(formattedTime);
+  
+    // Verificar si la hora de fin es menor que la hora de inicio
+    if (formattedTime < startTime) {
+      setStartTime(""); // Reiniciar la hora de fin si es incorrecta
+      setErrorDate("La hora de inicio no puede estar después de la hora de fin");
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -181,7 +209,6 @@ const [endTime, setEndTime]   = useState(`${hours.toString().padStart(2, '0')}:$
   // ** Set sidebar fields
   const handleSelectedEvent = () => {
     if (!isObjEmpty(selectedEvent)) {
-
       setStartPicker(selectedEvent.start);
       setStartTime(selectedEvent.extendedProps.start_time);
       setEndTime(selectedEvent.extendedProps.end_time);
@@ -435,117 +462,64 @@ const [endTime, setEndTime]   = useState(`${hours.toString().padStart(2, '0')}:$
               />
             </div>
 
-            <div className="mb-1">
-              <Label className="form-label" for="startDate">
-                Fecha de Inicio
-              </Label>
-              <Flatpickr
-                required
-                id="startDate"
-                name="startDate"
-                className="form-control"
-                onChange={(date) => setStartPicker(date[0])}
-                value={startPicker}
-                options={{
-                  enableTime: false,
-                  time_24hr: true,
-                  dateFormat: 'd-m-Y',
-                  timeZone: 'UTC+1',
-                }}
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="startDate">
-                Hora de Inicio
-              </Label>
-              <Flatpickr
-                required
-                id="startTime"
-                name="startTime"
-                className="form-control"
-                onChange={(date) => {
-                  const selectedTime = new Date(date[0]);
-                  const hours = selectedTime.getHours();
-                  const minutes = selectedTime.getMinutes();
-                  const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-                  setStartTime(formattedTime);
-                }}
-                value={startTime}
-                options={{
-                  enableTime: true,
-                  noCalendar: true,
-                  time_24hr: true,
-                  timeZone: 'UTC+1',
-                }}
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="startDate">
-                Hora de Fin
-              </Label>
-              <Flatpickr
-                required
-                id="endTime"
-                name="endTime"
-                className="form-control"
-                onChange={(date) => {
-                  const selectedTime = new Date(date[0]);
-                  const hours = selectedTime.getHours();
-                  const minutes = selectedTime.getMinutes();
-                  const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-                  setEndTime(formattedTime);
-                }}
-                value={endTime}
-                options={{
-                  enableTime: true,
-                  noCalendar: true,
-                  time_24hr: true,
-                  timeZone: 'UTC+1',
-                }}
-              />
-            </div>
-            {/* {isObjEmpty(selectedEvent) ? null : (
-              <Col md="6" sm="12" className="mb-1">
-                <Label className="form-label" for="Cosmeticos">
-                  Cliente:
+              <div className="mb-1">
+                <Label className="form-label" for="startDate">
+                  Fecha de Inicio
                 </Label>
-                <Controller
-                  control={control}
-                  id="Cosmeticos"
-                  name="Cosmeticos"
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Cliente cita"
-                      value={client}
-                    />
-                  )}
-                />{' '}
-              </Col>
-            )}
-            {isObjEmpty(selectedEvent) ? null : (
-              <Col md="6" sm="12" className="mb-1">
-                <Label className="form-label" for="Cosmeticos">
-                  Alumno:
+                <Flatpickr
+                  required
+                  id="startDate"
+                  name="startDate"
+                  className="form-control"
+                  onChange={(date) => setStartPicker(date[0])}
+                  value={startPicker}
+                  options={{
+                    enableTime: false,
+                    time_24hr: true,
+                    dateFormat: 'd-m-Y',
+                    timeZone: 'UTC+1',
+                  }}
+                />
+              </div>
+              <div className="mb-1">
+                <Label className="form-label" for="startDate">
+                  Hora de Inicio
                 </Label>
-                <Controller
-                  control={control}
-                  id="Cosmeticos"
-                  name="Cosmeticos"
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Cliente cita"
-                      value={user}
-                    />
-                  )}
-                />{' '}
-              </Col>
-            )} */}
-
-            
+                <Flatpickr
+                  required
+                  id="startTime"
+                  name="startTime"
+                  className="form-control"
+                  onChange={handleStartTimeChange}
+                  value={startTime}
+                  options={{
+                    enableTime: true,
+                    noCalendar: true,
+                    time_24hr: true,
+                    timeZone: 'UTC+1',
+                  }}
+                />
+              </div>
+              <div className="mb-1">
+                <Label className="form-label" for="startDate">
+                  Hora de Fin
+                </Label>
+                <Flatpickr
+                  required
+                  id="endTime"
+                  name="endTime"
+                  className="form-control"
+                  onChange={handleEndTimeChange}
+                  value={endTime}
+                  options={{
+                    enableTime: true,
+                    noCalendar: true,
+                    time_24hr: true,
+                    timeZone: 'UTC+1',
+                  }}
+                />
+              </div>
+              {errorDate && <div className="error-message" style={{ color: 'red', fontSize: '13px', marginBottom: '10px' }}>{errorDate}</div>} {/* Mostrar el mensaje de error si existe */}
               <div className="mb-1">
                 <Label className="form-label" for="guests">
                   Asignar Cliente
