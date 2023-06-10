@@ -5,16 +5,16 @@ import { Fragment } from 'react'
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 
 // ** Icons Imports
-import { User, Bookmark, Edit3, Book } from 'react-feather'
+import { Book } from 'react-feather'
 
 // ** User Components
 import Tratamientos from './Tratamientos'
 
-const UserTabs = ({ active, toggleTab }) => {
+const UserTabs = ({ active, toggleTab, entity }) => { 
   return (
     <Fragment>
       <Nav pills className='mb-2'>
-      <NavItem>
+        <NavItem>
           <NavLink active={active === '1'} onClick={() => toggleTab('1')}>
             <Book className='font-medium-3 me-50' />
             <span className='fw-bold'>Tratamientos</span>
@@ -23,7 +23,7 @@ const UserTabs = ({ active, toggleTab }) => {
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId='1'>
-          <Tratamientos />
+          <Tratamientos dni={entity.dni} />
         </TabPane>
       </TabContent>
     </Fragment>

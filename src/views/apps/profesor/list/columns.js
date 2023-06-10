@@ -11,9 +11,9 @@ import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2 
 // ** Reactstrap Imports
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
-// ** Renders Client Columns
+// ** Renders Teacher Columns
 
-const renderClient = row => {
+const renderTeacher = row => {
   if (false && row.avatar.length) {
     return <Avatar className='me-1' img={row.avatar} width='32' height='32' />
   } else {
@@ -73,7 +73,7 @@ export const columns = [
     selector: row => row.name,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {renderClient(row)}
+        {renderTeacher(row)}
         <div className='d-flex flex-column'>
           <Link
             to={`/apps/profesor/view/${row.id}`}
