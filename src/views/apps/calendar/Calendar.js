@@ -48,7 +48,7 @@ const Calendar = (props) => {
   } = props;
 
   useEffect(() => {
-    (appointmentList.length<=0)?dispatch(fetchEvents({ events: appointmentList, users: [], clients: [], calendarLabel: [0, 1] })):null;
+    (appointmentList.length<=0) ? dispatch(fetchEvents({ events: appointmentList, users: [], clients: [], calendarLabel: [0, 1] })) : null;
     setappointmentList(store.events);
   }, [store.events]);
 
@@ -56,10 +56,11 @@ const Calendar = (props) => {
   const calendarOptions = {
     events: appointmentList,
     plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
-    timeZone: 'UTC',
+    timeZone: 'UTC+1',
     locales: locale,
     locale: 'es',
     initialView: 'dayGridMonth',
+    eventOrder: 'start_time',
     headerToolbar: {
       start: 'sidebarToggle, prev,next, title',
       end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
@@ -146,6 +147,8 @@ const Calendar = (props) => {
         id: droppedEvent.id,
         title: droppedEvent.title,
         start: formattedStartDate,
+        start_time: droppedEvent.extendedProps.start_time,
+        end_time: droppedEvent.extendedProps.end_time,
         dnialumno: droppedEvent.extendedProps.alumno.dni,
         dnicliente: droppedEvent.extendedProps.cliente.dni,
         desc: droppedEvent.extendedProps.description,
