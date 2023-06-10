@@ -34,7 +34,7 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 import Import from '../../../extensions/import-export/Import'
-import { AddStudent, ApiDelUser, getUsersPaged } from '../../../../services/api'
+import { AddProfesor, ApiDelUser, getUsersPaged } from '../../../../services/api'
 
 
 // Toast styles
@@ -53,7 +53,7 @@ const CustomHeader = ({ teacherList, toggleSidebar, handlePerPage, rowsPerPage, 
     const loading = toast.loading('Cargando Datos');
     try {
       await data.map(async (user) => {
-        await AddStudent(user)
+        await AddProfesor(user);
 
       })
     } catch (error) {
@@ -65,9 +65,9 @@ const CustomHeader = ({ teacherList, toggleSidebar, handlePerPage, rowsPerPage, 
       toast.success('Correctamente Importados', {
         id: loading,
       });
-
+      loading.endsWith('Completado')
+      setShow(false);
     }
-    setShow(false);
   }
 
   // ** Converts table to CSV
@@ -356,12 +356,12 @@ const ProfesorList = () => {
                 handleFilter={handleFilter}
                 handlePerPage={handlePerPage}
                 toggleSidebar={toggleSidebar}
+                reload={fetchTeachers}
               />
             }
           />
         </div>
       </Card>
-
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} reload={fetchTeachers} />
     </Fragment>
   )
