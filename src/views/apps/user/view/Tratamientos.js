@@ -28,12 +28,13 @@ const UsersList = (props) => {
 
   const fetchAppointments = async () => {
     try {
-      const response = await getAppointmentPaged({
-        page: currentPage,
-        perpage: rowsPerPage,
-        searchtext: searchTerm,
-        dni_student: dniStudent, // añade esto
-        dni_client: ''
+      const response = await getAppointmentPaged(
+        {
+        "page": currentPage,
+        "perpage": rowsPerPage,
+        "searchtext": searchTerm,
+        "dni_student": dniStudent, // añade esto
+        "dni_client": ''
       });
       
       const { data } = response;

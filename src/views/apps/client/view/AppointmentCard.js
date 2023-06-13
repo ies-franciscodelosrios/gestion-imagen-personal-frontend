@@ -52,6 +52,7 @@ import SwiperCore, {
 import { deleteAppointmentCloudinary, getAppointmentCloudinary, updateAppointment, updateAppointment2 } from '../../../../services/api';
 import ImageUploader from '../../../../services/CloudiaryUploader';
 import { handleConfirmCancel } from '../../../../utility/Utils';
+import LoaderDiv from '../../../components/loading/loading';
 // ** Init Swiper Functions
 SwiperCore.use([Navigation, Grid, Pagination, EffectFade, EffectCube, EffectCoverflow, Autoplay, Lazy, Virtual])
 
@@ -59,14 +60,12 @@ const params = {
   effect: 'coverflow',
   slidesPerView: 'auto',
   centeredSlides: true,
-  pagination: {
-    clickable: true
-  },
   coverflowEffect: {
     rotate: 50,
     stretch: 0,
     depth: 100,
     modifier: 1,
+    width:80,
     slideShadows: true
   }
 }
@@ -74,6 +73,7 @@ const params = {
 const AppointmentCard = ({ entity, shows, onClose }) => {
   // ** State
   const [show, setShow] = useState(shows);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectEntity, setSelectEntity] = useState(entity);
   const [updatedEntity, setUpdatedEntity] = useState({ ...entity });
   const [photos, setPhotos] = useState([]);
@@ -140,11 +140,9 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
     onClose(false);
   }
 
-  const appendSlide = () => {
-    //addAppointmentCloudinary({id: selectEntity.id})
-  }
 
   const removeSlide = async (item) => {
+    setIsLoading(true);
     // Obtener la última parte de la URL que representa el nombre del archivo
     const urlParts = item.url.split('/');
     const filenameWithExtension = urlParts[urlParts.length - 1];
@@ -160,6 +158,8 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
       toast.success('Foto Eliminada');
     }).catch(e => {
       toast.error('Error al Eliminar Foto');
+    }).finally(()=>{
+      setIsLoading(false);
     })
     fetchPhotos();
   }
@@ -174,6 +174,7 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
         className="bg-transparent"
         toggle={() => closeModal()}
       ></ModalHeader>
+      {isLoading ? <LoaderDiv></LoaderDiv> :<></>}
       <ModalBody className="px-sm-5 pt-50 pb-5">
         <div className="text-center mb-2">
           <h1 className="mb-1">Editar Cita</h1>

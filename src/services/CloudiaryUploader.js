@@ -3,13 +3,15 @@ import { addAppointmentCloudinary } from './api';
 import { Input } from 'reactstrap';
 import { toast } from 'react-hot-toast';
 import '@styles/react/libs/react-select/_react-select.scss';
+import LoaderDiv from '../views/components/loading/loading';
 
 
 const ImageUploader = ({ id, update }) => {
   const [image, setImage] = useState('');
-  //const cloudinary = new Cloudinary({ cloud_name: 'djqsy6b2p' });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleImageUpload = (event) => {
+    setIsLoading(true);
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('file', file);
@@ -34,6 +36,8 @@ const ImageUploader = ({ id, update }) => {
       })
       .catch((error) => {
         console.error('Error uploading the image:', error);
+      }).finally(()=>{
+        setIsLoading(false);
       });
   };
 
@@ -43,6 +47,7 @@ const ImageUploader = ({ id, update }) => {
   return (
     <div>
       <Input type="file" title='Añadir Foto' onChange={handleImageUpload} />
+      {isLoading ? <LoaderDiv></LoaderDiv> :<></>}
     </div>
   );
 };
