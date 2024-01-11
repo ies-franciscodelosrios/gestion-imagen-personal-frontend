@@ -21,22 +21,14 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-
-    // Best Practices
-    eqeqeq: 'error',
     'no-invalid-this': 'error',
     'no-return-assign': 'error',
+    'no-unused-vars': 'off',
     'no-unused-expressions': ['error', { allowTernary: true }],
     'no-useless-concat': 'error',
     'no-useless-return': 'error',
-
-    // Variable
-    // 'init-declarations': 'error',
     'no-use-before-define': 'error',
-
     'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z]' }],
-
-    // Stylistic Issues
     'array-bracket-newline': ['error', { multiline: true, minItems: null }],
     'array-bracket-spacing': 'error',
     'brace-style': ['error', '1tbs', { allowSingleLine: true }],
@@ -77,12 +69,4 @@ module.exports = {
     'prefer-const': 'error',
     'prefer-template': 'error'
   }
-
-  // rules: {
-  //   'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  //   'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  //   semi: ['error', 'never'],
-  //   'max-len': 'off',
-  //   camelcase: ['error', { properties: 'never', ignoreDestructuring: true, ignoreImports: true }]
-  // }
 }
