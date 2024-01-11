@@ -97,31 +97,23 @@ export const columns = [
     )
   },
   {
-    name: 'DNI',
-    sortable: true,
-    minWidth: '80px',
-    sortField: 'id',
-    selector: row => row.dni,
-    cell: row => <span className='text-capitalize'>{row.dni}</span>
-  },
-  {
     name: 'Ciclo',
     sortable: true,
-    minWidth: '80px',
+    minWidth: '300px',
     sortField: 'cycle',
     selector: row => row.cycle,
     cell: row => <span className='text-capitalize'>{row.cycle}</span>
   },
   {
-    name: 'email',
+    name: 'Curso',
     sortable: true,
-    minWidth: '140px',
-    sortField: 'email',
-    selector: row => row.email,
-    cell: row => <span >{row.email}</span>
+    minWidth: '80px',
+    sortField: 'course_year',
+    selector: row => row.course_year,
+    cell: row => <span className='text-capitalize'>{row.course_year}</span>
   },
   {
-    name: 'Actions',
+    name: 'Acciones',
     minWidth: '100px',
     cell: row => (
       <div className='column-action'>
