@@ -12,7 +12,7 @@ import { toast } from 'react-hot-toast'
 export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
   const response = {"data": {"data": params.data}} 
   if ((response === null || response.data.data.length <= 0 ) && params.q == '') {
-    Object.assign(response, await getAllStudentsData().then(result => {return result}).catch(console.log('error joselu')))
+    Object.assign(response, await getAllStudentsData().then(result => {return result}).catch(console.log('error obtener estudiantes')))
   }
   return response.data.data
 })
@@ -20,7 +20,7 @@ export const getAllData = createAsyncThunk('appUsers/getAllData', async (params)
 export const getData = createAsyncThunk('appUsers/getData', async params => {
   const response = {"data": {"data": params.data}}; 
   if ((response === null || response.data.data.length <= 0 ) && params.q == '') {
-    Object.assign(response, await getAllStudentsData().then(result => {return result}).catch(console.log('error joselu')))
+    Object.assign(response, await getAllStudentsData().then(result => {return result}).catch(console.log('error obtener estudiantes')))
   }
   response.data.data = sort_data(params, response.data.data);
   return {

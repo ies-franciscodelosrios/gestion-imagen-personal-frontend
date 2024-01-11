@@ -143,7 +143,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
             </UncontrolledDropdown>
 
             <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-            Añadir Nuevo Profesor
+            Añadir profesor
             </Button>
           </div>
         </Col>
