@@ -179,7 +179,7 @@ const Login = () => {
             width="64"
             height="72"
           ></img>
-          <h1 className="brand-text text-primary ms-1 my-0">I.E.S. TABLERO</h1>
+          <h1 className="brand-text text-primary ms-1 my-0">I.E.S. EL TABLERO</h1>
         </Link>
         <Col className="d-none d-lg-flex align-items-center p-5" lg="8" sm="12">
           <div className="w-100 d-lg-flex align-items-center justify-content-center px-5">
@@ -193,7 +193,7 @@ const Login = () => {
         >
           <Col className="px-xl-2 mx-auto" sm="8" md="6" lg="12">
             <CardTitle tag="h2" className="fw-bold mb-1">
-              Bienvenido al I.E.S. TABLERO! 👋
+              Bienvenido al I.E.S. EL TABLERO! 👋
             </CardTitle>
             <CardText className="mb-2">
               Inicie sesión con su cuenta y empize un nuevo dia
