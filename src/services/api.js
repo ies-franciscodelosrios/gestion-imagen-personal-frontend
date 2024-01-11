@@ -195,9 +195,8 @@ export const getAllProfesorData = async () => {
  * @param {*} logineamil email to search the user.
  * @returns usuario con todos los datos.
  */
-export const getAllUserData = async (logineamil) => {
-  return await ApiConnect.get(`userbyemail`, {
-    params: {email: logineamil},
+export const getAllUserData = async () => {
+  return await ApiConnect.get(`user`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -240,8 +239,7 @@ export const getAllStudentsData = async () => {
  * @returns user data
  */
 export const getUserById = async (id) => {
-  return await ApiConnect.get(`user/id`, {
-    params:{id: id},
+  return await ApiConnect.get('user/id/' + id, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',

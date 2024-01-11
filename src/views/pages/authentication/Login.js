@@ -117,16 +117,16 @@ const Login = () => {
             /**
              * UserData Request to login
              */
-            getAllUserData(data.loginemail).then((promis) => {
+            getAllUserData().then((promis) => {
               const data = {
                 ...promis.data.data,
                 token: getToken(),
                 ability : [{"action": "manage","subject": "all"}],
-                rol : getrol(promis.data.data.rol),
-                fullname : ''.concat(promis.data.data.name,' ', promis.data.data.surname)
+                rol : getrol(promis.data.rol),
+                fullname : ''.concat(promis.data.name,' ', promis.data.surname)
               };
               dispatch(handleLogin(data));
-              navigate(getHomeRouteForLoggedInUser(promis.data.data.rol));
+              navigate(getHomeRouteForLoggedInUser(promis.data.rol));
               toast((t) => (
                 <ToastContent
                   t={t}

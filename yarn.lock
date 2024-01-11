@@ -1747,10 +1747,10 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-esbuild-linux-64@0.15.15:
+esbuild-windows-64@0.15.15:
   version "0.15.15"
-  resolved "https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.15.15.tgz"
-  integrity sha512-217KPmWMirkf8liO+fj2qrPwbIbhNTGNVtvqI1TnOWJgcMjUWvd677Gq3fTzXEjilkx2yWypVnTswM2KbXgoAg==
+  resolved "https://registry.npmjs.org/esbuild-windows-64/-/esbuild-windows-64-0.15.15.tgz"
+  integrity sha512-xaAUIB2qllE888SsMU3j9nrqyLbkqqkpQyWVkfwSil6BBPgcPk3zOFitTTncEKCLTQy3XV9RuH7PDj3aJDljWA==
 
 esbuild@^0.15.9:
   version "0.15.15"
