@@ -7,6 +7,7 @@ import { useSkin } from '@hooks/useSkin';
 import { ApiLogin, getStadistics } from '../../../services/api';
 import { setToken, getToken } from '../../../services/UseToken';
 import { getAllUserData } from '../../../services/api';
+
 // ** Third Party Components
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -25,6 +26,8 @@ import InputPasswordToggle from '@components/input-password-toggle';
 
 // ** Utils
 import { getHomeRouteForLoggedInUser } from '@utils';
+import { getNameRol } from '../../../utility/Roles';
+import { getUserRol, isUserLoggedIn } from '../../../utility/Utils';
 
 // ** Reactstrap Imports
 import {
@@ -48,7 +51,6 @@ import logo from '@src/assets/images/logo/pericles.svg';
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss';
-import { getUserRol, isUserLoggedIn } from '../../../utility/Utils';
 
 const ToastContent = ({ t, name, role }) => {
   return (
@@ -94,10 +96,6 @@ const Login = () => {
 
   const source = skin === 'dark' ? illustrationsDark : illustrationsLight;
 
-  function getrol(params) {
-    return params >= 2 ? 'Alumno' : 'Profesor';
-  }
-
   console.log(localStorage.getItem('userData'))
   useEffect(() => {
     if (localStorage.getItem('userData') !== null) {
@@ -122,7 +120,7 @@ const Login = () => {
                 ...promis.data.data,
                 token: getToken(),
                 ability : [{"action": "manage","subject": "all"}],
-                rol : getrol(promis.data.rol),
+                rol : getNameRol(promis.data.rol),
                 fullname : ''.concat(promis.data.name,' ', promis.data.surname)
               };
               dispatch(handleLogin(data));
