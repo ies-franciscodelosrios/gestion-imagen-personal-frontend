@@ -315,7 +315,7 @@ export const AddStudent = async (user) => {
  */
 export const AddProfesor = async (user) => {
   return await ApiConnect.post(
-    `user/addprofessor`,
+    `user/add/professor`,
     {
       dni: user.dni,
       rol: user.rol,

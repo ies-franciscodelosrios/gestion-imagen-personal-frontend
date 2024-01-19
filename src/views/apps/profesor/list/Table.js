@@ -1,24 +1,32 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect } from "react";
 
-// ** Invoice List Sidebar
-import Sidebar from './Sidebar'
+// ** React Imports
+import { Link } from "react-router-dom";
 
 // ** Table Columns
-import { columns } from './columns'
+import { columns } from "./columns";
 
 // ** Store & Actions
-import { getAllData, getData } from '../store'
-import { useDispatch, useSelector } from 'react-redux'
+import { getAllData, getData } from "../store";
+import { useDispatch, useSelector } from "react-redux";
 
 // ** Third Party Components
-import Select from 'react-select'
-import ReactPaginate from 'react-paginate'
-import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy } from 'react-feather'
+import Select from "react-select";
+import ReactPaginate from "react-paginate";
+import DataTable from "react-data-table-component";
+import {
+  ChevronDown,
+  Share,
+  Printer,
+  FileText,
+  File,
+  Grid,
+  Copy,
+} from "react-feather";
 
 // ** Utils
-import { selectThemeColors } from '@utils'
+import { selectThemeColors } from "@utils";
 
 // ** Reactstrap Imports
 import {
@@ -34,153 +42,171 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  UncontrolledDropdown
-} from 'reactstrap'
+  UncontrolledDropdown,
+} from "reactstrap";
 
 // ** Styles
-import '@styles/react/libs/react-select/_react-select.scss'
-import '@styles/react/libs/tables/react-dataTable-component.scss'
+import "@styles/react/libs/react-select/_react-select.scss";
+import "@styles/react/libs/tables/react-dataTable-component.scss";
 
 // ** Table Header
-const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
+const CustomHeader = ({
+  store,
+  toggleSidebar,
+  handlePerPage,
+  rowsPerPage,
+  handleFilter,
+  searchTerm,
+}) => {
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {
-    let result
+    let result;
 
-    const columnDelimiter = ','
-    const lineDelimiter = '\n'
-    const keys = Object.keys(store.data[0])
+    const columnDelimiter = ",";
+    const lineDelimiter = "\n";
+    const keys = Object.keys(store.data[0]);
 
-    result = ''
-    result += keys.join(columnDelimiter)
-    result += lineDelimiter
+    result = "";
+    result += keys.join(columnDelimiter);
+    result += lineDelimiter;
 
-    array.forEach(item => {
-      let ctr = 0
-      keys.forEach(key => {
-        if (ctr > 0) result += columnDelimiter
+    array.forEach((item) => {
+      let ctr = 0;
+      keys.forEach((key) => {
+        if (ctr > 0) result += columnDelimiter;
 
-        result += item[key]
+        result += item[key];
 
-        ctr++
-      })
-      result += lineDelimiter
-    })
+        ctr++;
+      });
+      result += lineDelimiter;
+    });
 
-    return result
+    return result;
   }
 
   // ** Downloads CSV
   function downloadCSV(array) {
-    const link = document.createElement('a')
-    let csv = convertArrayOfObjectsToCSV(array)
-    if (csv === null) return
+    const link = document.createElement("a");
+    let csv = convertArrayOfObjectsToCSV(array);
+    if (csv === null) return;
 
-    const filename = 'export.csv'
+    const filename = "export.csv";
 
     if (!csv.match(/^data:text\/csv/i)) {
-      csv = `data:text/csv;charset=utf-8,${csv}`
+      csv = `data:text/csv;charset=utf-8,${csv}`;
     }
 
-    link.setAttribute('href', encodeURI(csv))
-    link.setAttribute('download', filename)
-    link.click()
+    link.setAttribute("href", encodeURI(csv));
+    link.setAttribute("download", filename);
+    link.click();
   }
   return (
-    <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
+    <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">
       <Row>
-        <Col xl='6' className='d-flex align-items-center p-0'>
-          <div className='d-flex align-items-center w-100'>
-            <label htmlFor='rows-per-page'>Ver</label>
+        <Col xl="6" className="d-flex align-items-center p-0">
+          <div className="d-flex align-items-center w-100">
+            <label htmlFor="rows-per-page">Ver</label>
             <Input
-              className='mx-50'
-              type='select'
-              id='rows-per-page'
+              className="mx-50"
+              type="select"
+              id="rows-per-page"
               value={rowsPerPage}
               onChange={handlePerPage}
-              style={{ width: '5rem' }}
+              style={{ width: "5rem" }}
             >
-              <option value='10'>10</option>
-              <option value='25'>25</option>
-              <option value='50'>50</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
             </Input>
-            <label htmlFor='rows-per-page'>Registros</label>
+            <label htmlFor="rows-per-page">Registros</label>
           </div>
         </Col>
         <Col
-          xl='6'
-          className='d-flex align-items-sm-center justify-content-xl-end justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column pe-xl-1 p-0 mt-xl-0 mt-1'
+          xl="6"
+          className="d-flex align-items-sm-center justify-content-xl-end justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column pe-xl-1 p-0 mt-xl-0 mt-1"
         >
-          <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
-            <label className='mb-0' htmlFor='search-invoice'>
-            Buscar:
+          <div className="d-flex align-items-center mb-sm-0 mb-1 me-1">
+            <label className="mb-0" htmlFor="search-invoice">
+              Buscar:
             </label>
             <Input
-              id='search-invoice'
-              className='ms-50 w-100'
-              type='text'
+              id="search-invoice"
+              className="ms-50 w-100"
+              type="text"
               value={searchTerm}
-              onChange={e => handleFilter(e.target.value)}
+              onChange={(e) => handleFilter(e.target.value)}
             />
           </div>
 
-          <div className='d-flex align-items-center table-header-actions'>
-          <UncontrolledDropdown className='me-1'>
-              <DropdownToggle color='secondary' caret outline>
-                <Share className='font-small-4 me-50' />
-                <span className='align-middle'>Exp/Imp</span>
+          <div className="d-flex align-items-center table-header-actions">
+            <UncontrolledDropdown className="me-1">
+              <DropdownToggle color="secondary" caret outline>
+                <Share className="font-small-4 me-50" />
+                <span className="align-middle">Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem className='w-100'>
-                  <FileText className='font-small-4 me-50' />
-                  <span className='align-middle'>Importar</span>
+                <DropdownItem className="w-100">
+                  <FileText className="font-small-4 me-50" />
+                  <span className="align-middle">Importar</span>
                 </DropdownItem>
-                <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
-                  <FileText className='font-small-4 me-50' />
-                  <span className='align-middle'>Exportar</span>
+                <DropdownItem
+                  className="w-100"
+                  onClick={() => downloadCSV(store.data)}
+                >
+                  <FileText className="font-small-4 me-50" />
+                  <span className="align-middle">Exportar</span>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
 
-            <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-            Añadir profesor
-            </Button>
+            <Link to="/apps/profesor/view/0">
+              <Button className="add-new-user" color="primary">
+                Añadir profesor
+              </Button>
+            </Link>
           </div>
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
 const ProfesorList = () => {
   // ** Store Vars
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.profesor)
+  const dispatch = useDispatch();
+  const store = useSelector((state) => state.profesor);
 
   // ** States
 
-  const [sort, setSort] = useState('desc')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [sortColumn, setSortColumn] = useState('id')
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
+  const [sort, setSort] = useState("desc");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortColumn, setSortColumn] = useState("id");
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState({
+    value: "",
+    label: "Select Status",
+    number: 0,
+  });
 
   // ** Function to toggle sidebar
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const QUOTE_REQUESTED = "QUOTE_REQUESTED";
   // ** Get data on mount
   useEffect(() => {
-    dispatch(getAllData({
-      sort,
-      sortColumn,
-      q: searchTerm,
-      page: currentPage,
-      perPage: rowsPerPage,
-      status: currentStatus.value,
-      data: store.allData
-    }))
+    dispatch(
+      getAllData({
+        sort,
+        sortColumn,
+        q: searchTerm,
+        page: currentPage,
+        perPage: rowsPerPage,
+        status: currentStatus.value,
+        data: store.allData,
+      })
+    );
     dispatch(
       getData({
         sort,
@@ -189,16 +215,15 @@ const ProfesorList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: store.allData
+        data: store.allData,
       })
-    )
-  }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
+    );
+  }, [dispatch, store.allData.length, sort, sortColumn, currentPage]);
 
   // ** User filter options
 
-
   // ** Function in get data on page change
-  const handlePagination = page => {
+  const handlePagination = (page) => {
     dispatch(
       getData({
         sort,
@@ -207,15 +232,15 @@ const ProfesorList = () => {
         perPage: rowsPerPage,
         page: page.selected + 1,
         status: currentStatus.value,
-        data: store.allData
+        data: store.allData,
       })
-    )
-    setCurrentPage(page.selected + 1)
-  }
+    );
+    setCurrentPage(page.selected + 1);
+  };
 
   // ** Function in get data on rows per page
-  const handlePerPage = e => {
-    const value = parseInt(e.currentTarget.value)
+  const handlePerPage = (e) => {
+    const value = parseInt(e.currentTarget.value);
     dispatch(
       getData({
         sort,
@@ -224,16 +249,15 @@ const ProfesorList = () => {
         perPage: value,
         page: currentPage,
         status: currentStatus.value,
-        data: store.allData
+        data: store.allData,
       })
-    )
-    setRowsPerPage(value)
-  }
-
+    );
+    setRowsPerPage(value);
+  };
 
   // ** Function in get data on search query change
-  const handleFilter = val => {
-    setSearchTerm(val)
+  const handleFilter = (val) => {
+    setSearchTerm(val);
     dispatch(
       getData({
         sort,
@@ -242,56 +266,58 @@ const ProfesorList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: store.allData
+        data: store.allData,
       })
-    )
-  }
+    );
+  };
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(store.total / rowsPerPage))
+    const count = Number(Math.ceil(store.total / rowsPerPage));
 
     return (
       <ReactPaginate
-        previousLabel={''}
-        nextLabel={''}
+        previousLabel={""}
+        nextLabel={""}
         pageCount={count || 1}
-        activeClassName='active'
+        activeClassName="active"
         forcePage={currentPage !== 0 ? currentPage - 1 : 0}
-        onPageChange={page => handlePagination(page)}
-        pageClassName={'page-item'}
-        nextLinkClassName={'page-link'}
-        nextClassName={'page-item next'}
-        previousClassName={'page-item prev'}
-        previousLinkClassName={'page-link'}
-        pageLinkClassName={'page-link'}
-        containerClassName={'pagination react-paginate justify-content-end my-2 pe-1'}
+        onPageChange={(page) => handlePagination(page)}
+        pageClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        nextClassName={"page-item next"}
+        previousClassName={"page-item prev"}
+        previousLinkClassName={"page-link"}
+        pageLinkClassName={"page-link"}
+        containerClassName={
+          "pagination react-paginate justify-content-end my-2 pe-1"
+        }
       />
-    )
-  }
+    );
+  };
 
   // ** Table data to render
   const dataToRender = () => {
     const filters = {
       status: currentStatus.value,
-      q: searchTerm
-    }
+      q: searchTerm,
+    };
 
     const isFiltered = Object.keys(filters).some(function (k) {
-      return filters[k].length > 0
-    })
+      return filters[k].length > 0;
+    });
 
     if (store.data.length > 0) {
-      return store.data
+      return store.data;
     } else if (store.data.length === 0 && isFiltered) {
-      return []
+      return [];
     } else {
-      return store.allData.slice(0, rowsPerPage)
+      return store.allData.slice(0, rowsPerPage);
     }
-  }
+  };
   const handleSort = (column, sortDirection) => {
-    setSort(sortDirection)
-    setSortColumn(column.sortField)
+    setSort(sortDirection);
+    setSortColumn(column.sortField);
     dispatch(
       getData({
         sort,
@@ -300,19 +326,17 @@ const ProfesorList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: store.allData
+        data: store.allData,
       })
-    )
-  }
+    );
+  };
 
   return (
     <Fragment>
-      {
-        
-      }
+      {}
 
-<Card className='overflow-hidden'>
-        <div className='react-dataTable'>
+      <Card className="overflow-hidden">
+        <div className="react-dataTable">
           <DataTable
             noHeader
             subHeader
@@ -323,7 +347,7 @@ const ProfesorList = () => {
             columns={columns}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
-            className='react-dataTable'
+            className="react-dataTable"
             paginationComponent={CustomPagination}
             data={dataToRender()}
             subHeaderComponent={
@@ -339,10 +363,8 @@ const ProfesorList = () => {
           />
         </div>
       </Card>
-
-      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
     </Fragment>
-  )
-}
+  );
+};
 
-export default ProfesorList
+export default ProfesorList;
