@@ -70,7 +70,7 @@ const SidebarNewProfesor = ({ open, toggleSidebar }) => {
       toggleSidebar()
       console.log(data);
       dispatch(
-        addProfesor({
+        addUserByType({
           dni: data.dni,
           rol: data.rol,
           course_year: data.course_year,

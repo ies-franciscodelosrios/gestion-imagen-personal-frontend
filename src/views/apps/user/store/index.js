@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 
 // ** Axios Imports
-import {getAllStudentsData, getUserById, updateUserBy, ApiDelUser, AddStudent, getAllAppointments  } from '../../../../services/api'
+import {getAllUsers, getUserByID, editUser, deleteUserByID, apiAddUser, getAllAppointments  } from '../../../../services/api'
 import { handleConfirmCancel, sort_appointments, sort_data } from './sort_utils'
 import '@styles/react/libs/react-select/_react-select.scss'
 import { toast } from 'react-hot-toast'
@@ -12,7 +12,7 @@ import { toast } from 'react-hot-toast'
 export const getAllData = createAsyncThunk('appUsers/getAllData', async (params) => {
   const response = {"data": {"data": params.data}} 
   if ((response === null || response.data.data.length <= 0 ) && params.q == '') {
-    Object.assign(response, await getAllStudentsData().then(result => {return result}).catch(console.log('error obtener estudiantes')))
+    Object.assign(response, await getAllUsers().then(result => {return result}).catch(console.log('error obtener estudiantes')))
   }
   return response.data.data
 })
@@ -20,7 +20,7 @@ export const getAllData = createAsyncThunk('appUsers/getAllData', async (params)
 export const getData = createAsyncThunk('appUsers/getData', async params => {
   const response = {"data": {"data": params.data}}; 
   if ((response === null || response.data.data.length <= 0 ) && params.q == '') {
-    Object.assign(response, await getAllStudentsData().then(result => {return result}).catch(console.log('error obtener estudiantes')))
+    Object.assign(response, await getAllUsers().then(result => {return result}).catch(console.log('error obtener estudiantes')))
   }
   response.data.data = sort_data(params, response.data.data);
   return {
@@ -31,7 +31,7 @@ export const getData = createAsyncThunk('appUsers/getData', async params => {
 })
 
 export const getUser = createAsyncThunk('appUsers/getUser', async id => {
-  const response = await getUserById(id).then(result => {return result})
+  const response = await getUserByID(id).then(result => {return result})
   return response.data.data
 })
 
@@ -46,19 +46,19 @@ export const getAppointments = createAsyncThunk('appAppointments/getAppointments
 })
 
 export const updateUser = createAsyncThunk('appUsers/updateUser', async updatedUser => {
-  await updateUserBy(updatedUser).then(e => toast.success('Datos Guardados')).catch(e=>{console.log(e); toast.error('Error al editar')});
+  await editUser(updatedUser).then(e => toast.success('Datos Guardados')).catch(e=>{console.log(e); toast.error('Error al editar')});
   return updatedUser
 })
 
 export const addUser = createAsyncThunk('appUsers/addUser', async (user, { dispatch, getState }) => {
-  await AddStudent(user)
-  const response = await getAllStudentsData().then(result => {return result.data.data})
+  await apiAddUser(user)
+  const response = await getAllUsers().then(result => {return result.data.data})
   return response
 })
 
 export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { dispatch, getState }) => {
-  (await handleConfirmCancel())? await ApiDelUser(id) :'';
-  const response = await getAllStudentsData().then(result => {return result.data.data}) 
+  (await handleConfirmCancel())? await deleteUserByID(id) :'';
+  const response = await getAllUsers().then(result => {return result.data.data}) 
   return response
 })
 

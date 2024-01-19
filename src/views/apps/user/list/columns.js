@@ -6,7 +6,7 @@ import Avatar from '@components/avatar'
 
 // ** Store & Actions
 import { store } from '@store/store'
-import { getUser, deleteUser } from '../store'
+import { getUser, deleteUserByID } from '../store'
 
 // ** Icons Imports
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
@@ -141,7 +141,7 @@ export const columns = [
               className='w-100'
               onClick={e => {
                 e.preventDefault()
-                store.dispatch(deleteUser(row.id))
+                store.dispatch(deleteUserByID(row.id))
               }}
             >
               <Trash2 size={14} className='me-50' />

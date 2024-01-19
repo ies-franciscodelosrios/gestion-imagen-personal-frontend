@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSkin } from '@hooks/useSkin';
 import { ApiLogin, getStadistics } from '../../../services/api';
 import { setToken, getToken } from '../../../services/UseToken';
-import { getAllUserData } from '../../../services/api';
+import { getUserLogged } from '../../../services/api';
 
 // ** Third Party Components
 import toast from 'react-hot-toast';
@@ -115,7 +115,8 @@ const Login = () => {
             /**
              * UserData Request to login
              */
-            getAllUserData().then((promis) => {
+            getUserLogged().then((promis) => {
+              console.log(promis.data)
               const data = {
                 ...promis.data.data,
                 token: getToken(),

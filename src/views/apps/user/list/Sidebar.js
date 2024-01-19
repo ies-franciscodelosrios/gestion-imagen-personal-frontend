@@ -19,7 +19,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { Button, Label, FormText, Form, Input } from 'reactstrap'
 
 // ** Store & Actions
-import { addUser } from '../store'
+import { addUserByType } from '../store'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-hot-toast'
 
@@ -68,7 +68,7 @@ const SidebarNewUsers = ({ open, toggleSidebar }) => {
     if (checkIsValid(data)) {
       toggleSidebar()
       dispatch(
-        addUser({
+        addUserByType({
           dni: data.dni,
           rol: data.rol,
           course_year: data.course_year,

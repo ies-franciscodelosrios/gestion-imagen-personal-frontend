@@ -8,9 +8,8 @@ import {
   deleteAppointment,
   getAllAppointments,
   getAllClientsData,
-  getAllStudentsData,
+  getUsersByRol,
   getClientByData,
-  getUserByDNI,
   updateAppointment
 } from '../../../../services/api';
 import { findUser } from './sort_utils';
@@ -27,7 +26,7 @@ export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (ca
     console.log(studentList);
     if (calendars.events === null || calendars.events.length <= 0) {
 
-      const students = await getAllStudentsData().then(result => {return result}).catch(() =>{console.log('error all student')});
+      const students = await getUsersByRol().then(result => {return result}).catch(() =>{console.log('error all student')});
       const clients = await getAllClientsData().then(result => {return result}).catch(() =>{console.log('error all client')});
       Object.assign(studentList, students.data.data.map((alumno) => ({
         value: `${alumno.name} ${alumno.surname}`,

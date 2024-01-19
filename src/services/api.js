@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { getToken } from './UseToken';
 
 const ApiConnect = Axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: import.meta.env.VITE_API_URL,
   //baseURL: 'http://iestablero.duckdns.org:8000/api/',
   //baseURL: 'http://asilgar118.duckdns.org:8000/api/',
   headers: {
@@ -47,7 +47,7 @@ export const getStadistics = async () => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -63,7 +63,7 @@ export const getAllClientsData = async () => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -78,7 +78,7 @@ export const getClientsPaged = async (params) => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -90,12 +90,12 @@ export const getClientsPaged = async (params) => {
  * @returns user data
  */
 export const getClientById = async (id) => {
-  return await ApiConnect.get(`client/id`, {
-    params:{id: id},
+  return await ApiConnect.get('client/id', {
+    params: { id: id },
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -106,11 +106,11 @@ export const getClientById = async (id) => {
  * @returns user data
  */
 export const getClientByData = async (id) => {
-  return await ApiConnect.get(`client/${id}`, {
+  return await ApiConnect.get('client/${id}', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -124,12 +124,12 @@ export const getClientByData = async (id) => {
  */
 export const updateClientBy = async (user) => {
   return await ApiConnect.put(
-    `client`,user,
+    'client', user,
     {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: 'Bearer ${getToken()}',
       },
     }
   );
@@ -141,13 +141,13 @@ export const updateClientBy = async (user) => {
  */
 export const AddClient = async (user) => {
   return await ApiConnect.post(
-    `client`,
-    {...user },
+    'client',
+    { ...user },
     {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: 'Bearer ${getToken()}',
       },
     }
   );
@@ -159,31 +159,18 @@ export const AddClient = async (user) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const ApiDelClient = async (id) => {
-  return await ApiConnect.delete(`client/id`, {
-    params:{id: id},
+  return await ApiConnect.delete('client/id', {
+    params: { id: id },
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
 
 
 
-/* 
-    Teacher
-*/
-
-export const getAllProfesorData = async () => {
-  return await ApiConnect.get('/users/rol/1', {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-};
 
 
 
@@ -191,12 +178,26 @@ export const getAllProfesorData = async () => {
 /* ----------------------------------------------------------------------------------------------------------------------------------------- */
 
 /**
- * Http Request to get a user by the email.
- * @param {*} logineamil email to search the user.
+ * Http Request to get all users by rol.
+ * @param {*} rol rol to search the user.
  * @returns usuario con todos los datos.
  */
-export const getAllUserData = async () => {
-  return await ApiConnect.get(`user`, {
+export const getUsersByRol = async (rol) => {
+  return await ApiConnect.get('/users/rol/' + rol, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: 'Bearer ${getToken()}',
+    },
+  });
+};
+
+/**
+ * Http Request to get a user.
+ * @returns usuario con todos los datos.
+ */
+export const getUserLogged = async () => {
+  return await ApiConnect.get('user', {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -209,7 +210,7 @@ export const getAllUserData = async () => {
  * Http Request to get all Users from database
  * @returns list with all users
  */
-export async function ApiGetUser() {
+export const getAllUsers = async () => {
   return await ApiConnect.get('users', {
     headers: {
       'Content-Type': 'application/json',
@@ -220,25 +221,11 @@ export async function ApiGetUser() {
 }
 
 /**
- * Http Request to get all Users from database
- * @returns list with all students
- */
-export const getAllStudentsData = async () => {
-  return await ApiConnect.get('/users/rol/2', {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-};
-
-/**
  * Http Request to get a Users by id
  * @param {*} id to identify the Users
  * @returns user data
  */
-export const getUserById = async (id) => {
+export const getUserByID = async (id) => {
   return await ApiConnect.get('user/id/' + id, {
     headers: {
       'Content-Type': 'application/json',
@@ -248,46 +235,30 @@ export const getUserById = async (id) => {
   });
 };
 
-/**
- * Http Request to get a student by DNI
- * @param {*} id to identify the client
- * @returns user data
- */
-export const getUserByDNI= async (id) => {
-  return await ApiConnect.get(`userByDni/id`, {
-    params:{id: id},
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-};
-
- /* Http Request to update a user
- * @param {*} id to identify the user
- * @returns response 200 if ok
- */
-export const updateUserBy = async (user) => {
+/* Http Request to update an user
+* @param {*} id to identify the user
+* @returns response 200 if ok
+*/
+export const editUser = async (user) => {
   return await ApiConnect.put(
-    `user`,user,
+    'user/editUser/' + user.id, user,
     {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: 'Bearer ${getToken()}',
       },
     }
   );
 };
 
 /**
- * Http Request to add a new student
+ * Http Request to add a new user
  * @returns response 200 if ok
  */
-export const AddStudent = async (user) => {
+export const apiAddUser = async (user) => {
   return await ApiConnect.post(
-    `user/addstudent`,
+    'user/add/',
     {
       dni: user.dni,
       rol: user.rol,
@@ -303,51 +274,24 @@ export const AddStudent = async (user) => {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: 'Bearer ${getToken()}',
       },
     }
   );
 };
 
-/**
- * Http Request to add a new teacher
- * @returns response 200 if ok
- */
-export const AddProfesor = async (user) => {
-  return await ApiConnect.post(
-    `user/addprofessor`,
-    {
-      dni: user.dni,
-      rol: user.rol,
-      course_year: user.course_year,
-      cycle: user.cycle,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      password: user.password,
-      others: ' ',
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`,
-      },
-    }
-  );
-};
 /**
  * Http Request to delete a student by id
  * @param {*} id to identify the student
  * @returns response 200 for ok OR 401 for not found
  */
-export const ApiDelUser = async (id) => {
-  return await ApiConnect.delete(`user/id`, {
-    params:{id: id},
+export const deleteUserByID = async (id) => {
+  return await ApiConnect.delete('user/delete/' + id, {
+    params: { id: id },
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -361,7 +305,7 @@ export const ApiDelUser = async (id) => {
  */
 export const AddAppointment = async (event) => {
   return await ApiConnect.post(
-    `appointment`,
+    'appointment',
     {
       date: event.start,
       treatment: event.calendar,
@@ -374,7 +318,7 @@ export const AddAppointment = async (event) => {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: 'Bearer ${getToken()}',
       },
     }
   );
@@ -389,7 +333,7 @@ export const getAllAppointments = async () => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -400,12 +344,12 @@ export const getAllAppointments = async () => {
  * @returns appointment data
  */
 export const getAppointmentPaged = async (params) => {
-  return await ApiConnect.get(`appointments/paged`, {
-    params:{...params},
+  return await ApiConnect.get('appointments/paged', {
+    params: { ...params },
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -416,12 +360,12 @@ export const getAppointmentPaged = async (params) => {
  * @returns appointment data
  */
 export const getAppointmentbyId = async (id) => {
-  return await ApiConnect.get(`appointment/id`, {
-    params:{id: id},
+  return await ApiConnect.get('appointment/id', {
+    params: { id: id },
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -431,7 +375,7 @@ export const getAppointmentbyId = async (id) => {
  * @returns appointments data
  */
 export const updateAppointment = async (event) => {
-  return await ApiConnect.put(`appointment`, {
+  return await ApiConnect.put('appointment', {
     id: event.id,
     date: event.start,
     treatment: event.calendar,
@@ -443,7 +387,7 @@ export const updateAppointment = async (event) => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -453,13 +397,13 @@ export const updateAppointment = async (event) => {
  * @returns appointments data
  */
 export const updateAppointment2 = async (event) => {
-  return await ApiConnect.put(`appointment`, {
+  return await ApiConnect.put('appointment', {
     ...event
   }, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -470,12 +414,12 @@ export const updateAppointment2 = async (event) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const deleteAppointment = async (id) => {
-  return await ApiConnect.delete(`appointment/id`, {
-    params:{id: id},
+  return await ApiConnect.delete('appointment/id', {
+    params: { id: id },
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -486,12 +430,12 @@ export const deleteAppointment = async (id) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const getAppointmentCloudinary = async (data) => {
-  return await ApiConnect.get(`appointment/get-photos`, {
-    params:{...data},
+  return await ApiConnect.get('appointment/get-photos', {
+    params: { ...data },
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
@@ -502,15 +446,15 @@ export const getAppointmentCloudinary = async (data) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const addAppointmentCloudinary = async (data) => {
-  return await ApiConnect.post(`appointment/add-photo-url`,
-  {...data},
-  {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  return await ApiConnect.post('appointment/add-photo-url',
+    { ...data },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: 'Bearer ${getToken()}',
+      },
+    });
 };
 
 /**
@@ -519,12 +463,12 @@ export const addAppointmentCloudinary = async (data) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const deleteAppointmentCloudinary = async (data) => {
-  return await ApiConnect.delete(`appointment/delete-photo-url`, {
-    params:{...data},
+  return await ApiConnect.delete('appointment/delete-photo-url', {
+    params: { ...data },
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: 'Bearer ${getToken()}',
     },
   });
 };
