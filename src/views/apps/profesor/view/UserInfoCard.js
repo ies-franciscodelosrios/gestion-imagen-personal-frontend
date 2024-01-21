@@ -1,7 +1,7 @@
 // ** React Imports
 import { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfesor } from "../store";
+import { addProfesor, updateProfesor } from "../store";
 
 // ** Reactstrap Imports
 import {
@@ -132,8 +132,13 @@ const UserInfoCard = ({ id }) => {
     selectedUser.repassword = data.repassword;
 
     if (validateUserData(data)) {
-      dispatch(updateProfesor(selectedUser));
-      setShow(false);
+      if (id == "0") {
+        dispatch(addProfesor(selectedUser));
+        setShow(false);
+      } else {
+        dispatch(updateProfesor(selectedUser));
+        setShow(false);
+      }
     } else {
       for (const key in data) {
         if (!validateDNI(data.dni)) setError("dni", {});
