@@ -1,28 +1,30 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// ** Axios Imports
-import axios from "axios";
-
+// ** API Imports
 import {
-  getAllProfesorData,
-  getUserById,
+  apiGetAllProfessors,
+  apiGetUserById,
   updateUserBy,
   ApiDelUser,
   AddProfesor,
   getAllAppointments,
 } from "../../../../services/api";
+
+// ** Sort utils Imports
 import {
   handleConfirmCancel,
   sort_appointments,
   sort_data,
 } from "./sort_utils";
+
+// ** Toasts Imports
 import { toast } from "react-hot-toast";
 
-/* ALL PROFESOR */
+/* GET ALL PROFESSORS */
 
-export const getAllData = createAsyncThunk(
-  "appProfesors/getAllData",
+export const getAllProfessors = createAsyncThunk(
+  "appProfessors/getAllProfessors",
   async (params) => {
     const response = { data: { data: params.data } };
     if (
@@ -31,29 +33,7 @@ export const getAllData = createAsyncThunk(
     ) {
       Object.assign(
         response,
-        await getAllProfesorData().then((result) => {
-          return result;
-        })
-      );
-    }
-
-    return response.data.data;
-  }
-);
-
-/*  */
-
-export const getData = createAsyncThunk(
-  "appProfesors/getData",
-  async (params) => {
-    const response = { data: { data: params.data } };
-    if (
-      (response === null || response.data.data.length <= 0) &&
-      params.q == ""
-    ) {
-      Object.assign(
-        response,
-        await getAllProfesorData().then((result) => {
+        await apiGetAllProfessors().then((result) => {
           return result;
         })
       );
@@ -69,13 +49,17 @@ export const getData = createAsyncThunk(
 
 /* GET PROFESOR BY ID */
 
-export const getProfesor = createAsyncThunk(
-  "appProfesors/getUser",
-  async (id) => {
-    const response = await getUserById(id).then((result) => {
-      return result;
-    });
-    return response.data.data;
+export const getProfessorById = createAsyncThunk(
+  "appProfessors/getProfessorById",
+  async (id, thunkAPI) => {
+    const response = await apiGetUserById(id)
+      .then((result) => {
+        return result.data.data;
+      })
+      .catch((result) => {
+        return thunkAPI.rejectWithValue(result.response.data);
+      });
+    return response;
   }
 );
 
@@ -96,10 +80,10 @@ export const getAppointments = createAsyncThunk(
 
 /* ADD PROFESOR */
 export const addProfesor = createAsyncThunk(
-  "appProfesors/addUserProfesor",
+  "appProfessors/addUserProfesor",
   async (user, { dispatch, getState }) => {
     await AddProfesor(user);
-    const response = await getAllProfesorData().then((result) => {
+    const response = await apiGetAllProfessors().then((result) => {
       return result.data.data;
     });
     return response;
@@ -107,7 +91,7 @@ export const addProfesor = createAsyncThunk(
 );
 /* UPDATE PROFESOR */
 export const updateProfesor = createAsyncThunk(
-  "appProfesors/updateUser",
+  "appProfessors/updateUser",
   async (updatedUser) => {
     await updateUserBy(updatedUser)
       .then((e) => toast.success("Datos Guardados"))
@@ -118,22 +102,18 @@ export const updateProfesor = createAsyncThunk(
 /* DELETE PROFESOR BY ID */
 
 export const deleteProfesor = createAsyncThunk(
-  "appProfesors/deleteUser",
+  "appProfessors/deleteUser",
   async (id, { dispatch, getState }) => {
     (await handleConfirmCancel()) ? await ApiDelUser(id) : "";
-    const response = await getAllProfesorData().then((result) => {
+    const response = await apiGetAllProfessors().then((result) => {
       return result.data.data;
     });
     return response;
-    /* await ApiDelUser(id) 
-  await dispatch(getData(getState().users.params))
-  await dispatch(getAllData())
-  return id */
   }
 );
 
 export const appProfesorsSlice = createSlice({
-  name: "appProfesors",
+  name: "appProfessors",
   initialState: {
     data: [],
     total: 1,
@@ -141,20 +121,24 @@ export const appProfesorsSlice = createSlice({
     allData: [],
     appoitments: [],
     selectedProfesor: null,
+    status: "",
+    message: "",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllData.fulfilled, (state, action) => {
-        state.allData = action.payload;
-      })
-      .addCase(getData.fulfilled, (state, action) => {
+      .addCase(getAllProfessors.fulfilled, (state, action) => {
         state.data = action.payload.data;
         state.params = action.payload.params;
         state.total = action.payload.totalPages;
       })
-      .addCase(getProfesor.fulfilled, (state, action) => {
+      .addCase(getProfessorById.fulfilled, (state, action) => {
+        state.status = 1;
         state.selectedProfesor = action.payload;
+      })
+      .addCase(getProfessorById.rejected, (state, action) => {
+        state.status = action.payload.status;
+        state.message = action.payload.message;
       })
       .addCase(updateProfesor.fulfilled, (state, action) => {
         state.selectedProfesor = action.payload;

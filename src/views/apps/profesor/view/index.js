@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 // ** Store & Actions
-import { getProfesor, getAppointments } from "../store";
+import { getProfessorById, getAppointments } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 
 // ** Reactstrap Imports
@@ -26,7 +26,7 @@ const TeacherView = () => {
 
   useEffect(() => {
     if (id > 0) {
-      dispatch(getProfesor(parseInt(id)));
+      dispatch(getProfessorById(parseInt(id)));
       dispatch(getAppointments());
     }
   }, [dispatch]);

@@ -1,33 +1,33 @@
 // ** React Imports
-import { useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 // ** Custom Hooks
-import { useSkin } from '@hooks/useSkin';
-import { ApiLogin, getStadistics } from '../../../services/api';
-import { setToken, getToken } from '../../../services/UseToken';
-import { getAllUserData } from '../../../services/api';
+import { useSkin } from "@hooks/useSkin";
+import { apiLogin, getStadistics } from "../../../services/api";
+import { setToken, getToken } from "../../../services/UseToken";
+import { getAllUserData } from "../../../services/api";
 
 // ** Third Party Components
-import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form';
-import { HelpCircle, Coffee, X } from 'react-feather';
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { useForm, Controller } from "react-hook-form";
+import { HelpCircle, Coffee, X } from "react-feather";
 
 // ** Actions
-import { handleLogin } from '@store/authentication';
+import { handleLogin } from "@store/authentication";
 
 // ** Context
-import { AbilityContext } from '@src/utility/context/Can';
+import { AbilityContext } from "@src/utility/context/Can";
 
 // ** Custom Components
-import Avatar from '@components/avatar';
-import InputPasswordToggle from '@components/input-password-toggle';
+import Avatar from "@components/avatar";
+import InputPasswordToggle from "@components/input-password-toggle";
 
 // ** Utils
-import { getHomeRouteForLoggedInUser } from '@utils';
-import { getNameRol } from '../../../utility/Roles';
-import { getUserRol, isUserLoggedIn } from '../../../utility/Utils';
+import { getHomeRouteForLoggedInUser } from "@utils";
+import { getNameRol } from "../../../utility/Roles";
+import { getUserRol, isUserLoggedIn } from "../../../utility/Utils";
 
 // ** Reactstrap Imports
 import {
@@ -42,15 +42,15 @@ import {
   CardTitle,
   FormFeedback,
   UncontrolledTooltip,
-} from 'reactstrap';
+} from "reactstrap";
 
 // ** Illustrations Imports
-import illustrationsLight from '@src/assets/images/pages/login-v3.svg';
-import illustrationsDark from '@src/assets/images/pages/login-v3-dark.svg';
-import logo from '@src/assets/images/logo/pericles.svg';
+import illustrationsLight from "@src/assets/images/pages/login-v3.svg";
+import illustrationsDark from "@src/assets/images/pages/login-v3-dark.svg";
+import logo from "@src/assets/images/logo/pericles.svg";
 
 // ** Styles
-import '@styles/react/pages/page-authentication.scss';
+import "@styles/react/pages/page-authentication.scss";
 
 const ToastContent = ({ t, name, role }) => {
   return (
@@ -77,8 +77,8 @@ const ToastContent = ({ t, name, role }) => {
 };
 
 const defaultValues = {
-  password: '',
-  loginemail: '',
+  password: "",
+  loginemail: "",
 };
 
 const Login = () => {
@@ -94,71 +94,68 @@ const Login = () => {
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const source = skin === 'dark' ? illustrationsDark : illustrationsLight;
+  const source = skin === "dark" ? illustrationsDark : illustrationsLight;
 
-  console.log(localStorage.getItem('userData'))
+  console.log(localStorage.getItem("userData"));
   useEffect(() => {
-    if (localStorage.getItem('userData') !== null) {
-      console.log('hola')
+    if (localStorage.getItem("userData") !== null) {
+      console.log("hola");
       navigate(getHomeRouteForLoggedInUser(0));
     }
-  }, [])
+  }, []);
 
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
+      apiLogin(data.loginemail, data.password)
+        .then((response) => {
+          setToken(response.data.token);
+          ability.update([{ action: "manage", subject: "all" }]);
 
-        ApiLogin(data.loginemail, data.password)
-          .then((response) => {
-            setToken(response.data.token);
-            ability.update([{"action": "manage","subject": "all"}]);
-
-            /**
-             * UserData Request to login
-             */
-            getAllUserData().then((promis) => {
-              const data = {
-                ...promis.data.data,
-                token: getToken(),
-                ability : [{"action": "manage","subject": "all"}],
-                rol : getNameRol(promis.data.rol),
-                fullname : ''.concat(promis.data.name,' ', promis.data.surname)
-              };
-              dispatch(handleLogin(data));
-              navigate(getHomeRouteForLoggedInUser(promis.data.rol));
-              toast((t) => (
-                <ToastContent
-                  t={t}
-                  role={data.rol || 'admin'}
-                  name={data.fullname || 'Sonia Torres'}
-                />
-              ));
-            });
-            getStadistics().then(data => {
-              data.data.data.date = Date.now();
-              localStorage.setItem('stadistics', JSON.stringify(data.data.data));
-            });
-          })
-          .catch((err) => {
-            for (const key in data) {
-              if (key.toString() == 'password') {
-                setError(key, {
-                  type: 'manual',
-                  message: 'Correo o contraseña incorecta'
-                });
-              }else{
-                setError(key, {
-                  type: 'manual',
-                });
-              }
-            }
-            
+          /**
+           * UserData Request to login
+           */
+          getAllUserData().then((promis) => {
+            const data = {
+              ...promis.data.data,
+              token: getToken(),
+              ability: [{ action: "manage", subject: "all" }],
+              rol: getNameRol(promis.data.rol),
+              fullname: "".concat(promis.data.name, " ", promis.data.surname),
+            };
+            dispatch(handleLogin(data));
+            navigate(getHomeRouteForLoggedInUser(promis.data.rol));
+            toast((t) => (
+              <ToastContent
+                t={t}
+                role={data.rol || "admin"}
+                name={data.fullname || "Sonia Torres"}
+              />
+            ));
           });
-
+          getStadistics().then((data) => {
+            data.data.data.date = Date.now();
+            localStorage.setItem("stadistics", JSON.stringify(data.data.data));
+          });
+        })
+        .catch((err) => {
+          for (const key in data) {
+            if (key.toString() == "password") {
+              setError(key, {
+                type: "manual",
+                message: "Correo o contraseña incorecta",
+              });
+            } else {
+              setError(key, {
+                type: "manual",
+              });
+            }
+          }
+        });
     } else {
       for (const key in data) {
         if (data[key].length === 0) {
           setError(key, {
-            type: 'manual',
+            type: "manual",
           });
         }
       }
@@ -179,7 +176,9 @@ const Login = () => {
             width="64"
             height="72"
           ></img>
-          <h1 className="brand-text text-primary ms-1 my-0">I.E.S. EL TABLERO</h1>
+          <h1 className="brand-text text-primary ms-1 my-0">
+            I.E.S. EL TABLERO
+          </h1>
         </Link>
         <Col className="d-none d-lg-flex align-items-center p-5" lg="8" sm="12">
           <div className="w-100 d-lg-flex align-items-center justify-content-center px-5">
@@ -242,7 +241,9 @@ const Login = () => {
                     />
                   )}
                 />
-              {errors.password && <FormFeedback>{errors.password.message}</FormFeedback>}
+                {errors.password && (
+                  <FormFeedback>{errors.password.message}</FormFeedback>
+                )}
               </div>
               <div className="form-check mb-1">
                 <Input type="checkbox" id="remember-me" />

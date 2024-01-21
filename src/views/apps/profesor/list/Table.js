@@ -8,25 +8,13 @@ import { Link } from "react-router-dom";
 import { columns } from "./columns";
 
 // ** Store & Actions
-import { getAllData, getData } from "../store";
+import { getAllProfessors } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 
 // ** Third Party Components
-import Select from "react-select";
 import ReactPaginate from "react-paginate";
 import DataTable from "react-data-table-component";
-import {
-  ChevronDown,
-  Share,
-  Printer,
-  FileText,
-  File,
-  Grid,
-  Copy,
-} from "react-feather";
-
-// ** Utils
-import { selectThemeColors } from "@utils";
+import { ChevronDown, Share, FileText } from "react-feather";
 
 // ** Reactstrap Imports
 import {
@@ -34,11 +22,7 @@ import {
   Col,
   Card,
   Input,
-  Label,
   Button,
-  CardBody,
-  CardTitle,
-  CardHeader,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
@@ -178,7 +162,6 @@ const ProfesorList = () => {
   const store = useSelector((state) => state.profesor);
 
   // ** States
-
   const [sort, setSort] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -194,21 +177,11 @@ const ProfesorList = () => {
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const QUOTE_REQUESTED = "QUOTE_REQUESTED";
-  // ** Get data on mount
+
+  // ** Get data on load
   useEffect(() => {
     dispatch(
-      getAllData({
-        sort,
-        sortColumn,
-        q: searchTerm,
-        page: currentPage,
-        perPage: rowsPerPage,
-        status: currentStatus.value,
-        data: store.allData,
-      })
-    );
-    dispatch(
-      getData({
+      getAllProfessors({
         sort,
         sortColumn,
         q: searchTerm,
@@ -225,7 +198,7 @@ const ProfesorList = () => {
   // ** Function in get data on page change
   const handlePagination = (page) => {
     dispatch(
-      getData({
+      getAllProfessors({
         sort,
         sortColumn,
         q: searchTerm,
@@ -242,7 +215,7 @@ const ProfesorList = () => {
   const handlePerPage = (e) => {
     const value = parseInt(e.currentTarget.value);
     dispatch(
-      getData({
+      getAllProfessors({
         sort,
         sortColumn,
         q: searchTerm,
@@ -259,7 +232,7 @@ const ProfesorList = () => {
   const handleFilter = (val) => {
     setSearchTerm(val);
     dispatch(
-      getData({
+      getAllProfessors({
         sort,
         q: val,
         sortColumn,
@@ -319,7 +292,7 @@ const ProfesorList = () => {
     setSort(sortDirection);
     setSortColumn(column.sortField);
     dispatch(
-      getData({
+      getAllProfessors({
         sort,
         sortColumn,
         q: searchTerm,
