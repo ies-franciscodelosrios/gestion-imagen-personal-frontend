@@ -1,7 +1,7 @@
 // ** React Imports
-import { useState, Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { updateProfesor } from '../store';
+import { useState, useEffect, Fragment } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addProfesor, updateProfesor } from "../store";
 
 // ** Reactstrap Imports
 import {
@@ -11,48 +11,74 @@ import {
   Form,
   CardBody,
   Button,
-  Badge,
   Modal,
   Input,
   Label,
   ModalBody,
   ModalHeader,
-} from 'reactstrap';
+} from "reactstrap";
 
 // ** Third Party Components
-import Swal from 'sweetalert2';
-import Select from 'react-select';
-import { Check, Briefcase, X } from 'react-feather';
-import { useForm, Controller } from 'react-hook-form';
-import withReactContent from 'sweetalert2-react-content';
+import Swal from "sweetalert2";
+import Select from "react-select";
+import { useForm, Controller } from "react-hook-form";
+import withReactContent from "sweetalert2-react-content";
 
 // ** Custom Components
-import Avatar from '@components/avatar';
+import Avatar from "@components/avatar";
 
 // ** Styles
-import '@styles/react/libs/react-select/_react-select.scss';
-import { toast } from 'react-hot-toast';
-import { validateDNI, validateUserData } from '../../../../utility/Utils';
-
+import "@styles/react/libs/react-select/_react-select.scss";
+import { toast } from "react-hot-toast";
+import { validateDNI, validateUserData } from "../../../../utility/Utils";
 
 const cycleOptions = [
-  { label: 'Grado Medio - Peluquería y cosmética capilar', value: 'Grado Medio - Peluquería y cosmética capilar' },
-  { label: 'Grado Medio - Estética y belleza', value: 'Grado Medio - Estética y belleza' },
-  { label: 'Grado Superior - Estética integral y bienestar', value: 'Grado Superior - Estética integral y bienestar' },
-  { label: 'Grado Superior - Estilismo y dirección de peluquería', value: 'Grado Superior - Estilismo y dirección de peluquería' },
+  {
+    label: "Grado Medio - Peluquería y cosmética capilar",
+    value: "Grado Medio - Peluquería y cosmética capilar",
+  },
+  {
+    label: "Grado Medio - Estética y belleza",
+    value: "Grado Medio - Estética y belleza",
+  },
+  {
+    label: "Grado Superior - Estética integral y bienestar",
+    value: "Grado Superior - Estética integral y bienestar",
+  },
+  {
+    label: "Grado Superior - Estilismo y dirección de peluquería",
+    value: "Grado Superior - Estilismo y dirección de peluquería",
+  },
 ];
 
 const MySwal = withReactContent(Swal);
 
-const UserInfoCard = () => {
+const UserInfoCard = ({ id }) => {
   // ** Store Vars
   const dispatch = useDispatch();
-  const store = useSelector(state => state.profesor)
-
-  const selectedUser = store.selectedProfesor;
+  const store = useSelector((state) => state.profesor);
+  const selectedUser =
+    id == "0"
+      ? {
+          name: "",
+          surname: "",
+          email: "",
+          dni: "",
+          course_year: "",
+          cycle: "",
+          password: "",
+          repassword: "",
+        }
+      : store.selectedProfesor;
 
   // ** State
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (id == "0") {
+      setShow(true);
+    }
+  }, []);
 
   // ** Hook
   const {
@@ -68,35 +94,34 @@ const UserInfoCard = () => {
       email: selectedUser.email,
       dni: selectedUser.dni,
       course_year: selectedUser.course_year,
-      password: '',
-      repassword: '',
+      password: "",
+      repassword: "",
     },
   });
 
-  // ** render user img
   const renderUserImg = () => {
     return (
       <Avatar
         initials
-        color={'light-primary'}
+        color={"light-primary"}
         className="rounded mt-3 mb-2"
         content={selectedUser.name}
         contentStyles={{
           borderRadius: 0,
-          fontSize: 'calc(48px)',
-          width: '100%',
-          height: '100%',
+          fontSize: "calc(48px)",
+          width: "100%",
+          height: "100%",
         }}
         style={{
-          height: '110px',
-          width: '110px',
+          height: "110px",
+          width: "110px",
         }}
       />
     );
   };
 
   const onSubmit = (data) => {
-    const selectedUser = {...store.selectedProfesor};
+    const selectedUser = { ...store.selectedProfesor };
     selectedUser.name = data.name;
     selectedUser.surname = data.surname;
     selectedUser.email = data.email;
@@ -107,20 +132,28 @@ const UserInfoCard = () => {
     selectedUser.repassword = data.repassword;
 
     if (validateUserData(data)) {
-      dispatch(updateProfesor(selectedUser));
-      setShow(false);
+      if (id == "0") {
+        dispatch(addProfesor(selectedUser));
+        setShow(false);
+      } else {
+        dispatch(updateProfesor(selectedUser));
+        setShow(false);
+      }
     } else {
       for (const key in data) {
-        if (!validateDNI(data.dni))setError('dni',{})
-        if (data.password.length!=0 || data.repassword.length!=0){setError('password',{}); setError('repassword',{});}
-        if (data[key].length === 0 && !key.includes('pass')) {
+        if (!validateDNI(data.dni)) setError("dni", {});
+        if (data.password.length != 0 || data.repassword.length != 0) {
+          setError("password", {});
+          setError("repassword", {});
+        }
+        if (data[key].length === 0 && !key.includes("pass")) {
           setError(key, {
-            type: 'manual'
-          })
+            type: "manual",
+          });
         }
       }
     }
-  }
+  };
 
   const handleReset = () => {
     reset({
@@ -128,10 +161,10 @@ const UserInfoCard = () => {
       surname: selectedUser.surname,
       email: selectedUser.email,
       dni: selectedUser.dni,
-      cycle:selectedUser.cycle,
-      course_year:selectedUser.course_year,
-      password: '',
-      repassword: '',
+      cycle: selectedUser.cycle,
+      course_year: selectedUser.course_year,
+      password: "",
+      repassword: "",
     });
   };
 
@@ -146,8 +179,8 @@ const UserInfoCard = () => {
                 <div className="user-info">
                   <h4>
                     {selectedUser !== null
-                      ? selectedUser.name.concat(' ' + selectedUser.surname)
-                      : 'Eleanor Aguilar'}
+                      ? selectedUser.name.concat(" " + selectedUser.surname)
+                      : "Eleanor Aguilar"}
                   </h4>
                 </div>
               </div>
@@ -177,12 +210,17 @@ const UserInfoCard = () => {
                   <span className="fw-bolder me-25">Curso: </span>
                   <span>{selectedUser.course_year}</span>
                 </li>
-               
               </ul>
             ) : null}
           </div>
           <div className="d-flex justify-content-center pt-2">
-            <Button color="primary" onClick={() => { handleReset(); setShow(true) }}>
+            <Button
+              color="primary"
+              onClick={() => {
+                handleReset();
+                setShow(true);
+              }}
+            >
               Editar
             </Button>
           </div>
@@ -199,51 +237,52 @@ const UserInfoCard = () => {
         ></ModalHeader>
         <ModalBody className="px-sm-5 pt-50 pb-5">
           <div className="text-center mb-2">
-            <h1 className="mb-1">Editar Información</h1>
-            <p>Actualizar los datos del Profesor de manera segura.</p>
+            <h1 className="mb-1">
+              {id == "0" ? "Añadir profesor" : "Editar profesor"}
+            </h1>
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Row className='gy-1 pt-75'>
+            <Row className="gy-1 pt-75">
               <Col md={6} xs={12}>
-                <Label className='form-label' for='name'>
+                <Label className="form-label" for="name">
                   Nombre
                 </Label>
                 <Controller
                   defaultValue={selectedUser.name}
                   control={control}
-                  id='name'
-                  name='name'
+                  id="name"
+                  name="name"
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id='name'
-                      placeholder='Laura'
+                      id="name"
+                      placeholder="Laura"
                       invalid={errors.name && true}
                     />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className='form-label' for='surname'>
+                <Label className="form-label" for="surname">
                   Apellidos
                 </Label>
                 <Controller
                   defaultValue={selectedUser.surname}
                   control={control}
-                  id='surname'
-                  name='surname'
+                  id="surname"
+                  name="surname"
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id='surname'
-                      placeholder='Torres'
+                      id="surname"
+                      placeholder="Torres"
                       invalid={errors.surname && true}
                     />
                   )}
                 />
               </Col>
               <Col xs={12}>
-                <Label className='form-label' for='email'>
+                <Label className="form-label" for="email">
                   Email
                 </Label>
                 <Controller
@@ -272,7 +311,12 @@ const UserInfoCard = () => {
                   id="dni"
                   name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="dni" placeholder="31000000C" invalid={errors.dni && true}/>
+                    <Input
+                      {...field}
+                      id="dni"
+                      placeholder="31000000C"
+                      invalid={errors.dni && true}
+                    />
                   )}
                 />
               </Col>
@@ -281,7 +325,10 @@ const UserInfoCard = () => {
                   Ciclo <span className="text-danger">*</span>
                 </Label>
                 <Controller
-                  defaultValue={{label:selectedUser.cycle, value:selectedUser.cycle}} // Set the default value to the first option in the array
+                  defaultValue={{
+                    label: selectedUser.cycle,
+                    value: selectedUser.cycle,
+                  }} // Set the default value to the first option in the array
                   control={control}
                   id="cycle"
                   name="cycle"
@@ -289,10 +336,10 @@ const UserInfoCard = () => {
                     <Select
                       {...field}
                       options={cycleOptions}
-                      className='react-select'
-                      classNamePrefix='select'
+                      className="react-select"
+                      classNamePrefix="select"
                       id="cycle"
-                      name='cycle'
+                      name="cycle"
                       placeholder="Elige tu ciclo"
                       invalid={errors.cycle && true}
                     />
@@ -300,53 +347,53 @@ const UserInfoCard = () => {
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className='form-label' for='password'>
+                <Label className="form-label" for="password">
                   Contraseña
                 </Label>
                 <Controller
                   control={control}
-                  id='password'
-                  name='password'
+                  id="password"
+                  name="password"
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id='password'
-                      placeholder='Contraseña...'
+                      id="password"
+                      placeholder="Contraseña..."
                       invalid={errors.password && true}
                     />
                   )}
                 />
-              </Col>              
+              </Col>
               <Col md={6} xs={12}>
-                <Label className='form-label' for='repassword'>
+                <Label className="form-label" for="repassword">
                   Repite Contraseña
                 </Label>
                 <Controller
                   control={control}
-                  id='repassword'
-                  name='repassword'
+                  id="repassword"
+                  name="repassword"
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id='repassword'
-                      placeholder='Repite Contraseña...'
+                      id="repassword"
+                      placeholder="Repite Contraseña..."
                       invalid={errors.repassword && true}
                     />
                   )}
                 />
               </Col>
-              <Col xs={12} className='text-center mt-2 pt-50'>
+              <Col xs={12} className="text-center mt-2 pt-50">
                 <Button type="submit" className="me-1" color="primary">
                   Guardar
                 </Button>
                 <Button
-                  type='reset'
-                  color='secondary'
+                  type="reset"
+                  color="secondary"
                   outline
                   onClick={() => {
-                    handleReset()
-                    setShow(false)
-                    toast.error('Datos no guardados')
+                    handleReset();
+                    setShow(false);
+                    toast.error("Datos no guardados");
                   }}
                 >
                   Cancelar
@@ -359,13 +406,5 @@ const UserInfoCard = () => {
     </Fragment>
   );
 };
-function rolChanger(rol) {
-  let rolTitle = "";
-  if (rol == 0) {
-    rolTitle = "Administrador";
-  } else if (rol == 1) {
-    rolTitle = "Profesor";
-  }
-  return rolTitle;
-}
+
 export default UserInfoCard;
