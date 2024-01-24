@@ -162,15 +162,15 @@ const UserInfoCard = () => {
                   <span>{selectedUser.name}</span>
                 </li>
                 <li className="mb-75">
-                  <span className="fw-bolder me-25">Apellido: </span>
+                  <span className="fw-bolder me-25">Apellidos: </span>
                   <span>{selectedUser.surname}</span>
                 </li>
                 <li className="mb-75">
-                  <span className="fw-bolder me-25">dni: </span>
+                  <span className="fw-bolder me-25">DNI: </span>
                   <span>{selectedUser.dni}</span>
                 </li>
                 <li className="mb-75">
-                  <span className="fw-bolder me-25">email: </span>
+                  <span className="fw-bolder me-25">Email: </span>
                   <span>{selectedUser.email}</span>
                 </li>
                 <li className="mb-75">
