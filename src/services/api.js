@@ -2,7 +2,7 @@ import Axios from "axios";
 import { getToken } from "./UseToken";
 
 const ApiConnect = Axios.create({
-  baseURL: "http://localhost:8000/api/",
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-type": "application/json",
     "Access-Control-Allow-Origin": "*",

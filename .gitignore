@@ -28,3 +28,5 @@ yarn-error.log*
 .docz
 .eslintcache
 .vscode
+
+.package-lock.json
