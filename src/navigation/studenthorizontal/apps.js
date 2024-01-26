@@ -9,139 +9,139 @@ import {
   FileText,
   CheckSquare,
   ShoppingCart,
-  MessageSquare
-} from 'react-feather'
+  MessageSquare,
+} from "react-feather";
 
 export default [
   {
-    id: 'apps',
-    title: 'Apps',
+    id: "apps",
+    title: "Apps",
     icon: <Box />,
     children: [
       {
-        id: 'email',
-        title: 'Email',
+        id: "email",
+        title: "Email",
         icon: <Mail />,
-        navLink: '/apps/email'
+        navLink: "/apps/email",
       },
       {
-        id: 'chat',
-        title: 'Chat',
+        id: "chat",
+        title: "Chat",
         icon: <MessageSquare />,
-        navLink: '/apps/chat'
+        navLink: "/apps/chat",
       },
       {
-        id: 'calendar',
-        title: 'Calendar',
+        id: "calendar",
+        title: "Calendar",
         icon: <Calendar />,
-        navLink: '/apps/calendar'
+        navLink: "/apps/calendar",
       },
       {
-        id: 'kanban',
-        title: 'Kanban',
+        id: "kanban",
+        title: "Kanban",
         icon: <CheckSquare size={20} />,
-        navLink: '/apps/kanban'
+        navLink: "/apps/kanban",
       },
       {
-        id: 'invoiceApp',
-        title: 'Invoice',
+        id: "invoiceApp",
+        title: "Invoice",
         icon: <FileText />,
         children: [
           {
-            id: 'invoiceList',
-            title: 'List',
+            id: "invoiceList",
+            title: "List",
             icon: <Circle />,
-            navLink: '/apps/invoice/list'
+            navLink: "/apps/invoice/list",
           },
           {
-            id: 'invoicePreview',
-            title: 'Preview',
+            id: "invoicePreview",
+            title: "Preview",
             icon: <Circle />,
-            navLink: '/apps/invoice/preview'
+            navLink: "/apps/invoice/preview",
           },
           {
-            id: 'invoiceEdit',
-            title: 'Edit',
+            id: "invoiceEdit",
+            title: "Edit",
             icon: <Circle />,
-            navLink: '/apps/invoice/edit'
+            navLink: "/apps/invoice/edit",
           },
           {
-            id: 'invoiceAdd',
-            title: 'Add',
+            id: "invoiceAdd",
+            title: "Add",
             icon: <Circle />,
-            navLink: '/apps/invoice/add'
-          }
-        ]
+            navLink: "/apps/invoice/add",
+          },
+        ],
       },
       {
-        id: 'roles-permissions',
-        title: 'Roles & Permissions',
+        id: "roles-permissions",
+        title: "Roles & Permissions",
         icon: <Shield size={20} />,
         children: [
           {
-            id: 'roles',
-            title: 'Roles',
+            id: "roles",
+            title: "Roles",
             icon: <Circle size={12} />,
-            navLink: '/apps/roles'
+            navLink: "/apps/roles",
           },
           {
-            id: 'permissions',
-            title: 'Permissions',
+            id: "permissions",
+            title: "Permissions",
             icon: <Circle size={12} />,
-            navLink: '/apps/permissions'
-          }
-        ]
+            navLink: "/apps/permissions",
+          },
+        ],
       },
       {
-        id: 'eCommerce',
-        title: 'eCommerce',
+        id: "eCommerce",
+        title: "eCommerce",
         icon: <ShoppingCart />,
         children: [
           {
-            id: 'shop',
-            title: 'Shop',
+            id: "shop",
+            title: "Shop",
             icon: <Circle />,
-            navLink: '/apps/ecommerce/shop'
+            navLink: "/apps/ecommerce/shop",
           },
           {
-            id: 'detail',
-            title: 'Details',
+            id: "detail",
+            title: "Details",
             icon: <Circle />,
-            navLink: '/apps/ecommerce/product-detail'
+            navLink: "/apps/ecommerce/product-detail",
           },
           {
-            id: 'wishList',
-            title: 'Wish List',
+            id: "wishList",
+            title: "Wish List",
             icon: <Circle />,
-            navLink: '/apps/ecommerce/wishlist'
+            navLink: "/apps/ecommerce/wishlist",
           },
           {
-            id: 'checkout',
-            title: 'Checkout',
+            id: "checkout",
+            title: "Checkout",
             icon: <Circle />,
-            navLink: '/apps/ecommerce/checkout'
-          }
-        ]
+            navLink: "/apps/ecommerce/checkout",
+          },
+        ],
       },
       {
-        id: 'users',
-        title: 'User',
+        id: "users",
+        title: "User",
         icon: <User />,
         children: [
           {
-            id: 'list',
-            title: 'List',
+            id: "list",
+            title: "List",
             icon: <Circle />,
-            navLink: '/apps/user/list'
+            navLink: "/apps/student/list",
           },
           {
-            id: 'view',
-            title: 'View',
+            id: "view",
+            title: "View",
             icon: <Circle />,
-            navLink: '/apps/user/view'
-          }
-        ]
-      }
-    ]
-  }
-]
+            navLink: "/apps/student/view",
+          },
+        ],
+      },
+    ],
+  },
+];

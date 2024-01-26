@@ -1,20 +1,26 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from 'react'
-
-
+import { Fragment, useState, useEffect } from "react";
 
 // ** Table Columns
-import { columns } from './columns'
+import { columns } from "./columns";
 
 // ** Store & Actions
-import { getAllData, getAppointments, getData } from '../user/store'
-import { useDispatch, useSelector } from 'react-redux'
+import { getAllData, getAppointments, getData } from "../student/store";
+import { useDispatch, useSelector } from "react-redux";
 
 // ** Third Party Components
-import Select from 'react-select'
-import ReactPaginate from 'react-paginate'
-import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy } from 'react-feather'
+import Select from "react-select";
+import ReactPaginate from "react-paginate";
+import DataTable from "react-data-table-component";
+import {
+  ChevronDown,
+  Share,
+  Printer,
+  FileText,
+  File,
+  Grid,
+  Copy,
+} from "react-feather";
 
 import {
   Row,
@@ -29,58 +35,62 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  UncontrolledDropdown
-} from 'reactstrap'
+  UncontrolledDropdown,
+} from "reactstrap";
 
-
-const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
+const CustomHeader = ({
+  store,
+  handlePerPage,
+  rowsPerPage,
+  handleFilter,
+  searchTerm,
+}) => {
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {
-    let result
+    let result;
 
-    const columnDelimiter = ','
-    const lineDelimiter = '\n'
-    const keys = Object.keys(filteredAppointments[0])
+    const columnDelimiter = ",";
+    const lineDelimiter = "\n";
+    const keys = Object.keys(filteredAppointments[0]);
 
-    result = ''
-    result += keys.join(columnDelimiter)
-    result += lineDelimiter
+    result = "";
+    result += keys.join(columnDelimiter);
+    result += lineDelimiter;
 
-    array.forEach(item => {
-      let ctr = 0
-      keys.forEach(key => {
-        if (ctr > 0) result += columnDelimiter
+    array.forEach((item) => {
+      let ctr = 0;
+      keys.forEach((key) => {
+        if (ctr > 0) result += columnDelimiter;
 
-        result += item[key]
+        result += item[key];
 
-        ctr++
-      })
-      result += lineDelimiter
-    })
+        ctr++;
+      });
+      result += lineDelimiter;
+    });
 
-    return result
+    return result;
   }
 
-
   return (
-    <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
+    <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">
       <Row>
-        <Col xl='12' className='d-flex align-items-center p-0'>
-          <div className='d-flex align-items-center w-100'>
-            <label htmlFor='rows-per-page'>Ver</label>
+        <Col xl="12" className="d-flex align-items-center p-0">
+          <div className="d-flex align-items-center w-100">
+            <label htmlFor="rows-per-page">Ver</label>
             <Input
-              className='mx-50'
-              type='select'
-              id='rows-per-page'
+              className="mx-50"
+              type="select"
+              id="rows-per-page"
               value={rowsPerPage}
               onChange={handlePerPage}
-              style={{ width: '5rem' }}
+              style={{ width: "5rem" }}
             >
-              <option value='10'>10</option>
-              <option value='25'>25</option>
-              <option value='50'>50</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
             </Input>
-            <label htmlFor='rows-per-page'>Tratamientos</label>
+            <label htmlFor="rows-per-page">Tratamientos</label>
           </div>
           {/*  <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
             <label className='mb-0' htmlFor='search-invoice'>
@@ -95,74 +105,74 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
             />
           </div> */}
         </Col>
-
       </Row>
     </div>
-  )
-}
-
+  );
+};
 
 const UsersList = () => {
   // ** Store Vars
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
-
-
+  const dispatch = useDispatch();
+  const store = useSelector((state) => state.users);
 
   // ** States
 
-  const [sort, setSort] = useState('asc')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [sortColumn, setSortColumn] = useState('id')
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 })
+  const [sort, setSort] = useState("asc");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortColumn, setSortColumn] = useState("id");
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState({
+    value: "",
+    label: "Select Status",
+    number: 0,
+  });
 
   // ** Function to toggle sidebar
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen)
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const QUOTE_REQUESTED = "QUOTE_REQUESTED";
 
   const filterAppointmentsByDNI = (appointments, selectedUser) => {
     // Obtener el DNI de selectedUser y de cada objeto en appointments
     const selectedUserDNI = selectedUser.DNI;
-    
+
     // Filtrar los objetos de appointments cuyo DNI sea igual al de selectedUser
-    const appointmentsWithSelectedUserDNI = appointments.filter(appointment => appointment.DNI_Student === selectedUserDNI);
-  
+    const appointmentsWithSelectedUserDNI = appointments.filter(
+      (appointment) => appointment.DNI_Student === selectedUserDNI
+    );
+
     return appointmentsWithSelectedUserDNI;
+  };
 
-  }
+  console.log(store.appoitments);
 
-  console.log(store.appoitments)
-
-  const filteredAppointments = filterAppointmentsByDNI(store.appoitments, store.selectedUser);
+  const filteredAppointments = filterAppointmentsByDNI(
+    store.appoitments,
+    store.selectedUser
+  );
   // filteredAppointments();
   console.log(filteredAppointments);
 
-
   // ** Get data on mount
   useEffect(() => {
-
-  dispatch(
-    getAppointments({
-      sort,
-      sortColumn,
-      q: searchTerm,
-      page: currentPage,
-      perPage: rowsPerPage,
-      status: currentStatus.value,
-      data: store.allData.length
-    })
-    
-  )
-}, [dispatch, store.allData.length, sort, sortColumn, currentPage])
+    dispatch(
+      getAppointments({
+        sort,
+        sortColumn,
+        q: searchTerm,
+        page: currentPage,
+        perPage: rowsPerPage,
+        status: currentStatus.value,
+        data: store.allData.length,
+      })
+    );
+  }, [dispatch, store.allData.length, sort, sortColumn, currentPage]);
 
   // ** User filter options
 
-
   // ** Function in get data on page change
-  const handlePagination = page => {
+  const handlePagination = (page) => {
     dispatch(
       getAppointments({
         sort,
@@ -171,15 +181,15 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: store.allData
+        data: store.allData,
       })
-    )
-    setCurrentPage(page.selected + 1)
-  }
+    );
+    setCurrentPage(page.selected + 1);
+  };
 
   // ** Function in get data on rows per page
-  const handlePerPage = e => {
-    const value = parseInt(e.currentTarget.value)
+  const handlePerPage = (e) => {
+    const value = parseInt(e.currentTarget.value);
     dispatch(
       getAppointments({
         sort,
@@ -188,16 +198,15 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: store.allData
+        data: store.allData,
       })
-    )
-    setRowsPerPage(value)
-  }
-
+    );
+    setRowsPerPage(value);
+  };
 
   // ** Function in get data on search query change
-  const handleFilter = val => {
-    setSearchTerm(val)
+  const handleFilter = (val) => {
+    setSearchTerm(val);
     dispatch(
       getAppointments({
         sort,
@@ -206,56 +215,61 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: store.allData
+        data: store.allData,
       })
-    )
-  }
+    );
+  };
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(filteredAppointments.length / rowsPerPage))
-    console.log(count )
+    const count = Number(Math.ceil(filteredAppointments.length / rowsPerPage));
+    console.log(count);
     return (
       <ReactPaginate
-        previousLabel={''}
-        nextLabel={''}
+        previousLabel={""}
+        nextLabel={""}
         pageCount={count || 1}
-        activeClassName='active'
+        activeClassName="active"
         forcePage={currentPage !== 0 ? currentPage - 1 : 0}
-        onPageChange={page => handlePagination(page)}
-        pageClassName={'page-item'}
-        nextLinkClassName={'page-link'}
-        nextClassName={'page-item next'}
-        previousClassName={'page-item prev'}
-        previousLinkClassName={'page-link'}
-        pageLinkClassName={'page-link'}
-        containerClassName={'pagination react-paginate justify-content-end my-2 pe-1'}
+        onPageChange={(page) => handlePagination(page)}
+        pageClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        nextClassName={"page-item next"}
+        previousClassName={"page-item prev"}
+        previousLinkClassName={"page-link"}
+        pageLinkClassName={"page-link"}
+        containerClassName={
+          "pagination react-paginate justify-content-end my-2 pe-1"
+        }
       />
-    )
-  }
+    );
+  };
 
   // ** Table data to render
   const dataToRender = () => {
     const filters = {
       status: currentStatus.value,
-      q: searchTerm
-    }
+      q: searchTerm,
+    };
 
     const isFiltered = Object.keys(filters).some(function (k) {
-      return filters[k].length > 0
-    })
+      return filters[k].length > 0;
+    });
 
     if (filteredAppointments !== undefined && filteredAppointments.length > 0) {
-      return filteredAppointments
-    } else if (filteredAppointments === undefined || filteredAppointments.length === 0 && isFiltered) {
-      return []
+      return filteredAppointments;
+    } else if (
+      filteredAppointments === undefined ||
+      (filteredAppointments.length === 0 && isFiltered)
+    ) {
+      return [];
     } else {
-      return filteredAppointments.slice(0, rowsPerPage)
+      return filteredAppointments.slice(0, rowsPerPage);
     }
-  }
+  };
   const handleSort = (column, sortDirection) => {
-    setSort(sortDirection)
-    setSortColumn(column.sortField)
+    setSort(sortDirection);
+    setSortColumn(column.sortField);
     dispatch(
       getAppointments({
         sort,
@@ -264,19 +278,17 @@ const UsersList = () => {
         page: currentPage,
         perPage: rowsPerPage,
         status: currentStatus.value,
-        data: store.allData
+        data: store.allData,
       })
-    )
-  }
+    );
+  };
 
   return (
     <Fragment>
-      {
+      {}
 
-      }
-
-      <Card className='overflow-hidden'>
-        <div className='react-dataTable'>
+      <Card className="overflow-hidden">
+        <div className="react-dataTable">
           <DataTable
             noHeader
             subHeader
@@ -287,7 +299,7 @@ const UsersList = () => {
             columns={columns}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
-            className='react-dataTable'
+            className="react-dataTable"
             paginationComponent={CustomPagination}
             data={dataToRender()}
             subHeaderComponent={
@@ -303,10 +315,8 @@ const UsersList = () => {
           />
         </div>
       </Card>
-
-
     </Fragment>
-  )
-}
+  );
+};
 
-export default UsersList
+export default UsersList;
