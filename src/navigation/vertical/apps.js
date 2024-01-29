@@ -1,33 +1,42 @@
 // ** Icons Import
-import { Mail, MessageSquare, CheckSquare, Calendar, FileText, Circle, ShoppingCart, Users } from 'react-feather'
+import {
+  Mail,
+  MessageSquare,
+  CheckSquare,
+  Calendar,
+  FileText,
+  Circle,
+  ShoppingCart,
+  Users,
+} from "react-feather";
 
 export default [
   {
-    header: 'Aplicación'
+    header: "Aplicación",
   },
 
   {
-    id: 'calendar',
-    title: 'Calendario',
+    id: "calendar",
+    title: "Calendario",
     icon: <Calendar size={20} />,
-    navLink: '/apps/calendar'
+    navLink: "/apps/calendar",
   },
   {
-    id: 'clientList',
-    title: 'Clientes',
+    id: "clientList",
+    title: "Clientes",
     icon: <Users size={12} />,
-    navLink: '/apps/client/list'
+    navLink: "/apps/client/list",
   },
   {
-    id: 'ProfessorList',
-    title: 'Profesores',
+    id: "ProfessorList",
+    title: "Profesores",
     icon: <Users size={12} />,
-    navLink: '/apps/profesor/list'
+    navLink: "/apps/profesor/list",
   },
   {
-    id: 'PupilList',
-    title: 'Alumnos',
+    id: "PupilList",
+    title: "Alumnos",
     icon: <Users size={12} />,
-    navLink: '/apps/user/list'
+    navLink: "/apps/student/list",
   },
-]
+];

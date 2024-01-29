@@ -15,7 +15,6 @@ const CardMedal = () => {
             Disfruta !!!
           </a>
         </h3>
-        <Button color='primary'>Ver Perfil</Button>
         <img className='congratulation-medal' src={medal} alt='Medal Pic' />
       </CardBody>
     </Card>
