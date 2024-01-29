@@ -14,6 +14,8 @@ import {
 
 // ** Custom Components
 import Avatar from '@components/avatar';
+import { selectThemeColors } from '@utils';
+
 
 // ** Styles
 import '@styles/react/libs/tables/react-dataTable-component.scss';
@@ -21,42 +23,44 @@ import { Controller, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { updateClientBy } from '../../../../services/api';
+import CreatableSelect from 'react-select/creatable';
 
-const ClientSheetsList = ({entity, setEntity}) => {
-  const initialValues = {    
+
+const ClientSheetsList = ({ entity, setEntity }) => {
+  const initialValues = {
     Alergias: '',
-  Patologias: '',
-  Intervenciones: '',
-  Medicamento: '',
-  Protesis: '',
-  Otros_antecedentes: '',
-  Fuma: '',
-  Frecuencia_fuma: '',
-  alcohol: '',
-  Frecuencia_alcohol: '',
-  agua: '',
-  Frecuencia_agua: '',
-  deporte: '',
-  Frecuencia_deporte: '',
-  tipo_vida: '',
-  tolerancia_solar: '',
-  Cicatricacion: '',
-  Alimentacion: '',
-  tratamientos: '',
-  Problema: '',
-  Problema_tiempo: '',
-  Problema_relacion: '',
-  Cosmeticos: '',
-  Otros_esteticos: '',
-}
+    Patologias: '',
+    Intervenciones: '',
+    Medicamento: '',
+    Protesis: '',
+    Otros_antecedentes: '',
+    Fuma: '',
+    Frecuencia_fuma: '',
+    alcohol: '',
+    Frecuencia_alcohol: '',
+    agua: '',
+    Frecuencia_agua: '',
+    deporte: '',
+    Frecuencia_deporte: '',
+    tipo_vida: '',
+    tolerancia_solar: '',
+    Cicatricacion: '',
+    Alimentacion: '',
+    tratamientos: '',
+    Problema: '',
+    Problema_tiempo: '',
+    Problema_relacion: '',
+    Cosmeticos: '',
+    Otros_esteticos: '',
+  }
 
-  const [data, setData] = useState( entity.more_info.length > 10 ? JSON.parse(entity.more_info) : initialValues );
+  const [data, setData] = useState(entity.more_info.length > 10 ? JSON.parse(entity.more_info) : initialValues);
 
   const { reset, handleSubmit, control } = useForm({ initialValues });
-  
+
   // ** Get data on mount
   useEffect(() => {
- 
+
     try {
       setData(JSON.parse(entity.more_info));
     } catch (error) {
@@ -64,7 +68,7 @@ const ClientSheetsList = ({entity, setEntity}) => {
     }
     handleReset();
   }, [entity]);
-  
+
   /**
    * Funcition that excute the save button
    * @param {*} data to save into client
@@ -103,6 +107,12 @@ const ClientSheetsList = ({entity, setEntity}) => {
       Otros_esteticos: data.Otros_esteticos || '',
     });
   };
+
+  const selectYesNo = [
+    {value:'Si', label:'Si'},
+    {value:'No', label:'No'}
+
+  ];
 
   return (
     <Card>
@@ -218,7 +228,15 @@ const ClientSheetsList = ({entity, setEntity}) => {
                 id="Fuma"
                 name="Fuma"
                 render={({ field }) => (
-                  <Input {...field} type="text" placeholder="Fumador" />
+                  <CreatableSelect
+                    options={selectYesNo}
+                    noOptionsMessage={()=> 'Nada Disponible'}
+                    placeholder="Selecciona..."
+                    theme={selectThemeColors}
+                    classNamePrefix="select"
+                    className="react-select"
+                    {...field}
+                  />
                 )}
               />
             </Col>
@@ -246,7 +264,15 @@ const ClientSheetsList = ({entity, setEntity}) => {
                 id="alcohol"
                 name="alcohol"
                 render={({ field }) => (
-                  <Input {...field} type="text" placeholder="Bebedor" />
+                  <CreatableSelect
+                    options={selectYesNo}
+                    noOptionsMessage={()=> 'Nada Disponible'}
+                    placeholder="Selecciona..."
+                    theme={selectThemeColors}
+                    classNamePrefix="select"
+                    className="react-select"
+                    {...field}
+                  />
                 )}
               />
             </Col>
@@ -274,7 +300,15 @@ const ClientSheetsList = ({entity, setEntity}) => {
                 id="agua"
                 name="agua"
                 render={({ field }) => (
-                  <Input {...field} type="text" placeholder="Si" />
+                  <CreatableSelect
+                    options={selectYesNo}
+                    noOptionsMessage={()=> 'Nada Disponible'}
+                    placeholder="Selecciona..."
+                    theme={selectThemeColors}
+                    classNamePrefix="select"
+                    className="react-select"
+                    {...field}
+                  />
                 )}
               />
             </Col>
@@ -302,7 +336,15 @@ const ClientSheetsList = ({entity, setEntity}) => {
                 id="deporte"
                 name="deporte"
                 render={({ field }) => (
-                  <Input {...field} type="text" placeholder="Deportista" />
+                  <CreatableSelect
+                    options={selectYesNo}
+                    noOptionsMessage={()=> 'Nada Disponible'}
+                    placeholder="Selecciona..."
+                    theme={selectThemeColors}
+                    classNamePrefix="select"
+                    className="react-select"
+                    {...field}
+                  />
                 )}
               />
             </Col>
