@@ -48,30 +48,6 @@ export const columns = [
     )
   },
   {
-    name: 'dni',
-    sortable: true,
-    minWidth: '80px',
-    sortField: 'dni',
-    selector: row => row.dni,
-    cell: row => <span className='text-capitalize'>{row.dni}</span>
-  },
-  {
-    name: 'Email',
-    sortable: true,
-    minWidth: '200px',
-    sortField: 'email',
-    selector: row => row.email,
-    cell: row => <span className='text-capitalize'>{row.email}</span>
-  },
-  {
-    name: 'Fecha de Nacimiento',
-    minWidth: '200px',
-    sortable: true,
-    sortField: 'birth_date',
-    selector: row => row.birth_date,
-    cell: row => <span className='text-capitalize'>{row.birth_date}</span>
-  },
-  {
     name: 'Teléfono',
     minWidth: '170px',
     sortable: true,
