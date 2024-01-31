@@ -525,3 +525,19 @@ export const deleteAppointmentCloudinary = async (data) => {
     },
   });
 };
+
+/* Vocational Education */
+
+/**
+ * Http Request to get all vocational education
+ * @returns vocational education data
+ */
+export const apiGetAllVocationalEducation = async () => {
+  return await ApiConnect.get("vocationaleducation", {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    },
+  })
+};

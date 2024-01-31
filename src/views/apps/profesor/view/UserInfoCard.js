@@ -21,7 +21,7 @@ import {
 // ** Third Party Components
 import Swal from "sweetalert2";
 import Select from "react-select";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, set } from "react-hook-form";
 import withReactContent from "sweetalert2-react-content";
 
 // ** Custom Components
@@ -31,25 +31,7 @@ import Avatar from "@components/avatar";
 import "@styles/react/libs/react-select/_react-select.scss";
 import { toast } from "react-hot-toast";
 import { validateDNI, validateUserData } from "../../../../utility/Utils";
-
-const cycleOptions = [
-  {
-    label: "Grado Medio - Peluquería y cosmética capilar",
-    value: "Grado Medio - Peluquería y cosmética capilar",
-  },
-  {
-    label: "Grado Medio - Estética y belleza",
-    value: "Grado Medio - Estética y belleza",
-  },
-  {
-    label: "Grado Superior - Estética integral y bienestar",
-    value: "Grado Superior - Estética integral y bienestar",
-  },
-  {
-    label: "Grado Superior - Estilismo y dirección de peluquería",
-    value: "Grado Superior - Estilismo y dirección de peluquería",
-  },
-];
+import { apiGetAllVocationalEducation } from "../../../../services/api";
 
 const MySwal = withReactContent(Swal);
 
@@ -60,19 +42,37 @@ const UserInfoCard = ({ id }) => {
   const selectedUser =
     id == "0"
       ? {
-          name: "",
-          surname: "",
-          email: "",
-          dni: "",
-          course_year: "",
-          cycle: "",
-          password: "",
-          repassword: "",
-        }
+        name: "",
+        surname: "",
+        email: "",
+        dni: "",
+        course_year: "",
+        cycle: "",
+        password: "",
+        repassword: "",
+      }
       : store.selectedProfesor;
 
   // ** State
   const [show, setShow] = useState(false);
+  const [cycleOptions, setCycleOptions] = useState(null);
+
+  const getAllVocEdu = () => {
+    apiGetAllVocationalEducation()
+      .then((response) => {
+        console.log(response.data.data);
+        const cycleOption = response.data.data.map((item) => {
+          return {
+            label: item.long_name,
+            value: item.long_name,
+          };
+        });
+        setCycleOptions(cycleOption);
+      })
+      .catch((error) => {
+        console.log('Error: ' + error)
+      })
+  }
 
   useEffect(() => {
     if (id == "0") {
@@ -219,6 +219,7 @@ const UserInfoCard = ({ id }) => {
               onClick={() => {
                 handleReset();
                 setShow(true);
+                getAllVocEdu();
               }}
             >
               Editar
@@ -303,7 +304,7 @@ const UserInfoCard = ({ id }) => {
               </Col>
               <Col md={6} xs={12}>
                 <Label className="form-label" for="dni">
-                  Dni
+                  DNI
                 </Label>
                 <Controller
                   defaultValue={selectedUser.dni}
