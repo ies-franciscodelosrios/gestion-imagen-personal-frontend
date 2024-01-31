@@ -36,14 +36,7 @@ import { selectThemeColors } from '@utils'
 import '@styles/react/libs/react-select/_react-select.scss'
 import { toast } from 'react-hot-toast';
 import { validateDNI, validateUserData } from '../../../../utility/Utils';
-
-const cycleOptions = [
-  { label: 'Grado Medio - Peluquería y cosmética capilar', value: 'Grado Medio - Peluquería y cosmética capilar' },
-  { label: 'Grado Medio - Estética y belleza', value: 'Grado Medio - Estética y belleza' },
-  { label: 'Grado Superior - Estética integral y bienestar', value: 'Grado Superior - Estética integral y bienestar' },
-  { label: 'Grado Superior - Estilismo y dirección de peluquería', value: 'Grado Superior - Estilismo y dirección de peluquería' },
-];
-
+import { apiGetAllVocationalEducation } from '../../../../services/api';
 
 const UserInfoCard = () => {
   // ** Store Vars
@@ -54,6 +47,24 @@ const UserInfoCard = () => {
   // ** State
   const selectedUser = store.selectedUser;
   const [show, setShow] = useState(false)
+  const [cycleOptions, setCycleOptions] = useState(null);
+
+  const getAllVocEdu = () => {
+    apiGetAllVocationalEducation()
+      .then((response) => {
+        console.log(response.data.data);
+        const cycleOption = response.data.data.map((item) => {
+          return {
+            label: item.long_name,
+            value: item.long_name,
+          };
+        });
+        setCycleOptions(cycleOption);
+      })
+      .catch((error) => {
+        console.log('Error: ' + error)
+      })
+  }
 
   // ** Hook
   const {
@@ -107,13 +118,13 @@ const UserInfoCard = () => {
     updatedUser.course_year = data.course_year;
     updatedUser.password = data.password;
     updatedUser.repassword = data.repassword;
-    
+
     if (validateUserData(data)) {
       dispatch(updateUser(updatedUser));
       setShow(false);
     } else {
       for (const key in data) {
-        if (!validateDNI(data.dni))setError('dni',{})
+        if (!validateDNI(data.dni)) setError('dni', {})
         if (data[key].length === 0 && !key.includes('pass')) {
           setError(key, {
             type: 'manual'
@@ -130,7 +141,7 @@ const UserInfoCard = () => {
       email: selectedUser.email,
       dni: selectedUser.dni,
       cycle: selectedUser.cycle.label,
-      course_year:selectedUser.course_year,
+      course_year: selectedUser.course_year,
       password: '',
       repassword: '',
     })
@@ -184,7 +195,7 @@ const UserInfoCard = () => {
             ) : null}
           </div>
           <div className="d-flex justify-content-center pt-2">
-            <Button color="primary" onClick={() => { handleReset(); setShow(true) }}>
+            <Button color="primary" onClick={() => { handleReset(); setShow(true); getAllVocEdu(); }}>
               Editar
             </Button>
           </div>
@@ -274,7 +285,7 @@ const UserInfoCard = () => {
                   id="dni"
                   name="dni"
                   render={({ field }) => (
-                    <Input {...field} id="dni" placeholder="31000000C" invalid={errors.dni && true}/>
+                    <Input {...field} id="dni" placeholder="31000000C" invalid={errors.dni && true} />
                   )}
                 />
               </Col>
@@ -283,7 +294,7 @@ const UserInfoCard = () => {
                   Ciclo <span className="text-danger">*</span>
                 </Label>
                 <Controller
-                  defaultValue={{label:selectedUser.cycle, value:selectedUser.cycle}} // Set the default value to the first option in the array
+                  defaultValue={{ label: selectedUser.cycle, value: selectedUser.cycle }} // Set the default value to the first option in the array
                   control={control}
                   id="cycle"
                   name="cycle"
@@ -319,7 +330,7 @@ const UserInfoCard = () => {
                     />
                   )}
                 />
-              </Col>              
+              </Col>
               <Col md={6} xs={12}>
                 <Label className='form-label' for='repassword'>
                   Repite Contraseña
