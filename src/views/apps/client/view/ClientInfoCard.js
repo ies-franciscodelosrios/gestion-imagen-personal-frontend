@@ -55,10 +55,10 @@ const ClientInfoCard = ({ entity, setEntity }) => {
   const renderUserImg = () => {
     return (
       <Avatar
-        initials
+        initials={true}
         color={'light-primary'}
         className="rounded mt-3 mb-2"
-        content={entity.name}
+        content={entity.name || ''}
         contentStyles={{
           borderRadius: 0,
           fontSize: 'calc(48px)',
@@ -79,7 +79,7 @@ const ClientInfoCard = ({ entity, setEntity }) => {
       setShow(false);
     } else {
       for (const key in data) {
-        if (!validateDNI(data.dni))setError('dni',{})
+        if (!validateDNI(data.dni)) setError('dni', {})
         if (data[key].length === 0) {
           setError(key, {
             type: 'manual'
@@ -90,7 +90,7 @@ const ClientInfoCard = ({ entity, setEntity }) => {
   };
 
   const handleReset = () => {
-    reset({...entity});
+    reset({ ...entity });
   };
 
   return (
@@ -103,9 +103,9 @@ const ClientInfoCard = ({ entity, setEntity }) => {
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info">
                   <h4>
-                    {entity !== null
+                    {entity && entity.name && entity.surname
                       ? entity.name.concat(' ' + entity.surname)
-                      : 'Eleanor Aguilar'}
+                      : ''}
                   </h4>
                 </div>
               </div>
