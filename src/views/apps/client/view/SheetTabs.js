@@ -35,10 +35,11 @@ const SheetTabs = ({ entity, setEntity }) => {
   const dispatch = useDispatch();
 
   const [datatab1, setDatatab1] = useState(
-    entity.life_style.length > 20
+    entity.life_style && entity.life_style.length > 20
       ? JSON.parse(entity.life_style)
       : {}
   );
+
 
 
   // ** State
@@ -370,60 +371,62 @@ const SheetTabs = ({ entity, setEntity }) => {
     handleReset();
   };
   const handleReset = () => {
-    reset({
-      Coloracion: datatab1['Coloracion'] || '',
-      Grosor_piel: datatab1['Grosor_piel'] || '',
-      Tacto: datatab1['Tacto'] || '',
-      Brillo_piel: datatab1['Brillo_piel'] || '',
-      Aspecto_poro: datatab1['Aspecto_poro'] || '',
-      Grado_hidratacion: datatab1['Grado_hidratacion'] || '',
-      Secreciones_sebaceas: datatab1['Secreciones_sebaceas'] || '',
-      Alteraciones_secrecion: datatab1['Alteraciones_secrecion'] || '',
-      Alteracion_pigmento: datatab1['Alteracion_pigmento'] || '',
-      Alteracion_vacular: datatab1['Alteracion_vacular'] || '',
-      Alteracion_vello: datatab1['Alteracion_vello'] || '',
-      Tono_muscular: datatab1['Tono_muscular'] || '',
-      Descamacion: datatab1['Descamacion'] || '',
-      Arrugas: datatab1['Arrugas'] || '',
-      Flacidez: datatab1['Flacidez'] || '',
-      Bosas_palpebrales: datatab1['Bosas_palpebrales'] || '',
-      Otras_alteraciones: datatab1['Otras_alteraciones'] || '',
-      Lupa: datatab1['Lupa'] || '',
-      Medidor_de_hidratacion: datatab1['Medidor_de_hidratacion'] || '',
-      Luz_de_Wood: datatab1['Luz_de_Wood'] || '',
-      Otros_medios: datatab1['Otros_medios'] || '',
-      Tipo: datatab1['Tipo'] || '',
-      Alteraciones: datatab1['Alteraciones'] || '',
-      // TAB 2
-      t2Coloracion: datatab1['t2Coloracion'] || '',
-      t2Tacto: datatab1['t2Tacto'] || '',
-      t2Brillo_piel: datatab1['t2Brillo_piel'] || '',
-      t2Grado_hidratacion: datatab1['t2Grado_hidratacion'] || '',
-      t2Secreciones_sebaceas: datatab1['t2Secreciones_sebaceas'] || '',
-      t2Alteracion_vacular: datatab1['t2Alteracion_vacular'] || '',
-      t2Alteracion_Tallo_Capilar: datatab1['t2Alteracion_Tallo_Capilar'] || '',
-      t2Descamacion: datatab1['t2Descamacion'] || '',
-      t2Otras_alteraciones: datatab1['t2Otras_alteraciones'] || '',
-      t2Microcamara: datatab1['t2Microcamara'] || '',
-      t2Otros_medios: datatab1['t2Otros_medios'] || '',
-      t2Frecuencia_lavado: datatab1['t2Frecuencia_lavado'] || '',
-      t2Comsmeticos_habituales: datatab1['t2Comsmeticos_habituales'] || '',
-      t2Frecuencia_secador: datatab1['t2Frecuencia_secador'] || '',
-      t2Frecuencia_plancha: datatab1['t2Frecuencia_plancha'] || '',
-      t2Uso_utensilios_peluqueria: datatab1['t2Uso_utensilios_peluqueria'] || '',
-      t2Frecuencia_asis_peluqueria: datatab1['t2Frecuencia_asis_peluqueria'] || '',
-      t2Servicios_peluqueria: datatab1['t2Servicios_peluqueria'] || '',
-      t2Tipo: datatab1['t2Tipo'] || '',
-      t2Alteraciones: datatab1['t2Alteraciones'] || '',
-      //TAB 3
-      t3Altura_Tono: datatab1['t3Altura_Tono'] || '',
-      t3Reflejo: datatab1['t3Reflejo'] || '',
-      t3Intensidad: datatab1['t3Intensidad'] || '',
-      t3Porcetaje_canas: datatab1['t3Porcetaje_canas'] || '',
-      t3Color_deseado: datatab1['t3Color_deseado'] || '',
-      t3Formula: datatab1['t3Formula'] || '',
-      t3Cabello: datatab1['t3Cabello'] || '',
-    });
+    if (datatab1 !== null) {
+      reset({
+        Coloracion: datatab1['Coloracion'] || '',
+        Grosor_piel: datatab1['Grosor_piel'] || '',
+        Tacto: datatab1['Tacto'] || '',
+        Brillo_piel: datatab1['Brillo_piel'] || '',
+        Aspecto_poro: datatab1['Aspecto_poro'] || '',
+        Grado_hidratacion: datatab1['Grado_hidratacion'] || '',
+        Secreciones_sebaceas: datatab1['Secreciones_sebaceas'] || '',
+        Alteraciones_secrecion: datatab1['Alteraciones_secrecion'] || '',
+        Alteracion_pigmento: datatab1['Alteracion_pigmento'] || '',
+        Alteracion_vacular: datatab1['Alteracion_vacular'] || '',
+        Alteracion_vello: datatab1['Alteracion_vello'] || '',
+        Tono_muscular: datatab1['Tono_muscular'] || '',
+        Descamacion: datatab1['Descamacion'] || '',
+        Arrugas: datatab1['Arrugas'] || '',
+        Flacidez: datatab1['Flacidez'] || '',
+        Bosas_palpebrales: datatab1['Bosas_palpebrales'] || '',
+        Otras_alteraciones: datatab1['Otras_alteraciones'] || '',
+        Lupa: datatab1['Lupa'] || '',
+        Medidor_de_hidratacion: datatab1['Medidor_de_hidratacion'] || '',
+        Luz_de_Wood: datatab1['Luz_de_Wood'] || '',
+        Otros_medios: datatab1['Otros_medios'] || '',
+        Tipo: datatab1['Tipo'] || '',
+        Alteraciones: datatab1['Alteraciones'] || '',
+        // TAB 2
+        t2Coloracion: datatab1['t2Coloracion'] || '',
+        t2Tacto: datatab1['t2Tacto'] || '',
+        t2Brillo_piel: datatab1['t2Brillo_piel'] || '',
+        t2Grado_hidratacion: datatab1['t2Grado_hidratacion'] || '',
+        t2Secreciones_sebaceas: datatab1['t2Secreciones_sebaceas'] || '',
+        t2Alteracion_vacular: datatab1['t2Alteracion_vacular'] || '',
+        t2Alteracion_Tallo_Capilar: datatab1['t2Alteracion_Tallo_Capilar'] || '',
+        t2Descamacion: datatab1['t2Descamacion'] || '',
+        t2Otras_alteraciones: datatab1['t2Otras_alteraciones'] || '',
+        t2Microcamara: datatab1['t2Microcamara'] || '',
+        t2Otros_medios: datatab1['t2Otros_medios'] || '',
+        t2Frecuencia_lavado: datatab1['t2Frecuencia_lavado'] || '',
+        t2Comsmeticos_habituales: datatab1['t2Comsmeticos_habituales'] || '',
+        t2Frecuencia_secador: datatab1['t2Frecuencia_secador'] || '',
+        t2Frecuencia_plancha: datatab1['t2Frecuencia_plancha'] || '',
+        t2Uso_utensilios_peluqueria: datatab1['t2Uso_utensilios_peluqueria'] || '',
+        t2Frecuencia_asis_peluqueria: datatab1['t2Frecuencia_asis_peluqueria'] || '',
+        t2Servicios_peluqueria: datatab1['t2Servicios_peluqueria'] || '',
+        t2Tipo: datatab1['t2Tipo'] || '',
+        t2Alteraciones: datatab1['t2Alteraciones'] || '',
+        //TAB 3
+        t3Altura_Tono: datatab1['t3Altura_Tono'] || '',
+        t3Reflejo: datatab1['t3Reflejo'] || '',
+        t3Intensidad: datatab1['t3Intensidad'] || '',
+        t3Porcetaje_canas: datatab1['t3Porcetaje_canas'] || '',
+        t3Color_deseado: datatab1['t3Color_deseado'] || '',
+        t3Formula: datatab1['t3Formula'] || '',
+        t3Cabello: datatab1['t3Cabello'] || '',
+      });
+    }
   };
 
   // ** Get data on mount
