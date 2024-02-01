@@ -296,7 +296,7 @@ export const getClientByData = async (id) => {
  * @returns user data
  */
 export const updateClientBy = async (user) => {
-  return await ApiConnect.put(`client`, user, {
+  return await ApiConnect.put(`client/edit`, user, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -311,7 +311,7 @@ export const updateClientBy = async (user) => {
  */
 export const AddClient = async (user) => {
   return await ApiConnect.post(
-    `client`,
+    `client/add `,
     { ...user },
     {
       headers: {
