@@ -39,4 +39,10 @@ export default [
     icon: <Users size={12} />,
     navLink: "/apps/student/list",
   },
+  {
+    id: "VocEduList",
+    title: "FP",
+    icon: <Users size={12} />,
+    navLink: "/apps/vocationaleducation/list",
+  },
 ];

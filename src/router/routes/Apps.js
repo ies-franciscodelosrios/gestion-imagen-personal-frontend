@@ -17,10 +17,12 @@ const EcommerceCheckout = lazy(() =>
 const UserList = lazy(() => import("../../views/apps/student/list"));
 const ListaProfesor = lazy(() => import("../../views/apps/profesor/list"));
 const ClientList = lazy(() => import("../../views/apps/client/list"));
+const VocEduList = lazy(() => import("../../views/apps/vocationaleducation/list"));
 
 const ClientView = lazy(() => import("../../views/apps/client/view"));
 const TeacherView = lazy(() => import("../../views/apps/profesor/view"));
 const UserView = lazy(() => import("../../views/apps/student/view"));
+const VocEduView = lazy(() => import("../../views/apps/vocationaleducation/view"));
 
 const AppRoutes = [
   {
@@ -95,6 +97,18 @@ const AppRoutes = [
   {
     element: <UserView />,
     path: "/apps/student/view/:id",
+  },
+  {
+    element: <VocEduList />,
+    path: "/apps/vocationaleducation/list",
+  },
+  {
+    path: "/apps/vocationaleducation/view",
+    element: <Navigate to="/apps/vocationaleducation/view/1" />,
+  },
+  {
+    element: <VocEduView />,
+    path: "/apps/vocationaleducation/view/:id",
   },
 ];
 
