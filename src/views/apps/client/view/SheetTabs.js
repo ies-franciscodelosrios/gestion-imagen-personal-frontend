@@ -355,7 +355,8 @@ const SheetTabs = ({ entity, setEntity }) => {
    */
   const onSubmit = async (data) => {
     entity.life_style = JSON.stringify(data);
-    await updateClientBy({ ...entity }).then(e => { setEntity(e.data); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
+    const newEntity={...entity}
+    await updateClientBy({ ...newEntity }).then(e => { setEntity(newEntity); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
     setDatatab1(data);
   };
 
