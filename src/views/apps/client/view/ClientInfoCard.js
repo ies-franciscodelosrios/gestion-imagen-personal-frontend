@@ -81,12 +81,14 @@ const ClientInfoCard = ({ entity, setEntity }) => {
 
   const onSubmit = async (data) => {
     if (validateClientData(data)) {
-      await updateClientBy({ ...entity, ...data }).then(e => { setEntity(e.data); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
+      const newEntity={...entity}
+      const newData={...data}
+      await updateClientBy({ ...newEntity, ...newData }).then(e => { setEntity(newData); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
       setShow(false);
     } else {
       for (const key in data) {
         if (!validateDNI(data.dni)) setError('dni', {})
-        if (data[key].length === 0) {
+        if (data[key] &&  data[key].length === 0) {
           setError(key, {
             type: 'manual'
           })

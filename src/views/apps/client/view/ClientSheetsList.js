@@ -24,7 +24,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { updateClientBy } from '../../../../services/api';
 import CreatableSelect from 'react-select/creatable';
-
+import Select from 'react-select';
 
 const ClientSheetsList = ({ entity, setEntity }) => {
   const initialValues = {
@@ -145,7 +145,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Patologías
               </Label>
               <Controller
-                defaultValue={data && data.Patologias ? data.Alergias : ''}
+                defaultValue={data && data.Patologias ? data.Patologias : ''}
                 control={control}
                 id="Patologias"
                 name="Patologias"
@@ -231,9 +231,10 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 id="Fuma"
                 name="Fuma"
                 render={({ field }) => (
-                  <CreatableSelect
+                  <Select
+                    isSearchable={(false)}
+                    isClearable={(true)}
                     options={selectYesNo}
-                    noOptionsMessage={()=> 'Nada Disponible'}
                     placeholder="Selecciona..."
                     theme={selectThemeColors}
                     classNamePrefix="select"
@@ -248,7 +249,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Frecuencia
               </Label>
               <Controller
-                defaultValue={data && data.Frecuencia_fuma ? data.Fuma :''}
+                defaultValue={data && data.Frecuencia_fuma ? data.Frecuencia_fuma :''}
                 control={control}
                 id="Frecuencia_fuma"
                 name="Frecuencia_fuma"
@@ -267,7 +268,8 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 id="alcohol"
                 name="alcohol"
                 render={({ field }) => (
-                  <CreatableSelect
+                  <Select
+                    isSearchable={(false)}
                     options={selectYesNo}
                     noOptionsMessage={()=> 'Nada Disponible'}
                     placeholder="Selecciona..."
@@ -303,9 +305,10 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 id="agua"
                 name="agua"
                 render={({ field }) => (
-                  <CreatableSelect
+                  <Select
+                    isSearchable={(false)}
+                    isClearable={(true)}
                     options={selectYesNo}
-                    noOptionsMessage={()=> 'Nada Disponible'}
                     placeholder="Selecciona..."
                     theme={selectThemeColors}
                     classNamePrefix="select"
@@ -339,9 +342,10 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 id="deporte"
                 name="deporte"
                 render={({ field }) => (
-                  <CreatableSelect
+                  <Select
+                    isSearchable={(false)}
+                    isClearable={(true)}
                     options={selectYesNo}
-                    noOptionsMessage={()=> 'Nada Disponible'}
                     placeholder="Selecciona..."
                     theme={selectThemeColors}
                     classNamePrefix="select"
