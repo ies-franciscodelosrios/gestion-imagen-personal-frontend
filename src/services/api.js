@@ -541,3 +541,54 @@ export const apiGetAllVocationalEducation = async () => {
     },
   })
 };
+
+export const apiGetVocationalEducationByID = async (id) => {
+  return await ApiConnect.get("vocationaleducation/" + id, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}
+
+export const apiAddVocationalEducation = async () => {
+  return await ApiConnect.post("vocationaleducation/add", {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}
+
+export const apiUpdateVocationalEducation = async (id) => {
+  return await ApiConnect.put("vocationaleducation/edit/" + id, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}
+
+export const apiDeleteVocationalEducation = async (id) => {
+  return await ApiConnect.delete("vocationaleducation/delete/" + id, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+
+    }
+  })
+}
+
+export const apiDeleteAllVocationalEducation = async () => {
+  return await ApiConnect.delete("vocationaleducation/delete-all", {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}

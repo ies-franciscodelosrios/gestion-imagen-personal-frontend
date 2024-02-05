@@ -52,6 +52,7 @@ const UserInfoCard = () => {
   const getAllVocEdu = () => {
     apiGetAllVocationalEducation()
       .then((response) => {
+        console.log(response.data.data);
         const cycleOption = response.data.data.map((item) => {
           return {
             label: item.long_name,
