@@ -74,9 +74,11 @@ const ClientSheetsList = ({ entity, setEntity }) => {
    * @param {*} data to save into client
    */
   const onSubmit = async (data) => {
-    await setData(data);
-    entity.more_info = JSON.stringify(data);
-    await updateClientBy({ ...entity }).then(e => { setEntity(e.data); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
+    console.log(data, entity)
+    setData(data);
+    const newEntity={...entity}
+    newEntity.more_info = JSON.stringify(data);
+    await updateClientBy({ ...newEntity }).then(e => { setEntity(newEntity); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
   };
 
   const handleReset = () => {
