@@ -85,6 +85,29 @@ const CustomHeader = ({
     link.setAttribute("download", filename);
     link.click();
   }
+
+  function uploadCSV() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.addEventListener('change', handleFileSelection);
+    input.click();
+  }
+
+  const handleFileSelection = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const base64Text = btoa(e.target.result);
+        console.log('Contenido en base64:', base64Text);
+      };
+
+      reader.readAsText(file);
+    }
+  };
+
   return (
     <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">
       <Row>
@@ -130,7 +153,7 @@ const CustomHeader = ({
                 <span className="align-middle">Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem className="w-100">
+                <DropdownItem className="w-100" onClick={() => uploadCSV()}>
                   <FileText className="font-small-4 me-50" />
                   <span className="align-middle">Importar</span>
                 </DropdownItem>
@@ -306,7 +329,7 @@ const ProfesorList = () => {
 
   return (
     <Fragment>
-      {}
+      { }
 
       <Card className="overflow-hidden">
         <div className="react-dataTable">
