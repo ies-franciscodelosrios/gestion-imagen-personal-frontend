@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useEffect } from 'react';
 
 // ** Reactstrap Imports
 import {
@@ -33,6 +33,12 @@ import { validateClientData, validateDNI } from '../../../../utility/Utils';
 const ClientInfoCard = ({ entity, setEntity }) => {
   // ** State
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    console.log("client info card")
+    console.log(entity)
+  });
+
 
   // ** Hook
   const {
