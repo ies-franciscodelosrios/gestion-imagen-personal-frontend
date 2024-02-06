@@ -130,18 +130,24 @@ export function validateUserData(data) {
 
 export function validateClientData(data) {
   const requiredFields = ["name", "surname", "email", "dni", "phone"];
-  const values = Object.values(data);
 
-  const filledValues = values.every(input => {
-    return input !== null && input !== undefined && input !== '' && !requiredFields.includes(input);
-  });
+  for (const field of requiredFields) {
+    if (typeof data[field] === 'string' && data[field].trim() === '') {
+      toast.error("Rellena todos los campos");
+      return false;
+    }
+  }
 
-  if (!filledValues) { toast.error("Rellena todos los campos"); return false; }
-  if (!validateDNI(data.dni)) { toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)"); return false; }
-
+  if (!validateDNI(data.dni)) {
+    toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)");
+    return false;
+  }
 
   return true;
 }
+
+
+
 
 export function validateAppointmentData(data) {
   const requiredFields = ["protocol", "email"];
@@ -191,7 +197,7 @@ export async function handleConfirmCancel() {
       })
       return result.isConfirmed;
     } else {
-      
+
       return result.isConfirmed;
     }
   })
