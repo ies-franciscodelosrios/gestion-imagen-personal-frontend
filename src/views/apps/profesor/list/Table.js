@@ -23,6 +23,10 @@ import {
   Card,
   Input,
   Button,
+  Modal,
+  ModalHeader, 
+  ModalBody,
+  ModalFooter,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
@@ -86,9 +90,14 @@ const CustomHeader = ({
     link.click();
   }
 
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => setModalOpen(!modalOpen);
+
   function uploadCSV() {
     const input = document.createElement('input');
     input.type = 'file';
+    input.accept = '.csv';
     input.addEventListener('change', handleFileSelection);
     input.click();
   }
@@ -97,14 +106,22 @@ const CustomHeader = ({
     const file = event.target.files[0];
 
     if (file) {
-      const reader = new FileReader();
+      if (file.name.endsWith('.csv')) {
+        const reader = new FileReader();
 
-      reader.onload = (e) => {
-        const base64Text = btoa(e.target.result);
-        console.log('Contenido en base64:', base64Text);
-      };
+        reader.onload = (e) => {
+          // Obtener el contenido del archivo en base64
+          const base64Text = btoa(e.target.result);
 
-      reader.readAsText(file);
+          // Hacer algo con el contenido en base64 (por ejemplo, imprimirlo en la consola)
+          console.log('Contenido en base64:', base64Text);
+        };
+
+        // Leer el contenido del archivo como texto
+        reader.readAsText(file);
+      } else {
+        toggleModal();
+      }
     }
   };
 
@@ -172,6 +189,17 @@ const CustomHeader = ({
                 Añadir profesor
               </Button>
             </Link>
+            <Modal isOpen={modalOpen} toggle={toggleModal}>
+              <ModalHeader toggle={toggleModal}>Error</ModalHeader>
+              <ModalBody>
+                Por favor, seleccione un archivo con extensión .csv.
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={toggleModal}>
+                  Cerrar
+                </Button>
+              </ModalFooter>
+            </Modal>
           </div>
         </Col>
       </Row>
