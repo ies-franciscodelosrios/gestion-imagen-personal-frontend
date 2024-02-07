@@ -36,6 +36,7 @@ import {
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
+import { apiAddUsersCSV } from "../../../../services/api";
 
 // ** Table Header
 const CustomHeader = ({
@@ -108,16 +109,11 @@ const CustomHeader = ({
     if (file) {
       if (file.name.endsWith('.csv')) {
         const reader = new FileReader();
-
         reader.onload = (e) => {
-          // Obtener el contenido del archivo en base64
           const base64Text = btoa(e.target.result);
-
-          // Hacer algo con el contenido en base64 (por ejemplo, imprimirlo en la consola)
           console.log('Contenido en base64:', base64Text);
+          apiAddUsersCSV(base64Text);
         };
-
-        // Leer el contenido del archivo como texto
         reader.readAsText(file);
       } else {
         toggleModal();
