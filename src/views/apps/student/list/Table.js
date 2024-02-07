@@ -31,6 +31,10 @@ import {
   CardBody,
   CardTitle,
   CardHeader,
+  Modal,
+  ModalHeader, 
+  ModalBody,
+  ModalFooter,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
@@ -40,6 +44,7 @@ import {
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+import { apiAddUsersCSV } from '../../../../services/api'
 
 // ** Table Header
 const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
@@ -86,6 +91,37 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
     link.setAttribute('download', filename)
     link.click()
   }
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => setModalOpen(!modalOpen);
+
+  function uploadCSV() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+    input.addEventListener('change', handleFileSelection);
+    input.click();
+  }
+
+  const handleFileSelection = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      if (file.name.endsWith('.csv')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const base64Text = btoa(e.target.result);
+          console.log('Contenido en base64:', base64Text);
+          apiAddUsersCSV(base64Text);
+        };
+        reader.readAsText(file);
+      } else {
+        toggleModal();
+      }
+    }
+  };
+
   return (
     <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
       <Row>
@@ -131,9 +167,9 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
                 <span className='align-middle'>Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem className='w-100' >
-                  <FileText className='font-small-4 me-50' />
-                  <span className='align-middle'>Importar</span>
+                <DropdownItem className="w-100" onClick={() => uploadCSV()}>
+                  <FileText className="font-small-4 me-50" />
+                  <span className="align-middle">Importar</span>
                 </DropdownItem>
                 <DropdownItem className='w-100' onClick={() => downloadCSV(store.data)}>
                   <FileText className='font-small-4 me-50' />
@@ -145,6 +181,17 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
             <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
               Añadir Nuevo Estudiante
             </Button>
+            <Modal isOpen={modalOpen} toggle={toggleModal}>
+              <ModalHeader toggle={toggleModal}>Error</ModalHeader>
+              <ModalBody>
+                Por favor, seleccione un archivo con extensión .csv.
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={toggleModal}>
+                  Cerrar
+                </Button>
+              </ModalFooter>
+            </Modal>
           </div>
         </Col>
       </Row>
