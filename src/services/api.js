@@ -148,7 +148,7 @@ export const getUserByDNI = async (id) => {
  * @returns response 200 if ok
  */
 export const updateUserBy = async (user) => {
-  return await ApiConnect.put(`user`, user, {
+  return await ApiConnect.put("user/edit/"+user.id, user, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -218,7 +218,7 @@ export const AddProfesor = async (user) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const ApiDelUser = async (id) => {
-  return await ApiConnect.delete(`user/id`, {
+  return await ApiConnect.delete(`user/delete/`+id, {
     params: { id: id },
     headers: {
       "Content-Type": "application/json",
