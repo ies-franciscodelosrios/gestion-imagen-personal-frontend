@@ -148,7 +148,7 @@ export const getUserByDNI = async (id) => {
  * @returns response 200 if ok
  */
 export const updateUserBy = async (user) => {
-  return await ApiConnect.put(`user`, user, {
+  return await ApiConnect.put("user/edit/"+user.id, user, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -218,7 +218,7 @@ export const AddProfesor = async (user) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const ApiDelUser = async (id) => {
-  return await ApiConnect.delete(`user/id`, {
+  return await ApiConnect.delete(`user/delete/`+id, {
     params: { id: id },
     headers: {
       "Content-Type": "application/json",
@@ -412,6 +412,16 @@ export const getAppointmentbyId = async (id) => {
     },
   });
 };
+
+export const apiAddUsersCSV = async (csvbase64) => {
+  return await ApiConnect.post("csv/import", {"csv_data": csvbase64}, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}
 
 /**
  * Http Request to get all appointments

@@ -1,7 +1,9 @@
 // ** React Imports
 import { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProfesor, updateProfesor } from "../store";
+import { addProfesor, updateProfesor, getProfessorById } from "../store";
+//import { useForm, Controller } from "react-hook-form";
+
 
 // ** Reactstrap Imports
 import {
@@ -36,6 +38,8 @@ import { apiGetAllVocationalEducation } from "../../../../services/api";
 const MySwal = withReactContent(Swal);
 
 const UserInfoCard = ({ id }) => {
+
+  
   // ** Store Vars
   const dispatch = useDispatch();
   const store = useSelector((state) => state.profesor);
@@ -56,6 +60,8 @@ const UserInfoCard = ({ id }) => {
   // ** State
   const [show, setShow] = useState(false);
   const [cycleOptions, setCycleOptions] = useState(null);
+  const isEditing = selectedUser.password != ""; // Asume que selectedUser es null si estás añadiendo un nuevo profesor
+
 
   const getAllVocEdu = () => {
     apiGetAllVocationalEducation()
@@ -63,9 +69,10 @@ const UserInfoCard = ({ id }) => {
         const cycleOption = response.data.data.map((item) => {
           return {
             label: item.long_name,
-            value: item.long_name,
+            value: item.id,
           };
         });
+        console.log(cycleOption);
         setCycleOptions(cycleOption);
       })
       .catch((error) => {
@@ -74,6 +81,8 @@ const UserInfoCard = ({ id }) => {
   }
 
   useEffect(() => {
+    console.log("isEditing: " + isEditing);
+    getAllVocEdu();
     if (id == "0") {
       setShow(true);
     }
@@ -83,6 +92,7 @@ const UserInfoCard = ({ id }) => {
   const {
     reset,
     control,
+    register,
     setError,
     handleSubmit,
     formState: { errors },
@@ -99,6 +109,7 @@ const UserInfoCard = ({ id }) => {
   });
 
   const renderUserImg = () => {
+    
     return (
       <Avatar
         initials
@@ -126,15 +137,19 @@ const UserInfoCard = ({ id }) => {
     selectedUser.email = data.email;
     selectedUser.dni = data.dni;
     selectedUser.course_year = data.course_year;
-    selectedUser.cycle = data.cycle;
+    selectedUser.cycle = data.cycle.value;
     selectedUser.password = data.password;
     selectedUser.repassword = data.repassword;
+    console.log(selectedUser);
 
-    if (validateUserData(data)) {
+    if (validateUserData(data, isEditing)) {
       if (id == "0") {
         dispatch(addProfesor(selectedUser));
         setShow(false);
       } else {
+        delete selectedUser.password;
+        delete selectedUser.repassword;
+        console.log(selectedUser);
         dispatch(updateProfesor(selectedUser));
         setShow(false);
       }
@@ -144,11 +159,6 @@ const UserInfoCard = ({ id }) => {
         if (data.password.length != 0 || data.repassword.length != 0) {
           setError("password", {});
           setError("repassword", {});
-        }
-        if (data[key].length === 0 && !key.includes("pass")) {
-          setError(key, {
-            type: "manual",
-          });
         }
       }
     }
@@ -167,6 +177,7 @@ const UserInfoCard = ({ id }) => {
     });
   };
 
+  
   return (
     <Fragment>
       <Card>
@@ -302,6 +313,44 @@ const UserInfoCard = ({ id }) => {
                 />
               </Col>
               <Col md={6} xs={12}>
+                <Label className="form-label" for="password">
+                  Contraseña
+                </Label>
+                <Controller
+                  control={control}
+                  id="password"
+                  name="password"
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id="password"
+                      placeholder="Contraseña..."
+                      type="password"
+                      invalid={errors.password && true}
+                    />
+                  )}
+                />
+              </Col>
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="repassword">
+                  Repite Contraseña
+                </Label>
+                <Controller
+                  control={control}
+                  id="repassword"
+                  name="repassword"
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id="repassword"
+                      placeholder="Repite Contraseña..."
+                      type="password"
+                      invalid={errors.repassword && true}
+                    />
+                  )}
+                />
+              </Col>
+              <Col md={6} xs={12}>
                 <Label className="form-label" for="dni">
                   DNI
                 </Label>
@@ -327,7 +376,7 @@ const UserInfoCard = ({ id }) => {
                 <Controller
                   defaultValue={{
                     label: selectedUser.cycle,
-                    value: selectedUser.cycle,
+                    value: selectedUser.cycle.value,
                   }} // Set the default value to the first option in the array
                   control={control}
                   id="cycle"
@@ -341,43 +390,27 @@ const UserInfoCard = ({ id }) => {
                       id="cycle"
                       name="cycle"
                       placeholder="Elige tu ciclo"
+                      defaultValue={{value: 6 }}
                       invalid={errors.cycle && true}
                     />
                   )}
                 />
               </Col>
               <Col md={6} xs={12}>
-                <Label className="form-label" for="password">
-                  Contraseña
+                <Label className="form-label" for="course_year">
+                  Curso
                 </Label>
                 <Controller
+                  defaultValue={selectedUser.course_year}
                   control={control}
-                  id="password"
-                  name="password"
+                  id="course_year"
+                  name="course_year"
                   render={({ field }) => (
                     <Input
                       {...field}
-                      id="password"
-                      placeholder="Contraseña..."
-                      invalid={errors.password && true}
-                    />
-                  )}
-                />
-              </Col>
-              <Col md={6} xs={12}>
-                <Label className="form-label" for="repassword">
-                  Repite Contraseña
-                </Label>
-                <Controller
-                  control={control}
-                  id="repassword"
-                  name="repassword"
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      id="repassword"
-                      placeholder="Repite Contraseña..."
-                      invalid={errors.repassword && true}
+                      id="course_year"
+                      placeholder="23-24"
+                      invalid={errors.course_year && true}
                     />
                   )}
                 />
