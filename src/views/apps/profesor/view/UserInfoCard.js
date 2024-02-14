@@ -56,6 +56,7 @@ const UserInfoCard = ({ id }) => {
         repassword: "",
       }
       : store.selectedProfesor;
+      console.log(store.selectedProfesor);
 
   // ** State
   const [show, setShow] = useState(false);
@@ -219,6 +220,10 @@ const UserInfoCard = ({ id }) => {
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Curso: </span>
                   <span>{selectedUser.course_year}</span>
+                </li>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Ciclo: </span>
+                  <span>{console.log("aqui: ")}</span>
                 </li>
               </ul>
             ) : null}
