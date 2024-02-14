@@ -296,7 +296,7 @@ export const getClientByData = async (id) => {
  * @returns user data
  */
 export const updateClientBy = async (user) => {
-  return await ApiConnect.put(`client`, user, {
+  return await ApiConnect.put(`client/edit`, user, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -311,7 +311,7 @@ export const updateClientBy = async (user) => {
  */
 export const AddClient = async (user) => {
   return await ApiConnect.post(
-    `client`,
+    `client/add `,
     { ...user },
     {
       headers: {
@@ -412,6 +412,16 @@ export const getAppointmentbyId = async (id) => {
     },
   });
 };
+
+export const apiAddUsersCSV = async (csvbase64) => {
+  return await ApiConnect.post("csv/import", {"csv_data": csvbase64}, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}
 
 /**
  * Http Request to get all appointments
@@ -541,3 +551,54 @@ export const apiGetAllVocationalEducation = async () => {
     },
   })
 };
+
+export const apiGetVocationalEducationByID = async (id) => {
+  return await ApiConnect.get("vocationaleducation/" + id, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}
+
+export const apiAddVocationalEducation = async () => {
+  return await ApiConnect.post("vocationaleducation/add", {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}
+
+export const apiUpdateVocationalEducation = async (id) => {
+  return await ApiConnect.put("vocationaleducation/edit/" + id, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}
+
+export const apiDeleteVocationalEducation = async (id) => {
+  return await ApiConnect.delete("vocationaleducation/delete/" + id, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+
+    }
+  })
+}
+
+export const apiDeleteAllVocationalEducation = async () => {
+  return await ApiConnect.delete("vocationaleducation/delete-all", {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  })
+}

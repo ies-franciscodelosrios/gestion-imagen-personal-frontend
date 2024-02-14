@@ -23,6 +23,10 @@ import {
   Card,
   Input,
   Button,
+  Modal,
+  ModalHeader, 
+  ModalBody,
+  ModalFooter,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
@@ -32,6 +36,7 @@ import {
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
+import { apiAddUsersCSV } from "../../../../services/api";
 
 // ** Table Header
 const CustomHeader = ({
@@ -85,6 +90,37 @@ const CustomHeader = ({
     link.setAttribute("download", filename);
     link.click();
   }
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => setModalOpen(!modalOpen);
+
+  function uploadCSV() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+    input.addEventListener('change', handleFileSelection);
+    input.click();
+  }
+
+  const handleFileSelection = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      if (file.name.endsWith('.csv')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const base64Text = btoa(e.target.result);
+          console.log('Contenido en base64:', base64Text);
+          apiAddUsersCSV(base64Text);
+        };
+        reader.readAsText(file);
+      } else {
+        toggleModal();
+      }
+    }
+  };
+
   return (
     <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">
       <Row>
@@ -130,7 +166,7 @@ const CustomHeader = ({
                 <span className="align-middle">Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem className="w-100">
+                <DropdownItem className="w-100" onClick={() => uploadCSV()}>
                   <FileText className="font-small-4 me-50" />
                   <span className="align-middle">Importar</span>
                 </DropdownItem>
@@ -149,6 +185,17 @@ const CustomHeader = ({
                 Añadir profesor
               </Button>
             </Link>
+            <Modal isOpen={modalOpen} toggle={toggleModal}>
+              <ModalHeader toggle={toggleModal}>Error</ModalHeader>
+              <ModalBody>
+                Por favor, seleccione un archivo con extensión .csv.
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={toggleModal}>
+                  Cerrar
+                </Button>
+              </ModalFooter>
+            </Modal>
           </div>
         </Col>
       </Row>
@@ -306,7 +353,7 @@ const ProfesorList = () => {
 
   return (
     <Fragment>
-      {}
+      { }
 
       <Card className="overflow-hidden">
         <div className="react-dataTable">

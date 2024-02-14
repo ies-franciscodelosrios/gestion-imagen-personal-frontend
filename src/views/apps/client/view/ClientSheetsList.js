@@ -24,7 +24,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { updateClientBy } from '../../../../services/api';
 import CreatableSelect from 'react-select/creatable';
-
+import Select from 'react-select';
 
 const ClientSheetsList = ({ entity, setEntity }) => {
   const initialValues = {
@@ -54,7 +54,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
     Otros_esteticos: '',
   }
 
-  const [data, setData] = useState(entity.more_info.length > 10 ? JSON.parse(entity.more_info) : initialValues);
+  const [data, setData] = useState(entity.more_info && entity.more_info.length > 10 ? JSON.parse(entity.more_info) : initialValues);
 
   const { reset, handleSubmit, control } = useForm({ initialValues });
 
@@ -74,9 +74,11 @@ const ClientSheetsList = ({ entity, setEntity }) => {
    * @param {*} data to save into client
    */
   const onSubmit = async (data) => {
-    await setData(data);
-    entity.more_info = JSON.stringify(data);
-    await updateClientBy({ ...entity }).then(e => { setEntity(e.data); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
+    console.log(data, entity)
+    setData(data);
+    const newEntity={...entity}
+    newEntity.more_info = JSON.stringify(data);
+    await updateClientBy({ ...newEntity }).then(e => { setEntity(newEntity); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
   };
 
   const handleReset = () => {
@@ -113,6 +115,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
     {value:'No', label:'No'}
 
   ];
+  
 
   return (
     <Card>
@@ -128,7 +131,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Alergias
               </Label>
               <Controller
-                defaultValue={data.Alergias}
+                defaultValue={data && data.Alergias ? data.Alergias : ''}
                 control={control}
                 id="Alergias"
                 name="Alergias"
@@ -142,7 +145,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Patologías
               </Label>
               <Controller
-                defaultValue={data.Patologias}
+                defaultValue={data && data.Patologias ? data.Patologias : ''}
                 control={control}
                 id="Patologias"
                 name="Patologias"
@@ -156,7 +159,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Intervenciones Quirúrgicas
               </Label>
               <Controller
-                defaultValue={data.Intervenciones}
+                defaultValue={data && data.Intervenciones ? data.Intervenciones : ''}
                 control={control}
                 id="Intervenciones"
                 name="Intervenciones"
@@ -170,7 +173,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Medicamento
               </Label>
               <Controller
-                defaultValue={data.Medicamento}
+                defaultValue={data && data.Medicamento ? data.Medicamento :''}
                 control={control}
                 id="Medicamento"
                 name="Medicamento"
@@ -184,7 +187,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Prótesis
               </Label>
               <Controller
-                defaultValue={data.Protesis}
+                defaultValue={data && data.Protesis ? data.Protesis :''}
                 control={control}
                 id="Protesis"
                 name="Protesis"
@@ -198,7 +201,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Otros
               </Label>
               <Controller
-                defaultValue={data.Otros_antecedentes}
+                defaultValue={data && data.Otros_antecedentes ? data.Otros_antecedentes : ''}
                 control={control}
                 id="Otros_antecedentes"
                 name="Otros_antecedentes"
@@ -223,14 +226,15 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Fuma
               </Label>
               <Controller
-                defaultValue={data.Fuma}
+                defaultValue={data && data.Fuma ? data.Fuma : ''}
                 control={control}
                 id="Fuma"
                 name="Fuma"
                 render={({ field }) => (
-                  <CreatableSelect
+                  <Select
+                    isSearchable={(false)}
+                    isClearable={(true)}
                     options={selectYesNo}
-                    noOptionsMessage={()=> 'Nada Disponible'}
                     placeholder="Selecciona..."
                     theme={selectThemeColors}
                     classNamePrefix="select"
@@ -245,7 +249,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Frecuencia
               </Label>
               <Controller
-                defaultValue={data.Frecuencia_fuma}
+                defaultValue={data && data.Frecuencia_fuma ? data.Frecuencia_fuma :''}
                 control={control}
                 id="Frecuencia_fuma"
                 name="Frecuencia_fuma"
@@ -259,12 +263,13 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Bebe(alcohol)
               </Label>
               <Controller
-                defaultValue={data.alcohol}
+                defaultValue={data && data.alcohol ? data.alcohol :''}
                 control={control}
                 id="alcohol"
                 name="alcohol"
                 render={({ field }) => (
-                  <CreatableSelect
+                  <Select
+                    isSearchable={(false)}
                     options={selectYesNo}
                     noOptionsMessage={()=> 'Nada Disponible'}
                     placeholder="Selecciona..."
@@ -281,7 +286,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Frecuencia
               </Label>
               <Controller
-                defaultValue={data.Frecuencia_alcohol}
+                defaultValue={data && data.Frecuencia_alcohol ? data.Frecuencia_alcohol : ''}
                 control={control}
                 id="Frecuencia_alcohol"
                 name="Frecuencia_alcohol"
@@ -295,14 +300,15 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Bebe(agua)
               </Label>
               <Controller
-                defaultValue={data.agua}
+                defaultValue={data && data.agua ? data.agua : ''}
                 control={control}
                 id="agua"
                 name="agua"
                 render={({ field }) => (
-                  <CreatableSelect
+                  <Select
+                    isSearchable={(false)}
+                    isClearable={(true)}
                     options={selectYesNo}
-                    noOptionsMessage={()=> 'Nada Disponible'}
                     placeholder="Selecciona..."
                     theme={selectThemeColors}
                     classNamePrefix="select"
@@ -317,7 +323,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Frecuencia
               </Label>
               <Controller
-                defaultValue={data.Frecuencia_agua}
+                defaultValue={data && data.Frecuencia_agua ? data.Frecuencia_agua : ''}
                 control={control}
                 id="Frecuencia_agua"
                 name="Frecuencia_agua"
@@ -331,14 +337,15 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Deporte
               </Label>
               <Controller
-                defaultValue={data.deporte}
+                defaultValue={data && data.deporte ? data.deporte : ''}
                 control={control}
                 id="deporte"
                 name="deporte"
                 render={({ field }) => (
-                  <CreatableSelect
+                  <Select
+                    isSearchable={(false)}
+                    isClearable={(true)}
                     options={selectYesNo}
-                    noOptionsMessage={()=> 'Nada Disponible'}
                     placeholder="Selecciona..."
                     theme={selectThemeColors}
                     classNamePrefix="select"
@@ -353,7 +360,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Frecuencia
               </Label>
               <Controller
-                defaultValue={data.Frecuencia_deporte}
+                defaultValue={data && data.Frecuencia_deporte ? data.Frecuencia_deporte : ''}
                 control={control}
                 id="Frecuencia_deporte"
                 name="Frecuencia_deporte"
@@ -367,7 +374,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Tipo de Vida
               </Label>
               <Controller
-                defaultValue={data.tipo_vida}
+                defaultValue={data && data.tipo_vida ? data.tipo_vida : ''}
                 control={control}
                 id="tipo_vida"
                 name="tipo_vida"
@@ -381,7 +388,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Tolerancia Solar
               </Label>
               <Controller
-                defaultValue={data.tolerancia_solar}
+                defaultValue={data && data.tolerancia_solar ? data.tolerancia_solar : ''}
                 control={control}
                 id="tolerancia_solar"
                 name="tolerancia_solar"
@@ -395,7 +402,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Cicatricación
               </Label>
               <Controller
-                defaultValue={data.Cicatricacion}
+                defaultValue={data && data.Cicatricacion ? data.Cicatricacion : ''}
                 control={control}
                 id="Cicatricacion"
                 name="Cicatricacion"
@@ -409,7 +416,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Alimentación
               </Label>
               <Controller
-                defaultValue={data.Alimentacion}
+                defaultValue={data && data.Alimentacion ? data.Alimentacion : ''}
                 control={control}
                 id="Alimentacion"
                 name="Alimentacion"
@@ -430,7 +437,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Tratamientos anteriores y resultado obtenido:
               </Label>
               <Controller
-                defaultValue={data.tratamientos}
+                defaultValue={data && data.tratamientos ? data.tratamientos : ''}
                 control={control}
                 id="tratamientos"
                 name="tratamientos"
@@ -448,7 +455,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Problema actual:
               </Label>
               <Controller
-                defaultValue={data.Problema}
+                defaultValue={data && data.Problema ? data.Problema : ''}
                 control={control}
                 id="Problema"
                 name="Problema"
@@ -466,7 +473,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Desde cuando:
               </Label>
               <Controller
-                defaultValue={data.Problema_tiempo}
+                defaultValue={data && data.Problema_tiempo ? data.Problema_tiempo : ''}
                 control={control}
                 id="Problema_tiempo"
                 name="Problema_tiempo"
@@ -484,7 +491,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Con qué lo relaciona:
               </Label>
               <Controller
-                defaultValue={data.Problema_relacion}
+                defaultValue={data && data.Problema_relacion ? data.Problema_relacion : ''}
                 control={control}
                 id="Problema_relacion"
                 name="Problema_relacion"
@@ -502,7 +509,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Cosméticos que utiliza:
               </Label>
               <Controller
-                defaultValue={data.Cosmeticos}
+                defaultValue={data && data.Cosmeticos ? data.Cosmeticos : ''}
                 control={control}
                 id="Cosmeticos"
                 name="Cosmeticos"
@@ -520,7 +527,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Otros:
               </Label>
               <Controller
-                defaultValue={data.Otros_esteticos}
+                defaultValue={data && data.Otros_esteticos ? data.Otros_esteticos : ''}
                 control={control}
                 id="Otros_esteticos"
                 name="Otros_esteticos"
@@ -535,6 +542,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
             </Col>
             <Col sm="12">
               <div className="d-flex">
+              
                 <Button className="me-1" color="primary" type="submit" >
                   Guardar
                 </Button>
