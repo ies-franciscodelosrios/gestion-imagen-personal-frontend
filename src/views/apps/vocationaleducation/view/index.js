@@ -19,7 +19,7 @@ import "@styles/react/apps/app-users.scss";
 
 const UserView = () => {
   // ** Store Vars
-  const store = useSelector((state) => state.users);
+  const store = useSelector((state) => state.vocedu);
   const dispatch = useDispatch();
 
   // ** Hooks
@@ -38,11 +38,11 @@ const UserView = () => {
     }
   };
 
-  return store.selectedUser !== null && store.selectedUser !== undefined ? (
+  return store.selectedVocationalEducation !== null && store.selectedVocationalEducation !== undefined ? (
     <div className="app-user-view">
       <Row>
         <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
-          <UserInfoCard selectedUser={store.selectedUser} />
+          <UserInfoCard selectedVocationalEducation={store.selectedVocationalEducation} />
           <div className="mt-auto">
             <img className="img-fluid" src={illustration} alt="illustration" />
           </div>
@@ -51,17 +51,17 @@ const UserView = () => {
           <UserTabs
             active={active}
             toggleTab={toggleTab}
-            selectedUser={store.selectedUser}
+            selectedVocationalEducation={store.selectedVocationalEducation}
           />
         </Col>
       </Row>
     </div>
   ) : (
     <Alert color="danger">
-      <h4 className="alert-heading">Alumno no encontrado</h4>
+      <h4 className="alert-heading">Ciclo Formativo no encontrado</h4>
       <div className="alert-body">
-        Alumno con id: {id} no existe. Comprueba la lista de usuarios:{" "}
-        <Link to="/apps/student/list">Lista de Alumnos</Link>
+        Ciclo Formativo con id: {id} no existe. Comprueba la lista de ciclos:{" "}
+        <Link to="/apps/vocationaleducation/list">Lista de Ciclos Formativos</Link>
       </div>
     </Alert>
   );

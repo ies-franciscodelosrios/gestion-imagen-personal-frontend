@@ -155,7 +155,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
 const VocEduList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.users)
+  const store = useSelector(state => state.vocedu)
 
   // ** States
 
@@ -182,7 +182,7 @@ const VocEduList = () => {
       status: currentStatus.value,
       data: store.allData
     }))
-    dispatch(
+    /* dispatch(
       getData({
         sort,
         sortColumn,
@@ -192,7 +192,7 @@ const VocEduList = () => {
         status: currentStatus.value,
         data: store.allData
       })
-    )
+    ) */
   }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
 
 
