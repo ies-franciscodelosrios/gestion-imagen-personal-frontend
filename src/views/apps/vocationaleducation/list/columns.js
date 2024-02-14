@@ -32,7 +32,7 @@ import {
 
 // ** Renders Client Columns
 
-const renderStudent = (row) => {
+const renderVocationalEducation = (row) => {
   if (false && row.avatar.length) {
     return <Avatar className="me-1" img={row.avatar} width="32" height="32" />;
   } else {
@@ -41,7 +41,7 @@ const renderStudent = (row) => {
         initials
         className="me-1"
         color={"light-primary"}
-        content={row.name || "John Doe"}
+        content={row.short_name || "John Doe"}
       />
     );
   }
@@ -97,33 +97,33 @@ export const columns = [
     sortable: true,
     minWidth: "300px",
     sortField: "cycle",
-    selector: (row) => row.cycle,
-    cell: (row) => <span>{row.cycle}</span>,
+    selector: (row) => row.short_name,
+    cell: (row) => (
+      <div className="d-flex justify-content-left align-items-center">
+        {renderVocationalEducation(row)}
+        <div className="d-flex flex-column">
+          <Link
+            to={`/apps/vocationaleducation/view/${row.id}`}
+            className="user_name text-truncate text-body"
+            onClick={() => store.dispatch(getVocationalEducation(row.id))}
+          >
+            <span className="fw-bolder">
+              {row.short_name}
+            </span>
+          </Link>
+        </div>
+      </div>
+    ),
   },
   {
     name: "Nombre Completo",
     sortable: true,
     minWidth: "300px",
-    sortField: "Name",
-    selector: (row) => row.name,
-    cell: (row) => (
-      <div className="d-flex justify-content-left align-items-center">
-        {renderStudent(row)}
-        <div className="d-flex flex-column">
-          <Link
-            to={`/apps/student/view/${row.id}`}
-            className="user_name text-truncate text-body"
-            onClick={() => store.dispatch(getVocationalEducation(row.id))}
-          >
-            <span className="fw-bolder">
-              {row.name.concat(" ", row.surname)}
-            </span>
-          </Link>
-          <small className="text-truncate text-muted mb-0">{row.email}</small>
-        </div>
-      </div>
-    ),
+    sortField: "cycle_long",
+    selector: (row) => row.long_name,
+    cell: (row) => <span>{row.long_name}</span>,
   },
+
   /* ,
   {
     name: "Curso",

@@ -33,8 +33,8 @@ export const getAllData = createAsyncThunk(
             return result;
           })
           .catch(console.log("error obtener formacion profesional"))
-      );
-    }
+          );
+        }
     return response.data.data;
   }
 );
@@ -75,22 +75,22 @@ export const getAppointments = createAsyncThunk(
       return result;
     });
     console.log(response);
-    response.data.users = sort_appointments(params, response.data.users);
+    response.data.vocationaleducations = sort_appointments(params, response.data.vocationaleducations);
 
-    return response.data.users;
+    return response.data.vocationaleducations;
   }
 );
 
 export const updateVocationalEducation = createAsyncThunk(
   "appVocEdu/updateVocationalEducation",
-  async (updateVocationalEducation) => {
-    await apiUpdateVocationalEducation(updateVocationalEducation)
+  async (updatedVocationalEducation) => {
+    await apiUpdateVocationalEducation(updatedVocationalEducation)
       .then((e) => toast.success("Datos Guardados"))
       .catch((e) => {
         console.log(e);
         toast.error("Error al editar");
       });
-    return updateVocationalEducation;
+    return updatedVocationalEducation;
   }
 );
 
@@ -116,7 +116,7 @@ export const deleteVocationalEducation = createAsyncThunk(
   }
 );
 
-export const appVocationalEducationSlice = createSlice({
+export const appVocationalEducationsSlice = createSlice({
   name: "appVocEdu",
   initialState: {
     data: [],
@@ -155,4 +155,4 @@ export const appVocationalEducationSlice = createSlice({
   },
 });
 
-export default appVocationalEducationSlice.reducer;
+export default appVocationalEducationsSlice.reducer;

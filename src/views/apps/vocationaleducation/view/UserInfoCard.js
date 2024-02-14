@@ -45,7 +45,7 @@ const UserInfoCard = () => {
 
 
   // ** State
-  const selectedUser = store.selectedUser;
+  const selectedVocationalEducation = store.selectedVocationalEducation;
   const [show, setShow] = useState(false)
   const [cycleOptions, setCycleOptions] = useState(null);
 
@@ -93,7 +93,7 @@ const UserInfoCard = () => {
         initials
         color={'light-primary'}
         className='rounded mt-3 mb-2'
-        content={selectedUser.name}
+        content={selectedVocationalEducation.name}
         contentStyles={{
           borderRadius: 0,
           fontSize: 'calc(48px)',
@@ -136,12 +136,12 @@ const UserInfoCard = () => {
 
   const handleReset = () => {
     reset({
-      name: selectedUser.name,
-      surname: selectedUser.surname,
-      email: selectedUser.email,
-      dni: selectedUser.dni,
-      cycle: selectedUser.cycle.label,
-      course_year: selectedUser.course_year,
+      name: selectedVocationalEducation.name,
+      surname: selectedVocationalEducation.surname,
+      email: selectedVocationalEducation.email,
+      dni: selectedVocationalEducation.dni,
+      cycle: selectedVocationalEducation.cycle.label,
+      course_year: selectedVocationalEducation.course_year,
       password: '',
       repassword: '',
     })
@@ -157,8 +157,8 @@ const UserInfoCard = () => {
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info mb-3">
                   <h4>
-                    {selectedUser !== null
-                      ? selectedUser.name.concat(' ' + selectedUser.surname)
+                    {selectedVocationalEducation !== null
+                      ? selectedVocationalEducation.name.concat(' ' + selectedVocationalEducation.surname)
                       : 'Eleanor Aguilar'}
                   </h4>
 
@@ -169,27 +169,27 @@ const UserInfoCard = () => {
 
           <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
           <div className="info-container">
-            {selectedUser !== null ? (
+            {selectedVocationalEducation !== null ? (
               <ul className="list-unstyled">
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Nombre: </span>
-                  <span>{selectedUser.name}</span>
+                  <span>{selectedVocationalEducation.name}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Apellido: </span>
-                  <span>{selectedUser.surname}</span>
+                  <span>{selectedVocationalEducation.surname}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">DNI: </span>
-                  <span>{selectedUser.dni}</span>
+                  <span>{selectedVocationalEducation.dni}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Email: </span>
-                  <span>{selectedUser.email}</span>
+                  <span>{selectedVocationalEducation.email}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Ciclo: </span>
-                  <span>{selectedUser.cycle}</span>
+                  <span>{selectedVocationalEducation.cycle}</span>
                 </li>
               </ul>
             ) : null}
@@ -222,7 +222,7 @@ const UserInfoCard = () => {
                   Nombre
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.name}
+                  defaultValue={selectedVocationalEducation.name}
                   control={control}
                   id='name'
                   name='name'
@@ -241,7 +241,7 @@ const UserInfoCard = () => {
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.surname}
+                  defaultValue={selectedVocationalEducation.surname}
                   control={control}
                   id='surname'
                   name='surname'
@@ -260,7 +260,7 @@ const UserInfoCard = () => {
                   Email
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.email}
+                  defaultValue={selectedVocationalEducation.email}
                   control={control}
                   id="email"
                   name="email"
@@ -280,7 +280,7 @@ const UserInfoCard = () => {
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.dni}
+                  defaultValue={selectedVocationalEducation.dni}
                   control={control}
                   id="dni"
                   name="dni"
@@ -294,7 +294,7 @@ const UserInfoCard = () => {
                   Ciclo <span className="text-danger">*</span>
                 </Label>
                 <Controller
-                  defaultValue={{ label: selectedUser.cycle, value: selectedUser.cycle }} // Set the default value to the first option in the array
+                  defaultValue={{ label: selectedVocationalEducation.cycle, value: selectedVocationalEducation.cycle }} // Set the default value to the first option in the array
                   control={control}
                   id="cycle"
                   name="cycle"
