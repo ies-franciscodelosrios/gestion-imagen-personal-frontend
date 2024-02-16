@@ -1,7 +1,7 @@
 // ** React Imports
 import { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProfesor, updateProfesor, getProfessorById } from "../store";
+import { addProfesor, updateProfesor, getProfessorById, getVocationalEducationById } from "../store";
 //import { useForm, Controller } from "react-hook-form";
 
 
@@ -82,11 +82,11 @@ const UserInfoCard = ({ id }) => {
   }
 
   useEffect(() => {
-    console.log("isEditing: " + isEditing);
     getAllVocEdu();
     if (id == "0") {
       setShow(true);
     }
+
   }, []);
 
   // ** Hook
@@ -199,7 +199,7 @@ const UserInfoCard = ({ id }) => {
           </div>
           <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
           <div className="info-container">
-            {selectedUser !== null ? (
+            {selectedUser !== null && cycleOptions ? (
               <ul className="list-unstyled">
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Nombre: </span>
@@ -223,10 +223,12 @@ const UserInfoCard = ({ id }) => {
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Ciclo: </span>
-                  <span>{console.log("aqui: ")}</span>
+                  <span>
+                    {cycleOptions ? cycleOptions[selectedUser.cycle - 1].label : <img style={{ width: 25}} src="../../../../src/assets/images/GIF/loading.gif" alt="GIF cargando" />}
+                  </span>
                 </li>
               </ul>
-            ) : null}
+            ) : <img style={{ width: 50, display: 'block', margin: '0 auto' }} src="../../../../src/assets/images/GIF/loading.gif" alt="GIF cargando" />}
           </div>
           <div className="d-flex justify-content-center pt-2">
             <Button
