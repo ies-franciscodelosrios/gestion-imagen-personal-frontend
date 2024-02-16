@@ -199,7 +199,7 @@ const UserInfoCard = ({ id }) => {
           </div>
           <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
           <div className="info-container">
-            {selectedUser !== null && cycleOptions ? (
+            {selectedUser !== null && cycleOptions && isEditing ? (
               <ul className="list-unstyled">
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Nombre: </span>
@@ -224,7 +224,7 @@ const UserInfoCard = ({ id }) => {
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Ciclo: </span>
                   <span>
-                    {cycleOptions ? cycleOptions[selectedUser.cycle - 1].label : <img style={{ width: 25}} src="../../../../src/assets/images/GIF/loading.gif" alt="GIF cargando" />}
+                    {cycleOptions[selectedUser.cycle - 1].label}
                   </span>
                 </li>
               </ul>
