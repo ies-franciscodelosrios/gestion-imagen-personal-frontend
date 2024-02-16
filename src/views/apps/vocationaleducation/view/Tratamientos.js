@@ -102,7 +102,7 @@ const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchT
 }
 
 
-const UsersList = () => {
+const VocEduList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.users)
@@ -309,4 +309,4 @@ const UsersList = () => {
   )
 }
 
-export default UsersList
+export default VocEduList

@@ -143,7 +143,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
             </UncontrolledDropdown>
 
             <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-              Añadir Nuevo Estudiante
+              Añadir Nuevo Ciclo
             </Button>
           </div>
         </Col>
@@ -182,7 +182,7 @@ const VocEduList = () => {
       status: currentStatus.value,
       data: store.allData
     }))
-    /* dispatch(
+    dispatch(
       getData({
         sort,
         sortColumn,
@@ -192,7 +192,7 @@ const VocEduList = () => {
         status: currentStatus.value,
         data: store.allData
       })
-    ) */
+    )
   }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
 
 

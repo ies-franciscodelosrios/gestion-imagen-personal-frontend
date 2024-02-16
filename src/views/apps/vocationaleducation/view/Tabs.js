@@ -10,7 +10,7 @@ import { User, Bookmark, Edit3, Book } from 'react-feather'
 // ** User Components
 import Tratamientos from './Tratamientos'
 
-const UserTabs = ({ active, toggleTab }) => {
+const VocEduTabs = ({ active, toggleTab }) => {
   return (
     <Fragment>
       <Nav pills className='mb-2'>
@@ -29,4 +29,4 @@ const UserTabs = ({ active, toggleTab }) => {
     </Fragment>
   )
 }
-export default UserTabs
+export default VocEduTabs
