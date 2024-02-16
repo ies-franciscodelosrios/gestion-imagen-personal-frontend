@@ -414,13 +414,14 @@ export const getAppointmentbyId = async (id) => {
 };
 
 export const apiAddUsersCSV = async (csvbase64) => {
-  return await ApiConnect.post("csv/import", {"csv_data": csvbase64}, {
+  const response = await ApiConnect.post("csv/import", {"csv_data": csvbase64}, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: `Bearer ${getToken()}`,
     }
   })
+  return response.data;
 }
 
 /**

@@ -104,16 +104,25 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
     input.click();
   }
 
+  const [modalData, setModalData] = useState(null);
+
+  const toggleModal2 = () => {
+    setModalData(!modalData);
+    handlePerPage({ currentTarget: { value: rowsPerPage } });
+  };
+
   const handleFileSelection = (event) => {
     const file = event.target.files[0];
 
     if (file) {
       if (file.name.endsWith('.csv')) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
           const base64Text = btoa(e.target.result);
           console.log('Contenido en base64:', base64Text);
-          apiAddUsersCSV(base64Text);
+          const response = await apiAddUsersCSV(base64Text);
+          const { imported, failed } = response;
+          setModalData({ imported, failed });
         };
         reader.readAsText(file);
       } else {
@@ -188,6 +197,19 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" onClick={toggleModal}>
+                  Cerrar
+                </Button>
+              </ModalFooter>
+            </Modal>
+
+            <Modal isOpen={!!modalData} toggle={toggleModal2} >
+              <ModalHeader toggle={toggleModal2}>Importación</ModalHeader>
+              <ModalBody>
+                <p>Usuarios importados: {modalData?.imported}</p>
+                <p>Usuarios no importados: {modalData?.failed}</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={toggleModal2}>
                   Cerrar
                 </Button>
               </ModalFooter>
