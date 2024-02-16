@@ -108,7 +108,6 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
 
   const toggleModal2 = () => {
     setModalData(!modalData);
-    handlePerPage({ currentTarget: { value: rowsPerPage } });
   };
 
   const handleFileSelection = (event) => {
@@ -123,6 +122,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
           const response = await apiAddUsersCSV(base64Text);
           const { imported, failed } = response;
           setModalData({ imported, failed });
+          handlePerPage({ currentTarget: { value: rowsPerPage } });
         };
         reader.readAsText(file);
       } else {
