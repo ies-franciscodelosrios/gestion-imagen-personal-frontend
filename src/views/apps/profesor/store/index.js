@@ -63,6 +63,22 @@ export const getProfessorById = createAsyncThunk(
   }
 );
 
+/* GET VOCATIONALEDUCATION BY ID */
+
+export const getVocationalEducationById = createAsyncThunk(
+  "appProfessors/getVocationalEducationById",
+  async (id, thunkAPI) => {
+    const response = await apiGetVocationalEducationById(id)
+      .then((result) => {
+        return result.data.data;
+      })
+      .catch((result) => {
+        return thunkAPI.rejectWithValue(result.response.data);
+      });
+    return response;
+  }
+);
+
 /* GET ALL APPOINTMENTS */
 
 export const getAppointments = createAsyncThunk(
