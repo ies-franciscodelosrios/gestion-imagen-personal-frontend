@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { columns } from "./columns";
 
 // ** Store & Actions
-import { getAllProfessors } from "../store";
+import { getAllProfessors, getAllVocationalEducation } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 
 // ** Third Party Components
@@ -96,10 +96,10 @@ const CustomHeader = ({
   const toggleModal = () => setModalOpen(!modalOpen);
 
   function uploadCSV() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.csv';
-    input.addEventListener('change', handleFileSelection);
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".csv";
+    input.addEventListener("change", handleFileSelection);
     input.click();
   }
 
@@ -113,11 +113,11 @@ const CustomHeader = ({
     const file = event.target.files[0];
 
     if (file) {
-      if (file.name.endsWith('.csv')) {
+      if (file.name.endsWith(".csv")) {
         const reader = new FileReader();
         reader.onload = async (e) => {
           const base64Text = btoa(e.target.result);
-          console.log('Contenido en base64:', base64Text);
+          console.log("Contenido en base64:", base64Text);
           const response = await apiAddUsersCSV(base64Text);
           const { imported, failed } = response;
           setModalData({ imported, failed });
@@ -206,7 +206,7 @@ const CustomHeader = ({
               </ModalFooter>
             </Modal>
 
-            <Modal isOpen={!!modalData} toggle={toggleModal2} >
+            <Modal isOpen={!!modalData} toggle={toggleModal2}>
               <ModalHeader toggle={toggleModal2}>Importación</ModalHeader>
               <ModalBody>
                 <p>Usuarios importados: {modalData?.imported}</p>
@@ -249,6 +249,7 @@ const ProfesorList = () => {
 
   // ** Get data on load
   useEffect(() => {
+    dispatch(getAllVocationalEducation());
     dispatch(
       getAllProfessors({
         sort,
@@ -375,7 +376,7 @@ const ProfesorList = () => {
 
   return (
     <Fragment>
-      { }
+      {}
 
       <Card className="overflow-hidden">
         <div className="react-dataTable">

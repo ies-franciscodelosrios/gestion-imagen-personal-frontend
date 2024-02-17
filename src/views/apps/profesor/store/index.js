@@ -9,6 +9,7 @@ import {
   ApiDelUser,
   AddProfesor,
   getAllAppointments,
+  apiGetAllVocationalEducation,
 } from "../../../../services/api";
 
 // ** Sort utils Imports
@@ -63,37 +64,6 @@ export const getProfessorById = createAsyncThunk(
   }
 );
 
-/* GET VOCATIONALEDUCATION BY ID */
-
-export const getVocationalEducationById = createAsyncThunk(
-  "appProfessors/getVocationalEducationById",
-  async (id, thunkAPI) => {
-    const response = await apiGetVocationalEducationById(id)
-      .then((result) => {
-        return result.data.data;
-      })
-      .catch((result) => {
-        return thunkAPI.rejectWithValue(result.response.data);
-      });
-    return response;
-  }
-);
-
-/* GET ALL APPOINTMENTS */
-
-export const getAppointments = createAsyncThunk(
-  "appAppointments/getAppointments",
-  async (params) => {
-    const response = await getAllAppointments().then((result) => {
-      return result;
-    });
-    response.data.data = sort_appointments(params, response.data.data);
-    return response.data.data;
-  }
-);
-
-/* */
-
 /* ADD PROFESOR */
 export const addProfesor = createAsyncThunk(
   "appProfessors/addUserProfesor",
@@ -128,6 +98,37 @@ export const deleteProfesor = createAsyncThunk(
   }
 );
 
+/* GET ALL APPOINTMENTS */
+
+export const getAppointments = createAsyncThunk(
+  "appAppointments/getAppointments",
+  async (params) => {
+    const response = await getAllAppointments().then((result) => {
+      return result;
+    });
+    response.data.data = sort_appointments(params, response.data.data);
+    return response.data.data;
+  }
+);
+
+/* GET ALL VOCATIONALEDUCATION */
+
+export const getAllVocationalEducation = createAsyncThunk(
+  "appProfessors/getAllVocationalEducation",
+  async (id, thunkAPI) => {
+    const response = await apiGetAllVocationalEducation()
+      .then((result) => {
+        return result.data.data;
+      })
+      .catch((result) => {
+        return thunkAPI.rejectWithValue(result.response.data);
+      });
+    return response;
+  }
+);
+
+/* SLICE */
+
 export const appProfesorsSlice = createSlice({
   name: "appProfessors",
   initialState: {
@@ -137,6 +138,7 @@ export const appProfesorsSlice = createSlice({
     allData: [],
     appoitments: [],
     selectedProfesor: null,
+    vocationalEducation: [],
     status: "",
     message: "",
   },
@@ -167,6 +169,11 @@ export const appProfesorsSlice = createSlice({
       })
       .addCase(getAppointments.fulfilled, (state, action) => {
         state.appoitments = action.payload;
+      })
+      .addCase(getAllVocationalEducation.fulfilled, (state, action) => {
+        state.vocationalEducation = action.payload.map((item) => {
+          return { value: item.id, label: item.long_name };
+        });
       });
   },
 });
