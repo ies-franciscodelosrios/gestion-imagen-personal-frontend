@@ -138,9 +138,28 @@ const CustomHeader = ({ clientList, toggleSidebar, handlePerPage, rowsPerPage, h
           </div>
 
           <div className='d-flex align-items-center table-header-actions'>
-            <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
+            <UncontrolledDropdown className='me-1'>
+              <DropdownToggle color='secondary' caret outline>
+                <Share className='font-small-4 me-50' />
+                <span className='align-middle'>Exp/Imp</span>
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem className='w-100' onClick={() => setShow(!show)}>
+                  <FileText className='font-small-4 me-50' />
+                  <span className='align-middle'>Importar</span>
+                </DropdownItem>
+                <DropdownItem className='w-100' onClick={() => downloadCSV(clientList)}>
+                  <FileText className='font-small-4 me-50' />
+                  <span className='align-middle'>Exportar</span>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            
+            <Link to="/apps/client/view/0">
+            <Button className='add-new-user' color='primary'>
               Añadir Nuevo Cliente
             </Button>
+            </Link>
           </div>
         </Col>
       </Row>
