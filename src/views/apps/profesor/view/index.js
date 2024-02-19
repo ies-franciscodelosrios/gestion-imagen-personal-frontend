@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 // ** Store & Actions
-import { getProfessorById, getAppointments } from "../store";
+import {
+  getProfessorById,
+  getAppointments,
+  getAllVocationalEducation,
+} from "../store";
 import { useSelector, useDispatch } from "react-redux";
 
 // ** Reactstrap Imports
@@ -18,13 +22,14 @@ import "@styles/react/apps/app-users.scss";
 
 const TeacherView = () => {
   // ** Store Vars
-  const store = useSelector((state) => state.profesor);
   const dispatch = useDispatch();
+  const store = useSelector((state) => state.profesor);
 
   // ** Hooks
   const { id } = useParams();
 
   useEffect(() => {
+    dispatch(getAllVocationalEducation());
     if (id > 0) {
       dispatch(getProfessorById(parseInt(id)));
       dispatch(getAppointments());
@@ -43,7 +48,22 @@ const TeacherView = () => {
     <div>
       {(() => {
         if (id == "0") {
-          return <UserInfoCard id={id} />;
+          return (
+            <UserInfoCard
+              id={id}
+              selectedProfesor={{
+                name: "",
+                surname: "",
+                email: "",
+                dni: "",
+                course_year: "",
+                cycle: "",
+                password: "",
+                repassword: "",
+              }}
+              vocationalEducation={store.vocationalEducation}
+            />
+          );
         } else if (
           store.selectedProfesor !== null &&
           store.selectedProfesor !== undefined
@@ -55,6 +75,7 @@ const TeacherView = () => {
                   <UserInfoCard
                     id={id}
                     selectedProfesor={store.selectedProfesor}
+                    vocationalEducation={store.vocationalEducation}
                   />
                 </Col>
                 <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
