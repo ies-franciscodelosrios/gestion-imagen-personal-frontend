@@ -25,16 +25,16 @@ import Avatar from '@components/avatar';
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
 import { toast } from 'react-hot-toast';
-import { AddClient, updateClientBy } from '../../../../services/api'; // Importa las funciones para agregar y actualizar cliente desde tu servicio
+import { AddClient, updateClientBy } from '../../../../services/api'; 
 import { validateClientData, validateDNI } from '../../../../utility/Utils';
 
-const ClientInfoCard = ({ id, entity, setEntity }) => { // Recibe el ID de la ruta como prop
+const ClientInfoCard = ({ id, entity, setEntity }) => { 
 
 
 
   // ** State
   const [show, setShow] = useState(false);
-  const isEditing = entity && entity.id !== "";
+  const isEditing = entity && entity.id !== undefined && entity.id !== null && entity.id !== "";
 
   useEffect(() => {
     console.log("isEditing: " + isEditing);
@@ -85,23 +85,22 @@ const ClientInfoCard = ({ id, entity, setEntity }) => { // Recibe el ID de la ru
   };
 
   const onSubmit = async (data) => {
-    if (validateClientData(data)) {
+    const newEntity={...entity}
+    const newData={...data}
+    if (validateClientData(data, isEditing)) {
       try {
-        if (id === '0') { 
-          const response = await AddClient(data);
-          setEntity(response.data);
-          toast.success('Cliente agregado correctamente');
+        if (id == "0") { 
+          await AddClient({ ...newEntity, ...newData }).then(e => { setEntity(newData); toast.success(' Cliente creado') }).catch(e => { toast.error('Error al crear cliente') });
+
         } else { 
-          const response = await updateClientBy(id, data); 
-          setEntity(response.data);
-          toast.success('Cliente actualizado correctamente');
+          await updateClientBy({ ...newEntity, ...newData }).then(e => { setEntity(newData); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
         }
         setShow(false);
-        console.log('setshow')
+        console.log('setshow');
       } catch (error) {
         toast.error('Error al procesar la solicitud');
-        console.log('pues noo')
-      }
+        console.log('Error al actualizar el cliente:', error); // Registro de depuración
+      } 
     } else {
       for (const key in data) {
         if (!validateDNI(data.dni)) setError('dni', {});
@@ -218,7 +217,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => { // Recibe el ID de la ru
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.surname} // Verifica si entity está definido antes de acceder a la propiedad surname
+                  defaultValue={entity && entity.surname} 
                   control={control}
                   id="surname"
                   name="surname"
@@ -237,7 +236,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => { // Recibe el ID de la ru
                   Email
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.email} // Verifica si entity está definido antes de acceder a la propiedad email
+                  defaultValue={entity && entity.email} 
                   control={control}
                   id="email"
                   name="email"
@@ -257,7 +256,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => { // Recibe el ID de la ru
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.dni} // Verifica si entity está definido antes de acceder a la propiedad dni
+                  defaultValue={entity && entity.dni} 
                   control={control}
                   id="dni"
                   name="dni"
@@ -271,7 +270,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => { // Recibe el ID de la ru
                   Teléfono
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.phone} // Verifica si entity está definido antes de acceder a la propiedad phone
+                  defaultValue={entity && entity.phone} 
                   control={control}
                   type='number'
                   id="phone"
