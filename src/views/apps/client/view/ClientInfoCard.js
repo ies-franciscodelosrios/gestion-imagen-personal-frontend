@@ -91,7 +91,6 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
       try {
         if (id == "0") { 
           await AddClient({ ...newEntity, ...newData }).then(e => { setEntity(newData); toast.success(' Cliente creado') }).catch(e => { toast.error('Error al crear cliente') });
-
         } else { 
           await updateClientBy({ ...newEntity, ...newData }).then(e => { setEntity(newData); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
         }
