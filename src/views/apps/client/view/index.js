@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getClient } from '../store'
-import { useSelector, useDispatch } from 'react-redux'
 import { getClientById } from '../../../../services/api'
 
 // ** Reactstrap Imports
