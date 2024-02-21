@@ -32,7 +32,7 @@ import {
 
 // ** Renders Client Columns
 
-const renderVocationalEducation = (row) => {
+const renderVocEdu = (row) => {
   if (false && row.avatar.length) {
     return <Avatar className="me-1" img={row.avatar} width="32" height="32" />;
   } else {
@@ -100,7 +100,7 @@ export const columns = [
     selector: (row) => row.short_name,
     cell: (row) => (
       <div className="d-flex justify-content-left align-items-center">
-        {renderVocationalEducation(row)}
+        {renderVocEdu(row)}
         <div className="d-flex flex-column">
           <Link
             to={`/apps/vocationaleducation/view/${row.id}`}
@@ -123,19 +123,9 @@ export const columns = [
     selector: (row) => row.long_name,
     cell: (row) => <span>{row.long_name}</span>,
   },
-
-  /* ,
-  {
-    name: "Curso",
-    sortable: true,
-    minWidth: "80px",
-    sortField: "course_year",
-    selector: (row) => row.course_year,
-    cell: (row) => <span>{row.course_year}</span>,
-  },
   {
     name: "Acciones",
-    minWidth: "30px",
+    minWidth: "100px",
     cell: (row) => (
       <div className="column-action">
         <UncontrolledDropdown>
@@ -146,7 +136,7 @@ export const columns = [
             <DropdownItem
               tag={Link}
               className="w-100"
-              to={`/apps/student/view/${row.id}`}
+              to={`/apps/vocationaleducation/view/${row.id}`}
               onClick={() => store.dispatch(getVocationalEducation(row.id))}
             >
               <FileText size={14} className="me-50" />
@@ -155,7 +145,7 @@ export const columns = [
             {/* <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
               <Archive size={14} className='me-50' />
               <span className='align-middle'>Editar</span>
-            </DropdownItem> *}
+            </DropdownItem> */}
             <DropdownItem
               tag="a"
               href="/"
@@ -172,5 +162,5 @@ export const columns = [
         </UncontrolledDropdown>
       </div>
     ),
-  } */,
+  },
 ];

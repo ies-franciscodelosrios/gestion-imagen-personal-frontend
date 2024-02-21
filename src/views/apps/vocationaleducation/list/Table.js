@@ -1,8 +1,7 @@
 // ** React Imports
 import { Fragment, useState, useEffect } from 'react'
+import { Link } from "react-router-dom";
 
-// ** Invoice List Sidebar
-import Sidebar from './Sidebar'
 
 // ** Table Columns
 import { columns } from './columns'
@@ -12,13 +11,9 @@ import { getAllData, getData } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
-import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
 import DataTable from 'react-data-table-component'
-import { ChevronDown, Share, Printer, FileText, File, Grid, Copy } from 'react-feather'
-
-// ** Utils
-import { selectThemeColors } from '@utils'
+import { ChevronDown, Share, FileText } from 'react-feather'
 
 // ** Reactstrap Imports
 import {
@@ -26,15 +21,15 @@ import {
   Col,
   Card,
   Input,
-  Label,
   Button,
-  CardBody,
-  CardTitle,
-  CardHeader,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
-  UncontrolledDropdown
+  UncontrolledDropdown,
+  Modal
 } from 'reactstrap'
 
 // ** Styles
@@ -42,7 +37,7 @@ import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
 
 // ** Table Header
-const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
+const CustomHeader = ({ store, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {
     let result
@@ -86,6 +81,46 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
     link.setAttribute('download', filename)
     link.click()
   }
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const toggleModal = () => setModalOpen(!modalOpen);
+
+  function uploadCSV() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+    input.addEventListener('change', handleFileSelection);
+    input.click();
+  }
+
+  const [modalData, setModalData] = useState(null);
+
+  const toggleModal2 = () => {
+    setModalData(!modalData);
+  };
+
+  const handleFileSelection = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      if (file.name.endsWith('.csv')) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const base64Text = btoa(e.target.result);
+          console.log('Contenido en base64:', base64Text);
+          const response = await apiAddUsersCSV(base64Text);
+          const { imported, failed } = response;
+          setModalData({ imported, failed });
+          handlePerPage({ currentTarget: { value: rowsPerPage } });
+        };
+        reader.readAsText(file);
+      } else {
+        toggleModal();
+      }
+    }
+  };
+
   return (
     <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
       <Row>
@@ -131,7 +166,7 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
                 <span className='align-middle'>Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem className='w-100' >
+                <DropdownItem className='w-100' onClick={() => uploadCSV()}>
                   <FileText className='font-small-4 me-50' />
                   <span className='align-middle'>Importar</span>
                 </DropdownItem>
@@ -142,9 +177,35 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
               </DropdownMenu>
             </UncontrolledDropdown>
 
-            <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-              Añadir Nuevo Estudiante
-            </Button>
+            <Link to="/apps/vocationaleducation/view/0">
+              <Button className="add-new-user" color="primary">
+                Añadir nuevo ciclo
+              </Button>
+            </Link>
+            <Modal isOpen={modalOpen} toggle={toggleModal}>
+              <ModalHeader toggle={toggleModal}>Error</ModalHeader>
+              <ModalBody>
+                Por favor, seleccione un archivo con extensión .csv.
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={toggleModal}>
+                  Cerrar
+                </Button>
+              </ModalFooter>
+            </Modal>
+
+            <Modal isOpen={!!modalData} toggle={toggleModal2} >
+              <ModalHeader toggle={toggleModal2}>Importación</ModalHeader>
+              <ModalBody>
+                <p>Ciclos importados: {modalData?.imported}</p>
+                <p>Ciclos no importados: {modalData?.failed}</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={toggleModal2}>
+                  Cerrar
+                </Button>
+              </ModalFooter>
+            </Modal>
           </div>
         </Col>
       </Row>
@@ -182,7 +243,7 @@ const VocEduList = () => {
       status: currentStatus.value,
       data: store.allData
     }))
-    /* dispatch(
+    dispatch(
       getData({
         sort,
         sortColumn,
@@ -192,7 +253,7 @@ const VocEduList = () => {
         status: currentStatus.value,
         data: store.allData
       })
-    ) */
+    )
   }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
 
 
@@ -306,94 +367,6 @@ const VocEduList = () => {
 
   return (
     <Fragment>
-      {/* <Card>
-        <CardHeader>
-          <CardTitle tag='h4'>Filters</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Row>
-            <Col md='4'>
-              <Label for='role-select'>Role</Label>
-              <Select
-                isClearable={false}
-                value={currentRole}
-                options={roleOptions}
-                className='react-select'
-                classNamePrefix='select'
-                theme={selectThemeColors}
-                onChange={data => {
-                  setCurrentRole(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      role: data.value,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      status: currentStatus.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col className='my-md-0 my-1' md='4'>
-              <Label for='plan-select'>Plan</Label>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={planOptions}
-                value={currentPlan}
-                onChange={data => {
-                  setCurrentPlan(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: data.value,
-                      status: currentStatus.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-            <Col md='4'>
-              <Label for='status-select'>Status</Label>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                className='react-select'
-                classNamePrefix='select'
-                options={statusOptions}
-                value={currentStatus}
-                onChange={data => {
-                  setCurrentStatus(data)
-                  dispatch(
-                    getData({
-                      sort,
-                      sortColumn,
-                      q: searchTerm,
-                      page: currentPage,
-                      status: data.value,
-                      perPage: rowsPerPage,
-                      role: currentRole.value,
-                      currentPlan: currentPlan.value
-                    })
-                  )
-                }}
-              />
-            </Col>
-          </Row>
-        </CardBody>
-      </Card> */}
-
       <Card className='overflow-hidden'>
         <div className='react-dataTable'>
           <DataTable
@@ -422,8 +395,6 @@ const VocEduList = () => {
           />
         </div>
       </Card>
-
-      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
     </Fragment>
   )
 }

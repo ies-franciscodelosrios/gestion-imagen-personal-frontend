@@ -33,8 +33,8 @@ export const getAllData = createAsyncThunk(
             return result;
           })
           .catch(console.log("error obtener formacion profesional"))
-          );
-        }
+      );
+    }
     return response.data.data;
   }
 );
@@ -63,7 +63,7 @@ export const getVocationalEducation = createAsyncThunk("appVocEdu/getVocationalE
   const response = await apiGetVocationalEducationByID(id).then((result) => {
     return result;
   });
-  return response.data.data;
+  return response.data;
 });
 
 /* GET ALL APPOINTMENTS */
