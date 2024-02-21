@@ -154,10 +154,12 @@ const CustomHeader = ({ clientList, toggleSidebar, handlePerPage, rowsPerPage, h
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
-
-            <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
+            
+            <Link to="/apps/client/view/0">
+            <Button className='add-new-user' color='primary'>
               Añadir Nuevo Cliente
             </Button>
+            </Link>
           </div>
         </Col>
       </Row>
