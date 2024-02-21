@@ -123,4 +123,44 @@ export const columns = [
     selector: (row) => row.long_name,
     cell: (row) => <span>{row.long_name}</span>,
   },
+  {
+    name: "Acciones",
+    minWidth: "100px",
+    cell: (row) => (
+      <div className="column-action">
+        <UncontrolledDropdown>
+          <DropdownToggle tag="div" className="btn btn-sm">
+            <MoreVertical size={14} className="cursor-pointer" />
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem
+              tag={Link}
+              className="w-100"
+              to={`/apps/vocationaleducation/view/${row.id}`}
+              onClick={() => store.dispatch(getVocationalEducation(row.id))}
+            >
+              <FileText size={14} className="me-50" />
+              <span className="align-middle">Detalles</span>
+            </DropdownItem>
+            {/* <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
+              <Archive size={14} className='me-50' />
+              <span className='align-middle'>Editar</span>
+            </DropdownItem> */}
+            <DropdownItem
+              tag="a"
+              href="/"
+              className="w-100"
+              onClick={(e) => {
+                e.preventDefault();
+                store.dispatch(deleteVocationalEducation(row.id));
+              }}
+            >
+              <Trash2 size={14} className="me-50" />
+              <span className="align-middle">Eliminar</span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </div>
+    ),
+  },
 ];

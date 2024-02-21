@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addVocationalEducation, updateVocationalEducation } from '../store';
 
@@ -11,7 +11,6 @@ import {
   Form,
   CardBody,
   Button,
-  Badge,
   Modal,
   Input,
   Label,
@@ -20,23 +19,12 @@ import {
 } from 'reactstrap'
 
 // ** Third Party Components
-import Swal from 'sweetalert2'
-import Select from 'react-select'
-import { Check, Briefcase, X } from 'react-feather'
 import { useForm, Controller } from 'react-hook-form'
-import withReactContent from 'sweetalert2-react-content'
-
-// ** Custom Components
-import Avatar from '@components/avatar'
-
-// ** Utils
-import { selectThemeColors } from '@utils'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import { toast } from 'react-hot-toast';
-import { validateDNI, validateUserData } from '../../../../utility/Utils';
-import { apiGetAllVocationalEducation } from '../../../../services/api';
+import { validateVocEduData } from '../../../../utility/Utils';
 
 const VocEduInfoCard = ({ id }) => {
   // ** Store Vars
@@ -53,27 +41,9 @@ const VocEduInfoCard = ({ id }) => {
 
   // ** State
   const [show, setShow] = useState(false)
-  const [cycleOptions, setCycleOptions] = useState(null);
-
-  const getAllVocEdu = () => {
-    apiGetAllVocationalEducation()
-      .then((response) => {
-        console.log(response.data.data);
-        const cycleOption = response.data.data.map((item) => {
-          return {
-            label: item.long_name,
-            value: item.id,
-          };
-        });
-        setCycleOptions(cycleOption);
-      })
-      .catch((error) => {
-        console.log('Error: ' + error)
-      })
-  }
+  const isEditing = id !== "0";
 
   useEffect(() => {
-    getAllVocEdu();
     if (id == "0") {
       setShow(true);
     }
@@ -83,7 +53,6 @@ const VocEduInfoCard = ({ id }) => {
   const {
     reset,
     control,
-    setError,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -101,13 +70,17 @@ const VocEduInfoCard = ({ id }) => {
     updatedVocEdu.short_name = data.short_name;
     updatedVocEdu.long_name = data.long_name;
     updatedVocEdu.description = data.description;
+    
 
-    if (validateUserData(data)) {
+    if (validateVocEduData(data, isEditing)) {
       if (id == "0") {
-        dispatch(addVocationalEducation(selectedVocEdu));
+        console.log("Añadir")
+        console.log(updatedVocEdu)
+        dispatch(addVocationalEducation(updatedVocEdu));
         setShow(false);
       } else {
-        dispatch(updateVocationalEducation(selectedVocEdu));
+        console.log("Editar")
+        dispatch(updateVocationalEducation(updatedVocEdu));
         setShow(false);
       }
     }
@@ -160,7 +133,7 @@ const VocEduInfoCard = ({ id }) => {
             ) : null}
           </div>
           <div className="d-flex justify-content-center pt-2">
-            <Button color="primary" onClick={() => { handleReset(); setShow(true); getAllVocEdu(); }}>
+            <Button color="primary" onClick={() => { handleReset(); setShow(true); }}>
               Editar
             </Button>
           </div>
@@ -196,7 +169,7 @@ const VocEduInfoCard = ({ id }) => {
                       {...field}
                       id='short_name'
                       placeholder='CM EP'
-                      invalid={errors.name && true}
+                      invalid={errors.short_name && true}
                     />
                   )}
                 />
@@ -215,7 +188,7 @@ const VocEduInfoCard = ({ id }) => {
                       {...field}
                       id='long_name'
                       placeholder='CM Estética y peluquería'
-                      invalid={errors.surname && true}
+                      invalid={errors.long_name && true}
                     />
                   )}
                 />
@@ -228,14 +201,14 @@ const VocEduInfoCard = ({ id }) => {
                   defaultValue={selectedVocEdu.description}
                   control={control}
                   id="description"
-                  name="email"
+                  name="description"
                   render={({ field }) => (
                     <Input
                       {...field}
                       type="description"
                       id="description"
                       placeholder="Ciclo medio de estética y peluquería"
-                      invalid={errors.email && true}
+                      invalid={errors.description && true}
                     />
                   )}
                 />

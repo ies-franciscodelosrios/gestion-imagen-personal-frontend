@@ -117,9 +117,6 @@ export function validateUserData(data, isEditing) {
     }
   }
 
-  
-
-  
   if(isEditing){
     for (const field in data) {
       if (data.hasOwnProperty(field)) {
@@ -146,6 +143,35 @@ export function validateUserData(data, isEditing) {
 
   return true;
 }
+
+export function validateVocEduData(data, isEditing) {
+  const requiredFields = ["short_name", "long_name", "description"];
+  const values = Object.values(data);
+  console.log(data)
+
+  if(isEditing){
+    for (const field in data) {
+      if (data.hasOwnProperty(field)) {
+        console.log("Valor del field:  "+data[field]);
+        if (data[field] === '') {
+          // El campo está vacío
+          console.log(`El campo ${field} está vacío`);
+          toast.error("Rellena todos los campos obligatorios"); 
+          return false;
+        }
+      }
+    }
+  }else{
+    const filledValues = values.every(input => {
+      return input !== null && input !== undefined && input !== '' && !requiredFields.includes(input);
+    });
+    if (!filledValues) { toast.error("Rellena todos los campos"); return false; }
+
+  }
+
+  return true;
+}
+
 
 export function validateClientData(data) {
   const requiredFields = ["name", "surname", "email", "dni", "phone"];
