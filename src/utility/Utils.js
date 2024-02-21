@@ -121,6 +121,7 @@ export function validateUserData(data, isEditing) {
     }
   }
 
+
   if (isEditing) {
     for (const field in data) {
       if (data.hasOwnProperty(field)) {
