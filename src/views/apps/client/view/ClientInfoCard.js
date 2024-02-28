@@ -1,5 +1,7 @@
 // ** React Imports
 import { useState, useEffect, Fragment } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 // ** Reactstrap Imports
 import {
@@ -25,10 +27,10 @@ import Avatar from '@components/avatar';
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
 import { toast } from 'react-hot-toast';
-import { AddClient, updateClientBy } from '../../../../services/api'; 
+import { AddClient, updateClientBy } from '../../../../services/api';
 import { validateClientData, validateDNI } from '../../../../utility/Utils';
 
-const ClientInfoCard = ({ id, entity, setEntity }) => { 
+const ClientInfoCard = ({ id, entity, setEntity }) => {
 
 
 
@@ -85,13 +87,14 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
   };
 
   const onSubmit = async (data) => {
-    const newEntity={...entity}
-    const newData={...data}
+    const newEntity = { ...entity }
+    const newData = { ...data }
+
     if (validateClientData(data, isEditing)) {
       try {
-        if (id == "0") { 
-          await AddClient({ ...newEntity, ...newData }).then(e => { setEntity(newData); toast.success(' Cliente creado') }).catch(e => { toast.error('Error al crear cliente') });
-        } else { 
+        if (id === "0") {
+          await AddClient({ ...newEntity, ...newData }).then(e => { toast.success(' Cliente creado') }).catch(e => { toast.error('Error al crear cliente') });
+        } else {
           await updateClientBy({ ...newEntity, ...newData }).then(e => { setEntity(newData); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
         }
         setShow(false);
@@ -99,7 +102,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
       } catch (error) {
         toast.error('Error al procesar la solicitud');
         console.log('Error al actualizar el cliente:', error); // Registro de depuración
-      } 
+      }
     } else {
       for (const key in data) {
         if (!validateDNI(data.dni)) setError('dni', {});
@@ -135,35 +138,35 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
             </div>
           </div>
 
-            <h4 className="fw-bolder border-bottom pb-50 my-1">Detalles</h4>
-            <div className="info-container">
-              {entity !== null ? (
-                <ul className="list-unstyled">
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">Nombre: </span>
-                    <span>{entity && entity.name}</span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">Apellido: </span>
-                    <span>{entity && entity.surname}</span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">DNI: </span>
-                    <span>{entity && entity.dni}</span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">Email: </span>
-                    <span>{entity && entity.email}</span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">Año Nacimiento: </span>
-                    <span>{entity && entity.birth_date}</span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">Telefono: </span>
-                    <span>{entity && entity.phone}</span>
-                  </li>
-                </ul>
+          <h4 className="fw-bolder border-bottom pb-50 my-1">Detalles</h4>
+          <div className="info-container">
+            {entity !== null ? (
+              <ul className="list-unstyled">
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Nombre: </span>
+                  <span>{entity && entity.name}</span>
+                </li>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Apellido: </span>
+                  <span>{entity && entity.surname}</span>
+                </li>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">DNI: </span>
+                  <span>{entity && entity.dni}</span>
+                </li>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Email: </span>
+                  <span>{entity && entity.email}</span>
+                </li>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Año Nacimiento: </span>
+                  <span>{entity && entity.birth_date}</span>
+                </li>
+                <li className="mb-75">
+                  <span className="fw-bolder me-25">Telefono: </span>
+                  <span>{entity && entity.phone}</span>
+                </li>
+              </ul>
 
             ) : null}
           </div>
@@ -216,7 +219,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.surname} 
+                  defaultValue={entity && entity.surname}
                   control={control}
                   id="surname"
                   name="surname"
@@ -235,7 +238,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   Email
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.email} 
+                  defaultValue={entity && entity.email}
                   control={control}
                   id="email"
                   name="email"
@@ -255,7 +258,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.dni} 
+                  defaultValue={entity && entity.dni}
                   control={control}
                   id="dni"
                   name="dni"
@@ -269,7 +272,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   Teléfono
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.phone} 
+                  defaultValue={entity && entity.phone}
                   control={control}
                   type='number'
                   id="phone"
@@ -285,7 +288,24 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   )}
                 />
               </Col>
-
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="birth_date">
+                  Fecha de Nacimiento
+                </Label>
+                <Controller
+                  control={control}
+                  defaultValue={entity && entity.birth_date}
+                  name="birth_date"
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      id="birth_date"
+                      type="date"
+                      className="form-control"
+                    />
+                  )}
+                />
+              </Col>
               <Col xs={12} className="text-center mt-2 pt-50">
                 <Button type="submit" className="me-1" color="primary">
                   Guardar

@@ -61,6 +61,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-country-flag": "^3.0.2",
     "react-data-table-component": "^7.5.2",
+    "react-datepicker": "^6.2.0",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.14.7",
     "react-dropzone": "^14.2.1",
