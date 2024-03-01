@@ -192,7 +192,7 @@ export function validateVocEduData(data, isEditing) {
 
 
 export function validateClientData(data) {
-  const requiredFields = ["name", "surname", "email", "dni", "phone"];
+  const requiredFields = ["name", "surname"];
 
   for (const field of requiredFields) {
     if (typeof data[field] === "string" && data[field].trim() === "") {
@@ -201,12 +201,11 @@ export function validateClientData(data) {
     }
   }
 
-  if (!validateDNI(data.dni)) {
-    toast.error(
-      "Introduce un dni válido con la letra en mayuscula ej(31009229P)"
-    );
+  if (data.dni && !validateDNI(data.dni)) {
+    toast.error("Introduce un dni válido con la letra en mayúscula ej(31009229P)");
     return false;
   }
+  
 
   return true;
 }
