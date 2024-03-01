@@ -119,6 +119,8 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
     reset({ ...entity });
   };
 
+  
+
   return (
     <Fragment>
       <Card>
@@ -238,13 +240,15 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   Email
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.email}
+                  defaultValue={entity && entity.email !== null ? entity.email : ''}
                   control={control}
                   id="email"
                   name="email"
                   render={({ field }) => (
                     <Input
                       {...field}
+                      value={field.value || ''}
+                      onChange={(e) => field.onChange(e.target.value)}
                       type="email"
                       id="email"
                       placeholder="nombre@gmail.com"
@@ -258,12 +262,14 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   Dni
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.dni}
+                  defaultValue={entity && entity.dni !== null ? entity.dni : ''}
                   control={control}
                   id="dni"
                   name="dni"
                   render={({ field }) => (
-                    <Input {...field} invalid={errors.dni && true} id="dni" placeholder="31000000C" />
+                    <Input {...field} value={field.value || ''}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      invalid={errors.dni && true} id="dni" placeholder="31000000C" />
                   )}
                 />
               </Col>
@@ -272,7 +278,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   Teléfono
                 </Label>
                 <Controller
-                  defaultValue={entity && entity.phone}
+                  defaultValue={entity && entity.phone !== null ? entity.phone : ''}
                   control={control}
                   type='number'
                   id="phone"
@@ -280,6 +286,8 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   render={({ field }) => (
                     <Input
                       {...field}
+                      value={field.value || ''}
+                      onChange={(e) => field.onChange(e.target.value)}
                       type="number"
                       id="phone"
                       placeholder="609 933 442"
@@ -294,11 +302,13 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                 </Label>
                 <Controller
                   control={control}
-                  defaultValue={entity && entity.birth_date}
+                  defaultValue={entity && entity.birth_date !== null ? entity.birth_date : ''}
                   name="birth_date"
                   render={({ field }) => (
                     <input
                       {...field}
+                      value={field.value || ''}
+                      onChange={(e) => field.onChange(e.target.value)}
                       id="birth_date"
                       type="date"
                       className="form-control"
