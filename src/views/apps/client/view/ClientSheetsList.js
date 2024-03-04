@@ -76,7 +76,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
   const onSubmit = async (data) => {
     console.log(data, entity)
     setData(data);
-    const newEntity={...entity}
+    const newEntity = { ...entity }
     newEntity.more_info = JSON.stringify(data);
     await updateClientBy({ ...newEntity }).then(e => { setEntity(newEntity); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
   };
@@ -111,11 +111,11 @@ const ClientSheetsList = ({ entity, setEntity }) => {
   };
 
   const selectYesNo = [
-    {value:'Si', label:'Si'},
-    {value:'No', label:'No'}
+    { value: 'Si', label: 'Si' },
+    { value: 'No', label: 'No' }
 
   ];
-  
+
 
   return (
     <Card>
@@ -173,7 +173,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Medicamento
               </Label>
               <Controller
-                defaultValue={data && data.Medicamento ? data.Medicamento :''}
+                defaultValue={data && data.Medicamento ? data.Medicamento : ''}
                 control={control}
                 id="Medicamento"
                 name="Medicamento"
@@ -187,7 +187,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Prótesis
               </Label>
               <Controller
-                defaultValue={data && data.Protesis ? data.Protesis :''}
+                defaultValue={data && data.Protesis ? data.Protesis : ''}
                 control={control}
                 id="Protesis"
                 name="Protesis"
@@ -249,7 +249,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Frecuencia
               </Label>
               <Controller
-                defaultValue={data && data.Frecuencia_fuma ? data.Frecuencia_fuma :''}
+                defaultValue={data && data.Frecuencia_fuma ? data.Frecuencia_fuma : ''}
                 control={control}
                 id="Frecuencia_fuma"
                 name="Frecuencia_fuma"
@@ -263,7 +263,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Bebe(alcohol)
               </Label>
               <Controller
-                defaultValue={data && data.alcohol ? data.alcohol :''}
+                defaultValue={data && data.alcohol ? data.alcohol : ''}
                 control={control}
                 id="alcohol"
                 name="alcohol"
@@ -271,7 +271,8 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                   <Select
                     isSearchable={(false)}
                     options={selectYesNo}
-                    noOptionsMessage={()=> 'Nada Disponible'}
+                    isClearable={(true)}
+                    noOptionsMessage={() => 'Nada Disponible'}
                     placeholder="Selecciona..."
                     theme={selectThemeColors}
                     classNamePrefix="select"
@@ -542,7 +543,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
             </Col>
             <Col sm="12">
               <div className="d-flex">
-              
+
                 <Button className="me-1" color="primary" type="submit" >
                   Guardar
                 </Button>
