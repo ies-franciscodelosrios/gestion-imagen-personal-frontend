@@ -93,6 +93,7 @@ export const selectThemeColors = (theme) => ({
   },
 });
 
+
 export function validateDNI(dni) {
   const letras = "TRWAGMYFPDXBNJZSQVHLCKE"; // Letras del DNI en orden
   const dniRegex = /^\d{8}[A-Z]$/; // Expresión regular para validar el formato del DNI
