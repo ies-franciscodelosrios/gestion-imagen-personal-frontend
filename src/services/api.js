@@ -163,7 +163,7 @@ export const updateUserBy = async (user) => {
  */
 export const AddStudent = async (user) => {
   return await ApiConnect.post(
-    `user/addstudent`,
+    `user/add/student`,
     {
       dni: user.dni,
       rol: user.rol,

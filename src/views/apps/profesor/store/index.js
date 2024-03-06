@@ -8,6 +8,7 @@ import {
   updateUserBy,
   ApiDelUser,
   AddProfesor,
+  AddStudent,
   getAllAppointments,
 } from "../../../../services/api";
 
@@ -105,6 +106,19 @@ export const addProfesor = createAsyncThunk(
     return response;
   }
 );
+/* ADD STUDENT */
+export const addStudent = createAsyncThunk(
+  "appStudents/addUserStudent",
+  async (user, { dispatch, getState }) => {
+    await AddStudent(user);
+    const response = await apiGetAllStudents().then((result) => {
+      return result.data.data;
+    });
+    return response;
+  }
+);
+
+
 /* UPDATE PROFESOR */
 export const updateProfesor = createAsyncThunk(
   "appProfessors/updateUser",

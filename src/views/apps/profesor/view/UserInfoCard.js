@@ -25,6 +25,8 @@ import Swal from "sweetalert2";
 import Select from "react-select";
 import { useForm, Controller, set } from "react-hook-form";
 import withReactContent from "sweetalert2-react-content";
+import { useNavigate } from "react-router";
+
 
 // ** Custom Components
 import Avatar from "@components/avatar";
@@ -39,6 +41,7 @@ const MySwal = withReactContent(Swal);
 
 const UserInfoCard = ({ id }) => {
 
+const navigateTo = useNavigate();
   
   // ** Store Vars
   const dispatch = useDispatch();
@@ -147,6 +150,7 @@ const UserInfoCard = ({ id }) => {
       if (id == "0") {
         dispatch(addProfesor(selectedUser));
         setShow(false);
+        navigateTo("/apps/profesor/list");
       } else {
         delete selectedUser.password;
         delete selectedUser.repassword;
@@ -396,7 +400,6 @@ const UserInfoCard = ({ id }) => {
                       classNamePrefix="select"
                       id="cycle"
                       name="cycle"
-                      placeholder="Elige tu ciclo"
                       defaultValue={{value: 6 }}
                       invalid={errors.cycle && true}
                     />
@@ -434,6 +437,7 @@ const UserInfoCard = ({ id }) => {
                     handleReset();
                     setShow(false);
                     toast.error("Datos no guardados");
+                    navigateTo("/apps/profesor/list");
                   }}
                 >
                   Cancelar
