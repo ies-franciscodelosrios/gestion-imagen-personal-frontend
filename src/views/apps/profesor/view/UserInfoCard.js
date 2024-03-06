@@ -23,6 +23,8 @@ import Swal from "sweetalert2";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import withReactContent from "sweetalert2-react-content";
+import { useNavigate } from "react-router";
+
 
 // ** Custom Components
 import Avatar from "@components/avatar";
@@ -35,6 +37,9 @@ import { validateDNI, validateUserData } from "../../../../utility/Utils";
 const MySwal = withReactContent(Swal);
 
 const UserInfoCard = ({ id, selectedProfesor, vocationalEducation }) => {
+
+const navigateTo = useNavigate();
+  
   // ** Store Vars
   const dispatch = useDispatch();
 
@@ -113,6 +118,8 @@ const UserInfoCard = ({ id, selectedProfesor, vocationalEducation }) => {
     if (validateUserData(updatedProfesor, isEditing)) {
       if (id == "0") {
         dispatch(addProfesor(updatedProfesor));
+        setShow(false);
+        navigateTo("/apps/profesor/list");
       } else {
         delete updatedProfesor.password;
         delete updatedProfesor.repassword;
@@ -421,6 +428,7 @@ const UserInfoCard = ({ id, selectedProfesor, vocationalEducation }) => {
                     handleReset();
                     setShow(false);
                     toast.error("Datos no guardados");
+                    navigateTo("/apps/profesor/list");
                   }}
                 >
                   Cancelar

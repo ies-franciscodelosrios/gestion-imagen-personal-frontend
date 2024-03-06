@@ -114,6 +114,7 @@ export function validateDNI(dni) {
 export function validateUserData(data, isEditing) {
   const requiredFields = ["name", "surname", "email", "dni", "cycle"];
   const values = Object.values(data);
+  console.log(data)
 
   if (data.password.length !== 0 || data.repassword.length !== 0) {
     if (data.password !== data.repassword) {
@@ -122,43 +123,32 @@ export function validateUserData(data, isEditing) {
     }
   }
 
+  
 
-  if (isEditing) {
+  
+  if(isEditing){
     for (const field in data) {
       if (data.hasOwnProperty(field)) {
-        if (
-          data[field] === "" &&
-          data[field] != data.password &&
-          data[field] != data.repassword
-        ) {
+        console.log("Valor del field:  "+data[field]);
+        if (data[field] === '' && data[field] != data.password && data[field] != data.repassword) {
           // El campo está vacío
           console.log(`El campo ${field} está vacío`);
-          toast.error("Rellena todos los campos obligatorios");
+          toast.error("Rellena todos los campos obligatorios"); 
           return false;
         }
       }
     }
-  } else {
-    const filledValues = values.every((input) => {
-      return (
-        input !== null &&
-        input !== undefined &&
-        input !== "" &&
-        !requiredFields.includes(input)
-      );
+  }else{
+    const filledValues = values.every(input => {
+      return input !== null && input !== undefined && input !== '' && !requiredFields.includes(input);
     });
-    if (!filledValues) {
-      toast.error("Rellena todos los campos");
-      return false;
-    }
-  }
+    if (!filledValues) { toast.error("Rellena todos los campos"); return false; }
 
-  if (!validateDNI(data.dni)) {
-    toast.error(
-      "Introduce un dni válido con la letra en mayuscula ej(31009229P)"
-    );
-    return false;
   }
+  
+
+  if (!validateDNI(data.dni)) { toast.error("Introduce un dni válido con la letra en mayuscula ej(31009229P)"); return false; }
+
 
   return true;
 }

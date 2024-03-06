@@ -38,14 +38,23 @@ const UserView = () => {
     }
   };
 
-  return store.selectedUser !== null && store.selectedUser !== undefined ? (
+  return id == "0" ? (
+    <UserInfoCard id={id} />
+  ) : (
+    store.selectedUser !== null && store.selectedUser !== undefined ? (
     <div className="app-user-view">
       <Row>
         <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
-          <UserInfoCard selectedUser={store.selectedUser} />
-          <div className="mt-auto">
-            <img className="img-fluid" src={illustration} alt="illustration" />
-          </div>
+          {id === 0 ? (
+            <UserInfoCard selectedUser={store.selectedUser} />
+          ) : (
+            <>
+              <UserInfoCard selectedUser={store.selectedUser} />
+              <div className="mt-auto">
+                <img className="img-fluid" src={illustration} alt="illustration" />
+              </div>
+            </>
+          )}
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
           <UserTabs
@@ -64,6 +73,7 @@ const UserView = () => {
         <Link to="/apps/student/list">Lista de Alumnos</Link>
       </div>
     </Alert>
+  )
   );
-};
+}
 export default UserView;

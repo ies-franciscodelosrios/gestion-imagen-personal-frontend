@@ -3,6 +3,8 @@ import { Fragment, useState, useEffect } from 'react'
 
 // ** Invoice List Sidebar
 import Sidebar from './Sidebar'
+import { Link } from "react-router-dom";
+
 
 // ** Table Columns
 import { columns } from './columns'
@@ -215,9 +217,11 @@ const CustomHeader = ({ store, toggleSidebar, handlePerPage, rowsPerPage, handle
               </DropdownMenu>
             </UncontrolledDropdown>
 
-            <Button className='add-new-user' color='primary' onClick={toggleSidebar}>
-              Añadir Nuevo Estudiante
-            </Button>
+            <Link to="/apps/student/view/0">
+              <Button className="add-new-user" color="primary">
+                Añadir estudiante
+              </Button>
+            </Link>
             <Modal isOpen={modalOpen} toggle={toggleModal}>
               <ModalHeader toggle={toggleModal}>Error</ModalHeader>
               <ModalBody>

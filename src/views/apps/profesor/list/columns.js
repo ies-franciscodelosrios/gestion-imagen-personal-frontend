@@ -1,4 +1,5 @@
 // ** React Imports
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // ** Custom Components
@@ -7,6 +8,8 @@ import Avatar from "@components/avatar";
 // ** Store & Actions
 import { store } from "@store/store";
 import { getProfessorById, deleteProfesor } from "../store";
+import { apiGetAllVocationalEducation } from "../../../../services/api";
+
 
 // ** Icons Imports
 import {
@@ -30,9 +33,32 @@ import {
   DropdownItem,
 } from "reactstrap";
 
+
+
 // ** Renders Client Columns
 
 const renderClient = (row) => {
+  const getAllVocEdu = () => {
+    apiGetAllVocationalEducation()
+      .then((response) => {
+        const cycleOption = response.data.data.map((item) => {
+          return {
+            label: item.long_name,
+            value: item.id,
+          };
+        });
+        console.log(cycleOption);
+        setCycleOptions(cycleOption);
+      })
+      .catch((error) => {
+        console.log('Error: ' + error)
+      })
+  }
+  const [cycleOptions, setCycleOptions] = useState(null);
+  useEffect(() => {
+    console.log("OK");
+    getAllVocEdu();
+  }, []);
   if (false && row.avatar.length) {
     return <Avatar className="me-1" img={row.avatar} width="32" height="32" />;
   } else {
@@ -71,8 +97,10 @@ const renderRole = (row) => {
       icon: Slack,
     },
   };
+  
 
   const Icon = roleObj[row.role] ? roleObj[row.role].icon : Edit2;
+
 
   return (
     <span className="text-truncate text-capitalize align-middle">
@@ -90,6 +118,9 @@ const statusObj = {
   active: "light-success",
   inactive: "light-secondary",
 };
+
+
+
 
 export const columns = [
   {
