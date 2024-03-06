@@ -182,10 +182,6 @@ export const columns = [
               <FileText size={14} className="me-50" />
               <span className="align-middle">Detalles</span>
             </DropdownItem>
-            {/* <DropdownItem tag='a' href='/' className='w-100' onClick={e => e.preventDefault()}>
-              <Archive size={14} className='me-50' />
-              <span className='align-middle'>Editar</span>
-            </DropdownItem> */}
             <DropdownItem
               tag="a"
               href="/"

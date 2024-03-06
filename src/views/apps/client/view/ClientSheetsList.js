@@ -76,46 +76,46 @@ const ClientSheetsList = ({ entity, setEntity }) => {
   const onSubmit = async (data) => {
     console.log(data, entity)
     setData(data);
-    const newEntity={...entity}
+    const newEntity = { ...entity }
     newEntity.more_info = JSON.stringify(data);
     await updateClientBy({ ...newEntity }).then(e => { setEntity(newEntity); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
   };
 
   const handleReset = () => {
     reset({
-      Alergias: data.Alergias || '',
-      Patologias: data.Patologias || '',
-      Intervenciones: data.Intervenciones || '',
-      Medicamento: data.Medicamento || '',
-      Protesis: data.Protesis || '',
-      Otros_antecedentes: data.Otros_antecedentes || '',
-      Fuma: data.Fuma || '',
-      Frecuencia_fuma: data.Frecuencia_fuma || '',
-      alcohol: data.alcohol || '',
-      Frecuencia_alcohol: data.Frecuencia_alcohol || '',
-      agua: data.agua || '',
-      Frecuencia_agua: data.Frecuencia_agua || '',
-      deporte: data.deporte || '',
-      Frecuencia_deporte: data.Frecuencia_deporte || '',
-      tipo_vida: data.tipo_vida || '',
-      tolerancia_solar: data.tolerancia_solar || '',
-      Cicatricacion: data.Cicatricacion || '',
-      Alimentacion: data.Alimentacion || '',
-      tratamientos: data.tratamientos || '',
-      Problema: data.Problema || '',
-      Problema_tiempo: data.Problema_tiempo || '',
-      Problema_relacion: data.Problema_relacion || '',
-      Cosmeticos: data.Cosmeticos || '',
-      Otros_esteticos: data.Otros_esteticos || '',
+      Alergias: data ? data.Alergias || '' : '',
+      Patologias: data ? data.Patologias || '' : '',
+      Intervenciones: data ? data.Intervenciones || '' : '',
+      Medicamento: data ? data.Medicamento || '' : '',
+      Protesis: data ? data.Protesis || '' : '',
+      Otros_antecedentes: data ? data.Otros_antecedentes || '' : '',
+      Fuma: data ? data.Fuma || '' : '',
+      Frecuencia_fuma: data ? data.Frecuencia_fuma || '' : '',
+      alcohol: data ? data.alcohol || '' : '',
+      Frecuencia_alcohol: data ? data.Frecuencia_alcohol || '' : '',
+      agua: data ? data.agua || '' : '',
+      Frecuencia_agua: data ? data.Frecuencia_agua || '' : '',
+      deporte: data ? data.deporte || '' : '',
+      Frecuencia_deporte: data ? data.Frecuencia_deporte || '' : '',
+      tipo_vida: data ? data.tipo_vida || '' : '',
+      tolerancia_solar: data ? data.tolerancia_solar || '' : '',
+      Cicatricacion: data ? data.Cicatricacion || '' : '',
+      Alimentacion: data ? data.Alimentacion || '' : '',
+      tratamientos: data ? data.tratamientos || '' : '',
+      Problema: data ? data.Problema || '' : '',
+      Problema_tiempo: data ? data.Problema_tiempo || '' : '',
+      Problema_relacion: data ? data.Problema_relacion || '' : '',
+      Cosmeticos: data ? data.Cosmeticos || '' : '',
+      Otros_esteticos: data ? data.Otros_esteticos || '' : '',
     });
   };
 
   const selectYesNo = [
-    {value:'Si', label:'Si'},
-    {value:'No', label:'No'}
+    { value: 'Si', label: 'Si' },
+    { value: 'No', label: 'No' }
 
   ];
-  
+
 
   return (
     <Card>
@@ -173,7 +173,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Medicamento
               </Label>
               <Controller
-                defaultValue={data && data.Medicamento ? data.Medicamento :''}
+                defaultValue={data && data.Medicamento ? data.Medicamento : ''}
                 control={control}
                 id="Medicamento"
                 name="Medicamento"
@@ -187,7 +187,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Prótesis
               </Label>
               <Controller
-                defaultValue={data && data.Protesis ? data.Protesis :''}
+                defaultValue={data && data.Protesis ? data.Protesis : ''}
                 control={control}
                 id="Protesis"
                 name="Protesis"
@@ -249,7 +249,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Frecuencia
               </Label>
               <Controller
-                defaultValue={data && data.Frecuencia_fuma ? data.Frecuencia_fuma :''}
+                defaultValue={data && data.Frecuencia_fuma ? data.Frecuencia_fuma : ''}
                 control={control}
                 id="Frecuencia_fuma"
                 name="Frecuencia_fuma"
@@ -263,7 +263,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                 Bebe(alcohol)
               </Label>
               <Controller
-                defaultValue={data && data.alcohol ? data.alcohol :''}
+                defaultValue={data && data.alcohol ? data.alcohol : ''}
                 control={control}
                 id="alcohol"
                 name="alcohol"
@@ -271,7 +271,8 @@ const ClientSheetsList = ({ entity, setEntity }) => {
                   <Select
                     isSearchable={(false)}
                     options={selectYesNo}
-                    noOptionsMessage={()=> 'Nada Disponible'}
+                    isClearable={(true)}
+                    noOptionsMessage={() => 'Nada Disponible'}
                     placeholder="Selecciona..."
                     theme={selectThemeColors}
                     classNamePrefix="select"
@@ -542,7 +543,7 @@ const ClientSheetsList = ({ entity, setEntity }) => {
             </Col>
             <Col sm="12">
               <div className="d-flex">
-              
+
                 <Button className="me-1" color="primary" type="submit" >
                   Guardar
                 </Button>

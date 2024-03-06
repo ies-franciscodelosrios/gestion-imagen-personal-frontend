@@ -148,7 +148,7 @@ export const getUserByDNI = async (id) => {
  * @returns response 200 if ok
  */
 export const updateUserBy = async (user) => {
-  return await ApiConnect.put("user/edit/"+user.id, user, {
+  return await ApiConnect.put("user/edit/" + user.id, user, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -218,7 +218,7 @@ export const AddProfesor = async (user) => {
  * @returns response 200 for ok OR 401 for not found
  */
 export const ApiDelUser = async (id) => {
-  return await ApiConnect.delete(`user/delete/`+id, {
+  return await ApiConnect.delete(`user/delete/` + id, {
     params: { id: id },
     headers: {
       "Content-Type": "application/json",
@@ -414,13 +414,14 @@ export const getAppointmentbyId = async (id) => {
 };
 
 export const apiAddUsersCSV = async (csvbase64) => {
-  return await ApiConnect.post("csv/import", {"csv_data": csvbase64}, {
+  const response = await ApiConnect.post("csv/import", { "csv_data": csvbase64 }, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: `Bearer ${getToken()}`,
     }
   })
+  return response.data;
 }
 
 /**
@@ -562,18 +563,24 @@ export const apiGetVocationalEducationByID = async (id) => {
   })
 }
 
-export const apiAddVocationalEducation = async () => {
-  return await ApiConnect.post("vocationaleducation/add", {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${getToken()}`,
-    }
-  })
+export const apiAddVocationalEducation = async (vocedu) => {
+  return await ApiConnect.post("vocationaleducation/add",
+    {
+      short_name: vocedu.short_name,
+      long_name: vocedu.long_name,
+      description: vocedu.description,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      }
+    })
 }
 
-export const apiUpdateVocationalEducation = async (id) => {
-  return await ApiConnect.put("vocationaleducation/edit/" + id, {
+export const apiUpdateVocationalEducation = async (vocedu) => {
+  return await ApiConnect.put("vocationaleducation/edit/" + vocedu.id, vocedu, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",

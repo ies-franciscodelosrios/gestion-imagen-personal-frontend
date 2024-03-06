@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { columns } from "./columns";
 
 // ** Store & Actions
-import { getAllProfessors } from "../store";
+import { getAllProfessors, getAllVocationalEducation } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 
 // ** Third Party Components
@@ -24,7 +24,7 @@ import {
   Input,
   Button,
   Modal,
-  ModalHeader, 
+  ModalHeader,
   ModalBody,
   ModalFooter,
   DropdownMenu,
@@ -96,23 +96,32 @@ const CustomHeader = ({
   const toggleModal = () => setModalOpen(!modalOpen);
 
   function uploadCSV() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.csv';
-    input.addEventListener('change', handleFileSelection);
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".csv";
+    input.addEventListener("change", handleFileSelection);
     input.click();
   }
+
+  const [modalData, setModalData] = useState(null);
+
+  const toggleModal2 = () => {
+    setModalData(!modalData);
+  };
 
   const handleFileSelection = (event) => {
     const file = event.target.files[0];
 
     if (file) {
-      if (file.name.endsWith('.csv')) {
+      if (file.name.endsWith(".csv")) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
           const base64Text = btoa(e.target.result);
-          console.log('Contenido en base64:', base64Text);
-          apiAddUsersCSV(base64Text);
+          console.log("Contenido en base64:", base64Text);
+          const response = await apiAddUsersCSV(base64Text);
+          const { imported, failed } = response;
+          setModalData({ imported, failed });
+          handlePerPage({ currentTarget: { value: rowsPerPage } });
         };
         reader.readAsText(file);
       } else {
@@ -120,6 +129,22 @@ const CustomHeader = ({
       }
     }
   };
+
+  const [modalInfo, setModalInfo] = useState(false);
+
+  const toggleModal3 = () => setModalInfo(!modalInfo);
+
+  function help() {
+    toggleModal3();
+  }
+
+  function importModel() {
+    const link = document.createElement("a");
+    link.href = "/Example Professor.csv";
+    link.download = "Example Professor.csv";
+    link.click();
+    help();
+  }
 
   return (
     <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">
@@ -166,6 +191,14 @@ const CustomHeader = ({
                 <span className="align-middle">Exp/Imp</span>
               </DropdownToggle>
               <DropdownMenu>
+                <DropdownItem className="w-100" onClick={() => help()}>
+                  <FileText className="font-small-4 me-50" />
+                  <span className="align-middle">Ayuda</span>
+                </DropdownItem>
+                <DropdownItem className="w-100" onClick={() => importModel()}>
+                  <FileText className="font-small-4 me-50" />
+                  <span className="align-middle">Modelo para Importar</span>
+                </DropdownItem>
                 <DropdownItem className="w-100" onClick={() => uploadCSV()}>
                   <FileText className="font-small-4 me-50" />
                   <span className="align-middle">Importar</span>
@@ -192,6 +225,69 @@ const CustomHeader = ({
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" onClick={toggleModal}>
+                  Cerrar
+                </Button>
+              </ModalFooter>
+            </Modal>
+
+            <Modal isOpen={!!modalData} toggle={toggleModal2}>
+              <ModalHeader toggle={toggleModal2}>Importación</ModalHeader>
+              <ModalBody>
+                <p>Usuarios importados: {modalData?.imported}</p>
+                <p>Usuarios no importados: {modalData?.failed}</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={toggleModal2}>
+                  Cerrar
+                </Button>
+              </ModalFooter>
+            </Modal>
+
+            <Modal isOpen={!!modalInfo} toggle={toggleModal3} >
+              <ModalHeader toggle={toggleModal3}>Explicación de los campos</ModalHeader>
+              <ModalBody style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+                <p>Nombre del Campo</p>
+                <p>Descripción</p>
+                <p>Ejemplo</p>
+
+                <p>dni:</p>
+                <p>DNI del usuario a insertar</p>
+                <p>76590167Y</p>
+
+                <p>rol:</p>
+                <p>1 es profesor</p>
+                <p>1</p>
+
+                <p>course_year:</p>
+                <p>año que cursa</p>
+                <p>23-24</p>
+
+                <p>cycle:</p>
+                <p>nombre del ciclo</p>
+                <p>Peluquería</p>
+
+                <p>name:</p>
+                <p>nombre</p>
+                <p>Fulanito</p>
+
+                <p>surname:</p>
+                <p>apellidos</p>
+                <p>Fernández</p>
+
+                <p>email:</p>
+                <p>dirección correcta</p>
+                <p>fulanito@ieseltablero.es</p>
+
+                <p>password:</p>
+                <p>contraseña</p>
+                <p>12345</p>
+
+                <p>others:</p>
+                <p>campo opcional</p>
+                <p></p>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={toggleModal3}>
                   Cerrar
                 </Button>
               </ModalFooter>
@@ -227,6 +323,7 @@ const ProfesorList = () => {
 
   // ** Get data on load
   useEffect(() => {
+    dispatch(getAllVocationalEducation());
     dispatch(
       getAllProfessors({
         sort,
@@ -353,7 +450,7 @@ const ProfesorList = () => {
 
   return (
     <Fragment>
-      { }
+      {}
 
       <Card className="overflow-hidden">
         <div className="react-dataTable">

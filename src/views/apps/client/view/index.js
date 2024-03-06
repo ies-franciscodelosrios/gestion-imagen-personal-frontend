@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getClient } from '../store'
-import { useSelector, useDispatch } from 'react-redux'
 import { getClientById } from '../../../../services/api'
 
 // ** Reactstrap Imports
@@ -32,10 +30,17 @@ const ClientView = () => {
     setEntity(e);
   };
 
-  // ** Get suer on mount
   useEffect(() => {
-    getClientById(id).then(e => {setEntity(e.data.data)});
-  }, [])
+    if (id > 0) {
+      getClientById(id)
+        .then(response => {
+          setEntity(response.data.data);
+        })
+        .catch(error => {
+          console.error('Error al obtener los datos del cliente:', error);
+        });
+    }
+  }, [id]);
 
   const [active, setActive] = useState('1')
 
@@ -45,32 +50,42 @@ const ClientView = () => {
     }
   }
 
-  return entity !== null && entity !== undefined ? (
-    <div className='app-user-view'>
-      <Row>
-        <Col xl='4' lg='5' xs={{ order: 0 }} md={{ order: 0, size: 5 }}>
-          <ClientInfoCard entity={entity} setEntity={setNewEntity}/>
-          <div className="mt-auto">
-            <img className="img-fluid" src={illustration} alt="illustration" />
-          </div>
-        </Col>
-        <Col xl='8' lg='7' xs={{ order: 1 }} md={{ order: 1, size: 7 }}>
-          <ClientTabs  active={active} toggleTab={toggleTab} setEntity={setNewEntity} entity={entity}/>
-        </Col>
-      </Row>
-      <Row>
-        <Col sm="12">
-          <SheetTabs entity={entity} setEntity={setNewEntity}></SheetTabs>
-        </Col>
-      </Row>
+  return (
+    <div>
+      {(() => {
+        if (id === '0') {
+          return <ClientInfoCard id={id} />;
+        } else if (entity) {
+          return (
+            <div className="app-user-view">
+              <Row>
+                <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+                  <ClientInfoCard id={id} entity={entity} setEntity={setNewEntity} />
+                </Col>
+                <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
+                  <ClientTabs active={active} toggleTab={toggleTab} setEntity={setNewEntity} entity={entity} />
+                </Col>
+              </Row>
+              <Row>
+                <Col sm="12">
+                  <SheetTabs entity={entity} setEntity={setNewEntity}></SheetTabs>
+                </Col>
+              </Row>
+            </div>
+          );
+        } else {
+          return (
+            <Alert color="danger">
+              <h4 className="alert-heading">Cliente no encontrado</h4>
+              <div className="alert-body">
+                Cliente con id: {id} no existe. Revise la lista de clientes:{" "}
+                <Link to="/apps/client/list">Lista de clientes</Link>
+              </div>
+            </Alert>
+          );
+        }
+      })()}
     </div>
-  ) : (
-    <Alert color='danger'>
-      <h4 className='alert-heading'>Cliente no encontrado</h4>
-      <div className='alert-body'>
-        Cliente con id: {id} no existe. Revise la lista de clientes: <Link to='/apps/client/list'>Lista clientes</Link>
-      </div>
-    </Alert>
-  )
-}
+  );
+};
 export default ClientView

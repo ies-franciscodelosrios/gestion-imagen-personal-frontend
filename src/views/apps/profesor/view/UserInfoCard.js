@@ -1,9 +1,7 @@
 // ** React Imports
 import { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProfesor, updateProfesor, getProfessorById, getVocationalEducationById } from "../store";
-//import { useForm, Controller } from "react-hook-form";
-
+import { addProfesor, updateProfesor } from "../store";
 
 // ** Reactstrap Imports
 import {
@@ -23,7 +21,7 @@ import {
 // ** Third Party Components
 import Swal from "sweetalert2";
 import Select from "react-select";
-import { useForm, Controller, set } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router";
 
@@ -35,62 +33,34 @@ import Avatar from "@components/avatar";
 import "@styles/react/libs/react-select/_react-select.scss";
 import { toast } from "react-hot-toast";
 import { validateDNI, validateUserData } from "../../../../utility/Utils";
-import { apiGetAllVocationalEducation } from "../../../../services/api";
 
 const MySwal = withReactContent(Swal);
 
-const UserInfoCard = ({ id }) => {
+const UserInfoCard = ({ id, selectedProfesor, vocationalEducation }) => {
 
 const navigateTo = useNavigate();
   
   // ** Store Vars
   const dispatch = useDispatch();
-  const store = useSelector((state) => state.profesor);
-  const selectedUser =
-    id == "0"
-      ? {
-        name: "",
-        surname: "",
-        email: "",
-        dni: "",
-        course_year: "",
-        cycle: "",
-        password: "",
-        repassword: "",
-      }
-      : store.selectedProfesor;
-      console.log(store.selectedProfesor);
 
   // ** State
   const [show, setShow] = useState(false);
-  const [cycleOptions, setCycleOptions] = useState(null);
-  const isEditing = selectedUser.password != ""; // Asume que selectedUser es null si estás añadiendo un nuevo profesor
-
-
-  const getAllVocEdu = () => {
-    apiGetAllVocationalEducation()
-      .then((response) => {
-        const cycleOption = response.data.data.map((item) => {
-          return {
-            label: item.long_name,
-            value: item.id,
-          };
-        });
-        console.log(cycleOption);
-        setCycleOptions(cycleOption);
-      })
-      .catch((error) => {
-        console.log('Error: ' + error)
-      })
-  }
+  const [selectedVocEdu, setSelectedVocEdu] = useState({
+    value: "",
+    label: "",
+  });
+  const isEditing = selectedProfesor.password != ""; // Asume que selectedProfesor es null si estás añadiendo un nuevo profesor
 
   useEffect(() => {
-    getAllVocEdu();
     if (id == "0") {
       setShow(true);
     }
-
-  }, []);
+    setSelectedVocEdu(
+      vocationalEducation.find((item) =>
+        item.value == selectedProfesor.cycle ? item : null
+      )
+    );
+  }, [id, selectedProfesor]);
 
   // ** Hook
   const {
@@ -102,24 +72,23 @@ const navigateTo = useNavigate();
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: selectedUser.name,
-      surname: selectedUser.surname,
-      email: selectedUser.email,
-      dni: selectedUser.dni,
-      course_year: selectedUser.course_year,
+      name: selectedProfesor.name,
+      surname: selectedProfesor.surname,
+      email: selectedProfesor.email,
+      dni: selectedProfesor.dni,
+      course_year: selectedProfesor.course_year,
       password: "",
       repassword: "",
     },
   });
 
   const renderUserImg = () => {
-    
     return (
       <Avatar
         initials
         color={"light-primary"}
         className="rounded mt-3 mb-2"
-        content={selectedUser.name}
+        content={selectedProfesor.name}
         contentStyles={{
           borderRadius: 0,
           fontSize: "calc(48px)",
@@ -134,34 +103,33 @@ const navigateTo = useNavigate();
     );
   };
 
-  const onSubmit = (data) => {
-    const selectedUser = { ...store.selectedProfesor };
-    selectedUser.name = data.name;
-    selectedUser.surname = data.surname;
-    selectedUser.email = data.email;
-    selectedUser.dni = data.dni;
-    selectedUser.course_year = data.course_year;
-    selectedUser.cycle = data.cycle.value;
-    selectedUser.password = data.password;
-    selectedUser.repassword = data.repassword;
-    console.log(selectedUser);
+  const onSubmit = (dataForm) => {
+    const updatedProfesor = { ...selectedProfesor };
+    updatedProfesor.name = dataForm.name;
+    updatedProfesor.surname = dataForm.surname;
+    updatedProfesor.email = dataForm.email;
+    updatedProfesor.dni = dataForm.dni;
+    updatedProfesor.course_year = dataForm.course_year;
+    // Si no se cambia el ciclo no se actualiza el valor, por eso se usa esta variable
+    updatedProfesor.cycle = selectedVocEdu.value;
+    updatedProfesor.password = dataForm.password;
+    updatedProfesor.repassword = dataForm.repassword;
 
-    if (validateUserData(data, isEditing)) {
+    if (validateUserData(updatedProfesor, isEditing)) {
       if (id == "0") {
-        dispatch(addProfesor(selectedUser));
+        dispatch(addProfesor(updatedProfesor));
         setShow(false);
         navigateTo("/apps/profesor/list");
       } else {
-        delete selectedUser.password;
-        delete selectedUser.repassword;
-        console.log(selectedUser);
-        dispatch(updateProfesor(selectedUser));
-        setShow(false);
+        delete updatedProfesor.password;
+        delete updatedProfesor.repassword;
+        dispatch(updateProfesor(updatedProfesor));
       }
+      setShow(false);
     } else {
-      for (const key in data) {
-        if (!validateDNI(data.dni)) setError("dni", {});
-        if (data.password.length != 0 || data.repassword.length != 0) {
+      for (const key in dataForm) {
+        if (!validateDNI(dataForm.dni)) setError("dni", {});
+        if (dataForm.password.length != 0 || dataForm.repassword.length != 0) {
           setError("password", {});
           setError("repassword", {});
         }
@@ -171,18 +139,17 @@ const navigateTo = useNavigate();
 
   const handleReset = () => {
     reset({
-      name: selectedUser.name,
-      surname: selectedUser.surname,
-      email: selectedUser.email,
-      dni: selectedUser.dni,
-      cycle: selectedUser.cycle,
-      course_year: selectedUser.course_year,
+      name: selectedProfesor.name,
+      surname: selectedProfesor.surname,
+      email: selectedProfesor.email,
+      dni: selectedProfesor.dni,
+      cycle: selectedProfesor.cycle,
+      course_year: selectedProfesor.course_year,
       password: "",
       repassword: "",
     });
   };
 
-  
   return (
     <Fragment>
       <Card>
@@ -193,8 +160,10 @@ const navigateTo = useNavigate();
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info">
                   <h4>
-                    {selectedUser !== null
-                      ? selectedUser.name.concat(" " + selectedUser.surname)
+                    {selectedProfesor !== null
+                      ? selectedProfesor.name.concat(
+                          " " + selectedProfesor.surname
+                        )
                       : "Eleanor Aguilar"}
                   </h4>
                 </div>
@@ -203,36 +172,48 @@ const navigateTo = useNavigate();
           </div>
           <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
           <div className="info-container">
-            {selectedUser !== null && cycleOptions && isEditing ? (
+            {selectedProfesor !== null && isEditing ? (
               <ul className="list-unstyled">
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Nombre: </span>
-                  <span>{selectedUser.name}</span>
+                  <span>{selectedProfesor.name}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Apellidos: </span>
-                  <span>{selectedUser.surname}</span>
+                  <span>{selectedProfesor.surname}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">DNI: </span>
-                  <span>{selectedUser.dni}</span>
+                  <span>{selectedProfesor.dni}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Email: </span>
-                  <span>{selectedUser.email}</span>
+                  <span>{selectedProfesor.email}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Curso: </span>
-                  <span>{selectedUser.course_year}</span>
+                  <span>{selectedProfesor.course_year}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Ciclo: </span>
                   <span>
-                    {cycleOptions[selectedUser.cycle - 1].label}
+                    {
+                      vocationalEducation.find((item) => {
+                        if (item.value == selectedProfesor.cycle) {
+                          return item.label;
+                        }
+                      }).label
+                    }
                   </span>
                 </li>
               </ul>
-            ) : <img style={{ width: 50, display: 'block', margin: '0 auto' }} src="../../../../src/assets/images/GIF/loading.gif" alt="GIF cargando" />}
+            ) : (
+              <img
+                style={{ width: 50, display: "block", margin: "0 auto" }}
+                src="../../../../src/assets/images/GIF/loading.gif"
+                alt="GIF cargando"
+              />
+            )}
           </div>
           <div className="d-flex justify-content-center pt-2">
             <Button
@@ -240,7 +221,13 @@ const navigateTo = useNavigate();
               onClick={() => {
                 handleReset();
                 setShow(true);
-                getAllVocEdu();
+                setSelectedVocEdu(
+                  vocationalEducation.find((item) => {
+                    if (item.value == selectedProfesor.cycle) {
+                      return item;
+                    }
+                  })
+                );
               }}
             >
               Editar
@@ -270,7 +257,7 @@ const navigateTo = useNavigate();
                   Nombre
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.name}
+                  defaultValue={selectedProfesor.name}
                   control={control}
                   id="name"
                   name="name"
@@ -289,7 +276,7 @@ const navigateTo = useNavigate();
                   Apellidos
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.surname}
+                  defaultValue={selectedProfesor.surname}
                   control={control}
                   id="surname"
                   name="surname"
@@ -308,7 +295,7 @@ const navigateTo = useNavigate();
                   Email
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.email}
+                  defaultValue={selectedProfesor.email}
                   control={control}
                   id="email"
                   name="email"
@@ -366,7 +353,7 @@ const navigateTo = useNavigate();
                   DNI
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.dni}
+                  defaultValue={selectedProfesor.dni}
                   control={control}
                   id="dni"
                   name="dni"
@@ -382,25 +369,29 @@ const navigateTo = useNavigate();
               </Col>
               <Col xs={12}>
                 <Label className="form-label" for="cycle">
-                  Ciclo <span className="text-danger">*</span>
+                  Ciclo Formativo <span className="text-danger">*</span>
                 </Label>
                 <Controller
-                  defaultValue={{
-                    label: selectedUser.cycle,
-                    value: selectedUser.cycle.value,
-                  }} // Set the default value to the first option in the array
                   control={control}
                   id="cycle"
                   name="cycle"
+                  value={selectedVocEdu}
+                  defaultValue={selectedVocEdu}
                   render={({ field }) => (
                     <Select
                       {...field}
-                      options={cycleOptions}
+                      options={vocationalEducation}
+                      value={selectedVocEdu}
+                      defaultValue={selectedVocEdu}
+                      onChange={(value) => {
+                        field.onChange(value);
+                        setSelectedVocEdu(value);
+                      }}
                       className="react-select"
                       classNamePrefix="select"
                       id="cycle"
                       name="cycle"
-                      defaultValue={{value: 6 }}
+                      placeholder="Elige tu ciclo"
                       invalid={errors.cycle && true}
                     />
                   )}
@@ -411,7 +402,7 @@ const navigateTo = useNavigate();
                   Curso
                 </Label>
                 <Controller
-                  defaultValue={selectedUser.course_year}
+                  defaultValue={selectedProfesor.course_year}
                   control={control}
                   id="course_year"
                   name="course_year"
