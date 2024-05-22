@@ -353,8 +353,8 @@ export const AddAppointment = async (event) => {
       date: event.start,
       treatment: event.calendar,
       protocol: event.title,
-      dni_client: event.dnicliente,
-      dni_student: event.dnialumno,
+      id_client: event.idCliente,
+      id_student: event.idAlumno,
       consultancy: event.desc,
     },
     {
@@ -436,8 +436,8 @@ export const updateAppointment = async (event) => {
       date: event.start,
       treatment: event.calendar,
       protocol: event.title,
-      dni_client: event.dnicliente,
-      dni_student: event.dnialumno,
+      id_client: event.idCliente,
+      id_student: event.idAlumno,
       consultancy: event.desc,
     },
     {
