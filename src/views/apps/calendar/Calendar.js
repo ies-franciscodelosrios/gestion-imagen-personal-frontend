@@ -1,26 +1,27 @@
-import { useEffect, useRef, memo, useState } from 'react';
+import { useEffect, useRef, memo, useState } from "react";
 
-import '@fullcalendar/react/dist/vdom';
-import FullCalendar from '@fullcalendar/react';
-import listPlugin from '@fullcalendar/list';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import locale from '@fullcalendar/core/locales/es';
+import "@fullcalendar/react/dist/vdom";
+import FullCalendar from "@fullcalendar/react";
+import listPlugin from "@fullcalendar/list";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import momentTimezonePlugin from "@fullcalendar/moment-timezone"
+import interactionPlugin from "@fullcalendar/interaction";
+import locale from "@fullcalendar/core/locales/es";
 // ** Styles Imports
-import '@styles/react/libs/react-select/_react-select.scss';
-import '@styles/react/libs/flatpickr/flatpickr.scss';
-import toast from 'react-hot-toast';
-import { Menu } from 'react-feather';
-import { Card, CardBody } from 'reactstrap';
+import "@styles/react/libs/react-select/_react-select.scss";
+import "@styles/react/libs/flatpickr/flatpickr.scss";
+import toast from "react-hot-toast";
+import { Menu } from "react-feather";
+import { Card, CardBody } from "reactstrap";
 import {
   getAllAppointments,
   getAllClientsData,
   getClientByData,
   getUserByDNI,
-} from '../../../services/api';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchEvents } from './store';
+} from "../../../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchEvents } from "./store";
 
 const Calendar = (props) => {
   // ** Store Vars
@@ -32,8 +33,6 @@ const Calendar = (props) => {
   const [appointmentList, setappointmentList] = useState([]);
   const [userList, setuserList] = useState([]);
   const [clientList, setclientList] = useState([]);
-
-
 
   const {
     isRtl,
@@ -48,23 +47,42 @@ const Calendar = (props) => {
   } = props;
 
   useEffect(() => {
-    (appointmentList.length<=0)?dispatch(fetchEvents({ events: appointmentList, users: [], clients: [], calendarLabel: [0, 1] })):null;
+    appointmentList.length <= 0
+      ? dispatch(
+          fetchEvents({
+            events: appointmentList,
+            users: [],
+            clients: [],
+            calendarLabel: [0, 1],
+          })
+        )
+      : null;
     setappointmentList(store.events);
-    console.log(store.events);
-    console.log(store.users);
-  }, [store.events]);
+  }, [store, setappointmentList]);
 
   // ** calendarOptions(Props)
   const calendarOptions = {
     events: appointmentList,
-    plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
-    timeZone: 'UTC',
+    plugins: [
+      interactionPlugin,
+      dayGridPlugin,
+      timeGridPlugin,
+      listPlugin,
+      momentTimezonePlugin,
+    ],
+    timeZone: "Europe/Madrid", // Cambiado a la zona horaria de España
     locales: locale,
-    locale: 'es',
-    initialView: 'dayGridMonth',
+    locale: "es",
+    initialView: "dayGridMonth",
     headerToolbar: {
-      start: 'sidebarToggle, prev,next, title',
-      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+      start: "sidebarToggle, prev,next, title",
+      end: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+    },
+    eventTimeFormat: { // like '14:30:00'
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      meridiem: false
     },
     /*
       Enable dragging and resizing event
@@ -108,7 +126,6 @@ const Calendar = (props) => {
     },
 
     eventClick({ event: clickedEvent }) {
-      console.log(clickedEvent);
       dispatch(selectEvent(clickedEvent));
       handleAddEventSidebar();
 
@@ -130,7 +147,6 @@ const Calendar = (props) => {
     },
 
     dateClick(info) {
-      console.log("holaaa");
       const ev = blankEvent;
       ev.start = info.date;
       ev.end = info.date;
@@ -145,7 +161,11 @@ const Calendar = (props) => {
     */
     eventDrop({ event: droppedEvent }) {
       const startDate = new Date(droppedEvent.start);
-      const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+      const formattedStartDate = `${startDate.getFullYear()}-${(
+        startDate.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, "0")}-${startDate.getDate().toString().padStart(2, "0")}`;
       const obj = {
         id: droppedEvent.id,
         title: droppedEvent.title,
@@ -156,7 +176,7 @@ const Calendar = (props) => {
         calendar: droppedEvent.extendedProps.calendarLabel,
       };
       dispatch(updateEvent(obj));
-      toast.success('Cita Actualizada');
+      toast.success("Cita Actualizada");
     },
 
     /*
@@ -165,19 +185,17 @@ const Calendar = (props) => {
     */
     eventResize({ event: resizedEvent }) {
       dispatch(updateEvent(resizedEvent));
-      toast.success('Cita Actualizada');
+      toast.success("Cita Actualizada");
     },
 
-
-
     // Get direction from app state (store)
-    direction: isRtl ? 'rtl' : 'ltr',
+    direction: isRtl ? "rtl" : "ltr",
   };
 
   return (
     <Card className="shadow-none border-0 mb-0 rounded-0">
       <CardBody className="pb-0">
-        <FullCalendar ref={calendarRef} {...calendarOptions} />{' '}
+        <FullCalendar ref={calendarRef} {...calendarOptions} />{" "}
       </CardBody>
     </Card>
   );
