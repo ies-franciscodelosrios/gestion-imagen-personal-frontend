@@ -1,33 +1,22 @@
-
 // ** React Imports
-import { Fragment, useState, useEffect } from 'react'
-
-import { getAppointmentPaged } from '../../../../../services/api'
-
-// ** Table Columns
-import { columns } from './columns'
-
-// ** Third Party Components
-import ReactPaginate from 'react-paginate'
-import DataTable from 'react-data-table-component'
-import { ChevronDown } from 'react-feather'
-
-// Toast styles
+import { Fragment, useState, useEffect } from 'react';
+import { getAppointmentPaged } from '../../../../../services/api';
+import { getAppointmentByClientId } from '../../../../../services/api';
+import { columns } from './columns';
+import ReactPaginate from 'react-paginate';
+import DataTable from 'react-data-table-component';
+import { ChevronDown } from 'react-feather';
 import { toast } from 'react-hot-toast';
 import '@styles/react/libs/react-select/_react-select.scss';
-
 import {
   Row,
   Col,
   Card,
   Input,
-} from 'reactstrap'
-import AppointmentCard from '../AppointmentCard'
-
-
+} from 'reactstrap';
+import AppointmentCard from '../AppointmentCard';
 
 const CustomHeader = ({ handlePerPage, rowsPerPage, handleFilter }) => {
-
   return (
     <div className='invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75'>
       <Row>
@@ -48,7 +37,7 @@ const CustomHeader = ({ handlePerPage, rowsPerPage, handleFilter }) => {
             </Input>
             <label htmlFor='rows-per-page'>Tratamientos</label>
           </div>
-           <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
+          <div className='d-flex align-items-center mb-sm-0 mb-1 me-1'>
             <label className='mb-0' htmlFor='search-invoice'>
               Buscar:
             </label>
@@ -60,78 +49,76 @@ const CustomHeader = ({ handlePerPage, rowsPerPage, handleFilter }) => {
             />
           </div>
         </Col>
-
       </Row>
     </div>
   );
-}
+};
 
-
-const HistorialTratamientos = ({entity}) => {
-  // ** Store Vars
+const HistorialTratamientos = ({ entity }) => {
   const [typingTimeout, setTypingTimeout] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-
-  // ** States
   const [sort, setSort] = useState('asc');
   const [sortColumn, setSortColumn] = useState('id');
   const [searchTerm, setSearchTerm] = useState('');
-  const [pagesNumber, setpagesNumber] = useState(1);
+  const [pagesNumber, setPagesNumber] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [appointments, setAppointments] = useState([]);
 
+  
   useEffect(() => {
     fetchAppointments();
   }, [rowsPerPage, currentPage, searchTerm]);
-
-  // ** Get data on mount
   const fetchAppointments = async () => {
     try {
-      await getAppointmentPaged({
-        "page": currentPage,
-        "perpage": rowsPerPage,
-        "searchtext": searchTerm,
-        "dni_student": "",
-        "dni_client": entity?.dni ?? 'XXXXXXXXX'
-      }).then((e) => {
-        setpagesNumber(e.data.last_page);
-        setAppointments(e.data.data);
-      }).catch(e => {
-        toast.error('Error al traer datos');
-      });
+      console.log("Fetching Appointments with: ", { rowsPerPage, currentPage, searchTerm });
+      const response = await getAppointmentByClientId(entity?.id);
+      console.log("API Response: ", response);
+      
+      // Verificar si la respuesta tiene la estructura esperada
+      if (response && response.data) {
+        // Asignar los datos de las citas al estado del componente
+        setAppointments(response.data);
+        console.log("Updated Appointments State: ", response.data);
+      } else {
+        // Manejar caso de respuesta incorrecta
+        console.error('Respuesta del servidor inesperada:', response);
+        toast.error('Error al obtener datos de las citas');
+      }
     } catch (error) {
       console.error('Error al obtener las citas:', error);
+      console.error('Error details:', {
+        message: error.message,
+        name: error.name,
+        code: error.code,
+        stack: error.stack,
+        response: error.response,
+      });
+      // Manejar error de red u otros errores
+      toast.error('Error al traer datos de las citas');
     }
   };
-
-  // ** Function in get data on page change
-  const handlePagination = page => {
-    setCurrentPage(page.selected + 1)
-  }
   
 
-  // ** Function in get data on rows per page
+  const handlePagination = page => {
+    setCurrentPage(page.selected + 1);
+  };
+
   const handlePerPage = e => {
-    const value = parseInt(e.currentTarget.value)
-    setRowsPerPage(value)
-  }
+    const value = parseInt(e.currentTarget.value);
+    setRowsPerPage(value);
+  };
 
-
-  // ** Function in get data on search query change
   const handleFilter = val => {
-
     if (typingTimeout) {
       clearTimeout(typingTimeout);
     }
-
     setTypingTimeout(setTimeout(() => {
       setSearchTerm(val);
     }, 1000));
-  }
+  };
 
-  // ** Custom Pagination
   const CustomPagination = () => {
     return (
       <ReactPaginate
@@ -149,29 +136,28 @@ const HistorialTratamientos = ({entity}) => {
         pageLinkClassName={'page-link'}
         containerClassName={'pagination react-paginate justify-content-end my-2 pe-1'}
       />
-    )
-  }
+    );
+  };
 
-  // ** Table data to render
   const dataToRender = () => {
+    console.log("Appointments to Render: ", appointments);
     if (appointments !== undefined && appointments.length > 0) {
-      return appointments
+      return appointments;
     } else {
-      return appointments.slice(0, rowsPerPage)
+      return [];
     }
-  }
-
+  };
 
   const handleSort = (column, sortDirection) => {
-    setSort(sortDirection)
-    setSortColumn(column.sortField)
-  }
+    setSort(sortDirection);
+    setSortColumn(column.sortField);
+  };
 
   const modifiedColumns = [...columns];
   modifiedColumns[0] = {
     ...modifiedColumns[0],
     cell: row => (
-      <div type='button' onClick={() => {setSelectedRow(row); setShowModal(true);}}>
+      <div type='button' onClick={() => { setSelectedRow(row); setShowModal(true); }}>
         {row.protocol}
       </div>
     )
@@ -210,9 +196,9 @@ const HistorialTratamientos = ({entity}) => {
           />
         </div>
       </Card>
-      {selectedRow && showModal ? <AppointmentCard shows={showModal} entity={selectedRow}  onClose={handleClose}></AppointmentCard> : <></>}
+      {selectedRow && showModal ? <AppointmentCard shows={showModal} entity={selectedRow} onClose={handleClose}></AppointmentCard> : null}
     </Fragment>
-  )
-}
+  );
+};
 
-export default HistorialTratamientos
+export default HistorialTratamientos;

@@ -387,14 +387,41 @@ export const getAllAppointments = async () => {
  * @returns appointment data
  */
 export const getAppointmentPaged = async (params) => {
-  return await ApiConnect.get(`appointments/paged`, {
-    params: { ...params },
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  try {
+    // Realiza la solicitud GET al endpoint 'appointments/paged'
+    const response = await ApiConnect.get('appointments/paged', {
+      params: { ...params }, // Incluye los parámetros de consulta en la solicitud
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${getToken()}` // Agrega el token de autorización
+      }
+    });
+
+    // Devuelve los datos obtenidos de la respuesta
+    return response.data;
+  } catch (error) {
+    // Maneja cualquier error que ocurra durante la solicitud
+    console.error('Error al obtener citas:', error);
+    throw error; // Relanza el error para que pueda ser manejado por el código que llama a esta función
+  }
+};
+
+export const getAppointmentByClientId = async (clientId) => {
+  try {
+    const response = await ApiConnect.get("appointments/byClientId", {
+      params: { clientId },
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching appointments by client ID:', error);
+    throw error;
+  }
 };
 
 /**
