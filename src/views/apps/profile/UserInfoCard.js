@@ -1,7 +1,7 @@
 // ** React Imports
 import { useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser, updateUserAvatar } from "../student/store";
+import { deleteUserAvatar, updateUser, updateUserAvatar } from "../student/store";
 
 // ** Reactstrap Imports
 import {
@@ -163,6 +163,9 @@ const UserInfoCard = () => {
     const avatar = img.split(',')[1]
     dispatch(updateUserAvatar(avatar));
   }
+  const handleDeleteAvatarImage = () => {
+    dispatch(deleteUserAvatar())
+  }
 
   return (
     <Fragment>
@@ -173,6 +176,7 @@ const UserInfoCard = () => {
               {renderUserImg()}
               <Input className="mb-1" type="file" name="file" id="imageUpload" onChange={(event) => handleUpdateAvatarImage(event)} />
               <Button color="primary" onClick={() => handleSendAvatarImage()} className="mb-1">Actualizar foto de perfil</Button>
+              {(selectedUser && selectedUser['image']) && <Button color="primary" onClick={() => handleDeleteAvatarImage()} className="mb-1">Eliminar foto de perfil</Button>}
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info mb-3">
                   <h4>

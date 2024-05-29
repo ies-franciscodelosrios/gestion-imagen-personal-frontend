@@ -10,6 +10,7 @@ import {
   AddStudent,
   getAllAppointments,
   updateUserAvatarApi,
+  deleteUserAvatarApi,
 } from "../../../../services/api";
 import {
   handleConfirmCancel,
@@ -86,11 +87,23 @@ export const updateUserAvatar = createAsyncThunk(
   "appUsers/updateUserAvatar",
   async (avatar) => {
     let response;
-    console.log("esto marcha, men");
     await updateUserAvatarApi(avatar)
     .then(e => {
       response = e.data
       toast.success("Avatar actualizado")
+    })
+    .catch(e => toast.error("Error al actualizar Avatar"))
+    return response
+  }
+);
+export const deleteUserAvatar = createAsyncThunk(
+  "appUsers/deleteUserAvatar",
+  async () => {
+    let response;
+    await deleteUserAvatarApi()
+    .then(e => {
+      response = e.data
+      toast.success("Avatar eliminado")
     })
     .catch(e => toast.error("Error al actualizar Avatar"))
     return response
@@ -169,10 +182,17 @@ export const appUsersSlice = createSlice({
         state.appoitments = action.payload;
       })
       .addCase(updateUserAvatar.fulfilled, (state, action) => {
-        console.log(state);
-        console.log(action.payload);
         const payload = action.payload;
         state.selectedUser = {...state.selectedUser, image: payload.url}
+      })
+      .addCase(deleteUserAvatar.fulfilled, (state, action) => {
+        const payload = action.payload;
+        if(payload.status){
+          const {image, ...restUser} = state.selectedUser
+          state.selectedUser = restUser
+          return
+        }
+        state.selectedUser = {...state.selectedUser}
       });
   },
 });
