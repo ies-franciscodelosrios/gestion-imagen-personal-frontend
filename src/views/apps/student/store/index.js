@@ -9,6 +9,7 @@ import {
   ApiDelUser,
   AddStudent,
   getAllAppointments,
+  updateUserAvatarApi,
 } from "../../../../services/api";
 import {
   handleConfirmCancel,
@@ -78,6 +79,21 @@ export const getAppointments = createAsyncThunk(
     response.data.users = sort_appointments(params, response.data.users);
 
     return response.data.users;
+  }
+);
+
+export const updateUserAvatar = createAsyncThunk(
+  "appUsers/updateUserAvatar",
+  async (avatar) => {
+    let response;
+    console.log("esto marcha, men");
+    await updateUserAvatarApi(avatar)
+    .then(e => {
+      response = e.data
+      toast.success("Avatar actualizado")
+    })
+    .catch(e => toast.error("Error al actualizar Avatar"))
+    return response
   }
 );
 
@@ -151,6 +167,12 @@ export const appUsersSlice = createSlice({
       })
       .addCase(getAppointments.fulfilled, (state, action) => {
         state.appoitments = action.payload;
+      })
+      .addCase(updateUserAvatar.fulfilled, (state, action) => {
+        console.log(state);
+        console.log(action.payload);
+        const payload = action.payload;
+        state.selectedUser = {...state.selectedUser, image: payload.url}
       });
   },
 });

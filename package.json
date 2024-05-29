@@ -46,7 +46,7 @@
     "jquery": "^3.6.0",
     "jsonwebtoken": "8.5.1",
     "moment": "^2.29.3",
-    "moment-timezone": "^0.5.40",
+    "moment-timezone": "^0.5.45",
     "nouislider": "^15.5.0",
     "nouislider-react": "^3.4.1",
     "postcss": "7.0.33",

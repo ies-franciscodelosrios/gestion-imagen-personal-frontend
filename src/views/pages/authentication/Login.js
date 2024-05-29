@@ -121,6 +121,7 @@ const Login = () => {
               ability: [{ action: "manage", subject: "all" }],
               rol: getNameRol(promis.data.rol),
               fullname: "".concat(promis.data.name, " ", promis.data.surname),
+              id: promis.data.id
             };
             dispatch(handleLogin(data));
             navigate(getHomeRouteForLoggedInUser(promis.data.rol));
