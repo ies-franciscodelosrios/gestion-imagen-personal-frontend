@@ -81,13 +81,13 @@ export const fetchEvents = createAsyncThunk(
               alumno: {
                 value: `${alumnoPromise.name} ${alumnoPromise.surname}`,
                 label: `${alumnoPromise.name} ${alumnoPromise.surname}`,
-                dni: alumnoPromise.id,
+                id: alumnoPromise.id,
                 avatar: "",
               },
               cliente: {
                 value: `${clientePromise.name} ${clientePromise.surname}`,
                 label: `${clientePromise.name} ${clientePromise.surname}`,
-                dni: clientePromise.id,
+                id: clientePromise.id,
                 avatar: "",
               },
             },

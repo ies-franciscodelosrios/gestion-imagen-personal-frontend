@@ -50,7 +50,7 @@ const Avatar = forwardRef((props, ref) => {
       ref={ref}
       {...rest}
     >
-      {img === false || img === undefined ? (
+      {!img ? (
         <span
           className={classnames('avatar-content', {
             'position-relative': badgeUp
@@ -73,8 +73,8 @@ const Avatar = forwardRef((props, ref) => {
           })}
           src={img}
           alt='avatarImg'
-          height={imgHeight && !size ? imgHeight : 32}
-          width={imgWidth && !size ? imgWidth : 32}
+          height={imgHeight && !size ? imgHeight : "100%"}
+          width={imgWidth && !size ? imgWidth : "100%"}
         />
       )}
       {status ? (
