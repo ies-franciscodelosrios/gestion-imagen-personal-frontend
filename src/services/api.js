@@ -178,6 +178,23 @@ export const updateUserAvatarApi = async (avatar) => {
 }
 
 /**
+ * Http Request to delete avatar
+ * @returns response 200 if ok
+ */
+export const deleteUserAvatarApi = async () => {
+  return await ApiConnect.delete(
+    `user/deleteAvatar`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  )
+}
+
+/**
  * Http Request to add a new student
  * @returns response 200 if ok
  */
