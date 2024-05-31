@@ -154,11 +154,11 @@ const CustomHeader = ({ clientList, toggleSidebar, handlePerPage, rowsPerPage, h
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
-            
+
             <Link to="/apps/client/view/0">
-            <Button className='add-new-user' color='primary'>
-              Añadir Nuevo Cliente
-            </Button>
+              <Button className='add-new-user' color='primary'>
+                Añadir Nuevo Cliente
+              </Button>
             </Link>
           </div>
         </Col>
@@ -272,7 +272,7 @@ const ClientList = () => {
               tag='a'
               className='w-100'
               onClick={async e => {
-                (await handleConfirmCancel())? await ApiDelClient(row.id) :'';
+                (await handleConfirmCancel()) ? await ApiDelClient(row.id) : '';
                 fetchClients();
               }}
             >

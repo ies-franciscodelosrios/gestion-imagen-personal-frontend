@@ -9,6 +9,8 @@ import {
   ApiDelUser,
   AddStudent,
   getAllAppointments,
+  updateUserAvatarApi,
+  deleteUserAvatarApi,
 } from "../../../../services/api";
 import {
   handleConfirmCancel,
@@ -78,6 +80,33 @@ export const getAppointments = createAsyncThunk(
     response.data.users = sort_appointments(params, response.data.users);
 
     return response.data.users;
+  }
+);
+
+export const updateUserAvatar = createAsyncThunk(
+  "appUsers/updateUserAvatar",
+  async (avatar) => {
+    let response;
+    await updateUserAvatarApi(avatar)
+    .then(e => {
+      response = e.data
+      toast.success("Avatar actualizado")
+    })
+    .catch(e => toast.error("Error al actualizar Avatar"))
+    return response
+  }
+);
+export const deleteUserAvatar = createAsyncThunk(
+  "appUsers/deleteUserAvatar",
+  async () => {
+    let response;
+    await deleteUserAvatarApi()
+    .then(e => {
+      response = e.data
+      toast.success("Avatar eliminado")
+    })
+    .catch(e => toast.error("Error al actualizar Avatar"))
+    return response
   }
 );
 
@@ -151,6 +180,19 @@ export const appUsersSlice = createSlice({
       })
       .addCase(getAppointments.fulfilled, (state, action) => {
         state.appoitments = action.payload;
+      })
+      .addCase(updateUserAvatar.fulfilled, (state, action) => {
+        const payload = action.payload;
+        state.selectedUser = {...state.selectedUser, image: payload.url}
+      })
+      .addCase(deleteUserAvatar.fulfilled, (state, action) => {
+        const payload = action.payload;
+        if(payload.status){
+          const {image, ...restUser} = state.selectedUser
+          state.selectedUser = restUser
+          return
+        }
+        state.selectedUser = {...state.selectedUser}
       });
   },
 });

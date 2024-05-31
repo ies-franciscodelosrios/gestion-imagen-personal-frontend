@@ -30,7 +30,6 @@ const Profile = () => {
   // ** Hooks
   const { id } = useParams();
 
-  console.log(JSON.parse(localStorage.getItem("userData")).id);
   // ** Get suer on mount
   useEffect(() => {
     dispatch(

@@ -158,6 +158,43 @@ export const updateUserBy = async (user) => {
 };
 
 /**
+ * Http Request to insert or update avatar
+ * @returns response 201 if ok
+ */
+export const updateUserAvatarApi = async (avatar) => {
+  return await ApiConnect.post(
+    `user/addAvatar`,
+    {
+      avatar_image: avatar
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  )
+}
+
+/**
+ * Http Request to delete avatar
+ * @returns response 200 if ok
+ */
+export const deleteUserAvatarApi = async () => {
+  return await ApiConnect.delete(
+    `user/deleteAvatar`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  )
+}
+
+/**
  * Http Request to add a new student
  * @returns response 200 if ok
  */
@@ -353,8 +390,8 @@ export const AddAppointment = async (event) => {
       date: event.start,
       treatment: event.calendar,
       protocol: event.title,
-      dni_client: event.dnicliente,
-      dni_student: event.dnialumno,
+      id_client: event.idCliente,
+      id_student: event.idAlumno,
       consultancy: event.desc,
     },
     {
@@ -387,14 +424,41 @@ export const getAllAppointments = async () => {
  * @returns appointment data
  */
 export const getAppointmentPaged = async (params) => {
-  return await ApiConnect.get(`appointments/paged`, {
-    params: { ...params },
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  try {
+    // Realiza la solicitud GET al endpoint 'appointments/paged'
+    const response = await ApiConnect.get('appointments/paged', {
+      params: { ...params }, // Incluye los parámetros de consulta en la solicitud
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${getToken()}` // Agrega el token de autorización
+      }
+    });
+
+    // Devuelve los datos obtenidos de la respuesta
+    return response.data;
+  } catch (error) {
+    // Maneja cualquier error que ocurra durante la solicitud
+    console.error('Error al obtener citas:', error);
+    throw error; // Relanza el error para que pueda ser manejado por el código que llama a esta función
+  }
+};
+
+export const getAppointmentByClientId = async (clientId) => {
+  try {
+    const response = await ApiConnect.get("appointments/byClientId", {
+      params: { clientId },
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching appointments by client ID:', error);
+    throw error;
+  }
 };
 
 /**
@@ -436,8 +500,8 @@ export const updateAppointment = async (event) => {
       date: event.start,
       treatment: event.calendar,
       protocol: event.title,
-      dni_client: event.dnicliente,
-      dni_student: event.dnialumno,
+      id_client: event.idCliente,
+      id_student: event.idAlumno,
       consultancy: event.desc,
     },
     {

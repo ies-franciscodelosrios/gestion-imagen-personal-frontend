@@ -1,6 +1,9 @@
+// ** React Imports
 import { useState, useEffect, Fragment } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
+// ** Reactstrap Imports
 import {
   Row,
   Col,
@@ -14,35 +17,35 @@ import {
   ModalBody,
   ModalHeader,
 } from 'reactstrap';
+
+// ** Third Party Components
 import { useForm, Controller } from 'react-hook-form';
+
+// ** Custom Components
 import Avatar from '@components/avatar';
+
+// ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
 import { toast } from 'react-hot-toast';
 import { AddClient, updateClientBy } from '../../../../services/api';
 import { validateClientData, validateDNI } from '../../../../utility/Utils';
 
 const ClientInfoCard = ({ id, entity, setEntity }) => {
+
+
+
+  // ** State
   const [show, setShow] = useState(false);
-  const [maxDate, setMaxDate] = useState(getTodayDate());
-
-  function getTodayDate() {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let day = today.getDate();
-    month = month < 10 ? '0' + month : month;
-    day = day < 10 ? '0' + day : day;
-    return `${year}-${month}-${day}`;
-  }
-
   const isEditing = entity && entity.id !== undefined && entity.id !== null && entity.id !== "";
 
   useEffect(() => {
-    if (id === "0") {
+    console.log("isEditing: " + isEditing);
+    if (id == "0") {
       setShow(true);
     }
   }, []);
 
+  // ** Hook
   const {
     reset,
     control,
@@ -59,6 +62,9 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
     },
   });
 
+
+
+  // ** render user img
   const renderUserImg = () => {
     return (
       <Avatar
@@ -81,54 +87,31 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
   };
 
   const onSubmit = async (data) => {
-    const newEntity = { ...entity };
-    const newData = { ...data };
+    const newEntity = { ...entity }
+    const newData = { ...data }
 
-    if (!data.name || data.name.length === 0 || !data.surname || data.surname.length === 0) {
-      setError('name', {
-        type: 'manual'
-      });
-      setError('surname', {
-        type: 'manual'
-      });
-      toast.error('Por favor, complete los campos de nombre y apellido.');
-      return;
-    }
-
-    if (isEditing || (data.email && data.email.length > 0) || (data.dni && data.dni.length > 0) || (data.phone && data.phone.length > 0) || (data.birth_date && data.birth_date.length > 0)) {
-      if (data.dni && !validateDNI(data.dni)) {
-        setError('dni', {});
-        toast.error('Por favor, introduzca un DNI válido.');
-        return;
+    if (validateClientData(data, isEditing)) {
+      try {
+        if (id === "0") {
+          await AddClient({ ...newEntity, ...newData }).then(e => { toast.success(' Cliente creado') }).catch(e => { toast.error('Error al crear cliente') });
+        } else {
+          await updateClientBy({ ...newEntity, ...newData }).then(e => { setEntity(newData); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
+        }
+        setShow(false);
+        console.log('setshow');
+      } catch (error) {
+        toast.error('Error al procesar la solicitud');
+        console.log('Error al actualizar el cliente:', error); // Registro de depuración
       }
-
-      if (data.birth_date && data.birth_date.length > 0) {
-        const selectedDate = new Date(data.birth_date);
-        const currentDate = new Date();
-        if (selectedDate > currentDate) {
-          setError('birth_date', {});
-          toast.error('La fecha de nacimiento no puede ser en el futuro.');
-          return;
+    } else {
+      for (const key in data) {
+        if (!validateDNI(data.dni)) setError('dni', {});
+        if (data[key] && data[key].length === 0) {
+          setError(key, {
+            type: 'manual'
+          });
         }
       }
-    }
-
-    try {
-      if (id === "0") {
-        await AddClient({ ...newEntity, ...newData });
-        toast.success('Cliente creado');
-        setTimeout(() => {
-          window.location.pathname = `/apps/client/list`;
-        }, 350);
-      } else {
-        await updateClientBy({ ...newEntity, ...newData });
-        setEntity(newData);
-        toast.success('Datos guardados');
-      }
-      setShow(false);
-    } catch (error) {
-      toast.error('Error al procesar la solicitud');
-      console.log('Error al actualizar el cliente:', error);
     }
   };
 
@@ -136,12 +119,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
     reset({ ...entity });
   };
 
-  const handleClose = () => {
-    setShow(false);
-    if (id === "0") {
-      window.location.pathname = '/apps/client/list';
-    }
-  };
+  
 
   return (
     <Fragment>
@@ -191,6 +169,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   <span>{entity && entity.phone}</span>
                 </li>
               </ul>
+
             ) : null}
           </div>
           <div className="d-flex justify-content-center pt-2">
@@ -202,21 +181,19 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
       </Card>
       <Modal
         isOpen={show}
-        toggle={handleClose}
+        toggle={() => setShow(!show)}
         className="modal-dialog-centered modal-lg"
-        backdrop="static"
-        keyboard={false}
       >
         <ModalHeader
           className="bg-transparent"
-          toggle={handleClose}
+          toggle={() => setShow(!show)}
         ></ModalHeader>
         <ModalBody className="px-sm-5 pt-50 pb-5">
           <div className="text-center mb-2">
             <h1 className="mb-1">
               {id == "0" ? "Añadir cliente" : "Editar cliente"}
             </h1>
-            <p>{id == "0" ? "Añadir datos de un cliente de manera segura" : "Actualizar los datos del Cliente de manera segura."}</p>
+            <p>Actualizar los datos del Cliente de manera segura.</p>
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row className="gy-1 pt-75">
@@ -331,14 +308,7 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                     <input
                       {...field}
                       value={field.value || ''}
-                      max={maxDate}
-                      onChange={(e) => {
-                        if (e.target.value > maxDate) {
-                          field.onChange(maxDate);
-                        } else {
-                          field.onChange(e.target.value);
-                        }
-                      }}
+                      onChange={(e) => field.onChange(e.target.value)}
                       id="birth_date"
                       type="date"
                       className="form-control"
@@ -356,12 +326,8 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                   outline
                   onClick={() => {
                     handleReset();
-                    if (id === "0") {
-                      window.location.pathname = '/apps/client/list';
-                    }
                     setShow(false);
-                    toast.error('Datos no guardados');
-                    
+                    toast.error('Datos no guardados')
                   }}
                 >
                   Cancelar
