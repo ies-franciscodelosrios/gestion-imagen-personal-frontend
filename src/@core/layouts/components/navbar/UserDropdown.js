@@ -1,5 +1,5 @@
 // ** React Imports
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 // ** Custom Components
@@ -29,6 +29,7 @@ const UserDropdown = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector((state) => state.users);
+  const navigate = useNavigate()
 
   // ** State
   const [userData, setUserData] = useState(null)
@@ -45,6 +46,11 @@ const UserDropdown = () => {
 
   //** Vars
 
+  const handleButtonLogout = () => {
+    dispatch(handleLogout().then((data)=> console.log(data)))
+    navigate("/login")
+  }
+ 
   return (
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
@@ -64,7 +70,7 @@ const UserDropdown = () => {
           <HelpCircle size={14} className='me-75' />
           <span className='align-middle'>FAQ</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to='/login' onClick={() => dispatch(handleLogout())}>
+        <DropdownItem onClick={() => handleButtonLogout()}>
           <Power size={14} className='me-75' />
           <span className='align-middle'>Cerrar Sesión</span>
         </DropdownItem>
