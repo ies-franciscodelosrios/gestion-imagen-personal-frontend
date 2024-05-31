@@ -104,8 +104,8 @@ const VocEduInfoCard = ({ id }) => {
                 <div className="user-info mb-3">
                   <h4>
                     {selectedVocEdu !== null
-                      ? selectedVocEdu.short_name.concat(' ' + selectedVocEdu.long_name)
-                      : 'Eleanor Aguilar'}
+                      ? selectedVocEdu.short_name
+                      : "Eleanor Aguilar"}
                   </h4>
 
                 </div>
@@ -150,7 +150,7 @@ const VocEduInfoCard = ({ id }) => {
         ></ModalHeader>
         <ModalBody className='px-sm-5 pt-50 pb-5'>
           <div className='text-center mb-2'>
-            <h1 className='mb-1'>Editar Información</h1>
+            {isEditing ? (<h1 className='mb-1'>Editar Información</h1>) : (<h1 className='mb-1'>Añadir Nuevo Ciclo</h1>)}
             <p>Actualiza los datos del ciclo de manera segura.</p>
           </div>
           <Form onSubmit={handleSubmit(onSubmit)}>

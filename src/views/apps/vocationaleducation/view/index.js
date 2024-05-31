@@ -48,6 +48,9 @@ const VocEduView = () => {
                   <img className="img-fluid" src={illustration} alt="illustration" />
                 </div>
               </Col>
+              <col>
+                
+              </col>
             </div>
           )
         } else {
