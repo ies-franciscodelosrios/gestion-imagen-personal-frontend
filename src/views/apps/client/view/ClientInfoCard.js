@@ -1,6 +1,8 @@
 import { useState, useEffect, Fragment } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Flatpickr from 'react-flatpickr';
+import '@styles/react/libs/flatpickr/flatpickr.scss';
 import {
   Row,
   Col,
@@ -142,6 +144,8 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
       window.location.pathname = '/apps/client/list';
     }
   };
+
+  const today = new Date();
 
   return (
     <Fragment>
@@ -325,23 +329,72 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                 </Label>
                 <Controller
                   control={control}
-                  defaultValue={entity && entity.birth_date !== null ? entity.birth_date : ''}
+                  defaultValue=""
                   name="birth_date"
                   render={({ field }) => (
-                    <input
-                      {...field}
-                      value={field.value || ''}
-                      max={maxDate}
-                      onChange={(e) => {
-                        if (e.target.value > maxDate) {
-                          field.onChange(maxDate);
-                        } else {
-                          field.onChange(e.target.value);
-                        }
-                      }}
+                    <Flatpickr
+                      required
+                      locale="es"
                       id="birth_date"
-                      type="date"
-                      className="form-control"
+                      name="birth_date"
+                      placeholder="DD/MM/AAAA" 
+                      onChange={date => {
+                        const selectedDate = new Date(date[0]);
+                        selectedDate.setDate(selectedDate.getDate() + 1);
+                        field.onChange(selectedDate.toISOString().split("T")[0]);
+                      }}
+                      value={field.value ? new Date(field.value) : null}
+                      options={{
+                        enableTime: false,
+                        dateFormat: 'Y-m-d',
+                        locale: {
+                          firstDayOfWeek: 1,
+                          weekdays: {
+                            shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                            longhand: [
+                              'Domingo',
+                              'Lunes',
+                              'Martes',
+                              'Miércoles',
+                              'Jueves',
+                              'Viernes',
+                              'Sábado',
+                            ],
+                          },
+                          months: {
+                            shorthand: [
+                              'Ene',
+                              'Feb',
+                              'Mar',
+                              'Abr',
+                              'May',
+                              'Jun',
+                              'Jul',
+                              'Ago',
+                              'Sep',
+                              'Оct',
+                              'Nov',
+                              'Dic',
+                            ],
+                            longhand: [
+                              'Enero',
+                              'Febrero',
+                              'Мarzo',
+                              'Abril',
+                              'Mayo',
+                              'Junio',
+                              'Julio',
+                              'Agosto',
+                              'Septiembre',
+                              'Octubre',
+                              'Noviembre',
+                              'Diciembre',
+                            ],
+                          },
+                        },
+                        maxDate: today, 
+                      }}
+                      className="form-control" 
                     />
                   )}
                 />
@@ -361,7 +414,6 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
                     }
                     setShow(false);
                     toast.error('Datos no guardados');
-                    
                   }}
                 >
                   Cancelar
