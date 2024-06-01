@@ -82,29 +82,32 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
   const flatpickrRef = useRef(null);
   const [studentOption, setStudentOption] = useState(null);
   const [clientName, setClientName] = useState('');
+  // Estado para almacenar la opción de cliente seleccionada
   const [clientOption, setClientOption] = useState(null);
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [isStudentLoading, setIsStudentLoading] = useState(true); 
-  const [isClientLoading, setIsClientLoading] = useState(true);   
 
+  // Llamada a la función para obtener la lista de estudiantes cuando el componente se monta
   useEffect(() => {
     if (!dataLoaded) {
       fetchStudents();
     }
   }, [dataLoaded]);
-
+  
+  // Llamada a la función para obtener el nombre del estudiante asociado con la cita cuando cambie el ID del estudiante
   useEffect(() => {
     if (entity && entity.id_student) {
       fetchStudentName(entity.id_student);
     }
   }, [entity]);
-
+  
+  // Llamada a la función para obtener el nombre del cliente asociado con la cita cuando cambie el ID del cliente
   useEffect(() => {
     if (entity && entity.id_client) {
       fetchClientName(entity.id_client);
     }
   }, [entity]);
-
+  
+  // Función para obtener la lista de estudiantes
   const fetchStudents = async () => {
     try {
       const response = await getAllStudentsData();
@@ -114,27 +117,25 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
         label: `${student.name} ${student.surname}`
       }));
       setStudents(formattedStudents);
-      setDataLoaded(true); 
+      setDataLoaded(true); // Marcar que los datos se han cargado una vez
     } catch (error) {
       console.error('Error al obtener los estudiantes:', error);
     }
   };
-
+  
   // Función para obtener el nombre del estudiante asociado con la cita
   const fetchStudentName = async (studentId) => {
     try {
-      setIsStudentLoading(true); 
       const response = await apiGetUserById(studentId);
       const { name, surname } = response.data.data;
       setStudentName(`${name} ${surname}`);
+      // Establecer el valor predeterminado de studentOption como el nombre del estudiante
       setStudentOption({ value: studentId, label: `${name} ${surname}` });
     } catch (error) {
       console.error('Error al obtener el nombre del estudiante:', error);
-    } finally {
-      setIsStudentLoading(false); 
     }
   };
-
+  
   // Función para obtener la lista de clientes
   const fetchClients = async () => {
     try {
@@ -149,25 +150,24 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
       console.error('Error al obtener los clientes:', error);
     }
   };
-
+  
   // Función para obtener el nombre del cliente asociado con la cita
   const fetchClientName = async (clientId) => {
     try {
-      setIsClientLoading(true); // Inicia la carga
       const response = await getClientById(clientId);
       const { name, surname } = response.data.data;
       setClientName(`${name} ${surname}`);
+      // Establecer el valor predeterminado de clientOption como el nombre del cliente
       setClientOption({ value: clientId, label: `${name} ${surname}` });
     } catch (error) {
       console.error('Error al obtener el nombre del cliente:', error);
-    } finally {
-      setIsClientLoading(false); 
     }
   };
 
   // Llamada a la función para obtener el nombre del estudiante asociado con la cita cuando el ID del estudiante cambia
   useEffect(() => {
     if (studentName) {
+      // Establecer el valor predeterminado de studentOption como el nombre del estudiante
       setStudentOption({ value: entity.id_student, label: studentName });
     }
   }, [studentName]);
@@ -195,6 +195,7 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
 
 
   useEffect(() => {
+    // Llama a las funciones para obtener los datos necesarios al inicio
     setShow(shows);
     setSelectEntity(entity);
     reset({ ...entity });
@@ -203,10 +204,11 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
   }, [shows, entity]);
 
   useEffect(() => {
+    // Actualiza el nombre del estudiante cuando cambie el id_student
     if (selectEntity?.id_student) {
       fetchStudentName(selectEntity.id_student);
     } else {
-      setStudentName('Nombre no disponible'); 
+      setStudentName('Nombre no disponible'); // Establece el nombre predeterminado si no hay id_student
     }
   }, [selectEntity.id_student]);
 
@@ -241,11 +243,12 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
       surname: selectEntity?.surname || '',
       email: selectEntity?.email || '',
       date: selectEntity?.date || '',
-      student: selectEntity?.student?.id || '', 
-      client: selectEntity?.client?.id || '', 
+      student: selectEntity?.student?.id || '', // Establecer el valor predeterminado del estudiante seleccionado
+      client: selectEntity?.client?.id || '', // Establecer el valor predeterminado del cliente seleccionado 
     },
   });
 
+  const defaultStudentValue = selectEntity?.student?.id || '';
 
 
   const onSubmit = async () => {
@@ -360,7 +363,6 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                   value={new Date(updatedEntity?.date ?? '2023-01-01')}
                   options={{
                     enableTime: true,
-                    time_24hr: true, 
                     dateFormat: 'Y-m-d H:i',
                     locale: {
                       firstDayOfWeek: 1,
@@ -437,12 +439,12 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                 id="student"
                 className="react-select"
                 classNamePrefix="select"
-                isLoading={isStudentLoading} 
-                placeholder='Cargando alumno ...'
                 value={studentOption}
                 onChange={(selectedStudent) => {
                   console.log("Estudiante seleccionado:", selectedStudent);
+                  // Actualiza el estado de studentOption con la nueva opción seleccionada
                   setStudentOption(selectedStudent);
+                  // Actualiza el estado de updatedEntity con el id del estudiante seleccionado
                   setUpdatedEntity((prevEntity) => ({
                     ...prevEntity,
                     id_student: selectedStudent.value,
@@ -450,8 +452,6 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                 }}
                 options={students}
               />
-              {isStudentLoading} 
-
             </Col>
             <Col md={6} xs={12}>
               <Label className="form-label" for="phone">
@@ -461,20 +461,18 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                 id="client"
                 className="react-select"
                 classNamePrefix="select"
-                isLoading={isClientLoading} 
-                placeholder='Cargando cliente ...'
                 value={clientOption}
                 onChange={(selectedClient) => {
+                  // Actualizar el valor del ID del cliente en el objeto updatedEntity
                   setUpdatedEntity((prevEntity) => ({
                     ...prevEntity,
                     id_client: selectedClient.value,
                   }));
+                  // Actualizar el estado clientOption con la nueva opción seleccionada
                   setClientOption(selectedClient);
                 }}
                 options={clients}
               />
-              {isClientLoading} 
-
             </Col>
             <Col md={12} xs={12}>
               <Label className="form-label" for="description">
