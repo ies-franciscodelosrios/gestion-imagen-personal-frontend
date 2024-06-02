@@ -29,8 +29,6 @@ const SidebarLeft = props => {
     toggleSidebar(false)
     handleAddEventSidebar()
   }
-  console.log(filters.length);
-  console.log(store.selectedCalendars);
   
   return (
     <Fragment>
@@ -78,7 +76,6 @@ const SidebarLeft = props => {
                       checked={store.selectedCalendars.includes(filter.value)}
                       onChange={() => {
                         dispatch(updateFilter(filter.value))
-                        console.log(store);
                         dispatch(fetchEvents(store))
                       }}
                     />

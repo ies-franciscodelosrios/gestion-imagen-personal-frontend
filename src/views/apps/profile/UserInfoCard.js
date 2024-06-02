@@ -88,7 +88,6 @@ const UserInfoCard = () => {
 
   // ** render user img
   const renderUserImg = () => {
-    console.log(selectedUser);
     return (
       <Avatar
       img={(selectedUser && selectedUser['image'] ? selectedUser['image'] : "")}

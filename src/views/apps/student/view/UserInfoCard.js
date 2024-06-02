@@ -143,19 +143,15 @@ const UserInfoCard = ({ id }) => {
     selectedUser.cycle = data.cycle.value;
     selectedUser.password = data.password;
     selectedUser.repassword = data.repassword;
-    console.log("data.cycle.value: "+ data.cycle.value);
 
     if (validateUserData(data, isEditing)) {
       if (id == "0") {
-        console.log("Add");
         dispatch(addUser(selectedUser));
         setShow(false);
         navigateTo("/apps/student/list");
       } else {
-        console.log("Update");
         delete selectedUser.password;
         delete selectedUser.repassword;
-        console.log(selectedUser);
         dispatch(updateUser(selectedUser));
         setShow(false);
       }
@@ -238,7 +234,7 @@ const UserInfoCard = ({ id }) => {
           
           </div>
           <div className="d-flex justify-content-center pt-2">
-            <Button color="primary" onClick={() => { handleReset(); setShow(true); getAllVocEdu(); console.log("valor: "+cycleOptions[selectedUser.cycle - 1].label)}}>
+            <Button color="primary" onClick={() => { handleReset(); setShow(true); getAllVocEdu();}}>
               Editar
             </Button>
           </div>

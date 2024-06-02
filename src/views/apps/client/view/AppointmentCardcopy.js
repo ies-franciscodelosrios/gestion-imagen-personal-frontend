@@ -252,7 +252,6 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
 
 
   const onSubmit = async () => {
-    console.log(updatedEntity);
     if (true) {
       await updateAppointment2(updatedEntity).then(e => { toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
       closeModal();
@@ -358,7 +357,6 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                   onChange={(selectedDates, dateStr, instance) => {
                     const updatedDateTime = new Date(dateStr);
                     updatedEntity.date = updatedDateTime.toISOString();
-                    console.log(updatedEntity.date);
                   }}
                   value={new Date(updatedEntity?.date ?? '2023-01-01')}
                   options={{
@@ -441,7 +439,6 @@ const AppointmentCard = ({ entity, shows, onClose }) => {
                 classNamePrefix="select"
                 value={studentOption}
                 onChange={(selectedStudent) => {
-                  console.log("Estudiante seleccionado:", selectedStudent);
                   // Actualiza el estado de studentOption con la nueva opción seleccionada
                   setStudentOption(selectedStudent);
                   // Actualiza el estado de updatedEntity con el id del estudiante seleccionado
