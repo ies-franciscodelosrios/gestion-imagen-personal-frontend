@@ -106,7 +106,6 @@ export const updateUser = createAsyncThunk(
     await updateUserBy(updatedUser)
       .then((e) => toast.success("Datos Guardados"))
       .catch((e) => {
-        console.log(e);
         toast.error("Error al editar");
       });
     return updatedUser;

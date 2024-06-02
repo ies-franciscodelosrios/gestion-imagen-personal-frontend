@@ -114,8 +114,6 @@ export function validateDNI(dni) {
 export function validateUserData(data, isEditing) {
   const requiredFields = ["name", "surname", "email", "dni", "cycle"];
   const values = Object.values(data);
-  console.log(data)
-
   if (data.password.length !== 0 || data.repassword.length !== 0) {
     if (data.password !== data.repassword) {
       toast.error("Las contraseñas deben coincidir");
@@ -129,10 +127,8 @@ export function validateUserData(data, isEditing) {
   if(isEditing){
     for (const field in data) {
       if (data.hasOwnProperty(field)) {
-        console.log("Valor del field:  "+data[field]);
         if (data[field] === '' && data[field] != data.password && data[field] != data.repassword) {
           // El campo está vacío
-          console.log(`El campo ${field} está vacío`);
           toast.error("Rellena todos los campos obligatorios"); 
           return false;
         }
@@ -156,15 +152,12 @@ export function validateUserData(data, isEditing) {
 export function validateVocEduData(data, isEditing) {
   const requiredFields = ["short_name", "long_name", "description"];
   const values = Object.values(data);
-  console.log(data)
 
   if(isEditing){
     for (const field in data) {
       if (data.hasOwnProperty(field)) {
-        console.log("Valor del field:  "+data[field]);
         if (data[field] === '') {
           // El campo está vacío
-          console.log(`El campo ${field} está vacío`);
           toast.error("Rellena todos los campos obligatorios"); 
           return false;
         }

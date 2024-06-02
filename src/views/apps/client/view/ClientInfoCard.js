@@ -130,7 +130,6 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
       setShow(false);
     } catch (error) {
       toast.error('Error al procesar la solicitud');
-      console.log('Error al actualizar el cliente:', error);
     }
   };
 

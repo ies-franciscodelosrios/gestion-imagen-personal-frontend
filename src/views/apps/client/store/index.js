@@ -35,7 +35,6 @@ export const getClient = createAsyncThunk('appClients/getClient', async id => {
 })
 
 export const updateClient = createAsyncThunk('appClients/updateClient', async updatedClient => {
-  console.log(updatedClient);
   await updateClientBy(updatedClient).then(() =>{toast.success('Correctamente Guardado!')}).catch(()=>{toast.error('Error al Actualizar cliente!')});
   return updatedClient
 })
