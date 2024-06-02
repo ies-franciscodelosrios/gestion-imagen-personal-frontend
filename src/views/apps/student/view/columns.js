@@ -24,6 +24,8 @@ import {
   BookOpen,
   ChevronsRight
 } from 'react-feather'
+import { getLabelFromAppointmentTreatment } from '../../../../utility/Utils'
+import moment from 'moment'
 
 // ** Vars
 const invoiceStatusObj = {
@@ -38,47 +40,33 @@ const invoiceStatusObj = {
 // ** Table columns
 export const columns = [
   {
-    minWidth: '30px',
-    name: 'ID',
-    sortable: true,
-    sortField: 'id',
-    selector: row => row.id,
-    cell: row => row.id
-  }, {
     minWidth: '200px',
     name: 'Fecha',
     sortable: true,
     sortField: 'date',
-    selector: row => row.Date,
-    cell: row => row.Date
+    selector: row => row.date,
+    cell: row => moment(row.date).format('DD/MM/YYYY HH:mm')
   }, {
     minWidth: '200px',
-    name: 'Dni cliente',
+    name: 'Cliente',
     sortable: true,
-    sortField: 'DNI_client',
-    selector: row => row.DNI_client,
-    cell: row => row.DNI_client
-  }, {
-    minWidth: '200px',
-    name: 'Dni estudiante',
-    sortable: true,
-    sortField: 'Dni_Student',
-    selector: row => row.DNI_Student,
-    cell: row => row.DNI_Student
+    sortField: 'client_name',
+    selector: row => row.id_client,
+    cell: row => `${row.client.name} ${row.client.surname}`
   },
   {
     minWidth: '200px',
     name: 'Tratamiento',
     sortable: true,
-    sortField: 'Treatment',
-    selector: row => row.Treatment,
-    cell: row => row.Treatment
+    sortField: 'treatment',
+    selector: row => row.treatment,
+    cell: row => getLabelFromAppointmentTreatment(row.treatment)
   },{
     name: "Protocolo",
     minWidth: '200px',
     sortable: true,
-    sortField: 'Protocol',
-    selector: row => row.Protocol,
+    sortField: 'protocol',
+    selector: row => row.protocol,
     cell: row => {
       const color = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].color : 'primary',
         Icon = invoiceStatusObj[row.invoiceStatus] ? invoiceStatusObj[row.invoiceStatus].icon : Edit
