@@ -17,7 +17,7 @@ const UserTabs = ({ active, toggleTab }) => {
       <NavItem>
           <NavLink active={active === '1'} onClick={() => toggleTab('1')}>
             <Book className='font-medium-3 me-50' />
-            <span className='fw-bold'>Tratamientos</span>
+            <span className='fw-bold'>Historial de Tratamientos</span>
           </NavLink>
         </NavItem>
       </Nav>

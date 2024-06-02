@@ -47,7 +47,7 @@ const UserDropdown = () => {
   //** Vars
 
   const handleButtonLogout = () => {
-    dispatch(handleLogout().then((data)=> console.log(data)))
+    dispatch(handleLogout())
     navigate("/login")
   }
  
