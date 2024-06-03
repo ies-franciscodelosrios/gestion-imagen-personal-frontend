@@ -74,12 +74,9 @@ const VocEduInfoCard = ({ id }) => {
 
     if (validateVocEduData(data, isEditing)) {
       if (id == "0") {
-        console.log("Añadir")
-        console.log(updatedVocEdu)
         dispatch(addVocationalEducation(updatedVocEdu));
         setShow(false);
       } else {
-        console.log("Editar")
         dispatch(updateVocationalEducation(updatedVocEdu));
         setShow(false);
       }

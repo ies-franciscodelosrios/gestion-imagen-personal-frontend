@@ -74,7 +74,6 @@ export const getAppointments = createAsyncThunk(
     const response = await getAllAppointments().then((result) => {
       return result;
     });
-    console.log(response);
     response.data.vocationaleducations = sort_appointments(params, response.data.vocationaleducations);
 
     return response.data.vocationaleducations;
@@ -87,7 +86,6 @@ export const updateVocationalEducation = createAsyncThunk(
     await apiUpdateVocationalEducation(updatedVocationalEducation)
       .then((e) => toast.success("Datos Guardados"))
       .catch((e) => {
-        console.log(e);
         toast.error("Error al editar");
       });
     return updatedVocationalEducation;

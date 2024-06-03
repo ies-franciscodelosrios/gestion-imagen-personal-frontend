@@ -95,11 +95,8 @@ const Login = () => {
   } = useForm({ defaultValues });
 
   const source = skin === "dark" ? illustrationsDark : illustrationsLight;
-
-  console.log(localStorage.getItem("userData"));
   useEffect(() => {
     if (localStorage.getItem("userData") !== null) {
-      console.log("hola");
       navigate(getHomeRouteForLoggedInUser(0));
     }
   }, []);

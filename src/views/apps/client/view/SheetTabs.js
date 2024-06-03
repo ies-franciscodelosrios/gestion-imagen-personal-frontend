@@ -442,7 +442,7 @@ const SheetTabs = ({ entity, setEntity }) => {
 
   return (
     <Card>
-      <CardHeader tag="h4">Fichas</CardHeader>
+      <CardHeader tag="h4">Características del cliente</CardHeader>
 
       <Nav tabs>
         <NavItem>

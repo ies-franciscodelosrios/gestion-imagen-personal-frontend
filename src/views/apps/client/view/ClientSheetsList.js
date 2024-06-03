@@ -74,7 +74,6 @@ const ClientSheetsList = ({ entity, setEntity }) => {
    * @param {*} data to save into client
    */
   const onSubmit = async (data) => {
-    console.log(data, entity)
     setData(data);
     const newEntity = { ...entity }
     newEntity.more_info = JSON.stringify(data);

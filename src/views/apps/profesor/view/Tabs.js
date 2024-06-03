@@ -21,7 +21,7 @@ const UserTabs = ({ active, toggleTab }) => {
         <NavItem>
        
             <Book className='font-medium-3 me-50' />
-            <span className='fw-bold'>Tratamientos Activos</span>
+            <span className='fw-bold'>Historial de Tratamientos</span>
         
         </NavItem>
        

@@ -117,7 +117,6 @@ const CustomHeader = ({
         const reader = new FileReader();
         reader.onload = async (e) => {
           const base64Text = btoa(e.target.result);
-          console.log("Contenido en base64:", base64Text);
           const response = await apiAddUsersCSV(base64Text);
           const { imported, failed } = response;
           setModalData({ imported, failed });
