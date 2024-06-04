@@ -18,7 +18,7 @@ const ClientTabs = ({ active, toggleTab, entity, setEntity }) => {
       <NavItem>
           <NavLink active={active === '1'} onClick={() => toggleTab('1')}>
             <User className='font-medium-3 me-50' />
-            <span className='fw-bold'>Cuenta</span>
+            <span className='fw-bold'>Fichas</span>
           </NavLink>
         </NavItem>
         <NavItem>

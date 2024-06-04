@@ -24,6 +24,8 @@ import {
   BookOpen,
   ChevronsRight
 } from 'react-feather'
+import moment from 'moment'
+import { getLabelFromAppointmentTreatment } from '../../../../utility/Utils'
 
 // ** Vars
 const invoiceStatusObj = {
@@ -38,33 +40,19 @@ const invoiceStatusObj = {
 // ** Table columns
 export const columns = [
   {
-    minWidth: '30px',
-    name: 'ID',
-    sortable: true,
-    sortField: 'id',
-    selector: row => row.id,
-    cell: row => row.id
-  }, {
     minWidth: '200px',
     name: 'Fecha',
     sortable: true,
     sortField: 'date',
     selector: row => row.date,
-    cell: row => row.date
+    cell: row => moment(row.date).format('DD/MM/YYYY HH:mm')
   }, {
     minWidth: '200px',
-    name: 'Dni cliente',
+    name: 'Cliente',
     sortable: true,
-    sortField: 'dni_client',
+    sortField: 'client_name',
     selector: row => row.dni_client,
-    cell: row => row.dni_client
-  }, {
-    minWidth: '200px',
-    name: 'Dni estudiante',
-    sortable: true,
-    sortField: 'dni_Student',
-    selector: row => row.dni_student,
-    cell: row => row.dni_student
+    cell: row => `${row.client.name} ${row.client.surname}`
   },
   {
     minWidth: '200px',
@@ -72,7 +60,7 @@ export const columns = [
     sortable: true,
     sortField: 'treatment',
     selector: row => row.treatment,
-    cell: row => row.treatment
+    cell: row => getLabelFromAppointmentTreatment(row.treatment)
   },{
     name: "Protocolo",
     minWidth: '200px',

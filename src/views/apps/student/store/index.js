@@ -9,6 +9,8 @@ import {
   ApiDelUser,
   AddStudent,
   getAllAppointments,
+  updateUserAvatarApi,
+  deleteUserAvatarApi,
 } from "../../../../services/api";
 import {
   handleConfirmCancel,
@@ -20,23 +22,14 @@ import { toast } from "react-hot-toast";
 
 export const getAllData = createAsyncThunk(
   "appUsers/getAllData",
-  async (params) => {
-    const response = { data: { data: params.data } };
-    if (
-      (response === null || response.data.data.length <= 0) &&
-      params.q == ""
-    ) {
-      Object.assign(
-        response,
-        await getAllStudentsData()
-          .then((result) => {
-            return result;
-          })
-          .catch(console.log("error obtener estudiantes"))
-      );
-    }
-    return response.data.data;
+  async () => {
+   const response = await getAllStudentsData()
+    .then(response => (response))
+    .catch(console.log("error al obtener los estudiantes"))
+
+    return response?.data?.data
   }
+  
 );
 
 export const getData = createAsyncThunk("appUsers/getData", async (params) => {
@@ -74,10 +67,36 @@ export const getAppointments = createAsyncThunk(
     const response = await getAllAppointments().then((result) => {
       return result;
     });
-    console.log(response);
-    response.data.users = sort_appointments(params, response.data.users);
+    response.data.data = sort_appointments(params, response.data.data);
 
-    return response.data.users;
+    return response.data.data;
+  }
+);
+
+export const updateUserAvatar = createAsyncThunk(
+  "appUsers/updateUserAvatar",
+  async (avatar) => {
+    let response;
+    await updateUserAvatarApi(avatar)
+    .then(e => {
+      response = e.data
+      toast.success("Avatar actualizado")
+    })
+    .catch(e => toast.error("Error al actualizar Avatar"))
+    return response
+  }
+);
+export const deleteUserAvatar = createAsyncThunk(
+  "appUsers/deleteUserAvatar",
+  async () => {
+    let response;
+    await deleteUserAvatarApi()
+    .then(e => {
+      response = e.data
+      toast.success("Avatar eliminado")
+    })
+    .catch(e => toast.error("Error al actualizar Avatar"))
+    return response
   }
 );
 
@@ -87,7 +106,6 @@ export const updateUser = createAsyncThunk(
     await updateUserBy(updatedUser)
       .then((e) => toast.success("Datos Guardados"))
       .catch((e) => {
-        console.log(e);
         toast.error("Error al editar");
       });
     return updatedUser;
@@ -151,6 +169,19 @@ export const appUsersSlice = createSlice({
       })
       .addCase(getAppointments.fulfilled, (state, action) => {
         state.appoitments = action.payload;
+      })
+      .addCase(updateUserAvatar.fulfilled, (state, action) => {
+        const payload = action.payload;
+        state.selectedUser = {...state.selectedUser, image: payload.url}
+      })
+      .addCase(deleteUserAvatar.fulfilled, (state, action) => {
+        const payload = action.payload;
+        if(payload.status){
+          const {image, ...restUser} = state.selectedUser
+          state.selectedUser = restUser
+          return
+        }
+        state.selectedUser = {...state.selectedUser}
       });
   },
 });

@@ -47,7 +47,6 @@ const renderClient = (row) => {
             value: item.id,
           };
         });
-        console.log(cycleOption);
         setCycleOptions(cycleOption);
       })
       .catch((error) => {
@@ -56,7 +55,6 @@ const renderClient = (row) => {
   }
   const [cycleOptions, setCycleOptions] = useState(null);
   useEffect(() => {
-    console.log("OK");
     getAllVocEdu();
   }, []);
   if (false && row.avatar.length) {

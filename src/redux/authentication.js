@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 // ** UseJWT import to get config
 import { getToken } from '../services/UseToken'
+import { apiLogout } from '../services/api'
 
 
 const initialUser = () => {
@@ -26,6 +27,7 @@ export const authSlice = createSlice({
       localStorage.setItem('refreshToken', JSON.stringify(getToken()))
     },
     handleLogout: state => {
+      apiLogout().then(response => response.data)
       state.userData = {}
       state['accessToken'] = null
       state['refreshToken'] = null

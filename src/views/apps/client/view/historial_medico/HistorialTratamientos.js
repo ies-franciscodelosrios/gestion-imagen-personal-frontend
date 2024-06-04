@@ -1,7 +1,5 @@
-// ** React Imports
 import { Fragment, useState, useEffect } from 'react';
-import { getAppointmentPaged } from '../../../../../services/api';
-import { getAppointmentByClientId } from '../../../../../services/api';
+import { getAppointmentByClientId, deleteAppointment } from '../../../../../services/api';
 import { columns } from './columns';
 import ReactPaginate from 'react-paginate';
 import DataTable from 'react-data-table-component';
@@ -46,6 +44,7 @@ const CustomHeader = ({ handlePerPage, rowsPerPage, handleFilter }) => {
               className='ms-50 w-100'
               type='text'
               onChange={e => handleFilter(e.target.value)}
+              placeholder='Nombre cita ...'
             />
           </div>
         </Col>
@@ -66,40 +65,35 @@ const HistorialTratamientos = ({ entity }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [appointments, setAppointments] = useState([]);
 
-  
   useEffect(() => {
     fetchAppointments();
   }, [rowsPerPage, currentPage, searchTerm]);
+
   const fetchAppointments = async () => {
     try {
-      console.log("Fetching Appointments with: ", { rowsPerPage, currentPage, searchTerm });
       const response = await getAppointmentByClientId(entity?.id);
-      console.log("API Response: ", response);
       
-      // Verificar si la respuesta tiene la estructura esperada
       if (response && response.data) {
-        // Asignar los datos de las citas al estado del componente
         setAppointments(response.data);
-        console.log("Updated Appointments State: ", response.data);
       } else {
-        // Manejar caso de respuesta incorrecta
         console.error('Respuesta del servidor inesperada:', response);
         toast.error('Error al obtener datos de las citas');
       }
     } catch (error) {
       console.error('Error al obtener las citas:', error);
-      console.error('Error details:', {
-        message: error.message,
-        name: error.name,
-        code: error.code,
-        stack: error.stack,
-        response: error.response,
-      });
-      // Manejar error de red u otros errores
       toast.error('Error al traer datos de las citas');
     }
   };
-  
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteAppointment(id);
+      toast.success('Cita eliminada con éxito');
+      fetchAppointments();
+    } catch (error) {
+      toast.error('Error al eliminar la cita');
+    }
+  };
 
   const handlePagination = page => {
     setCurrentPage(page.selected + 1);
@@ -114,8 +108,9 @@ const HistorialTratamientos = ({ entity }) => {
     if (typingTimeout) {
       clearTimeout(typingTimeout);
     }
+
     setTypingTimeout(setTimeout(() => {
-      setSearchTerm(val);
+      setSearchTerm(val.toLowerCase());
     }, 1000));
   };
 
@@ -140,28 +135,34 @@ const HistorialTratamientos = ({ entity }) => {
   };
 
   const dataToRender = () => {
-    console.log("Appointments to Render: ", appointments);
-    if (appointments !== undefined && appointments.length > 0) {
-      return appointments;
-    } else {
-      return [];
-    }
+    const filteredAppointments = appointments.filter(appointment => {
+      const matchesClient = parseInt(appointment.id_client) === parseInt(entity?.id);
+      const matchesSearchTerm = appointment.protocol 
+        ? appointment.protocol.toLowerCase().includes(searchTerm)
+        : true;
+      return matchesClient && matchesSearchTerm;
+    });
+
+    return filteredAppointments;
   };
 
   const handleSort = (column, sortDirection) => {
-    setSort(sortDirection);
+    const nextSortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    const filteredAppointments = dataToRender();
+
+    const sortedAppointments = [...filteredAppointments].sort((a, b) => {
+      const dateA = new Date(a[column.sortField]);
+      const dateB = new Date(b[column.sortField]);
+
+      return nextSortDirection === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+
+    setAppointments(sortedAppointments);
+    setSort(nextSortDirection);
     setSortColumn(column.sortField);
   };
 
-  const modifiedColumns = [...columns];
-  modifiedColumns[0] = {
-    ...modifiedColumns[0],
-    cell: row => (
-      <div type='button' onClick={() => { setSelectedRow(row); setShowModal(true); }}>
-        {row.protocol}
-      </div>
-    )
-  };
+  const modifiedColumns = columns(setSelectedRow, setShowModal, handleDelete);
 
   const handleClose = (value) => {
     setShowModal(value);
@@ -188,8 +189,8 @@ const HistorialTratamientos = ({ entity }) => {
             subHeaderComponent={
               <CustomHeader
                 searchTerm={searchTerm}
-                rowsPerPage={rowsPerPage}
                 handleFilter={handleFilter}
+                rowsPerPage={rowsPerPage}
                 handlePerPage={handlePerPage}
               />
             }

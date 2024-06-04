@@ -39,7 +39,6 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
   const isEditing = entity && entity.id !== undefined && entity.id !== null && entity.id !== "";
 
   useEffect(() => {
-    console.log("isEditing: " + isEditing);
     if (id == "0") {
       setShow(true);
     }
@@ -98,10 +97,8 @@ const ClientInfoCard = ({ id, entity, setEntity }) => {
           await updateClientBy({ ...newEntity, ...newData }).then(e => { setEntity(newData); toast.success('Datos guardados') }).catch(e => { toast.error('Error al guardar') });
         }
         setShow(false);
-        console.log('setshow');
       } catch (error) {
         toast.error('Error al procesar la solicitud');
-        console.log('Error al actualizar el cliente:', error); // Registro de depuración
       }
     } else {
       for (const key in data) {

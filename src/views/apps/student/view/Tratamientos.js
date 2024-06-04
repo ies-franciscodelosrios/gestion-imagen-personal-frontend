@@ -128,17 +128,14 @@ const UsersList = () => {
     const selectedUserDNI = selectedUser.DNI;
     
     // Filtrar los objetos de appointments cuyo DNI sea igual al de selectedUser
-    const appointmentsWithSelectedUserDNI = appointments.filter(appointment => appointment.DNI_Student === selectedUserDNI);
-  
+    let appointmentsWithSelectedUserDNI = appointments?.filter(appointment => appointment.DNI_Student === selectedUserDNI);
+    // appointmentsWithSelectedUserDNI = appointmentsWithSelectedUserDNI?.map((appointment) => ({...appointment, student : store.allData.find((student => student.id = appointment.id_student).name)}))
     return appointmentsWithSelectedUserDNI;
 
   }
 
-  console.log(store.appoitments)
-
   const filteredAppointments = filterAppointmentsByDNI(store.appoitments, store.selectedUser);
   // filteredAppointments();
-  console.log(filteredAppointments);
 
 
   // ** Get data on mount
@@ -153,8 +150,7 @@ const UsersList = () => {
       perPage: rowsPerPage,
       status: currentStatus.value,
       data: store.allData.length
-    })
-    
+    }) 
   )
 }, [dispatch, store.allData.length, sort, sortColumn, currentPage])
 
@@ -214,7 +210,6 @@ const UsersList = () => {
   // ** Custom Pagination
   const CustomPagination = () => {
     const count = Number(Math.ceil(filteredAppointments.length / rowsPerPage))
-    console.log(count )
     return (
       <ReactPaginate
         previousLabel={''}

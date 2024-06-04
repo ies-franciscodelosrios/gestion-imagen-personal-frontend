@@ -48,7 +48,6 @@ export const fetchEvents = createAsyncThunk(
           avatar: "img5",
         }))
       );
-      console.log(students.data.data, clients.data.data);
       const appointments = await getAllAppointments()
         .then((result) => {
           return result;
@@ -81,13 +80,13 @@ export const fetchEvents = createAsyncThunk(
               alumno: {
                 value: `${alumnoPromise.name} ${alumnoPromise.surname}`,
                 label: `${alumnoPromise.name} ${alumnoPromise.surname}`,
-                dni: alumnoPromise.id,
+                id: alumnoPromise.id,
                 avatar: "",
               },
               cliente: {
                 value: `${clientePromise.name} ${clientePromise.surname}`,
                 label: `${clientePromise.name} ${clientePromise.surname}`,
-                dni: clientePromise.id,
+                id: clientePromise.id,
                 avatar: "",
               },
             },
@@ -115,7 +114,6 @@ export const fetchEvents = createAsyncThunk(
 export const addEvent = createAsyncThunk(
   "appCalendar/addEvent",
   async (event, { dispatch, getState }) => {
-    console.log(event);
     const newEvent = await AddAppointment(event);
     const currentFilters = getState().calendar.calendarLabel;
     await dispatch(
@@ -133,7 +131,6 @@ export const addEvent = createAsyncThunk(
 export const updateEvent = createAsyncThunk(
   "appCalendar/updateEvent",
   async (event, { dispatch, getState }) => {
-    console.log(event);
     await updateAppointment(event);
     const currentFilters = getState().calendar.calendarLabel;
     await dispatch(
@@ -161,7 +158,6 @@ export const updateFilter = createAsyncThunk(
     } else {
       updatedSelectedCalendars = [...selectedCalendars, filter];
     }
-    console.log(updatedSelectedCalendars);
     await dispatch(
       fetchEvents({
         events: [],

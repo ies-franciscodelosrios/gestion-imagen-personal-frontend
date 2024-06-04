@@ -205,11 +205,11 @@ export function sort_appointments(params, response) {
         return response.sort(compareByIdApo);
       case 'date':
         return response.sort(compareByFecha);
-      case 'dni_client':
-        return response.sort(compareByDNI_Cliente);
+      case 'client_name':
+        return response.sort(compareByClientName);
       case 'dni_Student':
         return response.sort(compareByDNI_Alumno);
-      case 'Treatment':
+      case 'treatment':
         return response.sort(compareByTratamiento);
       case 'Protocol':
         return response.sort(compareByProtocolo);
@@ -228,13 +228,13 @@ export function sort_appointments(params, response) {
     switch (params.sortColumn) {
       case 'id':
         return response.sort(descompareByIdApo);
-      case 'Date':
+      case 'date':
         return response.sort(descompareByFecha);
-      case 'dni_client':
-        return response.sort(descompareByDNI_Cliente);
+      case 'client_name':
+        return response.sort(descompareByClientName);
       case 'dni_Student':
         return response.sort(descompareByDNI_Alumno);
-      case 'Treatment':
+      case 'treatment':
         return response.sort(descompareByTratamiento);
       case 'Protocol':
         return response.sort(descompareByProtocolo);
@@ -340,20 +340,20 @@ export function sort_appointments(params, response) {
   // Ordenar por tratamiento
   //----------------------------------------------------------------------
   function compareByTratamiento(a, b) {
-    if (a.Treatment < b.Treatment) {
+    if (a.treatment < b.treatment) {
       return -1;
     }
-    if (a.Treatment > b.Treatment) {
+    if (a.treatment > b.treatment) {
       return 1;
     }
     return 0;
   }
 
   function descompareByTratamiento(a, b) {
-    if (b.Treatment < a.Treatment) {
+    if (b.treatment < a.treatment) {
       return -1;
     }
-    if (b.Treatment > a.Treatment) {
+    if (b.treatment > a.treatment) {
       return 1;
     }
     return 0;
@@ -479,4 +479,21 @@ export async function handleConfirmCancel() {
       return result.isConfirmed;
     }
   })
+}
+
+
+function compareByClientName(a, b) {
+  const {name: firstName1, surname: lastName1} = a.client;
+  const {name: firstName2, surname: lastName2} = b.client;
+  return firstName1 === firstName2
+      ? (lastName1 < lastName2 ? -1 : lastName1 > lastName2 ? 1 : 0)
+      : (firstName1 < firstName2 ? -1 : 1);
+}
+    
+function descompareByClientName(a, b) {
+  const {name: firstName1, surname: lastName1} = a.client;
+  const {name: firstName2, surname: lastName2} = b.client;
+  return firstName1 === firstName2
+      ? (lastName1 > lastName2 ? -1 : lastName1 < lastName2 ? 1 : 0)
+      : (firstName1 > firstName2 ? -1 : 1);
 }

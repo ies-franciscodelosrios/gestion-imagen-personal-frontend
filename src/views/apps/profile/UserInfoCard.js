@@ -1,7 +1,7 @@
 // ** React Imports
 import { useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../student/store";
+import { deleteUserAvatar, updateUser, updateUserAvatar } from "../student/store";
 
 // ** Reactstrap Imports
 import {
@@ -64,6 +64,7 @@ const UserInfoCard = () => {
   // ** State
   const selectedUser = store.selectedUser;
   const [show, setShow] = useState(false);
+  const [img, setImg] = useState('')
 
   // ** Hook
   const {
@@ -89,21 +90,22 @@ const UserInfoCard = () => {
   const renderUserImg = () => {
     return (
       <Avatar
-        initials
-        color={"light-primary"}
-        className="rounded mt-3 mb-2"
-        content={selectedUser.name}
-        contentStyles={{
-          borderRadius: 0,
-          fontSize: "calc(48px)",
-          width: "100%",
-          height: "100%",
-        }}
-        style={{
-          height: "110px",
-          width: "110px",
-        }}
-      />
+      img={(selectedUser && selectedUser['image'] ? selectedUser['image'] : "")}
+      initials
+      color={"light-primary"}
+      className="rounded mt-3 mb-2"
+      content={selectedUser.name}
+      contentStyles={{
+        borderRadius: 0,
+        fontSize: "calc(48px)",
+        width: "100%",
+        height: "100%",
+      }}
+      style={{
+        height: "110px",
+        width: "110px",
+      }}
+    />
     );
   };
 
@@ -146,6 +148,24 @@ const UserInfoCard = () => {
     });
   };
 
+  const handleUpdateAvatarImage = async (event) => {
+    const img = event.target.files[0]
+    const reader = new FileReader()
+    reader.onloadend =  () => {
+      setImg(reader.result)
+    }
+
+    reader.readAsDataURL(img)
+  }
+
+  const handleSendAvatarImage = () => {
+    const avatar = img.split(',')[1]
+    dispatch(updateUserAvatar(avatar));
+  }
+  const handleDeleteAvatarImage = () => {
+    dispatch(deleteUserAvatar())
+  }
+
   return (
     <Fragment>
       <Card>
@@ -153,6 +173,9 @@ const UserInfoCard = () => {
           <div className="user-avatar-section">
             <div className="d-flex align-items-center flex-column">
               {renderUserImg()}
+              <Input className="mb-1" type="file" name="file" id="imageUpload" onChange={(event) => handleUpdateAvatarImage(event)} />
+              <Button color="primary" onClick={() => handleSendAvatarImage()} className="mb-1">Actualizar foto de perfil</Button>
+              {(selectedUser && selectedUser['image']) && <Button color="primary" onClick={() => handleDeleteAvatarImage()} className="mb-1">Eliminar foto de perfil</Button>}
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info mb-3">
                   <h4>
