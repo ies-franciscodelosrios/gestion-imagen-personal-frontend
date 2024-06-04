@@ -112,8 +112,10 @@ const navigateTo = useNavigate();
     updatedProfesor.course_year = dataForm.course_year;
     // Si no se cambia el ciclo no se actualiza el valor, por eso se usa esta variable
     updatedProfesor.cycle = selectedVocEdu.value;
+    updatedProfesor.cycle_name = selectedVocEdu.label;
     updatedProfesor.password = dataForm.password;
     updatedProfesor.repassword = dataForm.repassword;
+    console.log("there: " + updatedProfesor.cycle_name);
 
     if (validateUserData(updatedProfesor, isEditing)) {
       if (id == "0") {

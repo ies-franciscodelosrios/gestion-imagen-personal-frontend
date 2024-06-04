@@ -141,6 +141,7 @@ const UserInfoCard = ({ id }) => {
     selectedUser.dni = data.dni;
     selectedUser.course_year = data.course_year;
     selectedUser.cycle = data.cycle.value;
+    selectedUser.cycle_name = data.cycle.label;
     selectedUser.password = data.password;
     selectedUser.repassword = data.repassword;
     console.log("data.cycle.value: "+ data.cycle.value);
@@ -176,7 +177,7 @@ const UserInfoCard = ({ id }) => {
       surname: selectedUser.surname,
       email: selectedUser.email,
       dni: selectedUser.dni,
-      cycle: selectedUser.cycle.label,
+      cycle: selectedUser.cycle.cycle_name,
       course_year: selectedUser.course_year,
       password: '',
       repassword: '',
@@ -338,7 +339,7 @@ const UserInfoCard = ({ id }) => {
                 </Label>
                 <Controller
                   defaultValue={{
-                    label: selectedUser.cycle,
+                    label: selectedUser.cycle_name,
                     value: selectedUser.cycle.value,
                   }} // Set the default value to the first option in the array
                   control={control}

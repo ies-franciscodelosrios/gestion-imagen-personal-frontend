@@ -636,3 +636,13 @@ export const apiDeleteAllVocationalEducation = async () => {
     }
   })
 }
+
+export const apiGetVocationalEducationById = async (id) => {
+  return await ApiConnect.get("vocationaleducation/id/" + id, {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${getToken()}`,
+    }
+  });
+}

@@ -153,7 +153,7 @@ export const columns = [
     minWidth: "300px",
     sortField: "cycle",
     selector: (row) => row.cycle,
-    cell: (row) => <span className="text-capitalize">{row.cycle}</span>,
+    cell: (row) => <span className="text-capitalize">{row.cycle_name}</span>,
   },
   {
     name: "Curso",
