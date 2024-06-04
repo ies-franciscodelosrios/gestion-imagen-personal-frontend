@@ -118,8 +118,10 @@ const Login = () => {
               ability: [{ action: "manage", subject: "all" }],
               rol: getNameRol(promis.data.rol),
               fullname: "".concat(promis.data.name, " ", promis.data.surname),
+              name: promis.data.name,
               id: promis.data.id
             };
+            if(promis.data.image) data.image = promis.data.image
             dispatch(handleLogin(data));
             navigate(getHomeRouteForLoggedInUser(promis.data.rol));
             toast((t) => (
