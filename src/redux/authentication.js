@@ -37,10 +37,18 @@ export const authSlice = createSlice({
       localStorage.removeItem('token')
       localStorage.removeItem('stadistics')
       localStorage.removeItem('refreshToken')
+    },
+    handleUpdateAvatar: (state, action) => {
+      console.log(state,action);
+      state.userData.image = action.payload
+    },
+    handleDeleteAvatar: state => {
+      const {image, ...restState} = state.userData
+      state.userData = restState
     }
   }
 })
 
-export const { handleLogin, handleLogout } = authSlice.actions
+export const { handleLogin, handleLogout , handleUpdateAvatar, handleDeleteAvatar} = authSlice.actions
 
 export default authSlice.reducer

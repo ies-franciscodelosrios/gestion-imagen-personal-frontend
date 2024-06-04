@@ -5,9 +5,6 @@ import { useEffect, useState } from 'react'
 // ** Custom Components
 import Avatar from '@components/avatar'
 
-// ** Utils
-import { isUserLoggedIn } from '@utils'
-
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
 import { handleLogout } from '@store/authentication'
@@ -19,31 +16,14 @@ import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircl
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
 
 // ** Default Avatar Image
-import defaultAvatar from '@src/assets/images/portrait/small/avatar-s-11.jpg'
-// import defaultAvatar from 'http://localhost:8000/storage/img.jpg'
-
-import { error } from 'jquery'
-import { getUser } from '../../../../views/apps/student/store'
+//  import defaultAvatar from 'http://localhost:8000/storage/img.jpg'
 
 const UserDropdown = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector((state) => state.users);
+  const authStore = useSelector((state) => state.auth);
   const navigate = useNavigate()
-
-  // ** State
-  const [userData, setUserData] = useState(null)
-  const selectedUser = store.selectedUser;
-
-  //** ComponentDidMount
-  useEffect(() => {
-    const userDataAux = JSON.parse(localStorage.getItem('userData'))
-    if (isUserLoggedIn() !== null) {
-      setUserData(userDataAux)
-      dispatch(getUser(parseInt(userDataAux.id)));
-    }
-  }, [])
-
+  const authUser = authStore.userData;
   //** Vars
 
   const handleButtonLogout = () => {
@@ -55,10 +35,10 @@ const UserDropdown = () => {
     <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
       <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
         <div className='user-nav d-sm-flex d-none'>
-          <span className='user-name fw-bold'>{(userData && userData['fullname']) || 'Usuario'}</span>
-          <span className='user-status'>{ (userData && userData['rol'])|| 'Admin'}</span>
+          <span className='user-name fw-bold'>{(authUser && authUser['fullname']) || 'Usuario'}</span>
+          <span className='user-status'>{ (authUser && authUser['rol'])|| 'Admin'}</span>
         </div>
-        {<Avatar img={(selectedUser && selectedUser['image'] ? selectedUser['image'] : "")} initials content={JSON.parse(localStorage.getItem('userData')).name || 'Usuario'} imgHeight='50' imgWidth='50' status='online' className='me-1' color={'light-primary'}/>}
+        {<Avatar img={(authUser && authUser['image'] ? authUser['image'] : "")} initials content={authUser && authUser['name']} imgHeight='50' imgWidth='50' status='online' className='me-1' color={'light-primary'}/>}
       </DropdownToggle>
       <DropdownMenu end>
         <DropdownItem tag={Link} to='/pages/profile'>

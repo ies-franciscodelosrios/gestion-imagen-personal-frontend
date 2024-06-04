@@ -36,6 +36,7 @@ import { selectThemeColors } from "@utils";
 import "@styles/react/libs/react-select/_react-select.scss";
 import { toast } from "react-hot-toast";
 import { validateDNI, validateUserData } from "../../../utility/Utils";
+import { handleUpdateAvatar, handleDeleteAvatar } from "../../../redux/authentication";
 
 const cycleOptions = [
   {
@@ -160,10 +161,13 @@ const UserInfoCard = () => {
 
   const handleSendAvatarImage = () => {
     const avatar = img.split(',')[1]
-    dispatch(updateUserAvatar(avatar));
+    dispatch(updateUserAvatar(avatar)).then((response) => {
+      dispatch(handleUpdateAvatar(response.payload.url))
+    })
   }
   const handleDeleteAvatarImage = () => {
     dispatch(deleteUserAvatar())
+    dispatch(handleDeleteAvatar())
   }
 
   return (
