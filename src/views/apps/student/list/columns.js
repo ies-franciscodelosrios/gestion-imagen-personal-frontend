@@ -122,7 +122,7 @@ export const columns = [
     minWidth: "300px",
     sortField: "cycle",
     selector: (row) => row.cycle_name,
-    cell: (row) => <span>{row.cycle_name}</span>,
+    cell: (row) => <span>{row.cycle_info.short_name}</span>,
   },
   {
     name: "Curso",
