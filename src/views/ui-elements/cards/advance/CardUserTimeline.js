@@ -20,9 +20,7 @@ useEffect(() => {
     "perpage": 5,
     "searchtext": "",
     "dni_student": JSON.parse(localStorage.getItem('userData')).id
-  }).then((e)=>{
-    setappointments(e.data.data);
-  });
+  }).then((e)=> setappointments(e.data));
   
 }, [])
 

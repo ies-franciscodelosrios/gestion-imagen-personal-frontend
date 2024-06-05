@@ -1,6 +1,7 @@
 // ** Third Party Components
 import Proptypes from 'prop-types'
 import classnames from 'classnames'
+import moment from 'moment'
 
 const TimelineDashboard = props => {
   // ** Props
@@ -49,7 +50,7 @@ const TimelineDashboard = props => {
                       [item.metaClassName]: item.metaClassName
                     })}
                   >
-                    {item.date}
+                    {moment(item.date).format('DD/MM/YYYY HH:mm')}
                   </span>
                 ) : null}
               </div>
