@@ -104,7 +104,10 @@ export const updateUser = createAsyncThunk(
   "appUsers/updateUser",
   async (updatedUser) => {
     await updateUserBy(updatedUser)
-      .then((e) => toast.success("Datos Guardados"))
+      .then((response) => {
+        updatedUser = response.data.user
+        toast.success("Datos Guardados")
+      })
       .catch((e) => {
         toast.error("Error al editar");
       });
