@@ -1,5 +1,5 @@
 // ** Redux Imports
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 // ** UseJWT import to get config
 import { getToken } from '../services/UseToken'
@@ -11,6 +11,14 @@ const initialUser = () => {
   //** Parse stored json or if none return initialValue
   return item ? JSON.parse(item) : {}
 }
+
+export const logout = createAsyncThunk(
+  "appAuth/logout",
+  async () => {
+    const response = await apiLogout().then(response => response.data)
+    return response;
+  }
+);
 
 export const authSlice = createSlice({
   name: 'authentication',

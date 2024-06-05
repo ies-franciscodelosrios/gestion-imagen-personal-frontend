@@ -14,6 +14,7 @@ import { User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircl
 
 // ** Reactstrap Imports
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem } from 'reactstrap'
+import { logout } from '../../../../redux/authentication'
 
 // ** Default Avatar Image
 //  import defaultAvatar from 'http://localhost:8000/storage/img.jpg'
@@ -27,8 +28,7 @@ const UserDropdown = () => {
   //** Vars
 
   const handleButtonLogout = () => {
-    dispatch(handleLogout())
-    navigate("/login")
+    dispatch(logout()).then(()=> navigate("/login"))
   }
  
   return (
