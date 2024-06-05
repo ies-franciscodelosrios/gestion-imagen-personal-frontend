@@ -85,6 +85,7 @@ const navigateTo = useNavigate();
   const renderUserImg = () => {
     return (
       <Avatar
+        img={(selectedProfesor && selectedProfesor['image'] ? selectedProfesor['image'] : "")}
         initials
         color={"light-primary"}
         className="rounded mt-3 mb-2"

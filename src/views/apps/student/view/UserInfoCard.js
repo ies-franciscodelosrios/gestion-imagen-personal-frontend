@@ -115,6 +115,7 @@ const UserInfoCard = ({ id }) => {
   const renderUserImg = () => {
     return (
       <Avatar
+        img={(selectedUser && selectedUser['image'] ? selectedUser['image'] : "")}
         initials
         color={'light-primary'}
         className='rounded mt-3 mb-2'
