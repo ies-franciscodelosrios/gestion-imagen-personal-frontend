@@ -336,8 +336,8 @@ const UserInfoCard = ({ id }) => {
                 </Label>
                 <Controller
                   defaultValue={{
-                    label: selectedUser.cycle_info.long_name,
-                    value: selectedUser.cycle_info.id,
+                    label: selectedUser.cycle_info?.long_name,
+                    value: selectedUser.cycle_info?.id,
                   }} // Set the default value to the first option in the array
                   control={control}
                   id="cycle"
