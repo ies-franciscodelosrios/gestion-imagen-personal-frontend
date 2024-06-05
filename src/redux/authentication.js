@@ -41,10 +41,12 @@ export const authSlice = createSlice({
     handleUpdateAvatar: (state, action) => {
       console.log(state,action);
       state.userData.image = action.payload
+      localStorage.setItem('userData', JSON.stringify(state.userData))
     },
     handleDeleteAvatar: state => {
       const {image, ...restState} = state.userData
       state.userData = restState
+      localStorage.setItem('userData', JSON.stringify(state.userData))
     }
   }
 })
