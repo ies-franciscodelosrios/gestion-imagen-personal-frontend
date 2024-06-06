@@ -66,6 +66,7 @@ const UserInfoCard = () => {
   const selectedUser = store.selectedUser;
   const [show, setShow] = useState(false);
   const [img, setImg] = useState('')
+  const [imgName, setImgName] = useState('')
 
   // ** Hook
   const {
@@ -151,17 +152,20 @@ const UserInfoCard = () => {
 
   const handleUpdateAvatarImage = async (event) => {
     const img = event.target.files[0]
+    setImgName(event.target.value)
     const reader = new FileReader()
     reader.onloadend =  () => {
       setImg(reader.result)
     }
-
+    
     reader.readAsDataURL(img)
   }
 
   const handleSendAvatarImage = () => {
     const avatar = img.split(',')[1]
     dispatch(updateUserAvatar(avatar)).then((response) => {
+      setImgName('')
+      setImg('')
       dispatch(handleUpdateAvatar(response.payload.url))
     })
   }
@@ -177,8 +181,8 @@ const UserInfoCard = () => {
           <div className="user-avatar-section">
             <div className="d-flex align-items-center flex-column">
               {renderUserImg()}
-              <Input className="mb-1" type="file" name="file" id="imageUpload" onChange={(event) => handleUpdateAvatarImage(event)} />
-              <Button color="primary" onClick={() => handleSendAvatarImage()} className="mb-1">Actualizar foto de perfil</Button>
+              <Input value={imgName} className="mb-1" type="file" name="file" id="imageUpload" onChange={(event) => handleUpdateAvatarImage(event)} />
+              {img && <Button color="primary" onClick={() => handleSendAvatarImage()} className="mb-1">Subir foto de perfil</Button>}
               {(selectedUser && selectedUser['image']) && <Button color="primary" onClick={() => handleDeleteAvatarImage()} className="mb-1">Eliminar foto de perfil</Button>}
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info mb-3">
