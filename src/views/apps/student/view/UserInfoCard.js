@@ -142,7 +142,6 @@ const UserInfoCard = ({ id }) => {
     selectedUser.dni = data.dni;
     selectedUser.course_year = data.course_year;
     selectedUser.cycle = data.cycle.value;
-    selectedUser.cycle_name = data.cycle.label;
     selectedUser.password = data.password;
     selectedUser.repassword = data.repassword;
 
@@ -174,7 +173,6 @@ const UserInfoCard = ({ id }) => {
       surname: selectedUser.surname,
       email: selectedUser.email,
       dni: selectedUser.dni,
-      cycle: selectedUser.cycle.cycle_name,
       course_year: selectedUser.course_year,
       password: '',
       repassword: '',

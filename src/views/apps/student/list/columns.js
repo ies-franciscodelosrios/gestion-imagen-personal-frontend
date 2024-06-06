@@ -121,7 +121,7 @@ export const columns = [
     sortable: true,
     minWidth: "300px",
     sortField: "cycle",
-    selector: (row) => row.cycle_name,
+    selector: (row) => row.cycle_info.short_name,
     cell: (row) => <span>{row.cycle_info.short_name}</span>,
   },
   {
