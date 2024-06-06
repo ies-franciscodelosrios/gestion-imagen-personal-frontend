@@ -618,7 +618,7 @@ export const apiGetAllVocationalEducation = async () => {
 };
 
 export const apiGetVocationalEducationByID = async (id) => {
-  return await ApiConnect.get("vocationaleducation/" + id, {
+  return await ApiConnect.get("vocationaleducation/id/" + id, {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
