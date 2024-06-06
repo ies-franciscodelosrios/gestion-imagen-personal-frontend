@@ -30,8 +30,6 @@ const VocEduInfoCard = ({ id }) => {
   // ** Store Vars
   const dispatch = useDispatch();
   const store = useSelector(state => state.vocedu)
-  const students = useSelector(state => state.users);
-  const professors = useSelector(state => state.profesor);
   const selectedVocEdu =
     id == "0"
       ? {
@@ -147,32 +145,28 @@ const VocEduInfoCard = ({ id }) => {
         <div style={{ width: '100%' }}>
           <Card>
             <CardBody>
-              <table style={{ width: '100%' }}>
-                <tr>
-                  <th>Alumnos</th>
-                  <th>Profesores</th>
-                </tr>
-                <tr>
-                  {students.map((student, index) => {
-                    return (
-                      <tr key={index}>
-                        if(student !== null){
-                          <td>{student.name}</td>
-                        }                        
-                      </tr>
-                    );
-                  })}
-                  {professors.map((professor, index) => {
-                    return (
-                      <tr key={index}>
-                        if(professor !== null){
-                          <td>{professor.name}</td>
-                        }                        
-                      </tr>
-                    );
-                  })}
-                </tr>
-              </table>
+            <table style={{ width: '100%' }}>
+            <thead>
+              <tr>
+                <th>Alumnos</th>
+                <th>Profesores</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {selectedVocEdu.users && selectedVocEdu.users.filter(user => user.rol === 2).map((user, index) => (
+                    <div key={user.id}>{user.name} {user.surname}</div>
+                  ))}
+                </td>
+                <td>
+                  {selectedVocEdu.users && selectedVocEdu.users.filter(user => user.rol === 1).map((user, index) => (
+                    <div key={user.id}>{user.name} {user.surname}</div>
+                  ))}
+                </td>
+              </tr>
+            </tbody>
+          </table>
             </CardBody>
           </Card>
         </div>
