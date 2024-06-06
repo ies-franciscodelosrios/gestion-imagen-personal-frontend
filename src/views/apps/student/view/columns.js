@@ -52,7 +52,7 @@ export const columns = [
     sortable: true,
     sortField: 'client_name',
     selector: row => row.id_client,
-    cell: row => `${row.client.name} ${row.client.surname}`
+    cell: row => `${row.client?.name} ${row.client?.surname}`
   },
   {
     minWidth: '200px',

@@ -70,7 +70,6 @@ const Calendar = (props) => {
       listPlugin,
       momentTimezonePlugin,
     ],
-    timeZone: "Europe/Madrid", // Cambiado a la zona horaria de España
     locales: locale,
     locale: "es",
     initialView: "dayGridMonth",
