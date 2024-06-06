@@ -148,8 +148,8 @@ const VocEduInfoCard = ({ id }) => {
               <table style={{ width: '100%' }}>
                 <thead>
                   <tr style={{ color: 'white' }}>
-                    <th>Alumnos</th>
-                    <th>Profesores</th>
+                    <th><h4>Alumnos</h4></th>
+                    <th><h4>Profesores</h4></th>
                   </tr>
                 </thead>
                 <tbody>
