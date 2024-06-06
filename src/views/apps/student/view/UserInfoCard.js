@@ -226,7 +226,7 @@ const UserInfoCard = ({ id }) => {
                 <li className="mb-75">
                   <span className="fw-bolder me-25">Ciclo: </span>
                   <span>
-                    {cycleOptions[selectedUser.cycle - 1].label}
+                    {cycleOptions.find(cycleOption => cycleOption.value === selectedUser.cycle)?.label}
                   </span>
                 </li>
               </ul>
