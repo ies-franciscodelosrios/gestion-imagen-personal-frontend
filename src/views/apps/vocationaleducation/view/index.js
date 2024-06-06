@@ -42,15 +42,10 @@ const VocEduView = () => {
         ) {
           return (
             <div className="app-user-view">
-              <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
                 <VocEduInfoCard id={id} />
                 <div className="mt-auto">
                   <img className="img-fluid" src={illustration} alt="illustration" />
                 </div>
-              </Col>
-              <col>
-                
-              </col>
             </div>
           )
         } else {

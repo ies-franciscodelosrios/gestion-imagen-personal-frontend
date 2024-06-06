@@ -30,6 +30,8 @@ const VocEduInfoCard = ({ id }) => {
   // ** Store Vars
   const dispatch = useDispatch();
   const store = useSelector(state => state.vocedu)
+  const students = useSelector(state => state.users);
+  const professors = useSelector(state => state.profesor);
   const selectedVocEdu =
     id == "0"
       ? {
@@ -70,12 +72,15 @@ const VocEduInfoCard = ({ id }) => {
     updatedVocEdu.short_name = data.short_name;
     updatedVocEdu.long_name = data.long_name;
     updatedVocEdu.description = data.description;
-    
+
 
     if (validateVocEduData(data, isEditing)) {
       if (id == "0") {
         dispatch(addVocationalEducation(updatedVocEdu));
         setShow(false);
+        setTimeout(() => {
+          window.location.pathname = '/apps/vocationaleducation/list';
+        }, 1000);
       } else {
         dispatch(updateVocationalEducation(updatedVocEdu));
         setShow(false);
@@ -93,49 +98,85 @@ const VocEduInfoCard = ({ id }) => {
 
   return (
     <Fragment>
-      <Card>
-        <CardBody>
-          <div className="user-avatar-section">
-            <div className="d-flex align-items-center flex-column">
-              <div className="d-flex flex-column align-items-center text-center">
-                <div className="user-info mb-3">
-                  <h4>
-                    {selectedVocEdu !== null
-                      ? selectedVocEdu.short_name
-                      : "Eleanor Aguilar"}
-                  </h4>
+      <div style={{ display: 'flex' }}>
+        <div>
+          <Card>
+            <CardBody>
+              <div className="user-avatar-section">
+                <div className="d-flex align-items-center flex-column">
+                  <div className="d-flex flex-column align-items-center text-center">
+                    <div className="user-info mb-3">
+                      <h4>
+                        {selectedVocEdu !== null
+                          ? selectedVocEdu.short_name
+                          : "Eleanor Aguilar"}
+                      </h4>
 
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
-          <div className="info-container">
-            {selectedVocEdu !== null ? (
-              <ul className="list-unstyled">
-                <li className="mb-75">
-                  <span className="fw-bolder me-25">Ciclo: </span>
-                  <span>{selectedVocEdu.short_name}</span>
-                </li>
-                <li className="mb-75">
-                  <span className="fw-bolder me-25">Nombre Completo: </span>
-                  <span>{selectedVocEdu.long_name}</span>
-                </li>
-                <li className="mb-75">
-                  <span className="fw-bolder me-25">Descripción: </span>
-                  <span>{selectedVocEdu.description}</span>
-                </li>
-              </ul>
-            ) : null}
-          </div>
-          <div className="d-flex justify-content-center pt-2">
-            <Button color="primary" onClick={() => { handleReset(); setShow(true); }}>
-              Editar
-            </Button>
-          </div>
-        </CardBody>
-      </Card>
+              <h4 className="fw-bolder border-bottom pb-50 mb-1">Detalles</h4>
+              <div className="info-container">
+                {selectedVocEdu !== null ? (
+                  <ul className="list-unstyled">
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">Ciclo: </span>
+                      <span>{selectedVocEdu.short_name}</span>
+                    </li>
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">Nombre Completo: </span>
+                      <span>{selectedVocEdu.long_name}</span>
+                    </li>
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">Descripción: </span>
+                      <span>{selectedVocEdu.description}</span>
+                    </li>
+                  </ul>
+                ) : null}
+              </div>
+              <div className="d-flex justify-content-center pt-2">
+                <Button color="primary" onClick={() => { handleReset(); setShow(true); }}>
+                  Editar
+                </Button>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+        <div style={{ width: '100%' }}>
+          <Card>
+            <CardBody>
+              <table style={{ width: '100%' }}>
+                <tr>
+                  <th>Alumnos</th>
+                  <th>Profesores</th>
+                </tr>
+                <tr>
+                  {students.map((student, index) => {
+                    return (
+                      <tr key={index}>
+                        if(student !== null){
+                          <td>{student.name}</td>
+                        }                        
+                      </tr>
+                    );
+                  })}
+                  {professors.map((professor, index) => {
+                    return (
+                      <tr key={index}>
+                        if(professor !== null){
+                          <td>{professor.name}</td>
+                        }                        
+                      </tr>
+                    );
+                  })}
+                </tr>
+              </table>
+            </CardBody>
+          </Card>
+        </div>
+      </div>
       <Modal
         isOpen={show}
         toggle={() => setShow(!show)}
@@ -220,6 +261,9 @@ const VocEduInfoCard = ({ id }) => {
                   outline
                   onClick={() => {
                     handleReset()
+                    if (id === "0") {
+                      window.location.pathname = '/apps/vocationaleducation/list';
+                    }
                     setShow(false)
                     toast.error('Datos no guardados')
                   }}
