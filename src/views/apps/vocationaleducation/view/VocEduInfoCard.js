@@ -142,31 +142,35 @@ const VocEduInfoCard = ({ id }) => {
             </CardBody>
           </Card>
         </div>
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '75%', marginLeft: '5%', textAlign: 'center' }}>
           <Card>
             <CardBody>
-            <table style={{ width: '100%' }}>
-            <thead>
-              <tr>
-                <th>Alumnos</th>
-                <th>Profesores</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  {selectedVocEdu.users && selectedVocEdu.users.filter(user => user.rol === 2).map((user, index) => (
-                    <div key={user.id}>{user.name} {user.surname}</div>
-                  ))}
-                </td>
-                <td>
-                  {selectedVocEdu.users && selectedVocEdu.users.filter(user => user.rol === 1).map((user, index) => (
-                    <div key={user.id}>{user.name} {user.surname}</div>
-                  ))}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              <table style={{ width: '100%' }}>
+                <thead>
+                  <tr style={{ color: 'white' }}>
+                    <th>Alumnos</th>
+                    <th>Profesores</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      {selectedVocEdu.users && selectedVocEdu.users.filter(user => user.rol === 2).map((user, index) => (
+                        <div style={{ cursor: 'pointer' }} onClick={() => {
+                          window.location.pathname = `/apps/student/view/${user.id}`
+                        }} key={user.id}>{user.name} {user.surname}</div>
+                      ))}
+                    </td>
+                    <td>
+                      {selectedVocEdu.users && selectedVocEdu.users.filter(user => user.rol === 1).map((user, index) => (
+                        <div style={{ cursor: 'pointer' }} onClick={() => {
+                          window.location.pathname = `/apps/profesor/view/${user.id}`
+                        }} key={user.id}>{user.name} {user.surname}</div>
+                      ))}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </CardBody>
           </Card>
         </div>
